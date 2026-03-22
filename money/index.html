@@ -1,1 +1,492 @@
-11
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GenOffOn — 9 способов заработка</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0b0618;
+  --v1:#7c4dbd;
+  --v2:#9060d0;
+  --v3:#5c3490;
+  --v4:#4a2878;
+  --gold:#c9a96e;
+  --gold2:#e8d5a8;
+  --tw:#f0e8ff;
+  --tm:#c0a8e0;
+  --ts:#7a5a9a;
+  --glass:rgba(60,20,110,0.55);
+  --gb:rgba(130,70,220,0.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tw);font-family:'Montserrat',sans-serif;font-size:16px;line-height:1.75;overflow-x:hidden}
+
+/* ── BACKGROUND ── */
+.pg{position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 90% 70% at 15% 5%, rgba(110,55,210,.32) 0%,transparent 58%),
+    radial-gradient(ellipse 70% 60% at 85% 95%, rgba(90,40,190,.28) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 55% 50%, rgba(80,30,160,.12) 0%,transparent 60%),
+    linear-gradient(170deg,#130825 0%,#0e0520 35%,#11062a 65%,#150930 100%)}
+.pg::before{content:'';position:absolute;width:800px;height:800px;top:-200px;left:-250px;
+  background:radial-gradient(circle,rgba(120,60,220,.18) 0%,transparent 65%);
+  border-radius:50%;filter:blur(90px);animation:f1 20s ease-in-out infinite}
+.pg::after{content:'';position:absolute;width:700px;height:700px;bottom:0;right:-200px;
+  background:radial-gradient(circle,rgba(100,40,200,.15) 0%,transparent 65%);
+  border-radius:50%;filter:blur(80px);animation:f2 25s ease-in-out infinite}
+@keyframes f1{0%,100%{transform:translate(0,0)}50%{transform:translate(50px,40px)}}
+@keyframes f2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,-50px)}}
+
+.wrap{position:relative;z-index:1}
+.container{max-width:840px;margin:0 auto;padding:0 28px}
+
+/* ── GLASS CARD ── */
+.glass{background:var(--glass);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border:1px solid var(--gb);border-radius:20px}
+
+/* ── EYEBROW ── */
+.eyebrow{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--v2);background:rgba(124,77,189,.15);border:1px solid rgba(124,77,189,.35);
+  padding:6px 16px;border-radius:100px;margin-bottom:24px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-block;font-family:'Montserrat',sans-serif;font-size:11.5px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(135deg,var(--v1) 0%,var(--v2) 55%,#a070e0 100%);
+  padding:18px 48px;border-radius:100px;border:none;cursor:pointer;text-decoration:none;
+  box-shadow:0 8px 32px rgba(124,77,189,.45),0 2px 8px rgba(0,0,0,.3);
+  transition:box-shadow .3s,transform .2s;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 55%);border-radius:100px}
+.btn:hover{box-shadow:0 16px 52px rgba(124,77,189,.65),0 4px 12px rgba(0,0,0,.4);transform:translateY(-2px)}
+.btn-ghost{display:inline-block;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--v2);
+  background:rgba(124,77,189,.12);padding:16px 40px;border-radius:100px;
+  border:1px solid rgba(124,77,189,.4);cursor:pointer;text-decoration:none;transition:all .25s}
+.btn-ghost:hover{background:var(--v1);color:#fff;border-color:var(--v1);box-shadow:0 8px 28px rgba(124,77,189,.4)}
+.microcopy{display:block;font-size:11px;color:var(--ts);margin-top:13px;letter-spacing:.05em;font-weight:400}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(11,6,24,.75);backdrop-filter:blur(24px) saturate(1.8);
+  -webkit-backdrop-filter:blur(24px) saturate(1.8);
+  border-bottom:1px solid rgba(124,77,189,.2)}
+.logo{font-size:19px;font-weight:800;color:var(--tw);letter-spacing:.06em}
+.logo span{color:var(--v2)}
+.nav-btn{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--v2);background:rgba(124,77,189,.15);border:1px solid rgba(124,77,189,.4);
+  padding:10px 22px;border-radius:100px;cursor:pointer;transition:all .25s}
+.nav-btn:hover{background:var(--v1);color:#fff;border-color:var(--v1)}
+
+/* ── URGENCY ── */
+.urg{display:inline-flex;align-items:center;gap:11px;
+  background:rgba(60,20,110,.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(124,77,189,.3);padding:11px 22px;border-radius:100px;
+  font-size:12.5px;color:var(--tm);font-weight:400;margin-bottom:32px}
+.urg-dot{width:7px;height:7px;background:var(--v2);border-radius:50%;flex-shrink:0;
+  animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.75)}}
+.urg strong{font-weight:700;color:var(--tw)}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;align-items:center;padding:130px 0 90px}
+.hero-inner{text-align:center}
+.h1{font-size:clamp(36px,6.5vw,72px);font-weight:800;color:var(--tw);line-height:1.08;
+  margin-bottom:10px;letter-spacing:-.02em}
+.h1 strong{font-weight:900;
+  background:linear-gradient(135deg,#b080f0 0%,var(--v2) 40%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.h1-sub{font-size:clamp(14px,2.2vw,20px);font-weight:300;color:var(--tm);font-style:italic;margin-bottom:32px;letter-spacing:.02em}
+.hero-desc{font-size:17px;color:var(--tm);max-width:560px;margin:0 auto 48px;font-weight:300;line-height:1.85}
+.hero-desc strong{font-weight:700;color:var(--tw)}
+
+/* ── STATS ── */
+.stats{display:flex;justify-content:center;gap:0;margin-top:60px;
+  border-top:1px solid rgba(124,77,189,.2);padding-top:44px;flex-wrap:nowrap;width:100%}
+.stat{flex:1;text-align:center;border-right:1px solid rgba(124,77,189,.18);min-width:0}
+.stat:last-child{border-right:none}
+.stat-n{font-size:clamp(22px,4vw,40px);font-weight:800;color:var(--v2);line-height:1;display:block;letter-spacing:-.02em}
+.stat-l{font-size:clamp(8px,1.2vw,9.5px);color:var(--ts);letter-spacing:.1em;text-transform:uppercase;margin-top:6px;font-weight:500}
+@media(max-width:420px){.stat-n{font-size:18px}.stat-l{font-size:7px;letter-spacing:.04em}}
+
+/* ── MARQUEE ── */
+.mq-strip{padding:16px 0;overflow:hidden;
+  background:linear-gradient(90deg,rgba(60,20,110,.0),rgba(100,45,190,.18),rgba(60,20,110,.0));
+  border-top:1px solid rgba(124,77,189,.18);border-bottom:1px solid rgba(124,77,189,.18)}
+.mq-track{white-space:nowrap;animation:mq 26s linear infinite;font-size:10px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--v2);font-weight:600}
+.mq-track span{margin:0 44px;opacity:.7}
+.mq-track span::before{content:'◆ ';font-size:6px;position:relative;top:-1px}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SECTION LAYOUT ── */
+.sec{padding:100px 0}
+.sh{text-align:center;margin-bottom:52px}
+.sh h2{font-size:clamp(28px,4.5vw,50px);font-weight:800;color:var(--tw);letter-spacing:-.02em}
+.sh p{font-size:16px;color:var(--ts);max-width:520px;margin:12px auto 0;font-weight:300}
+
+/* ── PAIN CARDS ── */
+.pg2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pc{padding:34px 30px;background:rgba(40,10,85,.5);backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);border:1px solid rgba(124,77,189,.25);border-radius:18px;
+  transition:transform .3s,box-shadow .3s,border-color .3s}
+.pc:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(80,30,160,.25);border-color:rgba(124,77,189,.5)}
+.pc-icon{font-size:28px;margin-bottom:14px}
+.pc h3{font-size:16px;font-weight:700;margin-bottom:10px;color:var(--tw)}
+.pc p{font-size:13.5px;color:var(--ts);line-height:1.75;font-weight:300}
+@media(max-width:580px){.pg2{grid-template-columns:1fr}}
+
+/* ── TABLE ── */
+.tw{overflow:hidden;border-radius:18px;border:1px solid rgba(124,77,189,.3);
+  background:rgba(35,8,75,.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead tr{background:rgba(80,30,160,.25)}
+th{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ts);
+  padding:16px 18px;text-align:left;border-bottom:1px solid rgba(124,77,189,.2);font-weight:600}
+td{padding:14px 18px;border-bottom:1px solid rgba(124,77,189,.1);color:var(--tm);font-weight:400}
+tr:last-child td{border-bottom:none}
+.win{background:rgba(201,169,110,.07)}
+.win td:first-child{border-left:2px solid var(--gold);padding-left:16px}
+.sb{color:#e05555;font-weight:700}.so{color:#e08844;font-weight:700}.sg{color:#6dbe6d;font-weight:700}
+.br td:not(:first-child){filter:blur(7px);user-select:none}
+.bn{text-align:center;font-size:12.5px;color:var(--ts);margin-top:18px;font-style:italic}
+
+/* ── CALC ── */
+.calc{background:rgba(35,8,75,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(124,77,189,.28);border-radius:22px;padding:48px;margin-top:44px;position:relative;overflow:hidden}
+.calc::before{content:'СЦЕНАРИЙ №1';position:absolute;top:22px;right:26px;font-size:9.5px;
+  letter-spacing:.2em;color:var(--gold);font-weight:600;opacity:.8}
+.cr{display:flex;justify-content:space-between;align-items:center;
+  padding:16px 0;border-bottom:1px solid rgba(124,77,189,.15)}
+.cr:last-of-type{border-bottom:none}
+.cr .l{font-size:14.5px;color:var(--ts);font-weight:300}
+.cr .v{font-size:20px;font-weight:700;color:var(--tw)}
+.cr .v.neg{color:#e05555}.cr .v.gd{color:var(--gold)}
+.ct{margin-top:28px;padding:26px 30px;
+  background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(124,77,189,.15));
+  border:1px solid rgba(201,169,110,.3);border-radius:14px;
+  display:flex;justify-content:space-between;align-items:center}
+.ct .l{font-size:13px;color:var(--tm);font-weight:400;line-height:1.55}
+.ct .v{font-size:38px;font-weight:800;color:var(--gold);line-height:1}
+
+/* ── OBJECTIONS ── */
+.ol{margin-top:48px;display:flex;flex-direction:column;gap:12px}
+.oi{background:rgba(40,10,85,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(124,77,189,.22);border-radius:16px;padding:30px 34px;
+  display:grid;grid-template-columns:32px 1fr;gap:20px;align-items:start;
+  transition:box-shadow .3s,transform .3s,border-color .3s}
+.oi:hover{box-shadow:0 10px 36px rgba(80,30,160,.22);transform:translateY(-2px);border-color:rgba(124,77,189,.45)}
+.on{font-size:24px;font-weight:800;color:rgba(124,77,189,.45);line-height:1.2}
+.oq{font-size:17px;font-weight:700;margin-bottom:8px;color:var(--tw)}
+.oa{font-size:14px;color:var(--ts);line-height:1.75;font-weight:300}
+
+/* ── TIMELINE ── */
+.tl{margin-top:52px}
+.ti{display:grid;grid-template-columns:54px 1fr;gap:24px;margin-bottom:10px;align-items:start;position:relative}
+.ti:not(:last-child)::after{content:'';position:absolute;left:26px;top:54px;bottom:-10px;width:1px;
+  background:linear-gradient(to bottom,rgba(124,77,189,.4),transparent)}
+.td{width:54px;height:54px;background:linear-gradient(135deg,var(--v3),var(--v1));
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:800;color:#fff;flex-shrink:0;
+  box-shadow:0 6px 24px rgba(124,77,189,.4)}
+.tb{background:rgba(40,10,85,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(124,77,189,.22);border-radius:14px;padding:26px 30px;margin-bottom:12px}
+.tb h3{font-size:17px;font-weight:700;margin-bottom:8px;color:var(--tw)}
+.tb p{font-size:14px;color:var(--ts);font-weight:300}
+.tr-tag{display:inline-block;margin-top:12px;font-size:10px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,110,.35);
+  padding:5px 13px;border-radius:100px;background:rgba(201,169,110,.08)}
+
+/* ── FORK ── */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:48px}
+.fc{border-radius:22px;padding:40px 34px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.fb{background:rgba(25,5,55,.45);border:1px solid rgba(124,77,189,.18)}
+.fg2{background:linear-gradient(145deg,rgba(55,15,110,.65),rgba(70,20,130,.55));
+  border:1px solid rgba(201,169,110,.35);box-shadow:0 12px 48px rgba(80,30,160,.25)}
+.fl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;margin-bottom:26px}
+.fb .fl{color:var(--ts)}.fg2 .fl{color:var(--gold)}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:13px}
+.fc li{font-size:14.5px;display:flex;gap:12px;align-items:start;color:var(--tm);font-weight:300;line-height:1.55}
+.fb li::before{content:'—';color:var(--ts);flex-shrink:0}
+.fg2 li::before{content:'✦';color:var(--gold);flex-shrink:0;font-size:10px;margin-top:4px}
+.fi{margin-top:30px;font-size:42px;font-weight:800;letter-spacing:-.02em;
+  background:linear-gradient(135deg,var(--gold),#b070e8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.fi small{display:block;font-size:10px;color:var(--ts);font-weight:500;-webkit-text-fill-color:var(--ts);
+  letter-spacing:.1em;text-transform:uppercase;margin-top:8px}
+@media(max-width:600px){.fg{grid-template-columns:1fr}}
+
+/* ── WHY FREE ── */
+.wf{padding:52px;text-align:center;background:rgba(40,10,85,.5);backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);border:1px solid rgba(124,77,189,.28);border-radius:24px;
+  box-shadow:0 16px 64px rgba(70,20,150,.2)}
+.wf .bi{font-size:50px;margin-bottom:22px}
+.wf h2{font-size:clamp(26px,4vw,40px);font-weight:800;margin-bottom:18px;color:var(--tw);letter-spacing:-.02em}
+.wf p{font-size:16px;color:var(--ts);max-width:560px;margin:0 auto;line-height:1.85;font-weight:300}
+.wf strong{font-weight:700;color:var(--tw)}
+
+/* ── FINAL CTA ── */
+.cta-block{text-align:center;padding:20px 0}
+.cta-block p{font-size:16px;color:var(--ts);max-width:460px;margin:0 auto 36px;font-weight:300;line-height:1.8}
+
+/* ── FOOTER ── */
+footer{padding:32px 0;text-align:center;font-size:11.5px;color:var(--ts);
+  font-weight:300;border-top:1px solid rgba(124,77,189,.15)}
+
+/* ── MODAL ── */
+.mo{position:fixed;inset:0;background:rgba(5,0,18,.72);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);z-index:999;display:flex;align-items:center;
+  justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .35s}
+.mo.open{opacity:1;pointer-events:all}
+.mb{background:rgba(25,5,60,.96);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
+  border:1px solid rgba(124,77,189,.4);border-radius:26px;padding:50px 44px;
+  max-width:460px;width:100%;text-align:center;
+  box-shadow:0 24px 80px rgba(70,20,160,.5),0 0 0 1px rgba(255,255,255,.04);
+  transform:translateY(20px);transition:transform .35s;position:relative}
+.mo.open .mb{transform:translateY(0)}
+.mc{position:absolute;top:16px;right:20px;font-size:22px;color:var(--ts);
+  cursor:pointer;background:none;border:none;line-height:1;transition:color .2s}
+.mc:hover{color:var(--tw)}
+.mb .mi{font-size:50px;margin-bottom:18px}
+.mb h3{font-size:26px;font-weight:800;color:var(--tw);margin-bottom:14px;letter-spacing:-.02em}
+.mb p{font-size:14.5px;color:var(--tm);line-height:1.8;font-weight:300;margin-bottom:32px}
+.mb p strong{font-weight:700;color:var(--tw)}
+.tg-btn{display:inline-flex;align-items:center;gap:11px;font-family:'Montserrat',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(135deg,#229ed9,#1a80ba);padding:18px 40px;border-radius:100px;
+  text-decoration:none;box-shadow:0 8px 28px rgba(34,158,217,.45);transition:box-shadow .25s,transform .2s}
+.tg-btn:hover{box-shadow:0 14px 40px rgba(34,158,217,.6);transform:translateY(-2px)}
+.tg-btn svg{width:20px;height:20px;flex-shrink:0}
+.mn{font-size:11.5px;color:var(--ts);margin-top:14px}
+
+/* ── HR ── */
+hr.rule{height:1px;background:linear-gradient(90deg,transparent,rgba(124,77,189,.25),transparent);border:none;margin:0}
+
+/* ── FADE-UP ── */
+.fu{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.fu.vis{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div class="pg"></div>
+<div class="wrap">
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Gen<span>Off</span>On</div>
+  <button class="nav-btn" onclick="openModal()">Получить гайд</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="fu" style="transition-delay:.05s">
+        <div class="urg">
+          <div class="urg-dot"></div>
+          <span>Сейчас читают <strong>247 человек</strong> — некоторые станут вашими конкурентами</span>
+        </div>
+      </div>
+      <div class="fu" style="transition-delay:.15s">
+        <span class="eyebrow">Бесплатный гайд · GenOffOn · PDF · 47 страниц</span>
+        <h1 class="h1">Если ваш доход держится<br>на <strong>одной ножке</strong> —<br>он долго не простоит</h1>
+        <p class="h1-sub">9 способов сделать финансы устойчивыми</p>
+        <p class="hero-desc">Разобрали каждый по трём жёстким критериям. Один позволяет выйти на <strong>450 000 ₽ в первый месяц</strong> — без стартового капитала и опыта.</p>
+        <button class="btn" onclick="openModal()">Получить гайд бесплатно</button>
+        <span class="microcopy">Без спама · 30 секунд · Переход в Telegram-бот</span>
+      </div>
+      <div class="stats fu" style="transition-delay:.3s">
+        <div class="stat"><span class="stat-n">9</span><span class="stat-l">способов</span></div>
+        <div class="stat"><span class="stat-n">450к</span><span class="stat-l">прибыль в мес. №1</span></div>
+        <div class="stat"><span class="stat-n">30</span><span class="stat-l">дней до результата</span></div>
+        <div class="stat"><span class="stat-n">0 ₽</span><span class="stat-l">стоимость гайда</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq-strip">
+  <div class="mq-track">
+    <span>Каждый день без второго источника дохода — упущенный день</span>
+    <span>Одна зарплата — одна точка отказа</span>
+    <span>Гайд бесплатный, но время — нет</span>
+    <span>Пока вы думаете, другие уже читают</span>
+    <span>Каждый день без второго источника дохода — упущенный день</span>
+    <span>Одна зарплата — одна точка отказа</span>
+    <span>Гайд бесплатный, но время — нет</span>
+    <span>Пока вы думаете, другие уже читают</span>
+  </div>
+</div>
+
+<!-- PAIN -->
+<section class="sec">
+  <div class="container">
+    <div class="sh fu"><span class="eyebrow">Проблема</span><h2>Вы знаете это ощущение</h2><p>Деньги приходят раз в месяц. Любое «неловкое движение» — обнуляет всё.</p></div>
+    <div class="pg2">
+      <div class="pc fu"><div class="pc-icon">🧱</div><h3>Потолок на одной работе</h3><p>Ваш доход ограничен одним человеком — начальником. Он решает, сколько вы стоите.</p></div>
+      <div class="pc fu"><div class="pc-icon">⏱</div><h3>Деньги только пока вы работаете</h3><p>Заболели — не зарабатываете. Уволили — не зарабатываете. Это аренда времени, не доход.</p></div>
+      <div class="pc fu"><div class="pc-icon">😰</div><h3>Страх «вдруг что-то случится»</h3><p>Подушки безопасности нет. Любая внештатная ситуация — удар прямо в финансы.</p></div>
+      <div class="pc fu"><div class="pc-icon">🌀</div><h3>Тысячи советов — ни один не работает</h3><p>Большинство требуют миллион или не приносят свободы. Непонятно, кому верить.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- TABLE -->
+<section class="sec">
+  <div class="container">
+    <div class="sh fu"><span class="eyebrow">Честный анализ</span><h2>Правда, которую<br>не скажут гуру</h2><p>9 способов — три жёстких фильтра. Результат ниже.</p></div>
+    <div class="tw fu">
+      <table>
+        <thead><tr><th>Способ</th><th>Стартовый капитал</th><th>Первые деньги</th><th>Потолок 450к+</th></tr></thead>
+        <tbody>
+          <tr><td>Работа по найму</td><td class="so">0 ₽</td><td class="sg">Сразу</td><td class="sb">✕ Нет</td></tr>
+          <tr><td>Франшиза</td><td class="sb">от 500 000 ₽</td><td class="sb">6–18 мес.</td><td class="so">Возможно</td></tr>
+          <tr class="win"><td><strong style="color:#e8d5a8">★ Инфобизнес + МЛМ</strong></td><td class="sg">от 45 000 ₽</td><td class="sg">1–15 дней</td><td class="sg">✓ Да</td></tr>
+          <tr class="br"><td>Способ №4</td><td>— — —</td><td>— — —</td><td>— — —</td></tr>
+          <tr class="br"><td>Способ №5</td><td>— — —</td><td>— — —</td><td>— — —</td></tr>
+          <tr class="br"><td>Способы №6–9</td><td>— — —</td><td>— — —</td><td>— — —</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="bn fu">Остальные 6 способов с расчётами — внутри гайда</p>
+    <div style="text-align:center;margin-top:34px" class="fu"><button class="btn-ghost" onclick="openModal()">Открыть таблицу целиком →</button></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- MATH -->
+<section class="sec">
+  <div class="container">
+    <div class="sh fu"><span class="eyebrow">Математика первого месяца</span><h2>Не история успеха. Просто цифры.</h2></div>
+    <div class="calc fu">
+      <div class="cr"><span class="l">Вложения (стартовый набор)</span><span class="v neg">−45 000 ₽</span></div>
+      <div class="cr"><span class="l">Продаж за месяц</span><span class="v">15 шт.</span></div>
+      <div class="cr"><span class="l">Средний чек</span><span class="v">33 000 ₽</span></div>
+      <div class="cr"><span class="l">Выручка</span><span class="v">495 000 ₽</span></div>
+      <div class="cr"><span class="l">Маржинальность</span><span class="v gd">90 %</span></div>
+      <div class="ct"><span class="l">Чистая прибыль<br><small style="font-size:11px;font-weight:300">за первый календарный месяц</small></span><span class="v">450 000 ₽</span></div>
+    </div>
+    <p style="text-align:center;color:var(--ts);font-size:13px;margin-top:18px;font-style:italic" class="fu">Внутри гайда — ещё 8 сценариев с аналогичными расчётами</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- OBJECTIONS -->
+<section class="sec">
+  <div class="container">
+    <div class="sh fu"><span class="eyebrow">Возражения</span><h2>Мы знаем, что вы думаете</h2></div>
+    <div class="ol">
+      <div class="oi fu"><span class="on">01</span><div><p class="oq">«У меня нет миллиона на свой бизнес»</p><p class="oa">В гайде есть способы, где стартовая сумма — как один поход в ресторан.</p></div></div>
+      <div class="oi fu"><span class="on">02</span><div><p class="oq">«Я не эксперт и не умею создавать курсы»</p><p class="oa">Вы узнаете, как продавать уже готовый продукт — без 6 месяцев на его создание.</p></div></div>
+      <div class="oi fu"><span class="on">03</span><div><p class="oq">«А вдруг это финансовая пирамида?»</p><p class="oa">В гайде — чёткий чеклист: как за 5 минут отличить легальный инфобизнес от сомнительных схем.</p></div></div>
+      <div class="oi fu"><span class="on">04</span><div><p class="oq">«Почему гайд бесплатный?»</p><p class="oa">Потому что нам нужны люди, которые готовы действовать. Гайд — это фильтр. Мы отбираем тех, с кем строим результат вместе.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- PLAN -->
+<section class="sec">
+  <div class="container">
+    <div class="sh fu"><span class="eyebrow">Что внутри</span><h2>30 дней. Пошагово. За руку.</h2><p>Гайд — это не вдохновение. Это инструкция.</p></div>
+    <div class="tl">
+      <div class="ti fu">
+        <div class="td">1</div>
+        <div class="tb"><h3>День 1 — Вход в систему</h3><p>Регистрация, доступ к готовой платформе, первый шаг. Занимает 30 минут.</p><span class="tr-tag">Вы уже внутри</span></div>
+      </div>
+      <div class="ti fu">
+        <div class="td">2</div>
+        <div class="tb"><h3>Дни 4–15 — Первые продажи</h3><p>Скрипты переговоров. Инструкции по поиску клиентов. Всё прописано — ничего не нужно придумывать.</p><span class="tr-tag">До 450 000 ₽ прибыли</span></div>
+      </div>
+      <div class="ti fu">
+        <div class="td">3</div>
+        <div class="tb"><h3>Дни 21–30 — Первые партнёры</h3><p>Структура начинает работать без вашего постоянного участия. Пассивный доход запущен.</p><span class="tr-tag">Пассивный доход запущен</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- FORK -->
+<section class="sec">
+  <div class="container">
+    <div class="sh fu"><span class="eyebrow">Выбор</span><h2>Через год — два сценария</h2><p>Разница между ними — одно сегодняшнее решение.</p></div>
+    <div class="fg">
+      <div class="fc fb fu"><div class="fl">Вариант А — не скачал</div><ul><li>Та же работа, тот же потолок</li><li>Один источник дохода</li><li>Один человек решает, сколько вы стоите</li><li>Ощущение, что время уходит</li></ul></div>
+      <div class="fc fg2 fu"><div class="fl">Вариант Б — скачал и сделал</div><ul><li>Несколько источников дохода</li><li>Структура работает без вас</li><li>Вы управляете активами, не временем</li></ul><div class="fi">от 1 500 000 ₽<small>среднемесячный доход к году</small></div></div>
+    </div>
+    <div style="text-align:center;margin-top:48px" class="fu">
+      <button class="btn" style="padding:20px 56px" onclick="openModal()">Я выбираю вариант Б →</button>
+      <span class="microcopy">Гайд бесплатный. Решение — ваше.</span>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- WHY FREE -->
+<section class="sec">
+  <div class="container">
+    <div class="wf fu">
+      <div class="bi">🎯</div>
+      <h2>Почему гайд бесплатный?</h2>
+      <p>Потому что нам не нужны все подряд. <strong>Нам нужны люди, которые готовы действовать.</strong> Гайд — это фильтр. Мы отбираем тех, с кем будем строить результат вместе. Прочитайте и сами поймёте — ваш это путь или нет.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- FINAL CTA -->
+<section class="sec" id="form">
+  <div class="container">
+    <div class="cta-block fu">
+      <span class="eyebrow">Получить гайд</span>
+      <h2 style="font-size:clamp(28px,4.5vw,48px);font-weight:800;color:var(--tw);letter-spacing:-.02em;margin-bottom:20px">Готовы изменить свой доход?</h2>
+      <p>PDF · 47 страниц · Расчёты, скрипты, план на 30 дней — бесплатно в Telegram-боте</p>
+      <button class="btn" style="padding:22px 60px;font-size:12.5px" onclick="openModal()">Получить гайд бесплатно →</button>
+      <span class="microcopy">Переход в Telegram-бот · @GenOffOn_bot</span>
+    </div>
+  </div>
+</section>
+
+<footer><div class="container">© 2025 GenOffOn · Все права защищены · Информация носит ознакомительный характер</div></footer>
+
+</div><!-- /wrap -->
+
+<!-- MODAL -->
+<div class="mo" id="modal" onclick="overlayClose(event)">
+  <div class="mb">
+    <button class="mc" onclick="closeModal()">×</button>
+    <div class="mi">✨</div>
+    <h3>Гайд ждёт вас<br>в Telegram-боте</h3>
+    <p>Вы переходите в официальный бот проекта <strong>GenOffOn</strong>. Там вы найдёте гайд «9 способов заработка», техники достижения результата и поддержку команды — всё совершенно бесплатно.</p>
+    <a href="https://t.me/GenOffOn_bot" target="_blank" rel="noopener" class="tg-btn">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.877l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.682z"/></svg>
+      Перейти в Telegram-бот
+    </a>
+    <p class="mn">Открывается в Telegram · Бесплатно · @GenOffOn_bot</p>
+  </div>
+</div>
+
+<script>
+function openModal(){document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow=''}
+function overlayClose(e){if(e.target===document.getElementById('modal'))closeModal()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()})
+
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})},{threshold:0.08})
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el))
+</script>
+</body>
+</html>
