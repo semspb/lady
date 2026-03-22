@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon fill='%23FFD700' points='50,15 61,35 85,40 68,58 72,82 50,70 28,82 32,58 15,40 39,35 50,15' stroke='%23FF8C00' stroke-width='2'/%3E%3C/svg%3E">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Комбайн Генерации Продаж</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0d0618;
+    --bg-mid: #1a0b2e;
+    --purple-1: #6b21a8;
+    --purple-2: #7c3aed;
+    --purple-3: #a855f7;
+    --purple-4: #c084fc;
+    --lilac: #d8b4fe;
+    --accent: #e879f9;
+    --gold: #fbbf24;
+    --text: #f3e8ff;
+    --text-dim: #c4b5fd;
+    --green: #4ade80;
+    --red: #f87171;
+  }
+ 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+  body {
+    font-family: 'Mulish', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+ 
+  /* ─── BG GRADIENT MESH ─── */
+  .bg-mesh {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, #3b0764 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, #4a1272 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 50% 50%, #1e1040 0%, transparent 70%),
+      linear-gradient(160deg, #0d0618 0%, #1a0b2e 40%, #120820 100%);
+    pointer-events: none;
+  }
+ 
+  /* ─── PAGES ─── */
+  .page {
+    display: none;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    padding: 40px 20px 60px;
+    max-width: 760px;
+    margin: 0 auto;
+    animation: fadeIn 0.7s ease;
+  }
+  .page.active { display: flex; flex-direction: column; }
+ 
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+ 
+  /* ─── PROGRESS BAR ─── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--purple-2), var(--accent));
+    transition: width 0.6s cubic-bezier(.4,0,.2,1);
+    z-index: 100;
+    box-shadow: 0 0 12px var(--accent);
+  }
+ 
+  .page-counter {
+    position: fixed;
+    top: 14px; right: 20px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 12px;
+    color: var(--text-dim);
+    z-index: 100;
+    letter-spacing: 0.08em;
+  }
+ 
+  /* ─── HEADINGS ─── */
+  h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(22px, 5vw, 36px);
+    font-weight: 900;
+    line-height: 1.25;
+    color: #fff;
+    margin-bottom: 28px;
+    text-shadow: 0 0 40px rgba(168,85,247,0.5);
+  }
+  h1 span.hl { color: var(--accent); }
+  h1 span.gold { color: var(--gold); }
+ 
+  h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(16px, 3.5vw, 22px);
+    font-weight: 700;
+    color: var(--lilac);
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+ 
+  /* ─── BODY TEXT ─── */
+  p, li {
+    font-size: clamp(15px, 2.5vw, 17px);
+    line-height: 1.75;
+    color: var(--text-dim);
+  }
+ 
+  /* ─── CARDS ─── */
+  .card {
+    background: rgba(109,33,168,0.18);
+    border: 1px solid rgba(168,85,247,0.3);
+    border-radius: 20px;
+    padding: 28px;
+    margin: 20px 0;
+    backdrop-filter: blur(8px);
+  }
+ 
+  .card-accent {
+    background: rgba(168,85,247,0.12);
+    border: 1px solid rgba(196,132,252,0.4);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 16px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-accent::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--purple-3), var(--accent));
+    border-radius: 4px 0 0 4px;
+  }
+ 
+  /* ─── BIG NUMBERS ─── */
+  .big-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(36px, 9vw, 72px);
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 60px rgba(232,121,249,0.7);
+    line-height: 1;
+    display: block;
+  }
+  .big-num-label {
+    font-size: clamp(13px, 2vw, 15px);
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+ 
+  .nums-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 28px 0;
+  }
+  .num-block {
+    flex: 1;
+    min-width: 140px;
+    background: rgba(109,33,168,0.25);
+    border: 1px solid rgba(168,85,247,0.35);
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+ 
+  /* ─── LIST ITEMS ─── */
+  .check-list { list-style: none; margin: 16px 0; }
+  .check-list li {
+    padding: 10px 0 10px 36px;
+    position: relative;
+    border-bottom: 1px solid rgba(168,85,247,0.12);
+    font-size: 16px;
+    color: var(--text-dim);
+  }
+  .check-list li:last-child { border-bottom: none; }
+  .check-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--purple-3);
+    font-size: 14px;
+    top: 11px;
+  }
+ 
+  .cross-list { list-style: none; margin: 16px 0; }
+  .cross-list li {
+    padding: 10px 0 10px 36px;
+    position: relative;
+    color: rgba(243,232,255,0.55);
+    font-size: 16px;
+  }
+  .cross-list li::before {
+    content: '✕';
+    position: absolute;
+    left: 4px;
+    color: var(--red);
+    font-size: 13px;
+    top: 11px;
+  }
+ 
+  /* ─── RADIO OPTIONS ─── */
+  .options { margin: 20px 0; }
+  .option-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    padding: 14px 18px;
+    margin: 8px 0;
+    border: 1px solid rgba(168,85,247,0.2);
+    border-radius: 12px;
+    transition: all 0.25s;
+    font-size: 16px;
+    color: var(--text-dim);
+    user-select: none;
+    background: rgba(109,33,168,0.1);
+  }
+  .option-label:hover {
+    border-color: var(--purple-3);
+    background: rgba(168,85,247,0.15);
+    color: var(--text);
+  }
+  .option-label.selected {
+    border-color: var(--accent);
+    background: rgba(232,121,249,0.12);
+    color: #fff;
+  }
+  .option-label input { display: none; }
+  .radio-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(168,85,247,0.5);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .option-label.selected .radio-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+  .option-label.selected .radio-dot::after {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #fff;
+  }
+ 
+  /* ─── QUOTE BOX ─── */
+  .quote-box {
+    border: 1px solid rgba(196,132,252,0.35);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin: 20px 0;
+    background: rgba(76,29,149,0.2);
+    font-size: clamp(15px, 2.5vw, 17px);
+    line-height: 1.75;
+    color: var(--text);
+    position: relative;
+  }
+  .quote-box::before {
+    content: '❝';
+    position: absolute;
+    top: -14px; left: 20px;
+    font-size: 36px;
+    color: var(--purple-3);
+    background: var(--bg-deep);
+    padding: 0 8px;
+    line-height: 1;
+  }
+ 
+  /* ─── TABLE ─── */
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 15px;
+  }
+  .styled-table th {
+    background: rgba(109,33,168,0.4);
+    color: var(--lilac);
+    padding: 12px 14px;
+    text-align: left;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .styled-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(168,85,247,0.15);
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .styled-table tr:last-child td { border-bottom: none; }
+  .styled-table tr:hover td { background: rgba(168,85,247,0.07); }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Unbounded', sans-serif;
+    background: rgba(168,85,247,0.25);
+    color: var(--lilac);
+  }
+ 
+  /* ─── MATH BOX ─── */
+  .math-box {
+    background: rgba(76,29,149,0.25);
+    border: 1px solid rgba(196,132,252,0.3);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .math-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(168,85,247,0.15);
+    font-size: 16px;
+  }
+  .math-row:last-child { border-bottom: none; }
+  .math-row .label { color: var(--text-dim); }
+  .math-row .value { color: #fff; font-weight: 700; font-family: 'Unbounded', sans-serif; font-size: 15px; }
+  .math-row.total .value { color: var(--gold); font-size: 18px; }
+  .math-row.total .label { color: var(--lilac); font-weight: 700; }
+ 
+  /* ─── MODULES ─── */
+  .module {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 18px;
+    margin: 10px 0;
+    border: 1px solid rgba(168,85,247,0.2);
+    border-radius: 14px;
+    background: rgba(109,33,168,0.12);
+    transition: all 0.3s;
+  }
+  .module:hover {
+    border-color: rgba(168,85,247,0.5);
+    background: rgba(168,85,247,0.15);
+  }
+  .module-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: rgba(168,85,247,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .module-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--lilac);
+    margin-bottom: 4px;
+  }
+  .module-desc { font-size: 15px; color: var(--text-dim); line-height: 1.5; }
+ 
+  /* ─── PRICING ─── */
+  .pricing-box {
+    background: linear-gradient(135deg, rgba(109,33,168,0.3) 0%, rgba(76,29,149,0.4) 100%);
+    border: 2px solid rgba(232,121,249,0.4);
+    border-radius: 20px;
+    padding: 28px;
+    margin: 24px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-box::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at center, rgba(232,121,249,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .price-old {
+    font-size: 18px;
+    color: var(--text-dim);
+    text-decoration: line-through;
+    margin-bottom: 6px;
+    font-family: 'Unbounded', sans-serif;
+  }
+  .price-new {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(34px, 7vw, 56px);
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(232,121,249,0.8);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .price-save {
+    display: inline-block;
+    background: rgba(74,222,128,0.2);
+    border: 1px solid rgba(74,222,128,0.4);
+    color: var(--green);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+ 
+  /* ─── TIMER ─── */
+  .timer-wrap {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .timer-block {
+    background: rgba(109,33,168,0.4);
+    border: 1px solid rgba(168,85,247,0.4);
+    border-radius: 12px;
+    padding: 12px 18px;
+    text-align: center;
+    min-width: 70px;
+  }
+  .timer-digit {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 900;
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent);
+    line-height: 1;
+  }
+  .timer-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+ 
+  /* ─── CHOICE BLOCKS ─── */
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .choice-no {
+    border: 1px solid rgba(248,113,113,0.3);
+    border-radius: 16px;
+    padding: 22px;
+    background: rgba(248,113,113,0.06);
+  }
+  .choice-yes {
+    border: 2px solid rgba(168,85,247,0.5);
+    border-radius: 16px;
+    padding: 22px;
+    background: rgba(109,33,168,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  .choice-yes::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--purple-2), var(--accent));
+  }
+  .choice-title {
+    font-weight: 800;
+    font-size: 15px;
+    margin-bottom: 14px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 13px;
+  }
+  .choice-no .choice-title { color: var(--red); }
+  .choice-yes .choice-title { color: var(--green); }
+  .choice-item {
+    font-size: 14px;
+    color: var(--text-dim);
+    padding: 5px 0 5px 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .choice-no .choice-item::before { content: '→'; position: absolute; left: 0; color: var(--red); opacity: 0.7; }
+  .choice-yes .choice-item::before { content: '→'; position: absolute; left: 0; color: var(--green); }
+ 
+  /* ─── BUTTONS ─── */
+  .btn-yes {
+    display: block;
+    width: 100%;
+    padding: 20px 32px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(14px, 2.5vw, 17px);
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--purple-1) 0%, var(--purple-2) 50%, var(--accent) 100%);
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    margin-top: 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 8px 32px rgba(124,58,237,0.4), 0 0 0 1px rgba(232,121,249,0.2);
+  }
+  .btn-yes::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.5s;
+  }
+  .btn-yes:hover::before { left: 100%; }
+  .btn-yes:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(124,58,237,0.6), 0 0 0 1px rgba(232,121,249,0.4);
+  }
+  .btn-yes:active { transform: translateY(0); }
+ 
+  .btn-pay {
+    display: block;
+    width: 100%;
+    padding: 22px 32px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(14px, 2.5vw, 17px);
+    font-weight: 900;
+    color: #fff;
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #e879f9 100%);
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: all 0.3s;
+    box-shadow: 0 8px 40px rgba(232,121,249,0.5);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    animation: pulseBtn 2.5s ease-in-out infinite;
+  }
+  @keyframes pulseBtn {
+    0%, 100% { box-shadow: 0 8px 40px rgba(232,121,249,0.5); }
+    50% { box-shadow: 0 8px 60px rgba(232,121,249,0.8), 0 0 0 6px rgba(232,121,249,0.15); }
+  }
+ 
+  .guarantee {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 16px 20px;
+    border: 1px solid rgba(74,222,128,0.25);
+    border-radius: 12px;
+    background: rgba(74,222,128,0.06);
+    font-size: 14px;
+    color: rgba(243,232,255,0.7);
+  }
+  .guarantee-icon { font-size: 24px; flex-shrink: 0; }
+ 
+  /* ─── SPACERS / UTILS ─── */
+  .spacer { height: 20px; }
+  .badge {
+    display: inline-block;
+    background: rgba(168,85,247,0.25);
+    border: 1px solid rgba(168,85,247,0.4);
+    color: var(--lilac);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
+    font-family: 'Unbounded', sans-serif;
+  }
+ 
+  /* ─── STEP FLOW (Page 3) ─── */
+  .step-flow { margin: 20px 0; }
+  .step-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(168,85,247,0.12);
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple-1), var(--purple-3));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(168,85,247,0.4);
+  }
+  .step-content-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--lilac);
+    margin-bottom: 4px;
+  }
+  .step-content-desc { font-size: 15px; color: var(--text-dim); line-height: 1.5; }
+ 
+  /* ─── SCENARIO (Page 7) ─── */
+  .scenario {
+    border: 1px solid rgba(196,132,252,0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 20px 0;
+  }
+  .scenario-line {
+    display: flex;
+    gap: 12px;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(168,85,247,0.12);
+    align-items: flex-start;
+    font-size: 16px;
+    color: var(--text-dim);
+  }
+  .scenario-line:last-child { border-bottom: none; }
+  .scenario-arrow { color: var(--purple-3); flex-shrink: 0; font-weight: 900; }
+  .scenario-line strong { color: var(--lilac); }
+ 
+  @media (max-width: 540px) {
+    .choice-grid { grid-template-columns: 1fr; }
+    .nums-row { flex-direction: column; }
+    .styled-table { display: block; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+ 
+<div class="bg-mesh"></div>
+<div class="progress-bar" id="progressBar" style="width:14.28%"></div>
+<div class="page-counter" id="pageCounter">1 / 7</div>
+ 
+<!-- ══════════════════════════════════════════════
+     PAGE 1 — БОЛЬШАЯ КАРТИНА
+══════════════════════════════════════════════ -->
+<div class="page active" id="page-1">
+  <div class="badge">📊 МАТЕМАТИКА, КОТОРАЯ МЕНЯЕТ ВСЁ</div>
+ 
+  <h1>
+    <span class="gold">900 000₽</span> чистыми в месяц.<br>
+    <span class="gold">10 800 000₽</span> за год.<br>
+    Квартира или автомобиль мечты.
+  </h1>
+ 
+  <div class="nums-row">
+    <div class="num-block">
+      <span class="big-num" style="font-size:clamp(28px,7vw,52px)">100к₽</span>
+      <span class="big-num-label">цена продукта</span>
+    </div>
+    <div class="num-block">
+      <span class="big-num" style="font-size:clamp(28px,7vw,52px)">×10</span>
+      <span class="big-num-label">продаж в месяц</span>
+    </div>
+    <div class="num-block">
+      <span class="big-num" style="font-size:clamp(28px,7vw,52px);color:var(--gold)">90%</span>
+      <span class="big-num-label">маржа</span>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <p>Представь:</p>
+    <div class="spacer"></div>
+    <ul class="check-list">
+      <li>Ты продаёшь продукт за <strong style="color:#fff">100 000₽</strong></li>
+      <li>Всего <strong style="color:#fff">10 раз</strong> в месяц</li>
+      <li>Маржа <strong style="color:#fff">90%</strong> — почти всё в карман</li>
+      <li>Итого: <strong style="color:var(--gold)">900 000₽ чистыми</strong></li>
+    </ul>
+    <div class="spacer"></div>
+    <p>Умножь на 12 месяцев = <strong style="color:var(--gold);font-size:18px">10 800 000₽</strong></p>
+  </div>
+ 
+  <div class="quote-box">
+    Это не «когда-нибудь». Это — <strong style="color:#fff">математика</strong>.<br><br>
+    Вопрос не в том, <em>можно ли</em> так зарабатывать.<br>
+    Вопрос в том, <em>почему ты ещё не делаешь этого</em>.
+  </div>
+ 
+  <div class="card-accent">
+    <p style="color:#fff;font-size:17px"><strong>«Ты не продаёшь продукт. Ты продаёшь решение. А решение покупают, когда чувствуют, что их ПОНИМАЮТ.»</strong></p>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:17px;margin-bottom:8px">Если бы у тебя был инструмент, который позволяет закрывать сделки через понимание, а не через уговоры — ты бы хотел его получить?</p>
+ 
+  <button class="btn-yes" onclick="goTo(2)">✅ ДА, ХОЧУ УЗНАТЬ КАК →</button>
+</div>
+ 
+<!-- ══════════════════════════════════════════════
+     PAGE 2 — ПРОБЛЕМА
+══════════════════════════════════════════════ -->
+<div class="page" id="page-2">
+  <div class="badge">🎯 ПОЧЕМУ ТЫ НЕ ПРОДАЁШЬ НА 100%</div>
+ 
+  <h1>Ты говоришь правильно.<br>Но тебя не <span class="hl">слышат</span>.<br>Знакомо?</h1>
+ 
+  <div class="card">
+    <ul class="cross-list">
+      <li>Ты подбираешь слова — а клиент «не включается»</li>
+      <li>Ты даёшь аргументы — а он говорит «Я подумаю»</li>
+      <li>Ты стараешься — а результат случайный</li>
+    </ul>
+  </div>
+ 
+  <div class="card-accent">
+    <h2 style="margin-bottom:10px">Правда, которую тебе не говорят:</h2>
+    <p style="color:#fff;font-size:17px">Люди покупают не продукт.<br>Люди покупают ощущение, что их <strong style="color:var(--accent)">поняли</strong>.</p>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:16px;margin-bottom:12px">Вспомни последний отказ. Что, скорее всего, произошло?</p>
+ 
+  <div class="options" id="opts-p2">
+    <label class="option-label" onclick="selectOption(this,'p2')">
+      <input type="radio" name="p2">
+      <span class="radio-dot"></span>
+      <span>Я говорил логикой — а клиент хотел эмоций</span>
+    </label>
+    <label class="option-label" onclick="selectOption(this,'p2')">
+      <input type="radio" name="p2">
+      <span class="radio-dot"></span>
+      <span>Я давил фактами — а клиент искал доверия</span>
+    </label>
+    <label class="option-label" onclick="selectOption(this,'p2')">
+      <input type="radio" name="p2">
+      <span class="radio-dot"></span>
+      <span>Я предлагал выгоду — а клиент думал о смысле</span>
+    </label>
+    <label class="option-label" onclick="selectOption(this,'p2')">
+      <input type="radio" name="p2">
+      <span class="radio-dot"></span>
+      <span>Я не попал в его «язык восприятия»</span>
+    </label>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:17px;margin-bottom:8px">Хочешь узнать, как попадать в типаж человека с первого контакта — и закрывать сделки через резонанс?</p>
+ 
+  <button class="btn-yes" onclick="goTo(3)">✅ ДА, ПОКАЖИ МНЕ →</button>
+</div>
+ 
+<!-- ══════════════════════════════════════════════
+     PAGE 3 — ОТКРЫТИЕ: ЧТО ТАКОЕ КОМБАЙН
+══════════════════════════════════════════════ -->
+<div class="page" id="page-3">
+  <div class="badge">⚙️ СИСТЕМА</div>
+ 
+  <h1>Комбайн Генерации Продаж — это не гайд.<br>Это <span class="hl">система</span>, которая заменяет тебе отдел продаж</h1>
+ 
+  <div class="step-flow">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-content-title">Диагностика за 30 секунд</div>
+        <div class="step-content-desc">3 вопроса-триггера → определение типажа клиента ещё до начала продажи</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-content-title">Настройка сообщения</div>
+        <div class="step-content-desc">Говоришь на ЕГО языке → он «открывается» и начинает доверять</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-content-title">Закрытие через резонанс</div>
+        <div class="step-content-desc">Он сам хочет купить → ты не давишь, ты попадаешь в точку</div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <p>У каждого человека — свой <strong style="color:#fff">«энергетический код»</strong>.</p>
+    <div class="spacer"></div>
+    <ul class="check-list">
+      <li>Когда ты говоришь на чужом языке — тебя не слышат</li>
+      <li>Когда ты говоришь на <strong style="color:#fff">ЕГО</strong> языке — он тянется к решению</li>
+    </ul>
+    <div class="spacer"></div>
+    <ul class="check-list">
+      <li>✅ Определяешь типаж за <strong style="color:#fff">30 секунд</strong></li>
+      <li>✅ Включаешь нужные <strong style="color:#fff">«кнопки доверия»</strong></li>
+      <li>✅ Закрываешь сделку <strong style="color:#fff">естественно</strong></li>
+    </ul>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:16px;margin-bottom:12px">Если бы ты мог определять типаж клиента за 30 секунд — что изменилось бы в твоих продажах?</p>
+ 
+  <div class="options" id="opts-p3">
+    <label class="option-label" onclick="selectOption(this,'p3')">
+      <input type="radio" name="p3">
+      <span class="radio-dot"></span>
+      <span>Меньше времени на «пустые» разговоры</span>
+    </label>
+    <label class="option-label" onclick="selectOption(this,'p3')">
+      <input type="radio" name="p3">
+      <span class="radio-dot"></span>
+      <span>Больше закрытых сделок с первого контакта</span>
+    </label>
+    <label class="option-label" onclick="selectOption(this,'p3')">
+      <input type="radio" name="p3">
+      <span class="radio-dot"></span>
+      <span>Уверенность в каждом диалоге</span>
+    </label>
+    <label class="option-label" onclick="selectOption(this,'p3')">
+      <input type="radio" name="p3">
+      <span class="radio-dot"></span>
+      <span>Всё вышеперечисленное</span>
+    </label>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:17px;margin-bottom:8px">Готов увидеть, как эта система работает на практике?</p>
+ 
+  <button class="btn-yes" onclick="goTo(4)">✅ ДА, ПОКАЖИ СИСТЕМУ →</button>
+</div>
+ 
+<!-- ══════════════════════════════════════════════
+     PAGE 4 — МЕХАНИЗМ
+══════════════════════════════════════════════ -->
+<div class="page" id="page-4">
+  <div class="badge">🔬 КАК ЭТО РАБОТАЕТ</div>
+ 
+  <h1>Не убеждать. <span class="hl">Резонировать.</span><br>Продавать — через понимание.</h1>
+ 
+  <div class="module">
+    <div class="module-icon">🔍</div>
+    <div>
+      <div class="module-title">Модуль 1: Диагностика типажа (30 секунд)</div>
+      <div class="module-desc">3 вопроса-триггера → определение доминирующего канала восприятия. Быстрый профиль: N / F / T / S + E / I</div>
+    </div>
+  </div>
+ 
+  <div class="module">
+    <div class="module-icon">💬</div>
+    <div>
+      <div class="module-title">Модуль 2: Языки влияния</div>
+      <div class="module-desc">Говоришь на языке клиента. Каждый типаж открывается на свои слова-ключи.</div>
+    </div>
+  </div>
+ 
+  <div style="overflow-x:auto;margin:16px 0">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Типаж</th>
+          <th>Что цепляет</th>
+          <th>Пример фразы</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag">N</span> Интуитивный</td>
+          <td>возможности, трансформация</td>
+          <td>«Представь, что через 3 месяца...»</td>
+        </tr>
+        <tr>
+          <td><span class="tag">F</span> Чувствующий</td>
+          <td>доверие, ценности</td>
+          <td>«Для меня важно, чтобы вы чувствовали...»</td>
+        </tr>
+        <tr>
+          <td><span class="tag">T</span> Логический</td>
+          <td>структура, факты</td>
+          <td>«Вот данные: 87% клиентов отмечают...»</td>
+        </tr>
+        <tr>
+          <td><span class="tag">S</span> Сенсорный</td>
+          <td>результат, конкретика</td>
+          <td>«Вы получите: 1) ... 2) ... 3) ...»</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+ 
+  <div class="module">
+    <div class="module-icon">🎯</div>
+    <div>
+      <div class="module-title">Модуль 3: Карта болей</div>
+      <div class="module-desc">Здоровье, деньги, отношения — 3 универсальные потребности. Ты знаешь, какая «боль» доминирует у этого типажа.</div>
+    </div>
+  </div>
+ 
+  <div class="module">
+    <div class="module-icon">📝</div>
+    <div>
+      <div class="module-title">Модуль 4: Скрипты-резонаторы</div>
+      <div class="module-desc">Не «продающие» фразы, а «открывающие» диалог. Возражения снимаются автоматически.</div>
+    </div>
+  </div>
+ 
+  <div class="module">
+    <div class="module-icon">⚡</div>
+    <div>
+      <div class="module-title">Модуль 5: Энергетическая настройка</div>
+      <div class="module-desc">Как не выгорать при активных продажах. Как оставаться в потоке, даже когда много диалогов.</div>
+    </div>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:16px;margin-bottom:12px">Если бы у тебя был такой алгоритм — сколько времени ты бы сэкономил в неделю?</p>
+ 
+  <div class="options" id="opts-p4">
+    <label class="option-label" onclick="selectOption(this,'p4')">
+      <input type="radio" name="p4">
+      <span class="radio-dot"></span>
+      <span>5–10 часов (меньше «пустых» разговоров)</span>
+    </label>
+    <label class="option-label" onclick="selectOption(this,'p4')">
+      <input type="radio" name="p4">
+      <span class="radio-dot"></span>
+      <span>10–20 часов (больше закрытых сделок)</span>
+    </label>
+    <label class="option-label" onclick="selectOption(this,'p4')">
+      <input type="radio" name="p4">
+      <span class="radio-dot"></span>
+      <span>20+ часов (система работает на автопилоте)</span>
+    </label>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:17px;margin-bottom:8px">Хочешь получить эту систему в готовом виде?</p>
+ 
+  <button class="btn-yes" onclick="goTo(5)">✅ ДА, ГОТОВ(А) ЗАБРАТЬ →</button>
+</div>
+ 
+<!-- ══════════════════════════════════════════════
+     PAGE 5 — ДОВЕРИЕ
+══════════════════════════════════════════════ -->
+<div class="page" id="page-5">
+  <div class="badge">💎 ПОЧЕМУ ЭТО РАБОТАЕТ</div>
+ 
+  <h1>Это не «волшебная таблетка».<br>Это — <span class="hl">система</span>, основанная на практике.</h1>
+ 
+  <div class="card">
+    <ul class="check-list">
+      <li>Рынок устал от универсальных скриптов — люди хотят, чтобы их «видели»</li>
+      <li>Энергетический подход — новый уровень доверия и глубины контакта</li>
+      <li>Ты получаешь преимущество, пока другие ещё учатся «говорить всем одинаково»</li>
+    </ul>
+  </div>
+ 
+  <div class="quote-box">
+    <strong style="color:var(--lilac)">Анна, психолог.</strong><br><br>
+    До системы: 2–3 клиента в неделю, много «подумаю».<br>
+    После: 8–10 клиентов, 70% конверсия с первого контакта.<br><br>
+    Секрет: перестала «уговаривать» — начала «попадать» в типаж.<br><br>
+    <strong style="color:var(--gold)">Доход: с 60 000₽ до 450 000₽ в месяц.</strong>
+  </div>
+ 
+  <h2 style="margin-top:28px">Математика результата</h2>
+  <div class="math-box">
+    <div class="math-row">
+      <span class="label">📊 Твой продукт</span>
+      <span class="value">100 000₽</span>
+    </div>
+    <div class="math-row">
+      <span class="label">📈 Продаж в месяц</span>
+      <span class="value">10</span>
+    </div>
+    <div class="math-row">
+      <span class="label">💰 Выручка</span>
+      <span class="value">1 000 000₽</span>
+    </div>
+    <div class="math-row">
+      <span class="label">🔥 Маржа 90%</span>
+      <span class="value">900 000₽ чистыми</span>
+    </div>
+    <div class="math-row total">
+      <span class="label">📅 За год</span>
+      <span class="value">10 800 000₽</span>
+    </div>
+  </div>
+ 
+  <div class="nums-row">
+    <div class="num-block">
+      <span style="font-size:28px">🏠</span>
+      <p style="font-size:14px;margin-top:8px;text-align:center">Квартира в хорошем районе</p>
+    </div>
+    <div class="num-block">
+      <span style="font-size:28px">🚗</span>
+      <p style="font-size:14px;margin-top:8px;text-align:center">Автомобиль премиум-класса</p>
+    </div>
+    <div class="num-block">
+      <span style="font-size:28px">✨</span>
+      <p style="font-size:14px;margin-top:8px;text-align:center">Свобода выбирать как жить</p>
+    </div>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:17px;margin-bottom:8px">Если система даёт такой результат — стоит ли её внедрить?</p>
+ 
+  <button class="btn-yes" onclick="goTo(6)">✅ ДА, СТОИТ →</button>
+</div>
+ 
+<!-- ══════════════════════════════════════════════
+     PAGE 6 — ЦЕННОСТЬ + СРОЧНОСТЬ
+══════════════════════════════════════════════ -->
+<div class="page" id="page-6">
+  <div class="badge">🔥 СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ</div>
+ 
+  <h1>Комбайн Генерации Продаж:<br><span class="hl">пошаговая система</span></h1>
+ 
+  <div class="module">
+    <div class="module-icon">📘</div>
+    <div>
+      <div class="module-title">Модуль 1</div>
+      <div class="module-desc">Диагностика типажа — 5 техник за 30 секунд</div>
+    </div>
+  </div>
+  <div class="module">
+    <div class="module-icon">📘</div>
+    <div>
+      <div class="module-title">Модуль 2</div>
+      <div class="module-desc">Языки влияния — как говорить с каждым типом</div>
+    </div>
+  </div>
+  <div class="module">
+    <div class="module-icon">📘</div>
+    <div>
+      <div class="module-title">Модуль 3</div>
+      <div class="module-desc">Карта болей — какие потребности активируются</div>
+    </div>
+  </div>
+  <div class="module">
+    <div class="module-icon">📘</div>
+    <div>
+      <div class="module-title">Модуль 4</div>
+      <div class="module-desc">Скрипты-резонаторы — готовые фразы для закрытия</div>
+    </div>
+  </div>
+  <div class="module">
+    <div class="module-icon">📘</div>
+    <div>
+      <div class="module-title">Модуль 5</div>
+      <div class="module-desc">Энергетическая настройка — как сохранять ресурс</div>
+    </div>
+  </div>
+ 
+  <div class="card" style="border-color:rgba(251,191,36,0.3);background:rgba(251,191,36,0.06)">
+    <ul class="check-list">
+      <li>🎁 <strong style="color:var(--gold)">Бонус 1:</strong> Чек-лист «21 вопрос для быстрого определения типажа»</li>
+      <li>🎁 <strong style="color:var(--gold)">Бонус 2:</strong> Доступ к закрытому чату с разборами сложных случаев</li>
+      <li>🎁 <strong style="color:var(--gold)">Бонус 3:</strong> Обновления системы — бесплатно для первых участников</li>
+    </ul>
+  </div>
+ 
+  <div class="pricing-box">
+    <div class="price-old">Полная стоимость: 50 000₽</div>
+    <div class="price-new">34 900₽</div>
+    <div class="price-save">Твоя экономия: 15 100₽ (30%)</div>
+    <p style="font-size:15px;color:var(--text-dim)">Окупаемость: <strong style="color:#fff">1 сделка</strong> при чеке 100 000₽</p>
+  </div>
+ 
+  <p style="text-align:center;color:var(--text-dim);margin-bottom:12px;font-size:15px">⏳ Специальная цена действует:</p>
+  <div class="timer-wrap">
+    <div class="timer-block">
+      <div class="timer-digit" id="th">23</div>
+      <div class="timer-label">часов</div>
+    </div>
+    <div class="timer-block">
+      <div class="timer-digit" id="tm">59</div>
+      <div class="timer-label">минут</div>
+    </div>
+    <div class="timer-block">
+      <div class="timer-digit" id="ts">59</div>
+      <div class="timer-label">секунд</div>
+    </div>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:17px;margin-bottom:8px">Если система окупается с одной сделки — стоит ли забрать её сейчас?</p>
+ 
+  <button class="btn-yes" onclick="goTo(7)">✅ ДА, ЗАБИРАЮ КОМБАЙН →</button>
+</div>
+ 
+<!-- ══════════════════════════════════════════════
+     PAGE 7 — ФИНАЛ + ПРОДАЖА
+══════════════════════════════════════════════ -->
+<div class="page" id="page-7">
+  <div class="badge">🚀 ПОСЛЕДНИЙ ШАГ</div>
+ 
+  <h1>Ты уже сказал <span class="gold">«ДА»</span> шесть раз.<br>Остался последний шаг — <span class="hl">включить Комбайн.</span></h1>
+ 
+  <h2>Представь завтрашний день:</h2>
+  <div class="scenario">
+    <div class="scenario-line">
+      <span class="scenario-arrow">→</span>
+      <span>Ты заходишь в диалог. За 30 секунд определяешь: перед тобой <strong>Логик (T)</strong>.</span>
+    </div>
+    <div class="scenario-line">
+      <span class="scenario-arrow">→</span>
+      <span>Ты не говоришь про «чувства» и «доверие». Ты даёшь факты, структуру, цифры.</span>
+    </div>
+    <div class="scenario-line">
+      <span class="scenario-arrow">→</span>
+      <span>Его глаза меняются: <strong>«Наконец-то кто-то говорит по делу»</strong>.</span>
+    </div>
+    <div class="scenario-line">
+      <span class="scenario-arrow">→</span>
+      <span>Он задаёт вопрос про условия. Ты отвечаешь — он кивает.</span>
+    </div>
+    <div class="scenario-line">
+      <span class="scenario-arrow">→</span>
+      <span><strong style="color:var(--gold)">«Где оплатить?»</strong> — это не давление. Это естественный финал.</span>
+    </div>
+  </div>
+ 
+  <div class="quote-box" style="margin-top:20px">
+    Это не фантазия. Это — новая реальность после <strong style="color:var(--accent)">Комбайна Генерации Продаж</strong>.
+  </div>
+ 
+  <div class="choice-grid" style="margin-top:28px">
+    <div class="choice-no">
+      <div class="choice-title">🔴 Оставить всё как есть</div>
+      <div class="choice-item">Продолжать «угадывать», как говорить</div>
+      <div class="choice-item">Тратить часы на «прогрев»</div>
+      <div class="choice-item">Слушать «Я подумаю»</div>
+      <div class="choice-item">Ждать, когда «само сложится»</div>
+    </div>
+    <div class="choice-yes">
+      <div class="choice-title">🟢 Забрать Комбайн</div>
+      <div class="choice-item">Готовая система диагностики</div>
+      <div class="choice-item">Конверсия 70–90%</div>
+      <div class="choice-item">Окупаемость с 1 сделки</div>
+      <div class="choice-item">900 000₽ в месяц</div>
+    </div>
+  </div>
+ 
+  <div class="pricing-box" style="margin-top:24px">
+    <div class="price-old">Полная стоимость: 50 000₽</div>
+    <div class="price-new">34 900₽</div>
+    <div class="price-save">Скидка 30% — экономия 15 100₽</div>
+    <div class="timer-wrap" style="margin-top:12px">
+      <div class="timer-block">
+        <div class="timer-digit" id="th2">23</div>
+        <div class="timer-label">часов</div>
+      </div>
+      <div class="timer-block">
+        <div class="timer-digit" id="tm2">59</div>
+        <div class="timer-label">минут</div>
+      </div>
+      <div class="timer-block">
+        <div class="timer-digit" id="ts2">59</div>
+        <div class="timer-label">секунд</div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="spacer"></div>
+  <p style="color:var(--lilac);font-size:17px;margin-bottom:8px">Если ты дочитал до этого места — значит, ты чувствуешь: это может сработать. Готов сделать последний шаг?</p>
+ 
+  <button class="btn-pay" onclick="payClick()">🔥 ЗАБРАТЬ КОМБАЙН ГЕНЕРАЦИИ ПРОДАЖ ЗА 34 900₽ 🔥</button>
+ 
+  <div class="guarantee">
+    <span class="guarantee-icon">🔒</span>
+    <span><strong>7 дней на тест-драйв.</strong> Если не увидишь, как система меняет твои результаты — вернём 100%. Без вопросов.</span>
+  </div>
+ 
+  <div class="card-accent" style="margin-top:20px">
+    <p style="color:var(--text-dim);font-size:15px;font-style:italic;text-align:center">«Комбайн — не для всех. Только для тех, кто готов продавать через понимание, а не через давление.»</p>
+  </div>
+</div>
+ 
+<script>
+  let currentPage = 1;
+  const totalPages = 7;
+ 
+  // ─── TIMER
+  let totalSeconds = 23 * 3600 + 59 * 60 + 59;
+  function updateTimer() {
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    const fmt = n => String(n).padStart(2,'0');
+    ['th','tm','ts','th2','tm2','ts2'].forEach((id,i) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = fmt([h,m,s,h,m,s][i]);
+    });
+    if (totalSeconds > 0) totalSeconds--;
+  }
+  setInterval(updateTimer, 1000);
+  updateTimer();
+ 
+  // ─── GO TO PAGE
+  function goTo(n) {
+    const prev = document.getElementById('page-' + currentPage);
+    const next = document.getElementById('page-' + n);
+    if (!next) return;
+    prev.classList.remove('active');
+    // small delay for animation reset
+    setTimeout(() => {
+      next.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
+    currentPage = n;
+ 
+    // progress bar
+    const pct = (n / totalPages) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('pageCounter').textContent = n + ' / ' + totalPages;
+  }
+ 
+  // ─── SELECT OPTION
+  function selectOption(el, group) {
+    document.querySelectorAll(`[name="${group}"]`).forEach(r => {
+      r.closest('.option-label').classList.remove('selected');
+    });
+    el.classList.add('selected');
+  }
+ 
+  // ─── PAY CLICK
+  function payClick() {
+    const btn = document.querySelector('.btn-pay');
+    btn.textContent = '✅ Переходим на страницу оплаты...';
+    btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+    // Here you'd redirect to payment page
+    setTimeout(() => {
+      alert('Здесь подключается ваша страница оплаты!');
+    }, 1000);
+  }
+</script>
+</body>
+</html>
