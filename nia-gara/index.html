@@ -742,7 +742,7 @@
         <div class="genoffon-divider"></div>
         <div class="genoffon-offer">
             <div class="genoffon-text">
-                + Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> • <span>Мы верим в вас</span>
+                Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> • <span>Мы верим в вас</span>
             </div>
             <button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button>
         </div>
@@ -775,6 +775,7 @@
         border-top: 1px solid rgba(255, 215, 120, 0.3);
         padding: 0.9rem 2rem;
         font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        box-sizing: border-box;
     }
 
     .genoffon-inner {
@@ -783,7 +784,7 @@
         display: flex;
         align-items: center;
         gap: 1.5rem;
-        flex-wrap: nowrap;
+        flex-wrap: nowrap; /* Никогда не переносим */
     }
 
     .genoffon-brand {
@@ -814,7 +815,8 @@
         gap: 1.5rem;
         justify-content: space-between;
         flex: 1;
-        flex-wrap: nowrap;
+        flex-wrap: nowrap; /* Никогда не переносим */
+        min-width: 0; /* Позволяет тексту сжиматься */
     }
 
     .genoffon-text {
@@ -823,6 +825,9 @@
         color: #E8EDFF;
         line-height: 1.4;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-shrink: 1;
     }
 
     .genoffon-text strong {
@@ -886,6 +891,7 @@
         padding: 2rem;
         box-shadow: 0 30px 45px rgba(0, 0, 0, 0.5);
         text-align: center;
+        box-sizing: border-box;
     }
 
     .modal-window i {
@@ -920,35 +926,27 @@
         cursor: pointer;
         width: 100%;
         font-family: inherit;
+        transition: all 0.2s ease;
     }
 
     .modal-btn:hover {
         background: linear-gradient(95deg, #FFC15E, #FFAA3E);
+        transform: scale(0.98);
     }
 
-    /* Адаптив — на маленьких экранах переносим, чтобы не ломалось */
-    @media (max-width: 900px) {
+    /* Адаптив — уменьшаем отступы и шрифты, но сохраняем строку */
+    @media (max-width: 1100px) {
+        .genoffon-footer {
+            padding: 0.8rem 1.5rem;
+        }
         .genoffon-inner {
-            flex-wrap: wrap;
+            gap: 1rem;
         }
         .genoffon-offer {
-            flex-wrap: wrap;
-            width: 100%;
-        }
-        .genoffon-text {
-            white-space: normal;
-        }
-    }
-
-    @media (max-width: 700px) {
-        .genoffon-footer {
-            padding: 0.8rem 1.2rem;
+            gap: 1rem;
         }
         .genoffon-brand span {
             font-size: 1.4rem;
-        }
-        .genoffon-divider {
-            height: 32px;
         }
         .genoffon-text {
             font-size: 0.9rem;
@@ -956,6 +954,57 @@
         .genoffon-btn {
             padding: 0.5rem 1.2rem;
             font-size: 0.85rem;
+        }
+        .genoffon-divider {
+            height: 36px;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .genoffon-footer {
+            padding: 0.7rem 1.2rem;
+        }
+        .genoffon-inner {
+            gap: 0.8rem;
+        }
+        .genoffon-offer {
+            gap: 0.8rem;
+        }
+        .genoffon-brand span {
+            font-size: 1.25rem;
+        }
+        .genoffon-text {
+            font-size: 0.85rem;
+        }
+        .genoffon-text strong,
+        .genoffon-text span {
+            display: inline;
+        }
+        .genoffon-btn {
+            padding: 0.45rem 1rem;
+            font-size: 0.8rem;
+        }
+        .genoffon-divider {
+            height: 30px;
+        }
+    }
+
+    @media (max-width: 750px) {
+        .genoffon-text {
+            font-size: 0.8rem;
+        }
+        .genoffon-brand span {
+            font-size: 1.15rem;
+        }
+    }
+
+    @media (max-width: 680px) {
+        .genoffon-text {
+            font-size: 0.75rem;
+        }
+        .genoffon-btn {
+            padding: 0.4rem 0.9rem;
+            font-size: 0.75rem;
         }
     }
 
