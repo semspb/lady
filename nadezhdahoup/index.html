@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Надежда Наконечная | Доход для мамы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #1a0f2e 0%, #2a1a3e 50%, #1e1236 100%);
+            color: #f5eefc;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* анимированные частицы фона */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(200, 150, 255, 0.3);
+            border-radius: 50%;
+            animation: floatParticle linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-20vh) translateX(30px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* градиентные акценты */
+        .gradient-text {
+            background: linear-gradient(135deg, #d9b8ff 0%, #b77eff 50%, #9b59ff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+
+        .btn-telegram {
+            display: inline-block;
+            background: linear-gradient(95deg, #8b5cf6 0%, #6d28d9 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 16px 38px;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            letter-spacing: 0.5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-telegram:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 35px rgba(139, 92, 246, 0.6);
+            background: linear-gradient(95deg, #9d6eff 0%, #7c3aed 100%);
+        }
+
+        .btn-outline-lilac {
+            display: inline-block;
+            background: transparent;
+            border: 1.5px solid rgba(183, 126, 255, 0.7);
+            color: #d9b8ff;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: 0.25s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-outline-lilac:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: #b77eff;
+            color: #f0e6ff;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        h2 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2rem;
+            }
+            h3 {
+                font-size: 1.4rem;
+            }
+            section {
+                padding: 60px 0;
+            }
+            .container {
+                padding: 0 20px;
+            }
+        }
+
+        /* герой */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-bottom: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge {
+            background: rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(6px);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 28px;
+            border: 0.5px solid rgba(183, 126, 255, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 28px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #e2d4ff;
+            max-width: 620px;
+            margin-bottom: 36px;
+        }
+
+        /* карточки */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+        }
+
+        .card {
+            background: rgba(45, 30, 70, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 32px 28px;
+            border: 1px solid rgba(183, 126, 255, 0.25);
+            transition: all 0.35s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(183, 126, 255, 0.6);
+            background: rgba(55, 38, 85, 0.7);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            color: #c9a6ff;
+        }
+
+        .transform-card {
+            background: linear-gradient(135deg, rgba(90, 60, 130, 0.7), rgba(50, 30, 85, 0.8));
+            border-left: 4px solid #b77eff;
+            padding: 28px 24px;
+            border-radius: 28px;
+        }
+
+        .expert-photo-place {
+            background: linear-gradient(145deg, #2f2348, #1f1736);
+            border-radius: 40px;
+            padding: 10px;
+            display: inline-block;
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .expert-img {
+            width: 100%;
+            border-radius: 32px;
+            display: block;
+            background: #3a2b5a;
+            object-fit: cover;
+            aspect-ratio: 3 / 4;
+        }
+
+        .stat-list {
+            list-style: none;
+            margin-top: 24px;
+        }
+
+        .stat-list li {
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 500;
+        }
+
+        .stat-list i {
+            color: #c9a6ff;
+            font-size: 1.3rem;
+        }
+
+        .telegram-banner {
+            background: linear-gradient(125deg, #5b3c9e, #3a2670);
+            border-radius: 48px;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 215, 255, 0.2);
+        }
+
+        .quote {
+            font-style: italic;
+            border-left: 4px solid #b77eff;
+            padding-left: 28px;
+            margin: 28px 0;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #bba9e6;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            animation: fadeUp 0.7s ease forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-particles" id="particles"></div>
+
+<!-- БЛОК 1: ГЕРОЙ ДЛЯ МАМ -->
+<section class="hero">
+    <div class="container hero-content">
+        <div class="badge">✨ для мам, которые хотят большего</div>
+        <h1>Как маме в декрете найти доход, <span class="gradient-text">не выходя из дома</span> и не жертвуя семьёй?</h1>
+        <p>Меня зовут Надежда. Я — мама, блогер и партнёр компании Siberian Wellness. Здесь я честно рассказываю, как начать зарабатывать из телефона, не бояться осуждения и выстроить систему, которая работает даже с маленьким ребёнком на руках.</p>
+        <button class="btn-telegram" id="heroTelegramBtn">🔥 Хочу узнать, как начать →</button>
+    </div>
+</section>
+
+<!-- БЛОК 2: О СЕБЕ (ЭКСПЕРТ) -->
+<section>
+    <div class="container">
+        <div class="grid-2" style="align-items: center;">
+            <div>
+                <div class="badge">честный путь</div>
+                <h2>Я была там же, где и ты.</h2>
+                <p>Я тоже сидела в декрете с маленьким сыном. Любила его бесконечно, но внутри росло напряжение: «Когда я вернусь к себе? Когда перестану чувствовать вину за то, что хочу большего?»</p>
+                <p>Я боялась: «Что обо мне подумают?», «А вдруг не получится?», «Кто я вообще такая, чтобы зарабатывать?» Но однажды я поняла: моя жизнь — это только моя ответственность. Я закрыла доступ тем, чьи взгляды мешали мне дышать. И пошла своей дорогой.</p>
+                <ul class="stat-list">
+                    <li><i class="fas fa-child"></i> Мама активного пятилетнего Никиты</li>
+                    <li><i class="fas fa-chart-line"></i> Партнёр компании Siberian Wellness</li>
+                    <li><i class="fas fa-users"></i> Наставник для мам, которые хотят свой доход</li>
+                </ul>
+                <p style="margin-top: 16px;">Я не даю волшебных таблеток. Я даю систему, поддержку и веру в то, что у тебя получится — прямо сейчас, даже если ты в декрете.</p>
+            </div>
+            <div style="text-align: center;">
+                <div class="expert-photo-place">
+                    <img src="https://placehold.co/500x600/3a2b5a/d9b8ff?text=Надежда+Наконечная" alt="Надежда Наконечная" class="expert-img">
+                </div>
+                <p style="margin-top: 20px;">✨ Надежда — ваш проводник в мир спокойного дохода</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- БЛОК 3: ПОМОГАЮ МАМАМ (3 столпа) -->
+<section>
+    <div class="container">
+        <h2 style="text-align: center;">Помогаю начать <span class="gradient-text">и не бросить</span></h2>
+        <div class="grid-3" style="margin-top: 48px;">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-brain"></i></div>
+                <h3>Убираю страх «что подумают»</h3>
+                <p>Расскажу, как перестать оглядываться на мнение родственников и знакомых. Ты сама выбираешь, кому и когда рассказывать о своём деле.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-sitemap"></i></div>
+                <h3>Даю готовую систему</h3>
+                <p>Пошаговый алгоритм: от регистрации до первых клиентов. Всё в телефоне. Можно делать урывками, пока ребёнок спит.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>Показываю простые инструменты</h3>
+                <p>Как делать кружочки с субтитрами, генерировать красивые фото за минуту, пользоваться приложениями — и не тратить на это нервы.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- БЛОК 4: ПОЧЕМУ ЭТО МАМЕ -->
+<section>
+    <div class="container">
+        <div class="grid-2" style="align-items: center;">
+            <div>
+                <span class="badge">свобода и семья</span>
+                <h2>Доход, который <span class="gradient-text">не отнимает</span> тебя у семьи</h2>
+                <p>Многие думают: работа из дома = сидеть сутками за компьютером. А я говорю: нет. Всё, что нужно, — твой телефон. И немного времени, которое ты сама готова выделить.</p>
+                <ul class="stat-list">
+                    <li><i class="fas fa-calendar-alt"></i> Ты сама выбираешь, сколько работать</li>
+                    <li><i class="fas fa-home"></i> Ты не уходишь от ребёнка в офис</li>
+                    <li><i class="fas fa-coins"></i> Ты не просишь денег у мужа на свои «хотелки»</li>
+                    <li><i class="fas fa-heart"></i> Ты остаёшься мамой, но при этом — ещё и собой</li>
+                </ul>
+                <p>Я сама проверила: мой сын Никита видит, что мама может быть и любящей, и занятой своим делом. Мы вместе участвовали в посадке деревьев от компании — это был наш семейный выходной.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fas fa-smile-wink" style="font-size: 3rem; color:#c9a6ff; margin-bottom: 20px;"></i>
+                <h3>Мама в ресурсе — счастливая семья</h3>
+                <p>Я планирую поехать в Питер на юбилей компании — и хочу взять семью с собой. Когда у тебя есть свой доход, появляется больше возможностей для радости.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- БЛОК 5: ДЛЯ КОГО ЭТО -->
+<section>
+    <div class="container">
+        <h2 style="text-align: center;">Этот блог и моя поддержка — <span class="gradient-text">для тебя</span></h2>
+        <div class="grid-3" style="margin-top: 40px;">
+            <div class="card"><i class="fas fa-baby-carriage" style="font-size: 2rem; margin-bottom: 16px; display: inline-block; color:#c9a6ff;"></i><h3>Ты в декрете</h3><p>Хочешь свой доход, но не знаешь, с чего начать.</p></div>
+            <div class="card"><i class="fas fa-hand-holding-usd" style="font-size: 2rem; margin-bottom: 16px; display: inline-block; color:#c9a6ff;"></i><h3>Устала просить</h3><p>Надоело просить деньги на себя и чувствовать зависимость.</p></div>
+            <div class="card"><i class="fas fa-frown" style="font-size: 2rem; margin-bottom: 16px; display: inline-block; color:#c9a6ff;"></i><h3>Пробовала и бросала</h3><p>Был опыт, но не хватило поддержки или системы.</p></div>
+            <div class="card"><i class="fas fa-comments" style="font-size: 2rem; margin-bottom: 16px; display: inline-block; color:#c9a6ff;"></i><h3>Ищешь сообщество</h3><p>Хочешь быть в месте, где не стыдно спросить «а как?».</p></div>
+            <div class="card"><i class="fas fa-chalkboard-teacher" style="font-size: 2rem; margin-bottom: 16px; display: inline-block; color:#c9a6ff;"></i><h3>Готова учиться</h3><p>Понимаешь, что нужен наставник, который проведёт за руку.</p></div>
+            <div class="card"><i class="fas fa-moon" style="font-size: 2rem; margin-bottom: 16px; display: inline-block; color:#c9a6ff;"></i><h3>Мечтаешь о гибкости</h3><p>Хочешь работать в своём ритме, без привязки к офису.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- БЛОК 6: РЕЗУЛЬТАТЫ + ТРАНСФОРМАЦИЯ -->
+<section>
+    <div class="container">
+        <h2 style="text-align: center;">У меня получилось. <span class="gradient-text">Получится и у тебя</span></h2>
+        <div class="grid-2" style="margin-top: 48px;">
+            <div class="transform-card"><i class="fas fa-chart-simple" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Стабильный доход и команда</h3><p>Я начала с нуля. Сейчас у меня есть стабильный доход и своя команда. Мои клиенты приходят ко мне сами. Без спама. Без «продающих скриптов».</p></div>
+            <div class="transform-card"><i class="fas fa-users" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Простой инструмент = 147 человек</h3><p>Один простой инструмент помог моей команде привлечь 147 человек за несколько дней. Система работает даже на фоне декрета.</p></div>
+            <div class="transform-card"><i class="fas fa-calendar-week" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Регулярность важнее скачков</h3><p>Я убедилась: маленькие шаги каждый день дают большие изменения. В январе 2026 — снова новые клиенты.</p></div>
+            <div class="transform-card"><i class="fas fa-heart" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Свобода быть мамой и собой</h3><p>Я перестала чувствовать вину. Теперь я могу и быть с сыном, и зарабатывать, и строить планы на будущее.</p></div>
+        </div>
+        <div class="quote" style="margin-top: 40px;">
+            <p>«Не ждите аплодисментов от тех, кто привык видеть вас "удобной". Не нужно никому ничего доказывать. Только себе. Той девчонке в зеркале, которая хочет для своей семьи чего-то большего».</p>
+        </div>
+    </div>
+</section>
+
+<!-- БЛОК 7: ПРИЗЫВ + TELEGRAM -->
+<section style="border-bottom: none;">
+    <div class="container">
+        <div class="telegram-banner">
+            <i class="fab fa-telegram" style="font-size: 3rem; margin-bottom: 20px; color: #d9b8ff;"></i>
+            <h2>Хочешь попробовать?<br>Я помогу <span class="gradient-text">без давления</span></h2>
+            <p style="max-width: 700px; margin: 20px auto; font-size: 1.1rem;">Я не буду звонить 10 раз в день. Не буду учить «жёстким продажам». Я просто покажу, как это работает у меня. А дальше — решать тебе.</p>
+            <p style="margin-bottom: 30px;"><strong>Сейчас есть комфортные условия для старта:</strong> минимальные вложения, кешбэк с первых заказов, поддержка в команде. Всё можно делать в телефоне, урывками между делами.</p>
+            <button class="btn-telegram" id="finalTelegramBtn">💬 Перейти в Telegram →</button>
+            <p style="margin-top: 28px;">@Nadiia_Nak — просто нажми на кнопку, и я встречу тебя в своём канале 🤍</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>© 2026 Надежда Наконечная — для мам, которые выбирают себя и свой доход.<br>Связаться: @Nadiia_Nak</p>
+        <p style="margin-top: 8px;">Сделано с заботой о вашем спокойствии и свободе.</p>
+    </div>
+</footer>
+
+<script>
+    // создаем анимированные частицы
+    function createParticles() {
+        const container = document.getElementById('particles');
+        const particleCount = 55;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 6 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = Math.random() * 20 + 12 + 's';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.opacity = Math.random() * 0.4 + 0.1;
+            container.appendChild(particle);
+        }
+    }
+    createParticles();
+
+    // функция для показа уведомления и перехода в Telegram
+    function redirectToTelegramWithMessage(event) {
+        event.preventDefault();
+        // всплывающее окно с текстом
+        const isConfirmed = confirm('✨ Рада, что вы решили присоединиться! Это правильный выбор. ✨\n\nНажмите «ОК», и я проведу вас в мой Telegram-канал.');
+        if (isConfirmed) {
+            window.open('https://t.me/nadezhda_nakonechnaya', '_blank');
+        }
+    }
+
+    // добавляем обработчики на все кнопки с классом btn-telegram, а также на конкретные id
+    const heroBtn = document.getElementById('heroTelegramBtn');
+    if (heroBtn) heroBtn.addEventListener('click', redirectToTelegramWithMessage);
+    
+    const finalBtn = document.getElementById('finalTelegramBtn');
+    if (finalBtn) finalBtn.addEventListener('click', redirectToTelegramWithMessage);
+    
+    // также находим любые кнопки с классом btn-telegram, которые могли быть динамически (на всякий случай)
+    const allTelegramBtns = document.querySelectorAll('.btn-telegram');
+    allTelegramBtns.forEach(btn => {
+        btn.removeEventListener('click', redirectToTelegramWithMessage);
+        btn.addEventListener('click', redirectToTelegramWithMessage);
+    });
+
+    // плавная анимация появления при скролле (небольшая)
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-on-scroll');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.card, .transform-card, .telegram-banner, .grid-2 > div, .expert-photo-place').forEach(el => {
+        el.style.opacity = '0';
+        observer.observe(el);
+    });
+    // дополнительно добавим стили для анимации
+    const styleAnim = document.createElement('style');
+    styleAnim.textContent = `
+        .card, .transform-card, .telegram-banner, .grid-2 > div, .expert-photo-place {
+            opacity: 0;
+        }
+        .animate-on-scroll {
+            opacity: 1 !important;
+            animation: fadeUp 0.6s ease forwards;
+        }
+    `;
+    document.head.appendChild(styleAnim);
+</script>
+</body>
+</html>
