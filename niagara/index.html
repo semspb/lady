@@ -10,30 +10,106 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f6fbf8;
-            color: #1a2a1f;
             line-height: 1.4;
             scroll-behavior: smooth;
+        }
+
+        /* светлая тема (перламутр + оранж) */
+        body.light {
+            --bg-body: #fef7f0;
+            --bg-surface: #ffffff;
+            --bg-card: #ffffff;
+            --bg-highlight: #fff2e6;
+            --text-primary: #2e241f;
+            --text-secondary: #5e4b3a;
+            --accent: #ff8c42;
+            --accent-dark: #e07c32;
+            --border: #ffe0c4;
+            --badge-bg: #ff8c42;
+            --badge-text: #2e241f;
+            --shadow: rgba(0,0,0,0.05);
+            --card-hover: #fff0e2;
+            --faq-border: #ffddc0;
+            --not-bg: #fffaf5;
+            --footer-bg: #2e241f;
+            --footer-text: #ffecd9;
+        }
+
+        /* тёмная тема (глубокий фиолет + оранж) */
+        body.dark {
+            --bg-body: #1e1029;
+            --bg-surface: #2a1a38;
+            --bg-card: #2f1e3e;
+            --bg-highlight: #341f44;
+            --text-primary: #f3eaff;
+            --text-secondary: #cfbef0;
+            --accent: #ff9f4a;
+            --accent-dark: #e88930;
+            --border: #5a3c7c;
+            --badge-bg: #ff9f4a;
+            --badge-text: #1e1029;
+            --shadow: rgba(0,0,0,0.3);
+            --card-hover: #412d55;
+            --faq-border: #5a3c7c;
+            --not-bg: #2a1a38;
+            --footer-bg: #0f0920;
+            --footer-text: #cfbef0;
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        /* переключатель тем */
+        .theme-switch-wrapper {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: var(--bg-surface);
+            padding: 8px 16px;
+            border-radius: 60px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .theme-switch-wrapper:hover {
+            transform: scale(1.02);
+        }
+        .theme-switch-wrapper span {
+            color: var(--accent);
         }
 
         @keyframes fadeUp {
             0% { opacity: 0; transform: translateY(30px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         .animate-up {
             animation: fadeUp 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
         }
-
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.35s; }
@@ -44,22 +120,6 @@
         .delay-8 { animation-delay: 1.1s; }
         .delay-9 { animation-delay: 1.25s; }
 
-        section {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .hero {
-            padding-top: 3rem;
-            padding-bottom: 3rem;
-        }
-
         .hero-grid {
             display: flex;
             flex-wrap: wrap;
@@ -67,243 +127,172 @@
             align-items: center;
             justify-content: space-between;
         }
-
         .hero-content {
             flex: 1.2;
             min-width: 280px;
         }
-
         .hero-gallery {
             flex: 1;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
         }
-
         .gallery-item {
             border-radius: 2rem;
             overflow: hidden;
-            background: #d9ebe2;
-            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.1);
+            background: var(--bg-surface);
+            box-shadow: 0 20px 30px -12px var(--shadow);
             transition: all 0.3s ease;
             aspect-ratio: 1 / 1;
         }
-
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.5s ease;
         }
-
-        .gallery-item:hover img {
-            transform: scale(1.03);
-        }
-
         h1 {
             font-size: 3.2rem;
             font-weight: 800;
             line-height: 1.2;
             letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #1e3a2f, #2c9e6b);
+            background: linear-gradient(135deg, var(--accent), #c154c1);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
             margin-bottom: 1.5rem;
         }
-
         .badge {
             display: inline-block;
-            background: #1e3a2f;
-            color: #e6f7ef;
+            background: var(--badge-bg);
+            color: var(--badge-text);
             padding: 0.3rem 1rem;
             border-radius: 40px;
             font-size: 0.8rem;
             font-weight: 500;
             margin-bottom: 1.2rem;
         }
-
         .lead {
             font-size: 1.2rem;
             line-height: 1.4;
-            color: #2c4a3a;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
             font-weight: 400;
-            border-left: 3px solid #2c9e6b;
+            border-left: 3px solid var(--accent);
             padding-left: 1.2rem;
         }
-
         .btn-group {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
             margin-top: 1rem;
         }
-
         .btn {
             display: inline-block;
-            background: #1e3a2f;
-            color: white;
+            background: var(--bg-surface);
+            color: var(--text-primary);
             padding: 0.9rem 2rem;
             border-radius: 60px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.25s;
-            border: none;
+            border: 1px solid var(--border);
             cursor: pointer;
-            font-size: 1rem;
         }
-
         .btn-primary {
-            background: #2c9e6b;
-            box-shadow: 0 4px 12px rgba(44, 158, 107, 0.3);
+            background: var(--accent);
+            color: #1e1029;
+            border: none;
+            box-shadow: 0 4px 12px rgba(255, 140, 66, 0.3);
         }
-
         .btn-primary:hover {
-            background: #238357;
+            background: var(--accent-dark);
             transform: scale(1.02);
-            box-shadow: 0 8px 20px rgba(44, 158, 107, 0.4);
         }
-
         .btn-outline {
             background: transparent;
-            border: 1.5px solid #1e3a2f;
-            color: #1e3a2f;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
         }
-
         .btn-outline:hover {
-            background: #1e3a2f;
-            color: white;
+            background: var(--accent);
+            color: var(--badge-text);
         }
-
         .facts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin: 3rem 0;
         }
-
         .fact-card {
-            background: white;
+            background: var(--bg-card);
             border-radius: 2rem;
             padding: 1.8rem;
             transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-            border: 1px solid #cae3d8;
+            box-shadow: 0 5px 15px var(--shadow);
+            border: 1px solid var(--border);
         }
-
         .fact-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 30px -15px rgba(44, 158, 107, 0.2);
-            border-color: #9ed0bb;
+            background: var(--card-hover);
         }
-
         .fact-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
-
         .fact-card h3 {
             font-size: 1.6rem;
             font-weight: 700;
             margin-bottom: 0.75rem;
-            color: #1e3a2f;
+            color: var(--accent);
         }
-
         .highlight {
-            background: #e4f5ed;
+            background: var(--bg-highlight);
             border-radius: 2rem;
             padding: 2rem;
             margin: 2rem 0;
-            border: 1px solid #b9dfce;
+            border: 1px solid var(--border);
         }
-
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
-
         .testimonial-card {
-            background: white;
+            background: var(--bg-card);
             border-radius: 1.5rem;
             padding: 1.5rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            border-left: 4px solid #2c9e6b;
-            transition: 0.2s;
+            box-shadow: 0 8px 20px var(--shadow);
+            border-left: 4px solid var(--accent);
         }
-
-        .testimonial-card p {
-            font-style: normal;
-            line-height: 1.5;
-        }
-
         .testimonial-author {
             margin-top: 1rem;
             font-weight: 600;
-            color: #2c9e6b;
+            color: var(--accent);
         }
-
         .faq-item {
-            border-bottom: 1px solid #cde2d9;
+            border-bottom: 1px solid var(--faq-border);
             padding: 1.2rem 0;
         }
-
         .faq-question {
             font-weight: 700;
             font-size: 1.2rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
-            color: #1e3a2f;
+            color: var(--accent);
         }
-
         .faq-answer {
-            color: #2f4d3e;
+            color: var(--text-secondary);
             margin-top: 0.7rem;
             padding-right: 1rem;
             display: none;
             line-height: 1.5;
         }
-
         .faq-item.active .faq-answer {
             display: block;
         }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: #1e3a2f;
-            color: #cfe9df;
-            margin-top: 2rem;
-        }
-
-        .floating-cta {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #2c9e6b;
-            color: white;
-            border-radius: 60px;
-            padding: 12px 24px;
-            font-weight: 600;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            z-index: 99;
-            text-decoration: none;
-            transition: 0.2s;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        .floating-cta:hover {
-            background: #1f7850;
-            transform: scale(1.02);
-        }
-
-        /* стили для новых блоков "ЧЕГО НЕ БУДЕТ" карточками */
         .not-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -311,34 +300,26 @@
             margin-top: 1.5rem;
         }
         .not-card {
-            background: rgba(255,255,240,0.6);
-            backdrop-filter: blur(2px);
+            background: var(--not-bg);
             border-radius: 2rem;
             padding: 1.2rem 1.5rem;
-            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 12px;
-            border: 1px solid #cbe5db;
-            transition: 0.2s;
-        }
-        .not-card:hover {
-            background: #ffffffcc;
-            border-color: #2c9e6b;
-            transform: translateX(4px);
+            border: 1px solid var(--border);
         }
         .not-emoji {
             font-size: 2rem;
         }
 
-        /* модальное окно для подписки */
+        /* модальные окна */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -346,386 +327,350 @@
             z-index: 1000;
             visibility: hidden;
             opacity: 0;
-            transition: all 0.2s;
+            transition: 0.2s;
         }
         .modal-overlay.active {
             visibility: visible;
             opacity: 1;
         }
         .modal-window {
-            background: #fffcf7;
+            background: var(--bg-card);
             border-radius: 2rem;
             max-width: 460px;
             width: 90%;
             padding: 2rem;
             text-align: center;
-            box-shadow: 0 25px 40px rgba(0,0,0,0.2);
-            border-top: 5px solid #2c9e6b;
-        }
-        .modal-window h3 {
-            font-size: 1.8rem;
-            margin: 0.5rem 0;
-            color: #1e3a2f;
-        }
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1.5rem;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+            border-top: 5px solid var(--accent);
+            color: var(--text-primary);
         }
         .modal-btn {
-            background: #2c9e6b;
+            background: var(--accent);
             border: none;
             padding: 0.8rem 1.5rem;
             border-radius: 60px;
             font-weight: 600;
-            color: white;
+            color: #1e1029;
             cursor: pointer;
         }
         .modal-btn-outline {
             background: transparent;
-            border: 1px solid #2c9e6b;
-            color: #2c9e6b;
+            border: 1px solid var(--accent);
+            color: var(--accent);
         }
 
-        /* GenOffOn стили */
+        /* GenOffOn footer — исправленный, красивый */
         .genoffon-footer {
-            background: #0f2b21;
-            color: #e0f0e8;
-            padding: 1.2rem 2rem;
-            border-top: 1px solid #2e9b6e;
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 2rem 1.5rem;
+            border-top: 1px solid var(--accent);
+            text-align: center;
         }
         .genoffon-inner {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
             gap: 1rem;
         }
         .genoffon-brand {
-            font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.8rem;
+            font-weight: 800;
             letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--accent), #c154c1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
-        .genoffon-offer {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
+        .genoffon-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
         }
         .genoffon-btn {
-            background: #e6b422;
+            background: var(--accent);
             border: none;
-            padding: 0.4rem 1.2rem;
-            border-radius: 40px;
+            padding: 0.6rem 1.8rem;
+            border-radius: 60px;
             font-weight: 600;
             cursor: pointer;
+            color: #1e1029;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            transition: 0.2s;
+        }
+        .genoffon-btn:hover {
+            background: var(--accent-dark);
+            transform: scale(1.02);
+        }
+
+        .floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: #1e1029;
+            border-radius: 60px;
+            padding: 12px 24px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            z-index: 99;
+            cursor: pointer;
+            border: none;
         }
 
         @media (max-width: 800px) {
             section { padding: 3rem 1.5rem; }
             h1 { font-size: 2.4rem; }
             .hero-grid { flex-direction: column; }
-            .hero-gallery { width: 100%; }
+            .theme-switch-wrapper { top: 10px; right: 10px; font-size: 0.7rem; padding: 6px 12px; }
         }
     </style>
 </head>
-<body>
+<body class="light">
+    <!-- плавающая кнопка подписки -->
+    <button class="floating-cta" id="floatingSubscribeBtn">📱 Подписаться</button>
 
-<!-- плавающая кнопка, ведущая на попап -->
-<button class="floating-cta" id="floatingSubscribeBtn">📱 Подписаться в Telegram</button>
-
-<!-- модалка для подписки -->
-<div class="modal-overlay" id="subscribeModal">
-    <div class="modal-window">
-        <div style="font-size: 3rem;">💎✨</div>
-        <h3>Молодцом!</h3>
-        <p style="font-size: 1.1rem;">Вы приняли правильное решение.</p>
-        <p>Вы можете первым услышать <strong>провальные шутки</strong>, увидеть новые картины и песни до того, как они попадут в ленту.</p>
-        <p>Приходите к нам — у нас весело, тепло и немного сюрреалистично.</p>
-        <div class="modal-buttons">
-            <a href="https://t.me/olhaha2025" target="_blank" class="modal-btn">🚀 Да, хочу в канал!</a>
-            <button class="modal-btn-outline modal-btn" id="closeSubscribeModal">🔮 Подумаю позже</button>
-        </div>
+    <!-- переключатель тем -->
+    <div class="theme-switch-wrapper" id="themeToggle">
+        <span>🎭 ПОИГРАЙ СО МНОЙ.</span>
+        <span id="themeLabel">День 🌞</span>
     </div>
-</div>
 
-<!-- ХЕРО С ГАЛЕРЕЕЙ 4 фото -->
-<section class="hero">
-    <div class="container hero-grid">
-        <div class="hero-content animate-up">
-            <div class="badge">💎 Ниа Гара & Олечка — алмазный состав</div>
-            <h1>«Я комик, актриса, певица, художник и член Союза художников России. <br>Всё это звучит как проблема, но я сделала из неё Telegram-канал.»</h1>
-            <div class="lead">
-                40 песен, 60 фильмов, 50 выступлений и ни одного вовремя выложенного поста.<br>
-                Подпишись — будет смешно, странно и местами сюрреалистично.
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-primary subscribe-trigger">🎭 Подписаться →</button>
-                <a href="#about" class="btn btn-outline">📖 Почему я?</a>
-            </div>
-        </div>
-        <div class="hero-gallery animate-up delay-1">
-            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_main.jpg" alt="Олечка сцена" loading="lazy" onerror="this.src='https://placehold.co/600x600/d9ebe2/2c9e6b?text=Олечка'"></div>
-            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_people.jpg" alt="Олечка люди" loading="lazy" onerror="this.src='https://placehold.co/600x600/d9ebe2/2c9e6b?text=комик'"></div>
-            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_vrost.jpg" alt="Олечка рост" loading="lazy" onerror="this.src='https://placehold.co/600x600/d9ebe2/2c9e6b?text=актриса'"></div>
-            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_sexy.jpg" alt="Олечка стиль" loading="lazy" onerror="this.src='https://placehold.co/600x600/d9ebe2/2c9e6b?text=певица'"></div>
-        </div>
-    </div>
-</section>
-
-<!-- Блок: этот канал для тебя -->
-<section id="about">
-    <div class="container">
-        <div class="animate-up">
-            <div class="badge">🎯 Изумрудная аудитория</div>
-            <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Этот канал для тебя, если:</h2>
-        </div>
-        <div class="facts-grid">
-            <div class="fact-card animate-up delay-1">
-                <div class="fact-icon">🎨🤪</div>
-                <h3>Творческий хаос</h3>
-                <p>Любишь людей, у которых синдром самозванца соседствует с членским билетом в Союзе художников.</p>
-            </div>
-            <div class="fact-card animate-up delay-2">
-                <div class="fact-icon">📸🚫</div>
-                <h3>Надоели идеальные блоги</h3>
-                <p>Хочешь живого, неотфотошопленного творчества. Где краска, тушь и жизнь размазаны поровну.</p>
-            </div>
-            <div class="fact-card animate-up delay-3">
-                <div class="fact-icon">🎤🎸</div>
-                <h3>Сам пробуешь петь/шутить</h3>
-                <p>Нужно доказательство, что нормально — не успевать, но продолжать. И даже смеяться над провалами.</p>
+    <!-- модалка подписки -->
+    <div class="modal-overlay" id="subscribeModal">
+        <div class="modal-window">
+            <div style="font-size: 3rem;">💎✨</div>
+            <h3>Молодцом!</h3>
+            <p style="font-size: 1.1rem;">Вы приняли правильное решение.</p>
+            <p>Вы можете первым услышать <strong>провальные шутки</strong>, увидеть новые картины и песни до того, как они попадут в ленту.</p>
+            <p>Приходите к нам — у нас весело, тепло и немного сюрреалистично.</p>
+            <div class="btn-group" style="justify-content: center; margin-top: 1.5rem;">
+                <a href="https://t.me/olhaha2025" target="_blank" class="btn btn-primary">🚀 Да, хочу в канал!</a>
+                <button class="modal-btn-outline btn" id="closeSubscribeModal">🔮 Подумаю позже</button>
             </div>
         </div>
     </div>
-</section>
 
-<!-- 9 достижений -->
-<section style="background: #eafaf2; border-radius: 48px; margin: 1rem auto; width: calc(100% - 2rem);">
-    <div class="container">
-        <div class="animate-up">
-            <div class="badge">⭐ 5 лет творческого многозадора</div>
-            <h2 style="font-size: 2rem;">Кто это пишет? <br>Я — Олечка (она же Ниа Гара)</h2>
+    <!-- ХЕРО -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content animate-up">
+                <div class="badge">💎 Ниа Гара & Олечка</div>
+                <h1>Комик, актриса, художник, певица. И всё это — один человек. Я ещё не сошла с ума, но уже в шаге от него. Подписывайся.</h1>
+                <div class="lead">
+                    40 песен, 60 фильмов, 50 выступлений и ни одного вовремя выложенного поста.<br>
+                    Подпишись — будет смешно, странно и местами сюрреалистично.
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary subscribe-trigger">🎭 Подписаться →</button>
+                    <a href="#about" class="btn btn-outline">📖 Почему я?</a>
+                </div>
+            </div>
+            <div class="hero-gallery animate-up delay-1">
+                <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_main.jpg" alt="Олечка" loading="lazy" onerror="this.src='https://placehold.co/600x600/ffddcc/ff8c42?text=Олечка'"></div>
+                <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_people.jpg" alt="Олечка люди" loading="lazy" onerror="this.src='https://placehold.co/600x600/ffddcc/ff8c42?text=комик'"></div>
+                <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_vrost.jpg" alt="Олечка рост" loading="lazy" onerror="this.src='https://placehold.co/600x600/ffddcc/ff8c42?text=актриса'"></div>
+                <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_sexy.jpg" alt="Олечка стиль" loading="lazy" onerror="this.src='https://placehold.co/600x600/ffddcc/ff8c42?text=певица'"></div>
+            </div>
         </div>
-        <div class="facts-grid">
-            <div class="fact-card animate-up delay-1"><div class="fact-icon">🎵</div><h3>40+ песен</h3><p>39 про отношения, одна — про кота. У кота всё хорошо.<br><strong>В канале:</strong> новые треки первыми, иногда в акустике под чайник.</p></div>
-            <div class="fact-card animate-up delay-2"><div class="fact-icon">🎭</div><h3>50+ выступлений</h3><p>Москва, Сочи, Индия. В Индии кричат «бис!», даже не понимая слов.<br><strong>Байки:</strong> как я чуть не потеряла штаны на сцене.</p></div>
-            <div class="fact-card animate-up delay-3"><div class="fact-icon">🖼️</div><h3>Член Союза художников РФ</h3><p>Сюрреализм. Если не понял что нарисовано — нормально. Я сама не всегда понимаю.<br><strong>Что получишь:</strong> картины и их создание с матом и объяснениями.</p></div>
-            <div class="fact-card animate-up delay-4"><div class="fact-icon">🎬</div><h3>60+ фильмов</h3><p>Если не видел — не страшно, я в некоторых себя не узнаю.<br><strong>Закулисные истории:</strong> как я чуть не подожгла декорации.</p></div>
-            <div class="fact-card animate-up delay-5"><div class="fact-icon">📺</div><h3>Вела «Времечко»</h3><p>Если застал — соболезную по возрасту. Если нет — знай: умею не материться в эфире (почти).</p></div>
-            <div class="fact-card animate-up delay-6"><div class="fact-icon">🎤</div><h3>Стендап-комик</h3><p>Стендап — моя первая любовь и самый честный жанр. Шучу про творческий кризис, индийских продюсеров и кота.<br><strong>В канале:</strong> живые микрофонные байки, тексты, которые не прошли цензуру, и моменты, когда я чуть не умерла со смеху на сцене.</p></div>
-            <div class="fact-card animate-up delay-7"><div class="fact-icon">🎭</div><h3>Ниа Гара</h3><p>Под этим именем я пишу и исполняю песни. Почему Ниа? А почему бы и нет. Гара — потому что звучит как водопад, а моя жизнь — это поток.<br><strong>В канале:</strong> премьеры треков, черновики, тексты, которые я переписала 15 раз, и объяснение, почему на концертах я всегда теряю микрофон.</p></div>
-            <div class="fact-card animate-up delay-8"><div class="fact-icon">🖼️</div><h3>Сюрреализм вживую</h3><p>Член Союза художников — это не только корочка, но и десятки выставок, включая персональные. Мои картины видели в галереях Москвы и даже за границей.<br><strong>В канале:</strong> анонсы выставок, видео с открытий, и как я объясняю зрителям, что «это не просто пятно, это метафора».</p></div>
-            <!-- Дополнительный 9й блок -->
-            <div class="fact-card animate-up delay-9"><div class="fact-icon">💎</div><h3>Алмазный голос</h3><p>Мой псевдоним Ниа Гара иногда путают с бриллиантами. Однажды на концерте мне бросили на сцену бижутерию. Теперь я требую только настоящие камни.<br><strong>В канале:</strong> редкие записи, где я пою так, что даже скептики плачут (от смеха или умиления — не проверяли).</p></div>
-        </div>
-    </div>
-</section>
+    </section>
 
-<!-- ❌ ЧЕГО НЕ БУДЕТ — 7 дополнительных смешных пунктов карточками -->
-<section>
-    <div class="container">
-        <div class="highlight animate-up">
-            <h2 style="font-size: 1.9rem; margin-bottom: 0.5rem;">❌ ЧЕГО НЕ БУДЕТ (обещаю)</h2>
+    <!-- ЦА -->
+    <section id="about">
+        <div class="container">
+            <div class="animate-up"><div class="badge">🎯 Твоя аудитория</div><h2 style="font-size: 2.2rem;">Этот канал для тебя, если:</h2></div>
+            <div class="facts-grid">
+                <div class="fact-card"><div class="fact-icon">🎨🤪</div><h3>Творческий хаос</h3><p>Любишь людей, у которых синдром самозванца соседствует с членским билетом в Союзе художников.</p></div>
+                <div class="fact-card"><div class="fact-icon">📸🚫</div><h3>Надоели идеальные блоги</h3><p>Хочешь живого, неотфотошопленного творчества. Где краска, тушь и жизнь размазаны поровну.</p></div>
+                <div class="fact-card"><div class="fact-icon">🎤🎸</div><h3>Сам пробуешь петь/шутить</h3><p>Нужно доказательство, что нормально — не успевать, но продолжать.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9 достижений -->
+    <section style="background: var(--bg-highlight); border-radius: 48px; margin: 1rem auto; width: calc(100% - 2rem);">
+        <div class="container">
+            <div class="animate-up"><div class="badge">⭐ 5 лет творческого многозадора</div><h2 style="font-size: 2rem;">Кто это пишет? <br>Я — Олечка (она же Ниа Гара)</h2></div>
+            <div class="facts-grid">
+                <div class="fact-card"><div class="fact-icon">🎵</div><h3>40+ песен</h3><p>39 про отношения, одна — про кота.<br><strong>В канале:</strong> новые треки первыми.</p></div>
+                <div class="fact-card"><div class="fact-icon">🎭</div><h3>50+ выступлений</h3><p>Москва, Сочи, Индия.<br><strong>Байки:</strong> как я чуть не потеряла штаны.</p></div>
+                <div class="fact-card"><div class="fact-icon">🖼️</div><h3>Член Союза художников РФ</h3><p>Сюрреализм. Я сама не всегда понимаю.<br><strong>Что получишь:</strong> картины с матом и объяснениями.</p></div>
+                <div class="fact-card"><div class="fact-icon">🎬</div><h3>60+ фильмов</h3><p>В некоторых себя не узнаю.<br><strong>Закулисные истории:</strong> как я чуть не подожгла декорации.</p></div>
+                <div class="fact-card"><div class="fact-icon">📺</div><h3>Вела «Времечко»</h3><p>Если застал — соболезную по возрасту.<br>Умею не материться в эфире (почти).</p></div>
+                <div class="fact-card"><div class="fact-icon">🎤</div><h3>Стендап-комик</h3><p>Шучу про творческий кризис и кота.<br><strong>В канале:</strong> живые байки.</p></div>
+                <div class="fact-card"><div class="fact-icon">🎭</div><h3>Ниа Гара</h3><p>Почему Ниа? А почему бы и нет.<br><strong>Премьеры треков, черновики.</strong></p></div>
+                <div class="fact-card"><div class="fact-icon">🖼️</div><h3>Сюрреализм вживую</h3><p>Выставки в Москве и за границей.<br><strong>Анонсы, видео с открытий.</strong></p></div>
+                <div class="fact-card"><div class="fact-icon">💎</div><h3>Алмазный голос</h3><p>Меня путают с бриллиантами.<br><strong>Редкие записи, от которых скептики плачут.</strong></p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ЧЕГО НЕ БУДЕТ (7 доп. пунктов) -->
+    <section>
+        <div class="container">
+            <div class="highlight"><h2 style="font-size: 1.9rem;">❌ ЧЕГО НЕ БУДЕТ (обещаю)</h2>
             <div class="not-grid">
                 <div class="not-card"><span class="not-emoji">🧘‍♀️</span> Медитаций «найди себя». Я и так теряю себя каждое утро.</div>
-                <div class="not-card"><span class="not-emoji">📈</span> Курсов «как заработать миллион». Я ещё ни одного не заработала, но весело живу.</div>
-                <div class="not-card"><span class="not-emoji">🍝</span> Рецептов пасты карбонара. Я жру пельмени, и вы достойны честности.</div>
-                <div class="not-card"><span class="not-emoji">💪</span> Утренних зарядок. Моя зарядка — не упасть с кровати по пути к кофе.</div>
-                <div class="not-card"><span class="not-emoji">🧠</span> Психологических разборов. Моя психика — это отдельный жанр стендапа.</div>
-                <div class="not-card"><span class="not-emoji">🏆</span> Историй «как я стала успешной». Я всё ещё в процессе, но уже смешно.</div>
-                <div class="not-card"><span class="not-emoji">📚</span> Списков книг, которые нужно прочесть. Я читаю этикетки на красках и сценарии, где у меня три слова.</div>
+                <div class="not-card"><span class="not-emoji">📈</span> Курсов «как заработать миллион». Я ещё ни одного не заработала.</div>
+                <div class="not-card"><span class="not-emoji">🍝</span> Рецептов пасты карбонара. Я жру пельмени.</div>
+                <div class="not-card"><span class="not-emoji">💪</span> Утренних зарядок. Моя зарядка — не упасть с кровати.</div>
+                <div class="not-card"><span class="not-emoji">🧠</span> Психологических разборов. Моя психика — отдельный жанр.</div>
+                <div class="not-card"><span class="not-emoji">🏆</span> Историй «как я стала успешной». Я всё ещё в процессе.</div>
+                <div class="not-card"><span class="not-emoji">📚</span> Списков книг. Я читаю этикетки на красках.</div>
                 <div class="not-card"><span class="not-emoji">🧘</span> Аффирмаций. Мои аффирмации: «Главное, чтобы кот не нагадил на холст».</div>
-            </div>
+            </div></div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Бонус внутри канала -->
-<section>
-    <div class="container">
-        <div class="highlight animate-up" style="background: #dff0e8; border: 1px solid #2c9e6b;">
-            <h2 style="font-size: 2rem;">🎁 БОНУС УЖЕ ВНУТРИ</h2>
-            <p style="font-size: 1.2rem; margin: 1rem 0;">Никаких файлов, которые нужно высылать. Просто подпишись — и получишь:</p>
-            <p style="font-weight: 800; font-size: 1.3rem;">💎 Хорошее настроение + смех до слёз в каждом посте</p>
-            <p>Это единственный канал, где тебе не будут обещать миллионы, зато гарантируют неожиданные сюрреалистичные истории, песни под чайник и честный юмор без цензуры (почти).</p>
-            <div style="margin-top: 1.5rem;"><button class="btn btn-primary subscribe-trigger" style="background: #2c9e6b;">👉 ЗАБРАТЬ НАСТРОЕНИЕ</button></div>
-        </div>
-    </div>
-</section>
+    <!-- Бонус -->
+    <section><div class="container"><div class="highlight"><h2>🎁 БОНУС УЖЕ ВНУТРИ</h2><p>Просто подпишись — и получишь хорошее настроение + смех до слёз в каждом посте.</p><button class="btn btn-primary subscribe-trigger">👉 ЗАБРАТЬ НАСТРОЕНИЕ</button></div></div></section>
 
-<!-- 9 отзывов (8 старых + 1 новый) -->
-<section>
-    <div class="container">
-        <div class="animate-up">
-            <div class="badge">💬 Говорят те, кто уже подписался</div>
-            <h2 style="font-size: 2rem;">9 отзывов, которые я не покупала (жаль, не додумалась)</h2>
-        </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card animate-up delay-1"><p>«Олечка — единственный человек, который смог рассмешить меня во время кастинга. Я взял её, но она опоздала на съёмочную площадку на 15 минут, потому что рисовала кота. 10/10.»</p><div class="testimonial-author">— Продюсер, имя скрыто по этическим соображениям</div></div>
-            <div class="testimonial-card animate-up delay-2"><p>«Я видел её картины. Я не знаю, что это, но это в Союзе художников. Она мне должна объяснить, но она просто сказала: «Это ты». Я до сих пор в шоке.»</p><div class="testimonial-author">— Коллега-художник, который теперь боится зеркал</div></div>
-            <div class="testimonial-card animate-up delay-3"><p>«Я не понимаю по-русски, но она так смешно падала со сцены, что я чуть не упал сам. Подписался, чтобы смотреть повторы.»</p><div class="testimonial-author">— Случайный зритель из Гоа</div></div>
-            <div class="testimonial-card animate-up delay-4"><p>«Я её кот. Мне не нравится, что она поёт вместо того, чтобы кормить меня. Но канал смотрю — там хоть иногда выкладывают мои фото.»</p><div class="testimonial-author">— Кот Кузя, неофициальный соавтор песен</div></div>
-            <div class="testimonial-card animate-up delay-5"><p>«Думал, очередной блог про “успешный успех”. А тут женщина честно говорит, что не успевает. Я тоже не успеваю. Мы не успеваем вместе. Лучший канал.»</p><div class="testimonial-author">— Марат, менеджер по продажам, подписался после первого поста</div></div>
-            <div class="testimonial-card animate-up delay-6"><p>«Я режиссёр, снимал её в эпизоде. Она пришла в костюме, который сама нарисовала. Сказала: “Это сюрреализм, режиссёр, вы всё равно не поймёте”. Я не понял. Но переснимать не стал.»</p><div class="testimonial-author">— Режиссёр одного из 60 фильмов</div></div>
-            <div class="testimonial-card animate-up delay-7"><p>«Она на моём дне рождения спела песню про кота. Все плакали. Кот тоже. Я теперь фанат навсегда.»</p><div class="testimonial-author">— Подписчица Анна, свидетельница исторического момента</div></div>
-            <div class="testimonial-card animate-up delay-8"><p>«Мне её менеджер сказал: “Позвони, она смешная”. Я позвонил. Она забыла, что назначила встречу. Мы говорили про искусство 40 минут. Я ничего не понял, но подписался.»</p><div class="testimonial-author">— Потенциальный инвестор (пока не вложился, но канал читает)</div></div>
-            <!-- Дополнительный 9-й отзыв -->
-            <div class="testimonial-card animate-up delay-9"><p>«Я подписался из-за названия “Ниа Гара”. Думал, будет водопад. А тут женщина в краске рассказывает, как сожгла сковороду. Лучший контент года.»</p><div class="testimonial-author">— Денис, теперь постоянный зритель стендапов</div></div>
-        </div>
-    </div>
-</section>
+    <!-- 9 отзывов -->
+    <section><div class="container"><div class="animate-up"><div class="badge">💬 Говорят те, кто уже подписался</div><h2>9 отзывов, которые я не покупала</h2></div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card"><p>«Олечка — единственный человек, который смог рассмешить меня во время кастинга. Я взял её, но она опоздала на 15 минут, потому что рисовала кота. 10/10.»</p><div class="testimonial-author">— Продюсер</div></div>
+        <div class="testimonial-card"><p>«Я видел её картины. Я не знаю, что это, но это в Союзе художников.»</p><div class="testimonial-author">— Коллега-художник</div></div>
+        <div class="testimonial-card"><p>«Я не понимаю по-русски, но она так смешно падала со сцены, что я чуть не упал сам.»</p><div class="testimonial-author">— Зритель из Гоа</div></div>
+        <div class="testimonial-card"><p>«Я её кот. Мне не нравится, что она поёт вместо того, чтобы кормить меня. Но канал смотрю.»</p><div class="testimonial-author">— Кот Кузя</div></div>
+        <div class="testimonial-card"><p>«Думал, очередной блог про “успешный успех”. А тут женщина честно говорит, что не успевает. Мы не успеваем вместе.»</p><div class="testimonial-author">— Марат, менеджер</div></div>
+        <div class="testimonial-card"><p>«Она пришла в костюме, который сама нарисовала. Сказала: “Это сюрреализм, вы всё равно не поймёте”. Я не понял. Но переснимать не стал.»</p><div class="testimonial-author">— Режиссёр</div></div>
+        <div class="testimonial-card"><p>«Она на моём дне рождения спела песню про кота. Все плакали. Кот тоже.»</p><div class="testimonial-author">— Анна</div></div>
+        <div class="testimonial-card"><p>«Мне её менеджер сказал: “Позвони, она смешная”. Я позвонил. Она забыла о встрече. Мы говорили про искусство 40 минут. Я ничего не понял, но подписался.»</p><div class="testimonial-author">— Потенциальный инвестор</div></div>
+        <div class="testimonial-card"><p>«Я подписался из-за названия “Ниа Гара”. Думал, будет водопад. А тут женщина в краске рассказывает, как сожгла сковороду. Лучший контент.»</p><div class="testimonial-author">— Денис</div></div>
+    </div></div></section>
 
-<!-- СТЕНДАП FAQ: 7 вопросов -->
-<section>
-    <div class="container">
-        <div class="animate-up">
-            <div class="badge">😂 Давай честно</div>
-            <h2 style="font-size: 2rem;">7 вопросов, которые мне задают чаще всего</h2>
-        </div>
-        <div class="faq-list" id="faqContainer">
-            <div class="faq-item animate-up delay-1"><div class="faq-question">— Ты реально член Союза художников? <span>👇</span></div><div class="faq-answer">Да, я даже показывала им свои картины. Они спросили: «Это вы нарисовали?» Я сказала: «Нет, это нарисовалось само». Меня приняли. С тех пор я хожу на собрания и с умным видом киваю. Один раз меня попросили выступить с докладом. Я прочитала текст песни про кота. Сказали, что это было очень концептуально.</div></div>
-            <div class="faq-item animate-up delay-2"><div class="faq-question">— Сколько у тебя песен? <span>👇</span></div><div class="faq-answer">Более 40. 39 — про неудачную любовь, одна — про кота. Кот, кстати, до сих пор со мной, а любовь — нет. Выводы делайте сами. Сейчас работаю над циклом «Бывшие и их коты». Возможно, это будет мой первый концептуальный альбом. Или второй, если считать альбом песен про чай.</div></div>
-            <div class="faq-item animate-up delay-3"><div class="faq-question">— Почему Ниа Гара? <span>👇</span></div><div class="faq-answer">Потому что Ниагара — это водопад, а я — поток сознания. Но продюсер сказал, что Ниагара звучит как название кафе, и предложил Гара. Я подумала: «Ну, пусть будет как водопад, но короче». Теперь все думают, что я армянка. Я не против, армянская кухня — моя любовь. Однажды меня даже пригласили выступать на свадьбу в Ереван, но я не поехала — боялась, что перепутают с водопадом.</div></div>
-            <div class="faq-item animate-up delay-4"><div class="faq-question">— Как ты всё успеваешь? <span>👇</span></div><div class="faq-answer">Не успеваю. Я вообще ничего не успеваю. Но я научилась делать вид, что так и задумано. Это называется «сюрреализм в жизни». Когда меня спрашивают: «Почему ты не выложила пост неделю?», я отвечаю: «Это арт-объект. Его отсутствие — часть концепции». Иногда люди верят. Особенно из Союза художников.</div></div>
-            <div class="faq-item animate-up delay-5"><div class="faq-question">— Ты правда снималась в 60 фильмах? <span>👇</span></div><div class="faq-answer">Да, и в 58 из них меня можно увидеть в кадре примерно 3 секунды. Обычно я играю официантку, которая приносит счёт, и главный герой говорит: «Сдачи не надо». Я обижаюсь, но в титрах меня указывают. Однажды я даже сказала фразу: «Ваш кофе, господин». Это был мой звёздный час. Потом я требовала прибавки, но мне сказали, что за одну фразу не доплачивают. Так я и стала комиком.</div></div>
-            <div class="faq-item animate-up delay-6"><div class="faq-question">— Зачем тебе канал? <span>👇</span></div><div class="faq-answer">Чтобы было где выкладывать свои провалы. Я могла бы их скрывать, но вдруг это искусство? А искусство должно быть доступно народу. Плюс это отличный способ не звонить маме каждый день. Она теперь читает канал и знает, что я жива, здорова и опять разлила краску на ковёр.</div></div>
-            <div class="faq-item animate-up delay-7"><div class="faq-question">— Ты боишься хейта? <span>👇</span></div><div class="faq-answer">Нет, я боюсь, что меня никто не заметит. А хейт — это хотя бы реакция. Главное, чтобы меня не перепутали с другой Олечкой. Та, кажется, шьёт одежду для собак. У нас разные аудитории. Хотя если кто-то из её клиентов придёт ко мне за жилеткой для таксы, я не обижусь. Просто нарисую на таксе сюрреалистичный портрет. И отправлю в канал. Вот это будет хейт.</div></div>
-        </div>
-    </div>
-</section>
+    <!-- FAQ 7 -->
+    <section><div class="container"><div class="animate-up"><div class="badge">😂 Давай честно</div><h2>7 вопросов, которые мне задают чаще всего</h2></div>
+    <div class="faq-list">
+        <div class="faq-item"><div class="faq-question">— Ты реально член Союза художников? <span>👇</span></div><div class="faq-answer">Да, я даже показывала им свои картины. Они спросили: «Это вы нарисовали?» Я сказала: «Нет, это нарисовалось само». Меня приняли. С тех пор я хожу на собрания и с умным видом киваю.</div></div>
+        <div class="faq-item"><div class="faq-question">— Сколько у тебя песен? <span>👇</span></div><div class="faq-answer">Более 40. 39 — про неудачную любовь, одна — про кота. Кот до сих пор со мной, а любовь — нет. Выводы делайте сами.</div></div>
+        <div class="faq-item"><div class="faq-question">— Почему Ниа Гара? <span>👇</span></div><div class="faq-answer">Потому что Ниагара — это водопад, а я — поток сознания. Но продюсер сказал, что Ниагара звучит как название кафе, и предложил Гара. Теперь все думают, что я армянка.</div></div>
+        <div class="faq-item"><div class="faq-question">— Как ты всё успеваешь? <span>👇</span></div><div class="faq-answer">Не успеваю. Я вообще ничего не успеваю. Но я научилась делать вид, что так и задумано. Это называется «сюрреализм в жизни».</div></div>
+        <div class="faq-item"><div class="faq-question">— Ты правда снималась в 60 фильмах? <span>👇</span></div><div class="faq-answer">Да, и в 58 из них меня можно увидеть в кадре примерно 3 секунды. Обычно я играю официантку, которая приносит счёт.</div></div>
+        <div class="faq-item"><div class="faq-question">— Зачем тебе канал? <span>👇</span></div><div class="faq-answer">Чтобы было где выкладывать свои провалы. Плюс это отличный способ не звонить маме каждый день. Она теперь читает канал и знает, что я жива.</div></div>
+        <div class="faq-item"><div class="faq-question">— Ты боишься хейта? <span>👇</span></div><div class="faq-answer">Нет, я боюсь, что меня никто не заметит. А хейт — это хотя бы реакция. Главное, чтобы меня не перепутали с другой Олечкой.</div></div>
+    </div></div></section>
 
-<!-- Финальный призыв -->
-<section style="text-align: center;">
-    <div class="container animate-up">
-        <h2 style="font-size: 2.5rem;">КОРОЧЕ, ДАВАЙ СЮДА</h2>
-        <p style="font-size: 1.2rem; max-width: 700px; margin: 1rem auto;">Жми, подписывайся, забирай хорошее настроение и получай порцию творческого хаоса. Без спама, только сюрреализм и смех.</p>
-        <div class="btn-group" style="justify-content: center; margin-top: 2rem;">
-            <button class="btn btn-primary subscribe-trigger" style="padding: 1rem 2.5rem;">📲 ПОДПИСАТЬСЯ НА КАНАЛ</button>
-        </div>
-        <p style="margin-top: 2rem; font-size: 0.9rem; color: #2c6b4e;">📞 Директор (для предложений): 8 926 920-13-04 — строгий, но тоже шутит.</p>
-    </div>
-</section>
+    <!-- Финальный призыв -->
+    <section style="text-align: center;"><div class="container"><h2>КОРОЧЕ, ДАВАЙ СЮДА</h2><p>Жми, подписывайся, забирай хорошее настроение.</p><button class="btn btn-primary subscribe-trigger" style="padding: 1rem 2.5rem;">📲 ПОДПИСАТЬСЯ</button><p style="margin-top: 2rem;">📞 Директор: 8 926 920-13-04</p></div></section>
 
-<!-- GenOffOn блок -->
-<div class="genoffon-footer">
-    <div class="genoffon-inner">
-        <div class="genoffon-brand">
-            <span>GenOffOn</span>
-        </div>
-        <div class="genoffon-divider"></div>
-        <div class="genoffon-offer">
-            <div class="genoffon-text">
-                Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span>
-            </div>
+    <!-- GenOffOn блок — исправленный, красивый, без лишнего футера -->
+    <div class="genoffon-footer">
+        <div class="genoffon-inner">
+            <div class="genoffon-brand">GenOffOn</div>
+            <div class="genoffon-tagline">Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> · Мы верим в вас</div>
             <button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button>
         </div>
     </div>
-</div>
 
-<footer>
-    <div class="container">
-        <p>© 2026 Евгения Успешная — для мам, которые выбирают себя и свой доход.<br>Связаться: <a href="https://vk.com/smireugen" target="_blank" style="color:#b9dfce;">vk.com/smireugen</a></p>
-        <p style="margin-top: 8px;">Сделано с заботой о вашем спокойствии и свободе.</p>
-    </div>
-</footer>
-
-<!-- МОДАЛЬНОЕ ОКНО GENOFFON -->
-<div class="modal-overlay" id="genoffonModal">
-    <div class="modal-window">
-        <i>✨</i>
-        <h3>Мы верим в ваши проекты</h3>
-        <p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p>
-        <div style="background: rgba(44,158,107,0.1); border-radius: 20px; padding: 14px; margin: 18px 0; font-size: 0.85rem; border-left: 2px solid #2c9e6b; text-align: left; color: #1e3a2f;">
-            📌 <strong>Условия:</strong><br>
-            * Разместим на вашем сайте Вашу же реферальную ссылку на GenOffOn.<br>
-            * Вы получаете стильный сайт + чекап энергии + бонусы в нашем проекте.
+    <!-- модалка GenOffOn -->
+    <div class="modal-overlay" id="genoffonModal">
+        <div class="modal-window">
+            <i>✨</i>
+            <h3>Мы верим в ваши проекты</h3>
+            <p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p>
+            <div style="background: rgba(255,140,66,0.1); border-radius: 20px; padding: 14px; margin: 18px 0;">
+                📌 <strong>Условия:</strong> разместите нашу реферальную ссылку, получите стильный сайт.
+            </div>
+            <button class="modal-btn" id="genoffonRedirectBtn">📩 Перейти в GenOffOn_bot</button>
+            <div id="genoffonCloseBtn" style="margin-top: 20px; cursor: pointer;">✖️ закрыть</div>
         </div>
-        <p style="font-size: 0.85rem; margin-bottom: 20px;">Переходите в Telegram-бота — обсудим детали</p>
-        <button class="modal-btn" id="genoffonRedirectBtn">📩 Перейти в GenOffOn_bot</button>
-        <div id="genoffonCloseBtn" style="margin-top: 20px; font-size: 0.7rem; color: #2c9e6b; cursor: pointer;">✖️ закрыть</div>
     </div>
-</div>
 
-<script>
-    // Модалка для подписки
-    const subscribeModal = document.getElementById('subscribeModal');
-    const subscribeTriggers = document.querySelectorAll('.subscribe-trigger');
-    const floatingBtn = document.getElementById('floatingSubscribeBtn');
-    const closeSubscribe = document.getElementById('closeSubscribeModal');
+    <script>
+        // Переключение тем
+        const themeToggle = document.getElementById('themeToggle');
+        const themeLabel = document.getElementById('themeLabel');
+        const body = document.body;
 
-    function openSubscribeModal(e) {
-        e.preventDefault();
-        subscribeModal.classList.add('active');
-    }
-    function closeSubscribeModal() {
-        subscribeModal.classList.remove('active');
-    }
-
-    subscribeTriggers.forEach(btn => btn.addEventListener('click', openSubscribeModal));
-    if (floatingBtn) floatingBtn.addEventListener('click', openSubscribeModal);
-    if (closeSubscribe) closeSubscribe.addEventListener('click', closeSubscribeModal);
-    subscribeModal.addEventListener('click', (e) => {
-        if (e.target === subscribeModal) closeSubscribeModal();
-    });
-
-    // FAQ аккордеон
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const questionDiv = item.querySelector('.faq-question');
-        questionDiv.addEventListener('click', () => {
-            const isActive = item.classList.contains('active');
-            faqItems.forEach(i => i.classList.remove('active'));
-            if (!isActive) item.classList.add('active');
-        });
-    });
-    if(faqItems.length) faqItems[0].classList.add('active');
-
-    // GenOffOn модалка
-    const genModal = document.getElementById('genoffonModal');
-    const genBtn = document.getElementById('genoffonModalBtn');
-    const genRedirect = document.getElementById('genoffonRedirectBtn');
-    const genClose = document.getElementById('genoffonCloseBtn');
-    const tgBotUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
-
-    function openGenModal() { genModal.classList.add('active'); }
-    function closeGenModal() { genModal.classList.remove('active'); }
-    if (genBtn) genBtn.addEventListener('click', openGenModal);
-    if (genRedirect) genRedirect.addEventListener('click', () => { window.open(tgBotUrl, '_blank'); closeGenModal(); });
-    if (genClose) genClose.addEventListener('click', closeGenModal);
-    genModal.addEventListener('click', (e) => { if (e.target === genModal) closeGenModal(); });
-
-    // анимация при скролле
-    const animElements = document.querySelectorAll('.animate-up, .fact-card, .gallery-item, .testimonial-card, .highlight');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                themeLabel.innerHTML = 'Ночь 🌙';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                themeLabel.innerHTML = 'День 🌞';
+                localStorage.setItem('theme', 'light');
             }
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = body.classList.contains('light') ? 'dark' : 'light';
+            setTheme(newTheme);
         });
-    }, { threshold: 0.1 });
-    animElements.forEach(el => {
-        if (el.style.opacity !== '1') {
+
+        // Модалка подписки
+        const subModal = document.getElementById('subscribeModal');
+        const subTriggers = document.querySelectorAll('.subscribe-trigger');
+        const floatingBtnSub = document.getElementById('floatingSubscribeBtn');
+        const closeSub = document.getElementById('closeSubscribeModal');
+        function openSub(e) { e.preventDefault(); subModal.classList.add('active'); }
+        function closeSubModal() { subModal.classList.remove('active'); }
+        subTriggers.forEach(btn => btn.addEventListener('click', openSub));
+        if(floatingBtnSub) floatingBtnSub.addEventListener('click', openSub);
+        if(closeSub) closeSub.addEventListener('click', closeSubModal);
+        subModal.addEventListener('click', (e) => { if(e.target === subModal) closeSubModal(); });
+
+        // FAQ аккордеон
+        const faqs = document.querySelectorAll('.faq-item');
+        faqs.forEach((item, i) => {
+            const q = item.querySelector('.faq-question');
+            q.addEventListener('click', () => {
+                const active = item.classList.contains('active');
+                faqs.forEach(f => f.classList.remove('active'));
+                if(!active) item.classList.add('active');
+            });
+        });
+        if(faqs.length) faqs[0].classList.add('active');
+
+        // GenOffOn модалка
+        const genModal = document.getElementById('genoffonModal');
+        const genBtn = document.getElementById('genoffonModalBtn');
+        const genRedirect = document.getElementById('genoffonRedirectBtn');
+        const genClose = document.getElementById('genoffonCloseBtn');
+        function openGen() { genModal.classList.add('active'); }
+        function closeGen() { genModal.classList.remove('active'); }
+        if(genBtn) genBtn.addEventListener('click', openGen);
+        if(genRedirect) genRedirect.addEventListener('click', () => { window.open('https://t.me/GenOffOn_bot?start=r_11887113', '_blank'); closeGen(); });
+        if(genClose) genClose.addEventListener('click', closeGen);
+        genModal.addEventListener('click', (e) => { if(e.target === genModal) closeGen(); });
+
+        // скролл-анимация
+        const animElements = document.querySelectorAll('.animate-up, .fact-card, .gallery-item, .testimonial-card, .highlight');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting){
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        animElements.forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
-        }
-    });
-    setTimeout(() => {
-        document.querySelectorAll('.animate-up, .fact-card, .gallery-item').forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if(rect.top < window.innerHeight - 100){
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-            }
         });
-    }, 200);
-</script>
+        setTimeout(() => {
+            document.querySelectorAll('.animate-up, .fact-card, .gallery-item').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if(rect.top < window.innerHeight - 100){
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        }, 200);
+    </script>
 </body>
 </html>
