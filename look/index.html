@@ -244,14 +244,14 @@
 
         .modules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
 
         .module-card {
             background: white;
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 35px 28px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             transition: all 0.4s;
             position: relative;
@@ -281,53 +281,54 @@
         }
 
         .module-number {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 800;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             position: absolute;
-            top: 20px;
-            right: 30px;
+            top: 15px;
+            right: 25px;
         }
 
         .module-icon {
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
-            font-size: 2rem;
+            margin-bottom: 22px;
+            font-size: 1.8rem;
         }
 
         .module-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: var(--dark);
         }
 
         .module-card p {
             color: var(--gray);
             line-height: 1.7;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
         }
 
         .module-features {
             list-style: none;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .module-features li {
-            padding: 8px 0;
-            padding-left: 25px;
+            padding: 6px 0;
+            padding-left: 22px;
             position: relative;
             color: var(--dark);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .module-features li::before {
@@ -346,6 +347,7 @@
             align-items: center;
             gap: 8px;
             transition: gap 0.3s;
+            font-size: 0.95rem;
         }
 
         .module-link:hover {
@@ -590,6 +592,10 @@
                 display: block;
             }
 
+            .modules-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
             .section-header h2 {
                 font-size: 2rem;
             }
@@ -645,6 +651,18 @@
             font-weight: 600;
             margin-top: 20px;
         }
+
+        /* Module Badge */
+        .module-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -682,8 +700,8 @@
             </div>
             <div class="hero-stats">
                 <div class="stat">
-                    <div class="stat-number">4</div>
-                    <div class="stat-label">Модуля обучения</div>
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Модулей обучения</div>
                 </div>
                 <div class="stat">
                     <div class="stat-number">16+</div>
@@ -706,17 +724,34 @@
                 <p>Пошаговая система от понимания психологии клиента до готовых скриптов продаж</p>
             </div>
             <div class="modules-grid">
+                <!-- Module 1 -->
+                <div class="module-card fade-in">
+                    <div class="module-number">01</div>
+                    <div class="module-icon">🎯</div>
+                    <span class="module-badge">Фундамент</span>
+                    <h3>Основы психологии продаж</h3>
+                    <p>Поймите, почему стандартные скрипты не работают и как научиться читать человека с первых минут общения.</p>
+                    <ul class="module-features">
+                        <li>Почему 80% сделок срываются на старте</li>
+                        <li>4 канала восприятия информации</li>
+                        <li>Как определить тип клиента за 5 минут</li>
+                        <li>Ошибки, которые ломают доверие</li>
+                    </ul>
+                    <a href="#contact" class="module-link">Узнать подробнее →</a>
+                </div>
+
                 <!-- Module 2 -->
                 <div class="module-card fade-in">
                     <div class="module-number">02</div>
                     <div class="module-icon">🧠</div>
+                    <span class="module-badge">Психология</span>
                     <h3>Психоматрица Юнга</h3>
-                    <p>Научитесь определять тип мышления клиента за 5 минут и говорить на его языке. Четыре канала восприятия информации, которые откроют вам доступ к любому собеседнику.</p>
+                    <p>Научитесь определять тип мышления клиента и говорить на его языке. Четыре канала восприятия, которые откроют доступ к любому собеседнику.</p>
                     <ul class="module-features">
-                        <li>Как распознать логика, эмоционала, сенсорика и интуита</li>
-                        <li>Ключевые вопросы для определения типа за 5 минут</li>
+                        <li>Логик, эмоционал, сенсорик, интуит</li>
+                        <li>Ключевые вопросы для определения типа</li>
                         <li>Готовые фразы для каждого типа личности</li>
-                        <li>Ошибки, которые ломают 80% сделок</li>
+                        <li>Практика распознавания в диалоге</li>
                     </ul>
                     <a href="#contact" class="module-link">Узнать подробнее →</a>
                 </div>
@@ -725,13 +760,14 @@
                 <div class="module-card fade-in">
                     <div class="module-number">03</div>
                     <div class="module-icon">👤</div>
+                    <span class="module-badge">Наблюдение</span>
                     <h3>Соматотипы Шелдона</h3>
                     <p>Считывайте человека до начала разговора. Внешние маркеры, которые подскажут правильный стиль общения с первых секунд контакта.</p>
                     <ul class="module-features">
-                        <li>Три типа телосложения и их психологические особенности</li>
+                        <li>Три типа телосложения и их особенности</li>
                         <li>Как начать разговор с любым типом клиента</li>
-                        <li>Связка «внешность + психотип» для точного попадания</li>
-                        <li>Практические упражнения для тренировки наблюдательности</li>
+                        <li>Связка «внешность + психотип»</li>
+                        <li>Упражнения для тренировки наблюдательности</li>
                     </ul>
                     <a href="#contact" class="module-link">Узнать подробнее →</a>
                 </div>
@@ -739,11 +775,12 @@
                 <!-- Module 4 -->
                 <div class="module-card fade-in">
                     <div class="module-number">04</div>
-                    <div class="module-icon">🎯</div>
+                    <div class="module-icon">📊</div>
+                    <span class="module-badge">Стратегия</span>
                     <h3>Матрица Соответствия</h3>
                     <p>Подбирайте продукт под ценности клиента, а не наоборот. Value-based selling, который превращает сопротивление в доверие.</p>
                     <ul class="module-features">
-                        <li>Какой формат работы подходит каждому типу клиента</li>
+                        <li>Какой формат работы подходит каждому типу</li>
                         <li>Таблица навигации: тип → формат → аргумент</li>
                         <li>Живые примеры диалогов для каждого типажа</li>
                         <li>Как не превратиться в манипулятора</li>
@@ -755,6 +792,7 @@
                 <div class="module-card fade-in">
                     <div class="module-number">05</div>
                     <div class="module-icon">📋</div>
+                    <span class="module-badge">Инструменты</span>
                     <h3>Инструментарий Продажника</h3>
                     <p>Готовые инструменты, которые можно применить сегодня. Скрипты, обработка возражений и план на первые 30 дней работы.</p>
                     <ul class="module-features">
@@ -762,6 +800,22 @@
                         <li>Обработка топ-5 возражений без давления</li>
                         <li>Пошаговый план на 30 дней до первых результатов</li>
                         <li>Чек-листы и шаблоны для ежедневной работы</li>
+                    </ul>
+                    <a href="#contact" class="module-link">Узнать подробнее →</a>
+                </div>
+
+                <!-- Module 6 -->
+                <div class="module-card fade-in">
+                    <div class="module-number">06</div>
+                    <div class="module-icon">🚀</div>
+                    <span class="module-badge">Практика</span>
+                    <h3>Внедрение и масштабирование</h3>
+                    <p>Переход от теории к практике. Настройте свою систему продаж и выйдите на стабильный результат за 30 дней.</p>
+                    <ul class="module-features">
+                        <li>Персональный план действий на месяц</li>
+                        <li>Аналитика и отслеживание результатов</li>
+                        <li>Масштабирование успешных связок</li>
+                        <li>Поддержка и обратная связь от наставника</li>
                     </ul>
                     <a href="#contact" class="module-link">Узнать подробнее →</a>
                 </div>
@@ -794,7 +848,7 @@
                     <p>Когда предложение ложится под жизнь человека, сопротивления меньше, доверия больше. Продажи становятся естественным процессом.</p>
                 </div>
                 <div class="benefit-card fade-in">
-                    <div class="benefit-icon">️</div>
+                    <div class="benefit-icon">🛡️</div>
                     <h3>Защита репутации</h3>
                     <p>Вы не будете «закрывать любой ценой». Честный подбор формата защищает и клиента, и вашу репутацию в долгосрочной перспективе.</p>
                 </div>
@@ -1007,5 +1061,4 @@
     </script>
 </body>
 </html>
-
 
