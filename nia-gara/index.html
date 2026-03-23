@@ -649,28 +649,6 @@
     <!-- Финальный призыв -->
     <section style="text-align: center;"><div class="container"><h2>КОРОЧЕ, ДАВАЙ СЮДА</h2><p>Жми, подписывайся, забирай хорошее настроение.</p><button class="btn btn-primary subscribe-trigger" style="padding: 1rem 2.5rem;">📲 ПОДПИСАТЬСЯ</button><p style="margin-top: 2rem;">📞 Директор: 8 926 920-13-04</p></div></section>
 
-    <!-- GenOffOn блок -->
-    <div class="genoffon-footer">
-        <div class="genoffon-inner">
-            <div class="genoffon-brand">GenOffOn</div>
-            <div class="genoffon-tagline">Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> · Мы верим в вас</div>
-            <button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button>
-        </div>
-    </div>
-
-    <!-- модалка GenOffOn -->
-    <div class="modal-overlay" id="genoffonModal">
-        <div class="modal-window">
-            <i>✨</i>
-            <h3>Мы верим в ваши проекты</h3>
-            <p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p>
-            <div style="background: rgba(255,140,66,0.1); border-radius: 20px; padding: 14px; margin: 18px 0;">
-                📌 <strong>Условия:</strong> разместите нашу реферальную ссылку, получите стильный сайт.
-            </div>
-            <button class="modal-btn" id="genoffonRedirectBtn">📩 Перейти в GenOffOn_bot</button>
-            <div id="genoffonCloseBtn" style="margin-top: 20px; cursor: pointer;">✖️ закрыть</div>
-        </div>
-    </div>
 
     <script>
         // Переключение тем
@@ -724,17 +702,7 @@
         });
         if(faqs.length) faqs[0].classList.add('active');
 
-        // GenOffOn модалка
-        const genModal = document.getElementById('genoffonModal');
-        const genBtn = document.getElementById('genoffonModalBtn');
-        const genRedirect = document.getElementById('genoffonRedirectBtn');
-        const genClose = document.getElementById('genoffonCloseBtn');
-        function openGen() { genModal.classList.add('active'); }
-        function closeGen() { genModal.classList.remove('active'); }
-        if(genBtn) genBtn.addEventListener('click', openGen);
-        if(genRedirect) genRedirect.addEventListener('click', () => { window.open('https://t.me/GenOffOn_bot?start=r_11887113', '_blank'); closeGen(); });
-        if(genClose) genClose.addEventListener('click', closeGen);
-        genModal.addEventListener('click', (e) => { if(e.target === genModal) closeGen(); });
+    
 
         // скролл-анимация
         const animElements = document.querySelectorAll('.animate-up, .fact-card, .gallery-item, .testimonial-card, .highlight, .bonus-block');
@@ -763,5 +731,50 @@
             });
         }, 200);
     </script>
+
+    <!-- ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON — АДАПТИВНЫЙ ========== -->
+<div class="genoffon-footer">
+    <div class="genoffon-inner">
+        <div class="genoffon-brand">GenOffOn</div>
+        <div class="genoffon-offer">
+            <div class="genoffon-text">Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span></div>
+            <button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button>
+        </div>
+    </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО GENOFFON -->
+<div class="modal-overlay" id="genoffonModal">
+    <div class="modal-window">
+        <i>✨</i>
+        <h3>Мы верим в ваши проекты</h3>
+        <p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p>
+        <div style="background: rgba(255, 200, 100, 0.1); border-radius: 20px; padding: 14px; margin: 18px 0; font-size: 0.85rem; border-left: 2px solid #ffcf8a; text-align: left; color: #e0e7ff;">
+            📌 <strong>Условия:</strong><br>
+            * Разместим на вашем сайте Вашу же реферальную ссылку на GenOffOn.<br>
+            * Вы получаете стильный сайт + чекап энергии + бонусы в нашем проекте.
+        </div>
+        <p style="font-size: 0.85rem; margin-bottom: 20px;">Переходите в Telegram-бота — обсудим детали</p>
+        <button class="modal-btn" id="genoffonRedirectBtn">📩 Перейти в GenOffOn_bot</button>
+        <div id="genoffonCloseBtn" style="margin-top: 20px; font-size: 0.7rem; color: #7f89b0; cursor: pointer;">✖️ закрыть</div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const tgUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
+    const modal = document.getElementById('genoffonModal');
+    if (!modal) return;
+    const openModal = () => modal.classList.add('active');
+    const closeModal = () => modal.classList.remove('active');
+    const redirectBtn = document.getElementById('genoffonRedirectBtn');
+    const closeModalBtn = document.getElementById('genoffonCloseBtn');
+    const genBtn = document.getElementById('genoffonModalBtn');
+    if (redirectBtn) redirectBtn.onclick = () => { window.open(tgUrl, '_blank'); closeModal(); };
+    if (closeModalBtn) closeModalBtn.onclick = closeModal;
+    if (genBtn) genBtn.onclick = openModal;
+    modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+})();
+</script>
 </body>
 </html>
