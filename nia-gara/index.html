@@ -742,9 +742,9 @@
         <div class="genoffon-divider"></div>
         <div class="genoffon-offer">
             <div class="genoffon-text">
-                Тут БЕЗ шуток! Обмен энергиями! Сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span>
+                Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span>
             </div>
-            <button class="genoffon-btn" id="genoffonModalBtn">Узнать подробнее →</button>
+            <button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button>
         </div>
     </div>
 </div>
@@ -766,25 +766,204 @@
     </div>
 </div>
 
-<script>
-    function createParticles() {
-        const container = document.getElementById('particles');
-        if (!container) return;
-        for (let i = 0; i < 55; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            const size = Math.random() * 6 + 2;
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = Math.random() * 20 + 12 + 's';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.opacity = Math.random() * 0.4 + 0.1;
-            container.appendChild(particle);
+<style>
+    /* ========== СТИЛИ ДЛЯ БЛОКА GENOFFON ========== */
+    .genoffon-footer {
+        width: 100%;
+        background: rgba(10, 14, 35, 0.92);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid rgba(255, 215, 120, 0.3);
+        padding: 0.9rem 2rem;
+        font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .genoffon-inner {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .genoffon-brand {
+        flex-shrink: 0;
+    }
+
+    .genoffon-brand span {
+        font-size: 1.65rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #FFD966, #FFB347);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .genoffon-divider {
+        width: 2px;
+        height: 42px;
+        background: linear-gradient(180deg, #FFCF8A, rgba(255, 207, 138, 0.3));
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+
+    .genoffon-offer {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        flex: 1;
+    }
+
+    .genoffon-text {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #E8EDFF;
+        line-height: 1.4;
+    }
+
+    .genoffon-text strong {
+        color: #FFD966;
+        font-weight: 700;
+    }
+
+    .genoffon-text span {
+        color: #B9C3FF;
+        font-weight: 400;
+    }
+
+    .genoffon-btn {
+        background: linear-gradient(105deg, #FFCF6E 0%, #FFB347 100%);
+        border: none;
+        padding: 0.7rem 1.6rem;
+        border-radius: 60px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #0A0E23;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        font-family: inherit;
+        white-space: nowrap;
+    }
+
+    .genoffon-btn:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(105deg, #FFDA7A, #FFC15E);
+    }
+
+    /* ========== СТИЛИ ДЛЯ МОДАЛЬНОГО ОКНА ========== */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(6px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-window {
+        background: linear-gradient(145deg, #141b2b 0%, #0f1422 100%);
+        max-width: 500px;
+        width: 90%;
+        border-radius: 2rem;
+        padding: 2rem;
+        box-shadow: 0 30px 45px rgba(0, 0, 0, 0.5);
+        text-align: center;
+    }
+
+    .modal-window i {
+        font-size: 3rem;
+        display: inline-block;
+    }
+
+    .modal-window h3 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 0.5rem 0;
+        background: linear-gradient(120deg, #FFE6B3, #FFCF8A);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .modal-window p {
+        color: #CFDFFF;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .modal-btn {
+        background: linear-gradient(95deg, #FFB347, #FF9F2E);
+        border: none;
+        padding: 0.9rem 1.8rem;
+        border-radius: 60px;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #0F1222;
+        cursor: pointer;
+        width: 100%;
+        font-family: inherit;
+    }
+
+    .modal-btn:hover {
+        background: linear-gradient(95deg, #FFC15E, #FFAA3E);
+    }
+
+    @media (max-width: 700px) {
+        .genoffon-inner {
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+        .genoffon-offer {
+            justify-content: space-between;
+            width: 100%;
+        }
+        .genoffon-text {
+            font-size: 0.9rem;
+        }
+        .genoffon-btn {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+        }
+        .genoffon-brand span {
+            font-size: 1.4rem;
+        }
+        .genoffon-divider {
+            height: 32px;
         }
     }
-    createParticles();
 
+    @media (max-width: 500px) {
+        .genoffon-offer {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        .modal-window {
+            padding: 1.5rem;
+        }
+        .modal-window h3 {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+
+<script>
     const tgUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
     const modal = document.getElementById('genoffonModal');
     
