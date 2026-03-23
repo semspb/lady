@@ -2,425 +2,213 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Евгения Смирнова | Энергия. Деньги. Результат.</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайты на нейросетях за 129₽ | История Галины Ивановны</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050b14;
-            color: #eef4ff;
-            line-height: 1.5;
-            scroll-behavior: smooth;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* градиентные акценты */
-        .gold-text {
-            background: linear-gradient(135deg, #F5B042 0%, #E8A735 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            font-weight: 700;
-        }
-
-        .btn-primary {
-            display: inline-block;
-            background: linear-gradient(95deg, #E8A735 0%, #C97E1A 100%);
-            color: #0A0F1A;
-            font-weight: 700;
-            font-size: 1.1rem;
-            padding: 16px 38px;
-            border-radius: 60px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(232, 167, 53, 0.25);
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            letter-spacing: 0.3px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 18px 30px rgba(232, 167, 53, 0.4);
-            background: linear-gradient(95deg, #F5B84A 0%, #E08E2A 100%);
-        }
-
-        .btn-outline-light {
-            display: inline-block;
-            background: transparent;
-            border: 1.5px solid rgba(232, 167, 53, 0.7);
-            color: #F5B042;
-            font-weight: 600;
-            padding: 14px 32px;
-            border-radius: 60px;
-            text-decoration: none;
-            transition: 0.25s;
-        }
-
-        .btn-outline-light:hover {
-            background: rgba(232, 167, 53, 0.12);
-            border-color: #E8A735;
-            color: #FFCD7A;
-        }
-
-        section {
-            padding: 80px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        h2 {
-            font-size: 2.6rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1.2rem;
-            letter-spacing: -0.02em;
-        }
-
-        h3 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            h2 {
-                font-size: 2rem;
-            }
-            h3 {
-                font-size: 1.5rem;
-            }
-            section {
-                padding: 60px 0;
-            }
-            .container {
-                padding: 0 20px;
-            }
-        }
-
-        /* блок 1 — герой */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            background: radial-gradient(ellipse at 80% 30%, rgba(20, 25, 45, 0.6), #03070f 80%);
-            position: relative;
-            border-bottom: none;
-        }
-        .hero-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(232,167,53,0.08) 0%, rgba(5,11,20,0) 70%);
-            top: 20%;
-            right: -10%;
-            pointer-events: none;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-        .badge {
-            background: rgba(232, 167, 53, 0.18);
-            backdrop-filter: blur(4px);
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 24px;
-            border: 0.5px solid rgba(232,167,53,0.4);
-        }
-        .hero h1 {
-            font-size: 3.8rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 24px;
-        }
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.4rem;
-            }
-        }
-        .hero p {
-            font-size: 1.2rem;
-            color: #cfdfee;
-            max-width: 620px;
-            margin-bottom: 32px;
-        }
-
-        /* карточки */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-        }
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-        }
-        @media (max-width: 900px) {
-            .grid-2, .grid-3 {
-                grid-template-columns: 1fr;
-                gap: 28px;
-            }
-        }
-        .pain-card, .method-card, .transform-card {
-            background: rgba(15, 23, 36, 0.7);
-            backdrop-filter: blur(2px);
-            border-radius: 32px;
-            padding: 28px 24px;
-            border: 1px solid rgba(255, 215, 130, 0.15);
-            transition: all 0.25s;
-        }
-        .pain-card:hover, .method-card:hover {
-            border-color: rgba(232,167,53,0.4);
-            background: rgba(20, 28, 42, 0.8);
-        }
-        .pain-icon {
-            font-size: 2.4rem;
-            margin-bottom: 20px;
-        }
-        .method-icon {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            color: #E8A735;
-        }
-
-        .transform-card {
-            background: linear-gradient(135deg, rgba(30, 35, 55, 0.8), rgba(12, 18, 30, 0.9));
-            border-left: 4px solid #E8A735;
-        }
-
-        .expert-photo {
-            border-radius: 40px;
-            width: 100%;
-            max-width: 380px;
-            object-fit: cover;
-            box-shadow: 0 25px 40px -15px rgba(0,0,0,0.5);
-            border: 1px solid rgba(232,167,53,0.3);
-        }
-
-        .stat-list {
-            list-style: none;
-            margin-top: 20px;
-        }
-        .stat-list li {
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 500;
-        }
-        .stat-list i {
-            color: #E8A735;
-            font-size: 1.3rem;
-        }
-
-        .form-card {
-            background: rgba(10, 16, 28, 0.85);
-            backdrop-filter: blur(8px);
-            border-radius: 48px;
-            padding: 48px 40px;
-            border: 1px solid rgba(232,167,53,0.3);
-            box-shadow: 0 30px 40px -20px black;
-        }
-        input {
-            width: 100%;
-            padding: 16px 20px;
-            background: #0f1622;
-            border: 1px solid #2a3241;
-            border-radius: 60px;
-            font-size: 1rem;
-            color: white;
-            margin-bottom: 20px;
-            transition: 0.2s;
-        }
-        input:focus {
-            outline: none;
-            border-color: #E8A735;
-            background: #111827;
-        }
-        .small-note {
-            font-size: 0.75rem;
-            color: #9aa9bf;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #6c7a94;
-        }
-        .quote {
-            font-style: italic;
-            border-left: 3px solid #E8A735;
-            padding-left: 24px;
-            margin: 20px 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Georgia', serif; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .btn { background: #e67e22; color: white; padding: 15px 40px; border: none; 
+               border-radius: 5px; font-size: 18px; cursor: pointer; text-decoration: none; 
+               display: inline-block; }
+        .btn:hover { background: #d35400; }
+        section { padding: 60px 0; }
+        h1 { font-size: 42px; margin-bottom: 20px; color: #2c3e50; }
+        h2 { font-size: 32px; margin-bottom: 30px; color: #2c3e50; }
+        .hero { background: linear-gradient(135deg, #f5f0eb 0%, #fff 100%); 
+                text-align: center; padding: 80px 0; }
+        .story { background: #fff; }
+        .success { background: #f9f9f9; }
+        .offer { background: #fef5e7; text-align: center; }
+        .price { font-size: 48px; color: #e67e22; font-weight: bold; }
+        .old-price { text-decoration: line-through; color: #999; font-size: 24px; }
+        .testimonial { background: #fff; border-left: 4px solid #e67e22; 
+                       padding: 30px; margin: 20px 0; font-style: italic; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+                gap: 30px; }
+        .card { background: #fff; padding: 30px; border-radius: 10px; 
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        img { max-width: 100%; border-radius: 10px; }
+        .photo-left { float: left; margin: 0 30px 20px 0; max-width: 400px; }
+        .clear { clear: both; }
+        .guarantee { background: #2c3e50; color: white; text-align: center; padding: 40px 0; }
     </style>
 </head>
 <body>
 
-<!-- БЛОК 1: ХЭДЕР / ГЕРОЙ -->
-<section class="hero">
-    <div class="hero-glow"></div>
-    <div class="container hero-content">
-        <div class="badge">✨ Авторская методика «Энергетический код личности»</div>
-        <h1>Хватит сливать свою энергию в песок.<br> 
-        Пора включить режим <span class="gold-text">«Турбо»</span>.</h1>
-        <p>Управление энергиями, типирование личности, отношения, денежный прорыв — не просто психология, а инженерия вашей реальности. Евгения Смирнова: 12 лет практики, 500+ запусков и трансформаций.</p>
-        <a href="#form" class="btn-primary">🔥 Хочу пройти диагностику энергии</a>
-        <p style="margin-top: 24px; font-size: 0.9rem; opacity: 0.7;">Усталость, которая не проходит после отпуска — не норма. Это сигнал: вы работаете не в своей энергетической сборке.</p>
-    </div>
-</section>
-
-<!-- БЛОК 2: БОЛЬ И ДИАГНОСТИКА -->
-<section>
-    <div class="container">
-        <h2 style="text-align: center;">Вы вывозите всё, но внутри — <span class="gold-text">опустошение?</span></h2>
-        <p style="text-align: center; max-width: 700px; margin: 0 auto 48px auto; font-size: 1.2rem;">Узнаете себя хотя бы в одном пункте?</p>
-        <div class="grid-2">
-            <div class="pain-card"><div class="pain-icon">🔄</div><h3>Бесконечная гонка</h3><p>Денег стало больше, а счастья — нет. Достигаете целей, но вместо радости — апатия и пустота.</p></div>
-            <div class="pain-card"><div class="pain-icon">💔</div><h3>Эмоциональные качели</h3><p>В отношениях вы либо «спасатель», либо «жертва». Нет опоры на себя, страх потерять партнера.</p></div>
-            <div class="pain-card"><div class="pain-icon">🚫</div><h3>Денежный потолок</h3><p>Как только сумма на счете достигает планки — случается форс-мажор, который обнуляет результат.</p></div>
-            <div class="pain-card"><div class="pain-icon">😴</div><h3>Синдром выгорания</h3><p>Вы «заряжаете» клиентов/семью, но ваш собственный аккумулятор сел в ноль. Нет ресурса даже на желания.</p></div>
+    <!-- БЛОК 1: ГЛАВНЫЙ ЭКРАН -->
+    <section class="hero">
+        <div class="container">
+            <p style="color: #e67e22; font-weight: bold; margin-bottom: 10px;"> ИСТОРИЯ ПЕНСИОНЕРКИ</p>
+            <h1>Мне 67 лет. Я не умею программировать.<br>Но я зарабатываю 15 000₽ за один сайт</h1>
+            <p style="font-size: 20px; margin: 30px 0;">Узнайте, как создавать современные сайты за 10 минут,<br>просто разговаривая с компьютером. Без кода. Без сложностей.</p>
+            
+            <!-- ФОТО 1: Галина за ноутбуком -->
+            <div style="margin: 40px 0;">
+                <img src="[IMAGE_0]" alt="Галина Ивановна за ноутбуком" style="max-width: 600px;">
+            </div>
+            
+            <p class="old-price">2 990₽</p>
+            <p class="price">129₽</p>
+            <p style="margin: 20px 0;">⏰ Цена действует до конца дня</p>
+            <a href="#order" class="btn">🚀 ХОЧУ УЗНАТЬ СЕКРЕТ ЗА 129₽</a>
+            <p style="margin-top: 20px; font-size: 14px; color: #666;">🔒 Оплата безопасна • Доступ через 1 минуту</p>
         </div>
-        <div class="quote" style="margin-top: 48px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
-            <p style="font-size: 1.1rem;">«Это не ваш характер. Это сбой в настройках вашей энергетической матрицы. Я знаю, как перезагрузить систему без 10 лет терапии» <br>— Евгения Смирнова</p>
-        </div>
-    </div>
-</section>
+    </section>
 
-<!-- БЛОК 3: ЭКСПЕРТ ЕВГЕНИЯ СМИРНОВА -->
-<section style="background: radial-gradient(circle at left top, rgba(232,167,53,0.05), transparent);">
-    <div class="container">
-        <div class="grid-2" style="align-items: center;">
-            <div>
-                <div class="badge">эксперт психолог</div>
-                <h2>Евгения Смирнова<br><span class="gold-text">Автор метода «Энергетический код личности»</span></h2>
-                <p>Я не читаю лекции о том, как «полюбить себя». Я даю инструменты. Раньше я тоже считала, что успех — это бессонные ночи и железная воля, пока мое тело не сказало «стоп».</p>
-                <p>Пройдя путь от полного энергетического коллапса до устойчивой системы, где деньги идут легко, отношения приносят ресурс, а утро начинается с подъема, я вывела формулу. Моя авторская методика — сплав глубинного типирования личности и практик управления энергиями.</p>
-                <ul class="stat-list">
-                    <li><i class="fas fa-check-circle"></i> Авторский метод «Энергетический код личности»</li>
-                    <li><i class="fas fa-check-circle"></i> Сертифицированный эксперт по типированию и психосоматике</li>
-                    <li><i class="fas fa-check-circle"></i> Помогла 500+ предпринимателям и топ-менеджерам пройти денежный прорыв без выгорания</li>
+    <!-- БЛОК 2: ИСТОРИЯ -->
+    <section class="story">
+        <div class="container">
+            <h2>«Я думала, моя жизнь уже позади...»</h2>
+            
+            <!-- ФОТО 2: Галина считает деньги -->
+            <img src="[IMAGE_1]" alt="Галина Ивановна считает деньги" class="photo-left">
+            
+            <p style="font-size: 18px; margin-bottom: 20px;">Меня зовут <strong>Галина Ивановна</strong>. Мне 67 лет. Я обычная пенсионерка из обычного города.</p>
+            
+            <p style="margin-bottom: 20px;">Шесть месяцев назад я стояла в очереди в аптеке. Держала в руках коробку таблеток от давления и считала деньги в кошельке. <strong>Мне не хватало 40 рублей.</strong> Я отложила лекарство обратно и вышла, чувствуя себя никому не нужной обузой.</p>
+            
+            <p style="margin-bottom: 20px;">Внук просил новый телефон, дочь вздыхала, глядя на счета за коммуналку. А я... я просто боялась будущего. Казалось, что мир ушел вперед, а я осталась в прошлом.</p>
+            
+            <div class="testimonial">
+                «Компьютер для меня был темным лесом: я боялась нажать не туда, боялась вирусов, боялась, что мои старые руки не успевают за клавиатурой. Я думала: "Галина, ты старая. Твое время прошло."»
+            </div>
+            
+            <p style="margin-bottom: 20px;">Но однажды я увидела рекламу про нейросети. Сначала подумала — развод. Но от безысходности решила попробовать.</p>
+            
+            <div class="clear"></div>
+        </div>
+    </section>
+
+    <!-- БЛОК 3: ПЕРЕЛОМ -->
+    <section class="success">
+        <div class="container">
+            <h2>Магия, доступная каждому</h2>
+            
+            <!-- ФОТО 3: Галина счастлива с сайтом -->
+            <img src="[IMAGE_2]" alt="Галина Ивановна показывает сайт" class="photo-left">
+            
+            <p style="font-size: 18px; margin-bottom: 20px;">Я попробовала. И у меня получилось с первого раза!</p>
+            
+            <p style="margin-bottom: 20px;">Оказывается, сейчас есть <strong>Нейросети</strong>. Это как волшебный помощник. Я пишу ему: "Сделай сайт для парикмахерской, красивый, в розовых тонах". А он... он сам пишет весь код! Сам рисует! Сам настраивает!</p>
+            
+            <p style="margin-bottom: 20px;">Мне не нужно было ломать голову над формулами. Мне нужно было просто иметь <strong>Вайб</strong> (настроение) и желание помочь людям. Это назвали <strong>"Вайбкодинг"</strong>.</p>
+            
+            <div class="card" style="margin: 30px 0; background: #e8f5e9;">
+                <h3 style="color: #27ae60;">✅ За 6 месяцев я:</h3>
+                <ul style="margin-left: 20px; margin-top: 15px; font-size: 18px;">
+                    <li>Разобралась в инструментах (проще, чем отправить СМС)</li>
+                    <li>Создала первый сайт за 15 минут</li>
+                    <li>Продала его за <strong>15 000₽</strong></li>
+                    <li>Мои затраты на создание: <strong>0₽</strong></li>
                 </ul>
             </div>
-            <div style="text-align: center;">
-                <!-- имитация фото эксперта (эмоциональный портрет) -->
-                <div style="background: linear-gradient(145deg, #232a3a, #0c111e); border-radius: 40px; padding: 8px; display: inline-block;">
-                    <div style="background: #1e2538; border-radius: 36px; overflow: hidden; width: 100%; max-width: 340px; margin: 0 auto;">
-                        <img src="https://placehold.co/600x700/1a1f2e/E8A735?text=Евгения+Смирнова" alt="Евгения Смирнова психолог" style="width:100%; display: block; opacity: 0.9;" class="expert-photo">
-                    </div>
+            
+            <div class="clear"></div>
+        </div>
+    </section>
+
+    <!-- БЛОК 4: МАТЕМАТИКА -->
+    <section style="background: #fff;">
+        <div class="container">
+            <h2 style="text-align: center;">Почему это выгодно именно сейчас?</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3 style="color: #e67e22;">💰 Себестоимость</h3>
+                    <p style="font-size: 36px; font-weight: bold;">0₽</p>
+                    <p>Нейросети работают бесплатно</p>
                 </div>
-                <p style="margin-top: 20px; font-size: 0.85rem; letter-spacing: 1px;">✨ ваш проводник в мир целостной энергии</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- БЛОК 4: АВТОРСКАЯ МЕТОДИКА — КАК ЭТО РАБОТАЕТ -->
-<section>
-    <div class="container">
-        <h2 style="text-align: center;">Энергия = Деньги = Результаты.<br>Разорви <span class="gold-text">порочный круг</span></h2>
-        <div class="grid-3" style="margin-top: 48px;">
-            <div class="method-card"><div class="method-icon">🧬</div><h3>1. Типирование личности</h3><p>«Ваш личный паспорт ресурса». Определяем уникальный тип энергообмена. Действуя из своей природы, вы перестаете насиловать себя чужими стратегиями — КПД жизни растет в 3 раза.</p></div>
-            <div class="method-card"><div class="method-icon">⚡</div><h3>2. Управление энергиями</h3><p>«Система бесконечного источника». Находим утечки ресурса (токсичные долги, эмоциональные якоря). Затыкаем «дыры» и включаем поток там, где раньше был застой.</p></div>
-            <div class="method-card"><div class="method-icon">💰💞</div><h3>3. Интеграция — прорыв</h3><p>Финальная сборка: ваша личность совпадает с энергопотоком. Деньги перестают «убегать», партнер начинает слышать, результат приходит через «легко», а не «надо».</p></div>
-        </div>
-    </div>
-</section>
-
-<!-- БЛОК 5: ТРАНСФОРМАЦИЯ "ДО И ПОСЛЕ" -->
-<section style="background: rgba(0,0,0,0.3);">
-    <div class="container">
-        <h2 style="text-align: center;">Войдите в новый цикл жизни <span class="gold-text">уже через 3 недели</span></h2>
-        <div class="grid-2" style="margin-top: 48px;">
-            <div class="transform-card"><i class="fas fa-battery-quarter" style="font-size: 2rem; color:#E8A735; margin-bottom: 12px; display: inline-block;"></i><h3>БЫЛО: вечная усталость</h3><p>Я не понимаю, почему нет сил даже на хобби. Утро начинается с тяжести.</p><hr style="margin: 16px 0; opacity:0.2;"><p><strong>СТАЛО:</strong> Управляю состоянием как переключателем скоростей. Утром — мощный старт, вечером — глубокое восстановление.</p></div>
-            <div class="transform-card"><i class="fas fa-hand-holding-heart" style="font-size: 2rem; color:#E8A735; margin-bottom: 12px;"></i><h3>БЫЛО: отношения — терпение/контроль</h3><p>Постоянная тревога, чувство вины, эмоциональные качели.</p><hr style="margin: 16px 0; opacity:0.2;"><p><strong>СТАЛО:</strong> Отношения — это про безопасность и рост. Я притягиваю людей, соответствующих моему уровню энергии.</p></div>
-            <div class="transform-card"><i class="fas fa-chart-line" style="font-size: 2rem; color:#E8A735; margin-bottom: 12px;"></i><h3>БЫЛО: деньги рывками, потолок</h3><p>Приходят рывками, уходят резко. Постоянный финансовый стресс.</p><hr style="margin: 16px 0; opacity:0.2;"><p><strong>СТАЛО:</strong> Денежный поток стабилен и расширяется. Я зарабатываю в 5 раз больше без выгорания.</p></div>
-            <div class="transform-card"><i class="fas fa-brain" style="font-size: 2rem; color:#E8A735; margin-bottom: 12px;"></i><h3>БЫЛО: многозадачность и тревога</h3><p>Живу в режиме «аврал», нет опоры внутри.</p><hr style="margin: 16px 0; opacity:0.2;"><p><strong>СТАЛО:</strong> Живу в ресурсе. Результаты достигаются быстро из целостности, а не из дефицита.</p></div>
-        </div>
-    </div>
-</section>
-
-<!-- БЛОК 6: ДЕНЕЖНЫЙ ПРОРЫВ + ОТНОШЕНИЯ -->
-<section>
-    <div class="container">
-        <div class="grid-2" style="align-items: center;">
-            <div>
-                <span class="badge">💎 главный фокус методики</span>
-                <h2>Денежный прорыв <span class="gold-text">через энергию</span></h2>
-                <p>Многие думают: чтобы зарабатывать больше — нужно повышать квалификацию. Но чаще всего потолок держится на уровне самооценки и вашего «энергетического лимита».</p>
-                <p>В моем методе денежный прорыв — это не «надо больше работать». Это:</p>
-                <ul class="stat-list">
-                    <li><i class="fas fa-chart-simple"></i> Типирование финансового поведения: почему вы обесцениваете труд?</li>
-                    <li><i class="fas fa-leaf"></i> Очистка канала: убираем родовые сценарии бедности и чувство вины за большие деньги.</li>
-                    <li><i class="fas fa-expand-alt"></i> Расширение емкости: тренируем нервную систему выдерживать крупные суммы, чтобы не «сливать» деньги.</li>
-                </ul>
-                <p style="margin-top: 20px;">Результат: вы становитесь <strong>«магнитом» для финансовых возможностей</strong> и гармоничных отношений, где партнер разделяет ваш ресурс.</p>
-            </div>
-            <div style="background: rgba(232,167,53,0.08); border-radius: 48px; padding: 32px; text-align: center;">
-                <i class="fas fa-coins" style="font-size: 3rem; color:#E8A735;"></i>
-                <p style="font-size: 1.4rem; font-weight: 700; margin: 20px 0;">💸 Деньги + ❤️ Отношения</p>
-                <p>Единая энергетическая схема. Когда энергия течет чисто, финансы приходят легко, а партнерство становится опорой.</p>
-                <hr style="margin: 20px 0; border-color: #2a3241;">
-                <p><i class="fas fa-quote-left" style="color:#E8A735;"></i> После работы с Евгенией я убрал страх больших чеков и вышел на доход в 4 раза выше, а в отношениях появился настоящий тыл. <br><strong>— Илья, предприниматель</strong></p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- БЛОК 7: ПРИЗЫВ К ДЕЙСТВИЮ, ФОРМА ЗАЯВКИ (ЭМОЦИОНАЛЬНЫЙ ФИНАЛ) -->
-<section id="form" style="border-bottom: none; padding-bottom: 40px;">
-    <div class="container">
-        <div class="form-card">
-            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
-                <h2 style="font-size: 2.2rem;">Остаться в старом цикле «достигаторства через выгорание»<br>или <span class="gold-text">настроить свою систему на автопилот успеха?</span></h2>
-                <p style="margin: 20px 0 30px 0; font-size: 1.1rem;">Метод работает, только если вы готовы взять ответственность за свою энергию. Я не даю волшебных таблеток. Я даю карту, где зарыт ваш личный клад — спокойствие, энергия, денежный поток и счастливые отношения.</p>
-                <div style="background: rgba(0,0,0,0.4); border-radius: 28px; padding: 6px 20px; display: inline-block; margin-bottom: 30px;">
-                    <span style="font-weight: 500;">🔥 Сейчас стоимость участия в программе «Энергетический код» — <span class="gold-text" style="font-size: 1.4rem; font-weight:800;">Бесплатная диагностика</span> 🔥</span>
+                <div class="card">
+                    <h3 style="color: #27ae60;">⏱ Время</h3>
+                    <p style="font-size: 36px; font-weight: bold;">30-60 мин</p>
+                    <p>На один готовый сайт</p>
                 </div>
-                <form action="#" method="post" onsubmit="event.preventDefault(); alert('✅ Заявка принята! Евгения свяжется с вами в течение 2 часов. Переходите в новый энергоцикл!'); this.reset();">
-                    <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
-                        <input type="text" placeholder="Ваше имя" required style="flex: 1; min-width: 200px;">
-                        <input type="tel" placeholder="+7 (___) ___-__-__" required style="flex: 1; min-width: 220px;">
-                        <input type="email" placeholder="E-mail (для доступа к материалам)" style="flex: 1; min-width: 220px;">
-                        <button type="submit" class="btn-primary" style="padding: 16px 32px;">🔥 ЗАБРАТЬ МЕСТО С МОЩНОЙ ЭНЕРГЕТИКОЙ</button>
-                    </div>
-                    <p class="small-note"><i class="fas fa-lock"></i> Ваши данные в безопасности. После заявки получите подарок — «Карта энергетических утечек»</p>
-                </form>
-                <div class="quote" style="margin-top: 40px; font-size: 1rem;">
-                    <p>✨ P.S. Если вы дочитали до этого места, ваша интуиция уже подсказывает — пора менять настройки. Количество мест на диагностику ограничено, чтобы я могла уделить внимание каждому участнику и не разрывать свое личное энергетическое поле.</p>
+                <div class="card">
+                    <h3 style="color: #8e44ad;">💵 Прибыль</h3>
+                    <p style="font-size: 36px; font-weight: bold;">15 000₽</p>
+                    <p>Чистыми за один сайт</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 40px; font-size: 18px;">
+                Сайты нужны всем: пекарням, репетиторам, мастерам маникюра, автосервисам.<br>
+                Раньше сайт стоил 50 000₽ и делался месяц. Теперь — за вечер.
+            </p>
+        </div>
+    </section>
+
+    <!-- БЛОК 5: ЧТО ВНУТРИ -->
+    <section style="background: #f9f9f9;">
+        <div class="container">
+            <h2>Что внутри курса?</h2>
+            <p style="font-size: 18px; margin-bottom: 30px;">Я не программист. Я обычная женщина. Поэтому объясняю всё <strong>человеческим языком</strong>.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>📌 Модуль 1</h4>
+                    <p>Где брать бесплатные нейросети, которые делают всё за вас</p>
+                </div>
+                <div class="card">
+                    <h4>📌 Модуль 2</h4>
+                    <p>Промпт-инжиниринг для бабушек: какие слова писать</p>
+                </div>
+                <div class="card">
+                    <h4>📌 Модуль 3</h4>
+                    <p>Как найти первого клиента и не бояться назвать цену</p>
+                </div>
+                <div class="card">
+                    <h4>📌 Модуль 4</h4>
+                    <p>Как принимать деньги и не бояться налоговой</p>
+                </div>
+                <div class="card">
+                    <h4>🎁 БОНУС</h4>
+                    <p>Список из 50 идей, кому нужны сайты прямо сейчас</p>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<footer>
-    <div class="container">
-        <p>© 2025 Евгения Смирнова — Авторская методика управления энергиями и типирования личности.<br>Все права защищены. Для связи: info@zhenya-energy.ru</p>
-        <p style="margin-top: 8px;">Сделано с ❤️ для тех, кто выбирает ресурс и прорыв.</p>
-    </div>
-</footer>
+    <!-- БЛОК 6: ПОЧЕМУ ДЕШЕВО -->
+    <section style="background: #fff;">
+        <div class="container">
+            <!-- ФОТО 4: Портрет Галины -->
+            <img src="[IMAGE_3]" alt="Галина Ивановна портрет" style="max-width: 400px; display: block; margin: 0 auto 30px;">
+            
+            <h2 style="text-align: center;">Почему всего 129 рублей?</h2>
+            
+            <div class="testimonial">
+                «Многие спрашивают: "Галина Ивановна, если это так круто, почему вы продаёте курс за цену чашки кофе?" Ответ простой. Я вижу, как много людей сейчас в отчаянии. Пенсионеры, мамы в декрете, студенты. Всем нужны деньги. Я не хочу наживаться на чужой беде. 129 рублей — это символическая плата. Моя цель — чтобы как можно больше людей обрели финансовую независимость.»
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 7: ПРИЗЫВ -->
+    <section class="offer" id="order">
+        <div class="container">
+            <h2>Не ждите, пока станет поздно</h2>
+            <p style="font-size: 20px; margin: 20px 0;">Вам не нужно быть молодым. Вам не нужно быть гением.<br>Вам нужно просто захотеть.</p>
+            
+            <p class="old-price">2 990₽</p>
+            <p class="price">129₽</p>
+            <p style="color: #e74c3c; font-weight: bold; margin: 20px 0;">⏰ ТОЛЬКО СЕГОДНЯ</p>
+            
+            <a href="#" class="btn" style="font-size: 22px; padding: 20px 60px;">🎯 ПОЛУЧИТЬ ДОСТУП ЗА 129₽</a>
+            
+            <p style="margin-top: 30px;">✅ Доступ придёт на почту через 1 минуту<br>
+               ✅ Гарантия возврата в течение 3 дней<br>
+               ✅ Поддержка 24/7</p>
+        </div>
+    </section>
+
+    <!-- БЛОК 8: ГАРАНТИЯ -->
+    <section class="guarantee">
+        <div class="container">
+            <h3>🛡️ ГАРАНТИЯ ВОЗВРАТА</h3>
+            <p>Если у вас не получится создать первый сайт в течение 3 дней — вернём деньги без вопросов.</p>
+            <p style="margin-top: 20px;">© 2024 Галина Ивановна и команда проекта</p>
+        </div>
+    </section>
 
 </body>
 </html>
