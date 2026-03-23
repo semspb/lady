@@ -732,7 +732,7 @@
         }, 200);
     </script>
 
-    <!-- ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON — ГОРИЗОНТАЛЬНЫЙ ========== -->
+<!-- ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON — АДАПТИВНЫЙ, ВИДЕН НА МОБИЛКЕ ========== -->
 <div class="genoffon-footer">
     <div class="genoffon-inner">
         <div class="genoffon-brand">
@@ -747,6 +747,13 @@
         </div>
     </div>
 </div>
+
+<footer>
+    <div class="container">
+        <p>© 2026 Евгения Успешная — для мам, которые выбирают себя и свой доход.<br>Связаться: <a href="https://vk.com/smireugen" target="_blank">vk.com/smireugen</a></p>
+        <p style="margin-top: 8px;">Сделано с заботой о вашем спокойствии и свободе.</p>
+    </div>
+</footer>
 
 <!-- МОДАЛЬНОЕ ОКНО GENOFFON -->
 <div class="modal-overlay" id="genoffonModal">
@@ -765,82 +772,77 @@
     </div>
 </div>
 
-<style>
-/* GenOffOn footer — горизонтальная компоновка */
-.genoffon-footer {
-    background: var(--footer-bg);
-    color: var(--footer-text);
-    padding: 1.2rem 2rem;
-    border-top: 1px solid var(--accent);
-}
-.genoffon-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-}
-.genoffon-brand {
-    font-weight: 700;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-}
-.genoffon-divider {
-    width: 1px;
-    height: 30px;
-    background: var(--accent);
-    opacity: 0.5;
-}
-.genoffon-offer {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-.genoffon-text {
-    font-size: 0.9rem;
-}
-.genoffon-btn {
-    background: var(--accent);
-    border: none;
-    padding: 0.4rem 1.2rem;
-    border-radius: 40px;
-    font-weight: 600;
-    cursor: pointer;
-    color: var(--badge-text);
-}
-@media (max-width: 700px) {
-    .genoffon-inner {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.8rem;
-    }
-    .genoffon-divider {
-        display: none;
-    }
-    .genoffon-offer {
-        justify-content: center;
-    }
-}
-</style>
-
 <script>
-(function() {
+    function createParticles() {
+        const container = document.getElementById('particles');
+        if (!container) return;
+        for (let i = 0; i < 55; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 6 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = Math.random() * 20 + 12 + 's';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.opacity = Math.random() * 0.4 + 0.1;
+            container.appendChild(particle);
+        }
+    }
+    createParticles();
+
     const tgUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
     const modal = document.getElementById('genoffonModal');
-    if (!modal) return;
-    const openModal = () => modal.classList.add('active');
-    const closeModal = () => modal.classList.remove('active');
+    
+    function openModal() {
+        if (modal) modal.classList.add('active');
+    }
+    function closeModal() {
+        if (modal) modal.classList.remove('active');
+    }
+    
+    // настройка кнопок модалки
     const redirectBtn = document.getElementById('genoffonRedirectBtn');
     const closeModalBtn = document.getElementById('genoffonCloseBtn');
-    const genBtn = document.getElementById('genoffonModalBtn');
     if (redirectBtn) redirectBtn.onclick = () => { window.open(tgUrl, '_blank'); closeModal(); };
     if (closeModalBtn) closeModalBtn.onclick = closeModal;
+    if (modal) modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+    
+    // кнопка GenOffOn в подвале
+    const genBtn = document.getElementById('genoffonModalBtn');
     if (genBtn) genBtn.onclick = openModal;
-    modal.onclick = (e) => { if (e.target === modal) closeModal(); };
-})();
-</script>
+    
+    // основные кнопки лендинга (ведут в то же модальное окно)
+    const heroBtn = document.getElementById('heroTelegramBtn');
+    const finalBtn = document.getElementById('finalTelegramBtn');
+    if (heroBtn) heroBtn.onclick = openModal;
+    if (finalBtn) finalBtn.onclick = openModal;
+
+    // анимация скролла
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-on-scroll');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.card, .transform-card, .telegram-banner, .grid-2 > div, .img-wrapper, .feature-image-block').forEach(el => {
+        el.style.opacity = '0';
+        observer.observe(el);
+    });
+    const styleAnim = document.createElement('style');
+    styleAnim.textContent = `
+        .card, .transform-card, .telegram-banner, .grid-2 > div, .img-wrapper, .feature-image-block {
+            opacity: 0;
+        }
+        .animate-on-scroll {
+            opacity: 1 !important;
+            animation: fadeUp 0.6s ease forwards;
+        }
+    `;
+    document.head.appendChild(styleAnim);
+</script
+    
 </body>
 </html>
