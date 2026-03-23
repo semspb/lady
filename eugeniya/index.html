@@ -210,7 +210,6 @@
             border-radius: 28px;
         }
 
-        /* увеличенная картинка */
         .img-wrapper {
             border-radius: 32px;
             overflow: hidden;
@@ -226,8 +225,7 @@
             display: block;
             object-fit: cover;
         }
-        
-        /* специальный блок для увеличенной картинки с автомобилем */
+
         .feature-image-block {
             margin-top: 20px;
             text-align: center;
@@ -237,17 +235,6 @@
             margin: 0 auto;
             border-radius: 40px;
             box-shadow: 0 30px 50px -15px rgba(0,0,0,0.7);
-        }
-        .feature-image-block .img-wrapper img {
-            width: 100%;
-            max-height: 550px;
-            object-fit: cover;
-            object-position: center;
-        }
-        
-        .expert-img-large {
-            max-width: 100%;
-            border-radius: 32px;
         }
 
         .stat-list {
@@ -285,21 +272,6 @@
             font-size: 1.1rem;
         }
 
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #bba9e6;
-        }
-        
-        footer a {
-            color: #c9a6ff;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-
         @keyframes fadeUp {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -330,7 +302,7 @@
             opacity: 1;
             visibility: visible;
         }
-        .modal-content {
+        .modal-window {
             background: linear-gradient(135deg, #2a1a45, #1f1238);
             border-radius: 48px;
             max-width: 500px;
@@ -342,15 +314,15 @@
             transform: scale(0.9);
             transition: transform 0.3s ease;
         }
-        .modal-overlay.active .modal-content {
+        .modal-overlay.active .modal-window {
             transform: scale(1);
         }
-        .modal-content i {
+        .modal-window i {
             font-size: 4rem;
             color: #d9b8ff;
             margin-bottom: 20px;
         }
-        .modal-content h3 {
+        .modal-window h3 {
             font-size: 1.9rem;
             margin-bottom: 18px;
             background: linear-gradient(135deg, #f0e6ff, #c9a6ff);
@@ -358,7 +330,7 @@
             -webkit-background-clip: text;
             color: transparent;
         }
-        .modal-content p {
+        .modal-window p {
             margin-bottom: 32px;
             font-size: 1rem;
             color: #e9deff;
@@ -381,13 +353,18 @@
             background: linear-gradient(95deg, #9d6eff, #7c3aed);
         }
         
-        @media (max-width: 768px) {
-            .modal-content {
-                padding: 32px 24px;
-            }
-            .modal-content h3 {
-                font-size: 1.5rem;
-            }
+        footer {
+            padding: 40px 0 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #bba9e6;
+        }
+        footer a {
+            color: #c9a6ff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -431,7 +408,7 @@
     </div>
 </section>
 
-<!-- БЛОК 3: ПОМОГАЮ МАМАМ (3 столпа) -->
+<!-- БЛОК 3: ПОМОГАЮ МАМАМ -->
 <section>
     <div class="container">
         <h2 style="text-align: center;">Помогаю начать <span class="gradient-text">и не бросить</span></h2>
@@ -455,10 +432,10 @@
     </div>
 </section>
 
-<!-- БЛОК 4: ДОХОД, КОТОРЫЙ НЕ ОТНИМАЕТ ТЕБЯ У СЕМЬИ + УВЕЛИЧЕННАЯ КАРТИНКА carsee (как просили) -->
+<!-- БЛОК 4: ДОХОД, КОТОРЫЙ НЕ ОТНИМАЕТ ТЕБЯ У СЕМЬИ -->
 <section>
     <div class="container">
-        <div class="grid-2" style="align-items: center;">
+        <div class="grid-2">
             <div>
                 <span class="badge">свобода и семья</span>
                 <h2>Доход, который <span class="gradient-text">не отнимает</span> тебя у семьи</h2>
@@ -473,9 +450,9 @@
             </div>
             <div class="feature-image-block">
                 <div class="img-wrapper">
-                    <img src="https://github.com/semspb/lady/blob/main/carsee.png?raw=true" alt="Финансовая свобода — это реально">
+                    <img src="https://github.com/semspb/lady/blob/main/carsee.png?raw=true" alt="Финансовая свобода">
                 </div>
-                <p style="margin-top: 20px; font-weight: 500; font-size: 1.1rem;">🌟 Финансовая свобода — это реально</p>
+                <p style="margin-top: 20px; font-weight: 500;">🌟 Финансовая свобода — это реально</p>
             </div>
         </div>
     </div>
@@ -501,10 +478,10 @@
     <div class="container">
         <h2 style="text-align: center;">У меня получилось. <span class="gradient-text">Получится и у тебя</span></h2>
         <div class="grid-2" style="margin-top: 48px;">
-            <div class="transform-card"><i class="fas fa-chart-simple" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Стабильный доход из дома</h3><p>Я начала с нуля. Сейчас у меня есть стабильный доход. Мои клиенты приходят ко мне сами. Без спама. Без «продающих скриптов».</p></div>
-            <div class="transform-card"><i class="fas fa-users" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Простая система = результат</h3><p>Один понятный инструмент помогает моим ученицам привлекать клиентов за несколько дней. Система работает даже на фоне декрета.</p></div>
-            <div class="transform-card"><i class="fas fa-calendar-week" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Регулярность важнее скачков</h3><p>Маленькие шаги каждый день дают большие изменения. Доход приходит плавно и остаётся с тобой.</p></div>
-            <div class="transform-card"><i class="fas fa-heart" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Свобода быть мамой и собой</h3><p>Я перестала чувствовать вину. Теперь я могу и быть с сыном, и зарабатывать, и строить планы на будущее.</p></div>
+            <div class="transform-card"><i class="fas fa-chart-simple" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Стабильный доход из дома</h3><p>Я начала с нуля. Сейчас у меня есть стабильный доход. Мои клиенты приходят ко мне сами. Без спама.</p></div>
+            <div class="transform-card"><i class="fas fa-users" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Простая система = результат</h3><p>Один понятный инструмент помогает моим ученицам привлекать клиентов за несколько дней.</p></div>
+            <div class="transform-card"><i class="fas fa-calendar-week" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Регулярность важнее скачков</h3><p>Маленькие шаги каждый день дают большие изменения. Доход приходит плавно.</p></div>
+            <div class="transform-card"><i class="fas fa-heart" style="font-size: 2rem; color:#d9b8ff;"></i><h3>Свобода быть мамой и собой</h3><p>Я перестала чувствовать вину. Теперь я могу и быть с сыном, и зарабатывать.</p></div>
         </div>
         <div class="quote" style="margin-top: 40px;">
             <p>«Не ждите аплодисментов от тех, кто привык видеть вас "удобной". Не нужно никому ничего доказывать. Только себе. Той девчонке в зеркале, которая хочет для своей семьи чего-то большего».</p>
@@ -526,6 +503,22 @@
     </div>
 </section>
 
+<!-- ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON (ПОДВАЛ) ========== -->
+<div style="background: rgba(12, 15, 28, 0.5); backdrop-filter: blur(4px); padding: 16px 32px; border-top: 1px solid rgba(255, 200, 100, 0.12);">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 1.3rem; font-weight: 600; background: linear-gradient(135deg, #e2d4ff, #b88eff); background-clip: text; -webkit-background-clip: text; color: transparent;">GenOffOn</span>
+        </div>
+        <div style="width: 1px; height: 28px; background: rgba(255, 200, 150, 0.25);"></div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px; flex: 1; justify-content: flex-end;">
+            <div style="font-size: 0.85rem; color: #b9c2e6;">
+                Сделаем лендинг <strong style="color: #ffcf8a;">бесплатно</strong> · <span style="opacity:0.7;">Мы верим в вас</span>
+            </div>
+            <button id="genoffonModalBtn" style="background: rgba(255, 200, 100, 0.1); border: 1px solid rgba(255, 200, 100, 0.35); padding: 6px 18px; border-radius: 100px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 0.8rem; color: #ffdfa5; cursor: pointer; transition: all 0.2s;">Узнать →</button>
+        </div>
+    </div>
+</div>
+
 <footer>
     <div class="container">
         <p>© 2026 Евгения Успешная — для мам, которые выбирают себя и свой доход.<br>Связаться: <a href="https://vk.com/smireugen" target="_blank">vk.com/smireugen</a></p>
@@ -533,12 +526,29 @@
     </div>
 </footer>
 
+<!-- МОДАЛЬНОЕ ОКНО GENOFFON -->
+<div class="modal-overlay" id="genoffonModal">
+    <div class="modal-window">
+        <i>✨</i>
+        <h3>Мы верим в ваши проекты</h3>
+        <p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p>
+        <div style="background: rgba(255, 200, 100, 0.1); border-radius: 20px; padding: 14px; margin: 18px 0; font-size: 0.85rem; border-left: 2px solid #ffcf8a; text-align: left; color: #e0e7ff;">
+            📌 <strong>Условия:</strong><br>
+            Разместим на вашем сайте реферальную ссылку на GenOffOn.<br>
+            Вы получаете стильный сайт + бонусы в нашем проекте.
+        </div>
+        <p style="font-size: 0.85rem; margin-bottom: 20px;">Переходите в Telegram-бота — обсудим детали</p>
+        <button class="modal-btn" id="genoffonRedirectBtn">📩 Перейти в GenOffOn_bot</button>
+        <div id="genoffonCloseBtn" style="margin-top: 20px; font-size: 0.7rem; color: #7f89b0; cursor: pointer;">✖️ закрыть</div>
+    </div>
+</div>
+
 <script>
+    // частицы
     function createParticles() {
         const container = document.getElementById('particles');
         if (!container) return;
-        const particleCount = 55;
-        for (let i = 0; i < particleCount; i++) {
+        for (let i = 0; i < 55; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
             const size = Math.random() * 6 + 2;
@@ -553,49 +563,60 @@
     }
     createParticles();
 
-    function showModalAndRedirect(url) {
-        const overlay = document.createElement('div');
-        overlay.className = 'modal-overlay';
-        overlay.innerHTML = `
-            <div class="modal-content">
-                <i class="fas fa-star-of-life"></i>
-                <h3>✨ Евгения, приветствует вас ✨</h3>
-                <p>Вы сделали правильный выбор! Финансовая свобода начинается с первого шага. Я приготовила для вас полезный урок, который поможет начать путь к доходу из дома. Переходите в бота — там всё просто и понятно.</p>
-                <button class="modal-btn" id="modalConfirmBtn">🚀 Забрать урок →</button>
-            </div>
-        `;
-        document.body.appendChild(overlay);
-        setTimeout(() => overlay.classList.add('active'), 10);
-        const confirmBtn = overlay.querySelector('#modalConfirmBtn');
-        const closeModal = () => {
-            overlay.classList.remove('active');
-            setTimeout(() => overlay.remove(), 300);
-        };
-        confirmBtn.addEventListener('click', () => {
-            closeModal();
-            window.open(url, '_blank');
-        });
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) closeModal();
-        });
+    const tgUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
+
+    function showModalAndRedirect(url, modalId, redirectBtnId, closeBtnId) {
+        const modal = document.getElementById(modalId);
+        if (!modal) return;
+        modal.classList.add('active');
+        const redirectBtn = document.getElementById(redirectBtnId);
+        const closeBtn = document.getElementById(closeBtnId);
+        const closeModal = () => modal.classList.remove('active');
+        if (redirectBtn) {
+            redirectBtn.onclick = () => {
+                window.open(url, '_blank');
+                closeModal();
+            };
+        }
+        if (closeBtn) closeBtn.onclick = closeModal;
+        modal.onclick = (e) => { if (e.target === modal) closeModal(); };
     }
 
-    function handleTelegramRedirect(event) {
-        event.preventDefault();
-        const tgUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
-        showModalAndRedirect(tgUrl);
-    }
-
+    // основная кнопка телеграм (лендинг)
     const heroBtn = document.getElementById('heroTelegramBtn');
-    if (heroBtn) heroBtn.addEventListener('click', handleTelegramRedirect);
     const finalBtn = document.getElementById('finalTelegramBtn');
-    if (finalBtn) finalBtn.addEventListener('click', handleTelegramRedirect);
-    const allBtns = document.querySelectorAll('.btn-telegram');
-    allBtns.forEach(btn => {
-        btn.removeEventListener('click', handleTelegramRedirect);
-        btn.addEventListener('click', handleTelegramRedirect);
-    });
+    const mainModal = document.getElementById('genoffonModal');
+    
+    function handleMainTelegram(e) {
+        e.preventDefault();
+        const modal = document.getElementById('genoffonModal');
+        modal.classList.add('active');
+        const redirect = document.getElementById('genoffonRedirectBtn');
+        const close = document.getElementById('genoffonCloseBtn');
+        const closeModal = () => modal.classList.remove('active');
+        if (redirect) redirect.onclick = () => { window.open(tgUrl, '_blank'); closeModal(); };
+        if (close) close.onclick = closeModal;
+        modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+    }
+    if (heroBtn) heroBtn.addEventListener('click', handleMainTelegram);
+    if (finalBtn) finalBtn.addEventListener('click', handleMainTelegram);
+    
+    // блок genoffon в подвале
+    const genBtn = document.getElementById('genoffonModalBtn');
+    if (genBtn) {
+        genBtn.addEventListener('click', () => {
+            const modal = document.getElementById('genoffonModal');
+            modal.classList.add('active');
+            const redirect = document.getElementById('genoffonRedirectBtn');
+            const close = document.getElementById('genoffonCloseBtn');
+            const closeModal = () => modal.classList.remove('active');
+            if (redirect) redirect.onclick = () => { window.open(tgUrl, '_blank'); closeModal(); };
+            if (close) close.onclick = closeModal;
+            modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+        });
+    }
 
+    // анимация скролла
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -620,373 +641,5 @@
     `;
     document.head.appendChild(styleAnim);
 </script>
-
-    <!-- БЛОК: Сделаем лендинг бесплатно. GenOffOn -->
-<div style="background: linear-gradient(135deg, #0f1222 0%, #0a0c1a 100%); padding: 48px 32px 40px; text-align: center; border-top: 1px solid rgba(255,200,100,0.25);">
-    <h2 style="font-size: 2.2rem; font-weight: 800; background: linear-gradient(135deg, #FFE6B0 0%, #FFB347 100%); background-clip: text; -webkit-background-clip: text; color: transparent; margin-bottom: 16px;">Сделаем лендинг бесплатно</h2>
-    <div style="font-size: 1.3rem; color: #e2d4ff; font-weight: 500; margin-bottom: 12px;">Мы верим в вас.</div>
-    <div style="font-size: 1.8rem; font-weight: 800; color: #FFD966; letter-spacing: 2px; margin-bottom: 32px;">GenOffOn</div>
-    <button id="openModalBtnGen" style="background: linear-gradient(95deg, #FFB347, #FF8C00); border: none; padding: 14px 42px; border-radius: 60px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; color: #0a0c18; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);">🔥 Хочу свой сайт</button>
-</div>
-
-<!-- Модальное окно -->
-<div id="modalOverlayGen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease;">
-    <div style="background: linear-gradient(135deg, #1a1f32, #111425); border-radius: 48px; max-width: 520px; width: 90%; padding: 40px 32px; text-align: center; border: 1px solid rgba(255, 200, 100, 0.4); box-shadow: 0 30px 50px rgba(0,0,0,0.6); transform: scale(0.95); transition: transform 0.25s ease;">
-        <div style="font-size: 3.5rem; color: #FFD966; margin-bottom: 16px;">✨</div>
-        <h3 style="font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #FFE6B0, #FFB347); background-clip: text; -webkit-background-clip: text; color: transparent; margin-bottom: 24px;">Мы верим в ваши проекты</h3>
-        <p style="color: #d4dcff; line-height: 1.5; margin-bottom: 20px;">Сделаем лендинг <strong>бесплатно</strong> для тех, кто готов заявить о себе.</p>
-        <div style="background: rgba(255, 200, 100, 0.15); border-radius: 20px; padding: 14px; margin: 20px 0; font-size: 0.95rem; border-left: 3px solid #FFB347; text-align: left;">
-            📌 <strong>Условия:</strong><br>
-            Разместим на вашем сайте реферальную ссылку на проект GenOffOn.<br>
-            Вы получаете готовый стильный лендинг + возможность получать бонусы в нашем проекте.
-        </div>
-        <p style="color: #d4dcff; font-size: 0.95rem;">Переходите в Telegram-бота — расскажем детали и начнём работу.</p>
-        <button id="redirectBtnGen" style="background: linear-gradient(95deg, #FFB347, #FF8C00); border: none; padding: 14px 36px; border-radius: 60px; font-weight: 700; font-size: 1rem; font-family: 'Montserrat', sans-serif; color: #0a0c18; cursor: pointer; transition: 0.2s; margin-top: 8px;">🚀 Перейти в GenOffOn_bot</button>
-        <div id="closeModalBtnGen" style="margin-top: 20px; font-size: 0.8rem; color: #8f9bb3; cursor: pointer;">✖️ закрыть</div>
-    </div>
-</div>
-
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GenOffOn | Деликатный блок</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #0a0c18 0%, #0f1222 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        /* демонстрационная карточка — имитация подвала сайта */
-        .demo-site {
-            max-width: 1000px;
-            width: 100%;
-            background: rgba(18, 22, 40, 0.5);
-            border-radius: 28px;
-            overflow: hidden;
-            backdrop-filter: blur(2px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* имитация контента лендинга */
-        .demo-content {
-            padding: 50px 40px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .demo-content h1 {
-            font-size: 1.6rem;
-            color: rgba(255,255,245,0.9);
-            font-weight: 500;
-        }
-
-        /* ========== ОСНОВНОЙ БЛОК — ДЕЛИКАТНАЯ ВЕРСИЯ ========== */
-        .genoffon-subtle {
-            background: rgba(12, 15, 28, 0.6);
-            backdrop-filter: blur(4px);
-            padding: 20px 32px;
-            border-top: 1px solid rgba(255, 200, 100, 0.15);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .subtle-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        /* левая часть: логотип / название */
-        .subtle-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .subtle-brand .brand-icon {
-            font-size: 1.6rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, #e2d4ff, #b88eff);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .subtle-divider {
-            width: 1px;
-            height: 32px;
-            background: rgba(255, 200, 150, 0.3);
-            margin: 0 8px;
-        }
-
-        /* центральная / правая часть: текст и кнопка */
-        .subtle-offer {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 20px;
-            flex: 1;
-            justify-content: flex-end;
-        }
-
-        .subtle-text {
-            font-size: 0.9rem;
-            color: #b9c2e6;
-            letter-spacing: 0.2px;
-            font-weight: 450;
-        }
-
-        .subtle-text strong {
-            color: #ffcf8a;
-            font-weight: 500;
-        }
-
-        .btn-subtle {
-            background: rgba(255, 200, 100, 0.12);
-            border: 1px solid rgba(255, 200, 100, 0.35);
-            padding: 8px 20px;
-            border-radius: 100px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 500;
-            font-size: 0.85rem;
-            color: #ffdfa5;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            backdrop-filter: blur(2px);
-        }
-
-        .btn-subtle:hover {
-            background: rgba(255, 200, 100, 0.25);
-            border-color: rgba(255, 200, 100, 0.7);
-            color: #fff0d0;
-            transform: translateY(-1px);
-        }
-
-        /* модальное окно — изящное, не яркое */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.25s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-window {
-            background: rgba(20, 24, 42, 0.96);
-            backdrop-filter: blur(8px);
-            border-radius: 32px;
-            max-width: 460px;
-            width: 90%;
-            padding: 32px 28px;
-            text-align: center;
-            border: 1px solid rgba(255, 200, 130, 0.25);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            transform: scale(0.96);
-            transition: transform 0.2s ease;
-        }
-
-        .modal-overlay.active .modal-window {
-            transform: scale(1);
-        }
-
-        .modal-window i {
-            font-size: 2.2rem;
-            color: #ffd48a;
-            opacity: 0.8;
-            margin-bottom: 12px;
-            display: inline-block;
-        }
-
-        .modal-window h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #f0e6ff;
-            margin-bottom: 16px;
-            letter-spacing: -0.2px;
-        }
-
-        .modal-window p {
-            color: #cbd5f0;
-            line-height: 1.5;
-            margin-bottom: 18px;
-            font-size: 0.95rem;
-        }
-
-        .modal-highlight {
-            background: rgba(255, 200, 100, 0.08);
-            border-radius: 20px;
-            padding: 14px 16px;
-            margin: 18px 0;
-            font-size: 0.85rem;
-            border-left: 2px solid #ffcf8a;
-            text-align: left;
-            color: #e0e7ff;
-        }
-
-        .btn-modal {
-            background: rgba(255, 200, 100, 0.2);
-            border: 1px solid rgba(255, 200, 100, 0.5);
-            padding: 10px 28px;
-            border-radius: 100px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            font-family: 'Montserrat', sans-serif;
-            color: #ffdfaa;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 8px;
-        }
-
-        .btn-modal:hover {
-            background: rgba(255, 200, 100, 0.35);
-            border-color: #ffcf8a;
-            color: #fff5e6;
-        }
-
-        .close-modal-text {
-            margin-top: 18px;
-            font-size: 0.7rem;
-            color: #7f89b0;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .close-modal-text:hover {
-            color: #ffcf8a;
-        }
-
-        footer {
-            text-align: center;
-            padding: 16px;
-            font-size: 0.7rem;
-            color: #5a627a;
-            background: #080b14;
-        }
-
-        @media (max-width: 700px) {
-            .subtle-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .subtle-offer {
-                justify-content: flex-start;
-                width: 100%;
-            }
-            .subtle-divider {
-                display: none;
-            }
-            .genoffon-subtle {
-                padding: 18px 24px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-<div class="demo-site">
-    <!-- имитация контента лендинга -->
-    <div class="demo-content">
-        <h1>✨ Здесь мог быть ваш продукт или история успеха</h1>
-    </div>
-
-    <!-- ДЕЛИКАТНЫЙ БЛОК: GenOffOn | разделитель | предложение -->
-    <div class="genoffon-subtle">
-        <div class="subtle-container">
-            <div class="subtle-brand">
-                <span class="brand-icon">GenOffOn</span>
-            </div>
-            <div class="subtle-divider"></div>
-            <div class="subtle-offer">
-                <div class="subtle-text">
-                    Сделаем лендинг <strong>бесплатно</strong> · <span style="opacity:0.7;">Мы верим в вас</span>
-                </div>
-                <button class="btn-subtle" id="openSubtleModal">Узнать →</button>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        © 2026 · Проект GenOffOn — помогаем запускаться
-    </footer>
-</div>
-
-<!-- МОДАЛЬНОЕ ОКНО (деликатное, без ярких перегрузов) -->
-<div class="modal-overlay" id="subtleModal">
-    <div class="modal-window">
-        <i>✨</i>
-        <h3>Мы верим в ваши проекты</h3>
-        <p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p>
-        <div class="modal-highlight">
-            📌 <strong>Условия:</strong><br>
-            Разместим на вашем сайте реферальную ссылку на GenOffOn.<br>
-            Вы получаете стильный сайт + бонусы в нашем проекте.
-        </div>
-        <p style="font-size: 0.85rem; margin-bottom: 8px;">Переходите в Telegram-бота — обсудим детали</p>
-        <button class="btn-modal" id="redirectSubtleBtn">📩 Перейти в GenOffOn_bot</button>
-        <div class="close-modal-text" id="closeSubtleModal">✖️ закрыть</div>
-    </div>
-</div>
-
-<script>
-    const modal = document.getElementById('subtleModal');
-    const openBtn = document.getElementById('openSubtleModal');
-    const closeBtn = document.getElementById('closeSubtleModal');
-    const redirectBtn = document.getElementById('redirectSubtleBtn');
-    const tgUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
-
-    function openModal() {
-        modal.classList.add('active');
-    }
-
-    function closeModal() {
-        modal.classList.remove('active');
-    }
-
-    openBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
-    redirectBtn.addEventListener('click', () => {
-        window.open(tgUrl, '_blank');
-        closeModal();
-    });
-</script>
-
-</body>
-</html>
 </body>
 </html>
