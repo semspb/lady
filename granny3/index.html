@@ -910,14 +910,14 @@
             <h2>«Я думала,<br>моя жизнь уже позади...»</h2>
 
             <span class="emotion-tag">6 месяцев назад</span>
-            <p>Я стояла в очереди в аптеке. <br>Держала коробку таблеток от давления и считала мелочь в кошельке. <strong>Мне не хватало 40 рублей.</strong></p>
+            <p>Я стояла в очереди в аптеке. Держала коробку таблеток от давления и считала мелочь в кошельке. <strong>Мне не хватало 40 рублей.</strong></p>
             <p>Я отложила лекарство и вышла — тихо, чтобы никто не видел. Чувствовала себя обузой. Внук просил телефон. Дочь вздыхала, глядя на счета за коммуналку.</p>
 
             <div class="pullquote">
                 «Компьютер для меня был тёмным лесом. Я боялась нажать не туда. Боялась вирусов. Думала: "Галина, ты старая. Твоё время прошло."»
             </div>
 
-            <p>Но однажды я увидела рекламу про нейросети. <br>Сначала подумала — развод. Но от безысходности решила попробовать. <strong>И всё изменилось.</strong></p>
+            <p>Но однажды я увидела рекламу про нейросети. Сначала подумала — развод. Но от безысходности решила попробовать. <strong>И всё изменилось.</strong></p>
         </div>
     </div>
 </section>
@@ -1108,6 +1108,88 @@
     <p class="copy">© 2024 Галина Ивановна и команда проекта</p>
 </section>
 
+<!-- ═══════════════ GENOFFON ═══════════════ -->
+<div class="genoffon-footer">
+    <div class="genoffon-inner">
+        <div class="genoffon-brand">
+            <span>GenOffOn</span>
+        </div>
+        <div class="genoffon-divider"></div>
+        <div class="genoffon-offer">
+            <div class="genoffon-text">
+                Сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span>
+            </div>
+            <button class="genoffon-btn" id="genoffonOpenBtn">Узнать →</button>
+        </div>
+    </div>
+</div>
 
+<div class="genoffon-modal-overlay" id="genoffonModal">
+    <div class="genoffon-modal-window">
+        <i>✨</i>
+        <h3>Мы верим в ваши проекты</h3>
+        <p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p>
+        <div class="genoffon-modal-highlight">
+            📌 <strong>Условия:</strong><br>
+            Разместим на вашем сайте реферальную ссылку на GenOffOn.<br>
+            Вы получаете стильный сайт + бонусы в нашем проекте.
+        </div>
+        <p style="font-size: 0.85rem; margin-bottom: 20px;">Переходите в Telegram-бота — обсудим детали</p>
+        <button class="genoffon-modal-btn" id="genoffonRedirectBtn">📩 Перейти в GenOffOn_bot</button>
+        <div class="genoffon-close" id="genoffonCloseBtn">✖️ закрыть</div>
+    </div>
+</div>
+
+<script>
+    // PROGRESS BAR
+    window.addEventListener('scroll', () => {
+        const el = document.getElementById('progress-bar');
+        const h = document.documentElement;
+        const pct = (h.scrollTop || document.body.scrollTop) / ((h.scrollHeight || document.body.scrollHeight) - h.clientHeight) * 100;
+        el.style.width = pct + '%';
+    });
+
+    // COUNTDOWN TIMER
+    function updateTimer() {
+        const now = new Date();
+        const end = new Date();
+        end.setHours(23, 59, 59, 0);
+        let diff = Math.max(0, end - now);
+        const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+        diff %= 3600000;
+        const m = String(Math.floor(diff / 60000)).padStart(2, '0');
+        diff %= 60000;
+        const s = String(Math.floor(diff / 1000)).padStart(2, '0');
+        document.getElementById('timer').textContent = `${h}:${m}:${s}`;
+    }
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    // FADE-UP OBSERVER
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // GENOFFON MODAL
+    (function () {
+        const tgUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
+        const modal = document.getElementById('genoffonModal');
+        const openBtn = document.getElementById('genoffonOpenBtn');
+        const redirectBtn = document.getElementById('genoffonRedirectBtn');
+        const closeBtn = document.getElementById('genoffonCloseBtn');
+        if (!modal || !openBtn) return;
+        openBtn.addEventListener('click', () => modal.classList.add('active'));
+        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+        redirectBtn.addEventListener('click', () => { window.open(tgUrl, '_blank'); modal.classList.remove('active'); });
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
+    })();
+</script>
 </body>
 </html>
