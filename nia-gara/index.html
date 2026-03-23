@@ -107,6 +107,10 @@
             0% { opacity: 0; transform: translateY(30px); }
             100% { opacity: 1; transform: translateY(0); }
         }
+        @keyframes bounceSoft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
         .animate-up {
             animation: fadeUp 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
         }
@@ -253,6 +257,75 @@
             margin: 2rem 0;
             border: 1px solid var(--border);
         }
+        /* НОВЫЙ БОНУС-БЛОК — яркий, с анимацией */
+        .bonus-block {
+            background: linear-gradient(135deg, var(--bg-highlight), var(--bg-card));
+            border-radius: 3rem;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 2px solid var(--accent);
+            box-shadow: 0 20px 35px -10px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .bonus-block::before {
+            content: "🎈🎁🎈";
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.08;
+            bottom: -20px;
+            right: -30px;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .bonus-gift {
+            font-size: 5rem;
+            display: inline-block;
+            animation: bounceSoft 2s ease-in-out infinite;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1));
+            margin-bottom: 0.5rem;
+        }
+        .bonus-block h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+            background: linear-gradient(135deg, var(--accent), #c154c1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .bonus-subbadge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--badge-text);
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .bonus-description {
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin: 1rem auto;
+            color: var(--text-secondary);
+        }
+        .bonus-joke {
+            background: rgba(255,140,66,0.15);
+            border-radius: 2rem;
+            padding: 1rem;
+            margin: 1.5rem auto;
+            max-width: 500px;
+            font-style: italic;
+            font-size: 0.95rem;
+            border-left: 3px solid var(--accent);
+        }
+        .bonus-btn {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            padding: 0.9rem 2.2rem;
+        }
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -363,32 +436,50 @@
         .genoffon-footer {
             background: var(--footer-bg);
             color: var(--footer-text);
-            padding: 1.2rem 2rem;
+            padding: 2rem 1.5rem;
             border-top: 1px solid var(--accent);
+            text-align: center;
         }
         .genoffon-inner {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
             gap: 1rem;
         }
+        .genoffon-brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--accent), #c154c1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .genoffon-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
         .genoffon-btn {
-            background: #ffaa55;
+            background: var(--accent);
             border: none;
-            padding: 0.4rem 1.2rem;
-            border-radius: 40px;
+            padding: 0.6rem 1.8rem;
+            border-radius: 60px;
             font-weight: 600;
             cursor: pointer;
+            color: #1e1029;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            transition: 0.2s;
         }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: var(--footer-bg);
-            color: var(--footer-text);
+        .genoffon-btn:hover {
+            background: var(--accent-dark);
+            transform: scale(1.02);
         }
+
         .floating-cta {
             position: fixed;
             bottom: 20px;
@@ -409,6 +500,8 @@
             h1 { font-size: 2.4rem; }
             .hero-grid { flex-direction: column; }
             .theme-switch-wrapper { top: 10px; right: 10px; font-size: 0.7rem; padding: 6px 12px; }
+            .bonus-block h2 { font-size: 1.8rem; }
+            .bonus-gift { font-size: 3.5rem; }
         }
     </style>
 </head>
@@ -508,8 +601,24 @@
         </div>
     </section>
 
-    <!-- Бонус -->
-    <section><div class="container"><div class="highlight"><h2>🎁 БОНУС УЖЕ ВНУТРИ</h2><p>Просто подпишись — и получишь хорошее настроение + смех до слёз в каждом посте.</p><button class="btn btn-primary subscribe-trigger">👉 ЗАБРАТЬ НАСТРОЕНИЕ</button></div></div></section>
+    <!-- НОВЫЙ БОНУС-БЛОК — яркий, с коробкой, шариками и юмором -->
+    <section>
+        <div class="container">
+            <div class="bonus-block animate-up">
+                <div class="bonus-gift">🎁🎈🎀</div>
+                <div class="bonus-subbadge">СЮРПРИЗ! (спойлер: это не очередной PDF)</div>
+                <h2>БОНУС УЖЕ ВНУТРИ</h2>
+                <div class="bonus-description">
+                    Просто подпишись — и получишь <strong>хорошее настроение + смех до слёз</strong> в каждом посте.
+                </div>
+                <div class="bonus-joke">
+                    🎤 «Обычно в таких бонусах обещают гайд “как стать миллионером”. У меня есть только гайд “как не упасть со сцены в Индии”. Но он тоже бесценный.»
+                </div>
+                <button class="btn btn-primary bonus-btn subscribe-trigger">🎁 ЗАБРАТЬ ПОДАРОК →</button>
+                <p style="font-size: 0.75rem; margin-top: 1.2rem; opacity: 0.7;">*подарок внутри канала. Мягкая игрушка в комплект не входит, но смешной кот — почти всегда</p>
+            </div>
+        </div>
+    </section>
 
     <!-- 9 отзывов -->
     <section><div class="container"><div class="animate-up"><div class="badge">💬 Говорят те, кто уже подписался</div><h2>9 отзывов, которые я не покупала</h2></div>
@@ -541,11 +650,27 @@
     <section style="text-align: center;"><div class="container"><h2>КОРОЧЕ, ДАВАЙ СЮДА</h2><p>Жми, подписывайся, забирай хорошее настроение.</p><button class="btn btn-primary subscribe-trigger" style="padding: 1rem 2.5rem;">📲 ПОДПИСАТЬСЯ</button><p style="margin-top: 2rem;">📞 Директор: 8 926 920-13-04</p></div></section>
 
     <!-- GenOffOn блок -->
-    <div class="genoffon-footer"><div class="genoffon-inner"><div class="genoffon-brand">GenOffOn</div><div class="genoffon-offer"><div class="genoffon-text">Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span></div><button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button></div></div></div>
-    <footer><div class="container"><p>© 2026 Евгения Успешная — для мам, которые выбирают себя и свой доход.<br>Связаться: <a href="https://vk.com/smireugen" target="_blank" style="color:var(--accent);">vk.com/smireugen</a></p><p>Сделано с заботой о вашем спокойствии и свободе.</p></div></footer>
+    <div class="genoffon-footer">
+        <div class="genoffon-inner">
+            <div class="genoffon-brand">GenOffOn</div>
+            <div class="genoffon-tagline">Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> · Мы верим в вас</div>
+            <button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button>
+        </div>
+    </div>
 
     <!-- модалка GenOffOn -->
-    <div class="modal-overlay" id="genoffonModal"><div class="modal-window"><i>✨</i><h3>Мы верим в ваши проекты</h3><p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p><div style="background: rgba(255,140,66,0.1); border-radius: 20px; padding: 14px; margin: 18px 0;"><strong>Условия:</strong> разместите нашу реферальную ссылку, получите стильный сайт.</div><button class="modal-btn" id="genoffonRedirectBtn">📩 Перейти в GenOffOn_bot</button><div id="genoffonCloseBtn" style="margin-top: 20px; cursor: pointer;">✖️ закрыть</div></div></div>
+    <div class="modal-overlay" id="genoffonModal">
+        <div class="modal-window">
+            <i>✨</i>
+            <h3>Мы верим в ваши проекты</h3>
+            <p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p>
+            <div style="background: rgba(255,140,66,0.1); border-radius: 20px; padding: 14px; margin: 18px 0;">
+                📌 <strong>Условия:</strong> разместите нашу реферальную ссылку, получите стильный сайт.
+            </div>
+            <button class="modal-btn" id="genoffonRedirectBtn">📩 Перейти в GenOffOn_bot</button>
+            <div id="genoffonCloseBtn" style="margin-top: 20px; cursor: pointer;">✖️ закрыть</div>
+        </div>
+    </div>
 
     <script>
         // Переключение тем
@@ -612,7 +737,7 @@
         genModal.addEventListener('click', (e) => { if(e.target === genModal) closeGen(); });
 
         // скролл-анимация
-        const animElements = document.querySelectorAll('.animate-up, .fact-card, .gallery-item, .testimonial-card, .highlight');
+        const animElements = document.querySelectorAll('.animate-up, .fact-card, .gallery-item, .testimonial-card, .highlight, .bonus-block');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting){
