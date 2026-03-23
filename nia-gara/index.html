@@ -732,12 +732,17 @@
         }, 200);
     </script>
 
-    <!-- ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON — АДАПТИВНЫЙ ========== -->
+    <!-- ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON — ГОРИЗОНТАЛЬНЫЙ ========== -->
 <div class="genoffon-footer">
     <div class="genoffon-inner">
-        <div class="genoffon-brand">GenOffOn</div>
+        <div class="genoffon-brand">
+            <span>GenOffOn</span>
+        </div>
+        <div class="genoffon-divider"></div>
         <div class="genoffon-offer">
-            <div class="genoffon-text">Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span></div>
+            <div class="genoffon-text">
+                Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span>
+            </div>
             <button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button>
         </div>
     </div>
@@ -759,6 +764,67 @@
         <div id="genoffonCloseBtn" style="margin-top: 20px; font-size: 0.7rem; color: #7f89b0; cursor: pointer;">✖️ закрыть</div>
     </div>
 </div>
+
+<style>
+/* GenOffOn footer — горизонтальная компоновка */
+.genoffon-footer {
+    background: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 1.2rem 2rem;
+    border-top: 1px solid var(--accent);
+}
+.genoffon-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.genoffon-brand {
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+.genoffon-divider {
+    width: 1px;
+    height: 30px;
+    background: var(--accent);
+    opacity: 0.5;
+}
+.genoffon-offer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.genoffon-text {
+    font-size: 0.9rem;
+}
+.genoffon-btn {
+    background: var(--accent);
+    border: none;
+    padding: 0.4rem 1.2rem;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--badge-text);
+}
+@media (max-width: 700px) {
+    .genoffon-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.8rem;
+    }
+    .genoffon-divider {
+        display: none;
+    }
+    .genoffon-offer {
+        justify-content: center;
+    }
+}
+</style>
 
 <script>
 (function() {
