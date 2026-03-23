@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайты на нейросетях за 1990₽ | История Галины Ивановны</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e67e22;
+            --primary-dark: #d35400;
+            --secondary: #2c3e50;
+            --accent: #27ae60;
+            --bg-light: #f5f0eb;
+            --bg-warm: #fef5e7;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            line-height: 1.2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(230, 126, 34, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 48px);
+            color: var(--secondary);
+            margin-bottom: 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2vw, 20px);
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .price-section {
+            margin: 40px 0;
+        }
+
+        .old-price {
+            font-size: 24px;
+            color: #999;
+            text-decoration: line-through;
+            margin-bottom: 10px;
+        }
+
+        .current-price {
+            font-size: clamp(48px, 8vw, 72px);
+            color: var(--primary);
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .timer {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 15px 30px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .timer span {
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 18px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(230, 126, 34, 0.5);
+        }
+
+        .btn-large {
+            padding: 22px 60px;
+            font-size: 20px;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* Story Section */
+        .story {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story-content h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--secondary);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .story-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(230, 126, 34, 0.2) 0%, transparent 100%);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .quote-box {
+            background: var(--bg-light);
+            border-left: 4px solid var(--primary);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            font-size: 18px;
+            color: var(--secondary);
+        }
+
+        /* Success Section */
+        .success {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f9f9f9 0%, var(--bg-warm) 100%);
+        }
+
+        .success-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .success-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .success-cards {
+            display: grid;
+            gap: 20px;
+        }
+
+        .success-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .success-card:hover {
+            transform: translateX(10px);
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent) 0%, #2ecc71 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .success-card h4 {
+            font-size: 24px;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .success-card p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .projects h2 {
+            text-align: center;
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .projects-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        .project-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .project-card h3 {
+            font-size: 20px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .project-card p {
+            color: var(--text-light);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .project-price {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .project-time {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 10px;
+        }
+
+        .total-earnings {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 50px;
+            box-shadow: 0 20px 60px rgba(230, 126, 34, 0.4);
+        }
+
+        .total-earnings h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .total-earnings .amount {
+            font-size: clamp(48px, 8vw, 72px);
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .total-earnings p {
+            margin-top: 15px;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Math Section */
+        .math {
+            padding: 80px 0;
+            background: var(--bg-light);
+        }
+
+        .math h2 {
+            text-align: center;
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--secondary);
+            margin-bottom: 60px;
+        }
+
+        .math-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .math-card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .math-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .math-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .math-card h3 {
+            font-size: 20px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .math-value {
+            font-size: clamp(36px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .math-card:nth-child(1) .math-value { color: var(--primary); }
+        .math-card:nth-child(2) .math-value { color: var(--accent); }
+        .math-card:nth-child(3) .math-value { color: #8e44ad; }
+
+        .math-card p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Course Content */
+        .course {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .course h2 {
+            text-align: center;
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .course-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background: var(--bg-light);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        .course-card.bonus::before {
+            background: linear-gradient(180deg, #f39c12 0%, #e67e22 100%);
+        }
+
+        .course-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: rgba(230, 126, 34, 0.2);
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .course-card h3 {
+            font-size: 20px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .course-card p {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        /* Why Price Section */
+        .why-price {
+            padding: 80px 0;
+            background: var(--bg-warm);
+        }
+
+        .why-price-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .why-price h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--secondary);
+            margin-bottom: 40px;
+        }
+
+        .why-price-quote {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            font-style: italic;
+            font-size: 18px;
+            color: var(--secondary);
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .why-price-quote::before {
+            content: '"';
+            font-size: 80px;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-family: Georgia, serif;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--bg-warm) 0%, #ffeaa7 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(230, 126, 34, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            color: var(--secondary);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .cta p {
+            font-size: 20px;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .cta-price {
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .cta-badge {
+            background: #e74c3c;
+            color: var(--white);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .cta-features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .cta-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            color: var(--secondary);
+        }
+
+        .cta-feature svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--accent);
+        }
+
+        /* Guarantee Section */
+        .guarantee {
+            padding: 60px 0;
+            background: var(--secondary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .guarantee h3 {
+            font-size: clamp(24px, 4vw, 32px);
+            margin-bottom: 20px;
+        }
+
+        .guarantee p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .guarantee-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 40px 0;
+            background: #1a252f;
+            color: var(--white);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer p {
+            opacity: 0.7;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            padding: 50px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--secondary);
+        }
+
+        .modal h3 {
+            font-size: 28px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .modal p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .modal-form input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .modal-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .modal-form button {
+            width: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 0 40px;
+            }
+
+            .btn {
+                padding: 15px 35px;
+                font-size: 16px;
+            }
+
+            .btn-large {
+                padding: 18px 45px;
+                font-size: 18px;
+            }
+
+            .trust-badges {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .story, .success, .math, .course, .why-price, .cta {
+                padding: 60px 0;
+            }
+
+            .modal {
+                padding: 30px;
+            }
+
+            .cta-features {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <span class="hero-badge">🎯 ИСТОРИЯ ПЕНСИОНЕРКИ</span>
+            <h1>Мне 67 лет. Я не умею программировать.<br>Но я зарабатываю 15 000₽ за один сайт</h1>
+            <p class="hero-subtitle">Узнайте, как создавать современные сайты за 10 минут, просто разговаривая с компьютером. Без кода. Без сложностей.</p>
+            
+            <div class="price-section fade-in">
+                <p class="old-price">17 990₽</p>
+                <p class="current-price">1 990₽</p>
+            </div>
+            
+            <div class="timer fade-in" id="timer">
+                ⏰ До конца акции: <span id="countdown">05:00:00</span>
+            </div>
+            
+            <br>
+            <a href="#order" class="btn btn-large fade-in">🚀 ХОЧУ УЗНАТЬ СЕКРЕТ ЗА 1 990₽</a>
+            
+            <div class="trust-badges fade-in">
+                <div class="trust-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Оплата безопасна
+                </div>
+                <div class="trust-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Доступ через 1 минуту
+                </div>
+                <div class="trust-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Гарантия возврата
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story">
+        <div class="container">
+            <div class="story-content fade-in">
+                <h2>«Я думала, моя жизнь уже позади...»</h2>
+                <p>Меня зовут <span class="highlight">Галина Ивановна</span>. Мне 67 лет. Я обычная пенсионерка из обычного города.</p>
+                <p>Шесть месяцев назад я стояла в очереди в аптеке. Держала в руках коробку таблеток от давления и считала деньги в кошельке. <span class="highlight">Мне не хватало 40 рублей.</span> Я отложила лекарство обратно и вышла, чувствуя себя никому не нужной обузой.</p>
+                <p>Внук просил новый телефон, дочь вздыхала, глядя на счета за коммуналку. А я... я просто боялась будущего.</p>
+                <div class="quote-box">
+                    «Компьютер для меня был темным лесом: я боялась нажать не туда, боялась вирусов, боялась, что мои старые руки не успевают за клавиатурой. Я думала: "Галина, ты старая. Твое время прошло."»
+                </div>
+                <p>Но однажды я увидела рекламу про нейросети. Сначала подумала — развод. Но от безысходности решила попробовать.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Section -->
+    <section class="success">
+        <div class="container">
+            <div class="success-grid">
+                <div class="success-content fade-in">
+                    <h2>Магия, доступная каждому</h2>
+                    <p style="font-size: 18px; margin-bottom: 20px; color: var(--text-light);">Я попробовала. И у меня получилось с первого раза!</p>
+                    <p style="margin-bottom: 20px; color: var(--text-light);">Оказывается, сейчас есть <span class="highlight">Нейросети</span>. Это как волшебный помощник. Я пишу ему: "Сделай сайт для парикмахерской, красивый, в розовых тонах". А он... он сам пишет весь код! Сам рисует! Сам настраивает!</p>
+                    <p style="margin-bottom: 30px; color: var(--text-light);">Мне не нужно было ломать голову над формулами. Мне нужно было просто иметь <span class="highlight">Вайб</span> (настроение) и желание помочь людям. Это назвали <strong>"Вайбкодинг"</strong>.</p>
+                </div>
+                <div class="success-cards fade-in">
+                    <div class="success-card">
+                        <div class="success-icon">✅</div>
+                        <div>
+                            <h4>0₽</h4>
+                            <p>Затраты на создание сайта</p>
+                        </div>
+                    </div>
+                    <div class="success-card">
+                        <div class="success-icon">⏱️</div>
+                        <div>
+                            <h4>15 минут</h4>
+                            <p>На первый сайт</p>
+                        </div>
+                    </div>
+                    <div class="success-card">
+                        <div class="success-icon">💰</div>
+                        <div>
+                            <h4>15 000₽</h4>
+                            <p>Стоимость продажи</p>
+                        </div>
+                    </div>
+                    <div class="success-card">
+                        <div class="success-icon">🎯</div>
+                        <div>
+                            <h4>Десятки</h4>
+                            <p>Сайтов за 6 месяцев</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects">
+        <div class="container">
+            <h2 class="fade-in">Вот что у меня получилось</h2>
+            <p class="projects-subtitle fade-in">Первая неделя после обучения. 6 сайтов. 90 000 рублей.</p>
+            
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-icon">💄</div>
+                    <h3>Косметический салон</h3>
+                    <p>Современный сайт с прайс-листом, онлайн-записью и галереей работ. Владелец в восторге!</p>
+                    <div class="project-price">15 000₽</div>
+                    <div class="project-time">⏱️ Время создания: 45 минут</div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-icon">‍🎨</div>
+                    <h3>Портфолио внука</h3>
+                    <p>Стильное портфолио для дизайнера. Яркое, современное, с анимацией и контактами.</p>
+                    <div class="project-price">10 000₽</div>
+                    <div class="project-time">⏱️ Время создания: 30 минут</div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-icon">⚽</div>
+                    <h3>Школьная команда по футболу</h3>
+                    <p>Сайт для детской футбольной команды с расписанием, составом и фото с матчей.</p>
+                    <div class="project-price">15 000₽</div>
+                    <div class="project-time">⏱️ Время создания: 40 минут</div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-icon">🏠</div>
+                    <h3>Агентство недвижимости</h3>
+                    <p>Профессиональный сайт с каталогом объектов, фильтрами и формой заявки.</p>
+                    <div class="project-price">20 000₽</div>
+                    <div class="project-time">⏱️ Время создания: 60 минут</div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-icon">☕</div>
+                    <h3>Уютное кафе</h3>
+                    <p>Сайт для семейного кафе с меню, фото блюд, отзывами и картой проезда.</p>
+                    <div class="project-price">15 000₽</div>
+                    <div class="project-time">⏱️ Время создания: 50 минут</div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-icon">⚖️</div>
+                    <h3>Юридические услуги</h3>
+                    <p>Сайт для адвоката с описанием услуг, опытом работы и формой консультации.</p>
+                    <div class="project-price">15 000₽</div>
+                    <div class="project-time">⏱️ Время создания: 45 минут</div>
+                </div>
+            </div>
+            
+            <div class="total-earnings fade-in">
+                <h3>💰 ЗАРАБОТОК ЗА ПЕРВУЮ НЕДЕЛЮ</h3>
+                <div class="amount">90 000₽</div>
+                <p>Чистыми, без вложений. Я просто писала текст нейросети.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Math Section -->
+    <section class="math">
+        <div class="container">
+            <h2 class="fade-in">Почему это выгодно именно сейчас?</h2>
+            <div class="math-grid">
+                <div class="math-card fade-in">
+                    <div class="math-icon">💰</div>
+                    <h3>Себестоимость</h3>
+                    <p class="math-value">0₽</p>
+                    <p>Нейросети работают бесплатно</p>
+                </div>
+                <div class="math-card fade-in">
+                    <div class="math-icon">⏱️</div>
+                    <h3>Время</h3>
+                    <p class="math-value">30-60 мин</p>
+                    <p>На один готовый сайт</p>
+                </div>
+                <div class="math-card fade-in">
+                    <div class="math-icon">💵</div>
+                    <h3>Прибыль</h3>
+                    <p class="math-value">15 000₽</p>
+                    <p>В среднем за один сайт</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 50px; font-size: 18px; color: var(--text-light);" class="fade-in">
+                Сайты нужны всем: пекарням, репетиторам, мастерам маникюра, автосервисам.<br>
+                Раньше сайт стоил 50 000₽ и делался месяц. Теперь — за вечер.
+            </p>
+        </div>
+    </section>
+
+    <!-- Course Content -->
+    <section class="course">
+        <div class="container">
+            <h2 class="fade-in">Что внутри курса?</h2>
+            <p class="course-subtitle fade-in">Я не программист. Я обычная женщина. Поэтому объясняю всё <strong>человеческим языком</strong>.</p>
+            
+            <div class="course-grid">
+                <div class="course-card fade-in">
+                    <div class="course-number">01</div>
+                    <h3>Где брать бесплатные нейросети</h3>
+                    <p>Полный список инструментов, которые делают всё за вас. Без регистрации и смс.</p>
+                </div>
+                <div class="course-card fade-in">
+                    <div class="course-number">02</div>
+                    <h3>Промпт-инжиниринг для бабушек</h3>
+                    <p>Какие слова писать, чтобы нейросеть поняла вас с полуслова. Простые шаблоны.</p>
+                </div>
+                <div class="course-card fade-in">
+                    <div class="course-number">03</div>
+                    <h3>Как найти первого клиента</h3>
+                    <p>Где искать заказчиков и как не бояться назвать цену. Скрипты общения.</p>
+                </div>
+                <div class="course-card fade-in">
+                    <div class="course-number">04</div>
+                    <h3>Приём платежей без страха</h3>
+                    <p>Простые схемы для самозанятых. Как принимать деньги и спать спокойно.</p>
+                </div>
+                <div class="course-card fade-in">
+                    <div class="course-number">05</div>
+                    <h3>Создание портфолио</h3>
+                    <p>Как оформить свои работы, чтобы клиенты сами хотели купить. Примеры и шаблоны.</p>
+                </div>
+                <div class="course-card bonus fade-in">
+                    <div class="course-number">🎁</div>
+                    <h3>БОНУС: 50 идей для заработка</h3>
+                    <p>Список ниш, где сайты нужны прямо сейчас. Готовые предложения для клиентов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Price Section -->
+    <section class="why-price">
+        <div class="container">
+            <div class="why-price-content fade-in">
+                <h2>Почему такая цена?</h2>
+                <div class="why-price-quote">
+                    <p>Многие спрашивают: "Галина Ивановна, если это так круто, почему вы продаёте курс так недорого?"</p>
+                    <br>
+                    <p>Ответ простой. Я вижу, как много людей сейчас в отчаянии. Пенсионеры, мамы в декрете, студенты. Всем нужны деньги. Я не хочу наживаться на чужой беде.</p>
+                    <br>
+                    <p><strong>1 990 рублей</strong> — это символическая плата. Моя цель — чтобы как можно больше людей обрели финансовую независимость благодаря технологиям.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="order">
+        <div class="container">
+            <span class="cta-badge">⏰ ТОЛЬКО СЕГОДНЯ</span>
+            <h2 class="fade-in">Не ждите, пока станет поздно</h2>
+            <p class="fade-in">Вам не нужно быть молодым. Вам не нужно быть гением.<br>Вам нужно просто захотеть.</p>
+            
+            <div class="cta-price fade-in">
+                <p class="old-price">17 990₽</p>
+                <p class="current-price">1 990₽</p>
+            </div>
+            
+            <button class="btn btn-large fade-in" onclick="openModal()">🎯 ПОЛУЧИТЬ ДОСТУП ЗА 1 990₽</button>
+            
+            <div class="cta-features fade-in">
+                <div class="cta-feature">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Доступ придёт на почту через 1 минуту
+                </div>
+                <div class="cta-feature">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Гарантия возврата в течение 3 дней
+                </div>
+                <div class="cta-feature">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Поддержка 24/7
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guarantee Section -->
+    <section class="guarantee">
+        <div class="container">
+            <div class="guarantee-icon">🛡️</div>
+            <h3>ГАРАНТИЯ ВОЗВРАТА</h3>
+            <p>Если у вас не получится создать первый сайт в течение 3 дней — вернём деньги без вопросов. Честное слово пенсионерки.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Галина Ивановна и команда проекта</p>
+            <p style="margin-top: 10px;">ИП Иванова Г.И. | ОГРНИП 123456789012345</p>
+            <p style="margin-top: 10px;">Политика конфиденциальности | Договор оферты</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h3>🎉 Отличный выбор!</h3>
+            <p>Оставьте свои данные для доступа к курсу</p>
+            <form class="modal-form" onsubmit="handleSubmit(event)">
+                <input type="text" placeholder="Ваше имя" required>
+                <input type="email" placeholder="Ваш Email" required>
+                <input type="tel" placeholder="Ваш телефон" required>
+                <button type="submit" class="btn btn-large">💳 ОПЛАТИТЬ 1 990₽</button>
+            </form>
+            <p style="margin-top: 20px; font-size: 12px; color: #999;">🔒 Ваши данные под защитой</p>
+        </div>
+    </div>
+
+    <script>
+        // Countdown Timer
+        function startTimer(duration, display) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        // Scroll Animation
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Modal Functions
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('🎉 Спасибо! В реальном проекте здесь была бы интеграция с платёжной системой. Доступ к курсу будет отправлен на вашу почту после оплаты.');
+            closeModal();
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            // Start timer (5 hours)
+            const fiveHours = 5 * 60 * 60;
+            const display = document.querySelector('#countdown');
+            startTimer(fiveHours, display);
+
+            // Initial scroll check
+            handleScrollAnimation();
+
+            // Scroll listener
+            window.addEventListener('scroll', handleScrollAnimation);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
