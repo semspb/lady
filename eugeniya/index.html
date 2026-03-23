@@ -22,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* анимированные частицы */
         .bg-particles {
             position: fixed;
             top: 0;
@@ -165,7 +164,8 @@
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
+            gap: 48px;
+            align-items: center;
         }
 
         .grid-3 {
@@ -210,11 +210,11 @@
             border-radius: 28px;
         }
 
-        /* стили для изображений */
+        /* увеличенная картинка */
         .img-wrapper {
             border-radius: 32px;
             overflow: hidden;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.6);
             transition: transform 0.3s ease;
         }
         .img-wrapper:hover {
@@ -226,6 +226,25 @@
             display: block;
             object-fit: cover;
         }
+        
+        /* специальный блок для увеличенной картинки с автомобилем */
+        .feature-image-block {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .feature-image-block .img-wrapper {
+            max-width: 95%;
+            margin: 0 auto;
+            border-radius: 40px;
+            box-shadow: 0 30px 50px -15px rgba(0,0,0,0.7);
+        }
+        .feature-image-block .img-wrapper img {
+            width: 100%;
+            max-height: 550px;
+            object-fit: cover;
+            object-position: center;
+        }
+        
         .expert-img-large {
             max-width: 100%;
             border-radius: 32px;
@@ -272,6 +291,14 @@
             font-size: 0.85rem;
             color: #bba9e6;
         }
+        
+        footer a {
+            color: #c9a6ff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
 
         @keyframes fadeUp {
             0% { opacity: 0; transform: translateY(20px); }
@@ -289,8 +316,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -306,12 +333,12 @@
         .modal-content {
             background: linear-gradient(135deg, #2a1a45, #1f1238);
             border-radius: 48px;
-            max-width: 480px;
+            max-width: 500px;
             width: 90%;
-            padding: 40px 32px;
+            padding: 44px 36px;
             text-align: center;
-            border: 1px solid rgba(183, 126, 255, 0.5);
-            box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(183, 126, 255, 0.6);
+            box-shadow: 0 35px 60px rgba(0,0,0,0.5);
             transform: scale(0.9);
             transition: transform 0.3s ease;
         }
@@ -324,21 +351,26 @@
             margin-bottom: 20px;
         }
         .modal-content h3 {
-            font-size: 1.8rem;
-            margin-bottom: 16px;
+            font-size: 1.9rem;
+            margin-bottom: 18px;
+            background: linear-gradient(135deg, #f0e6ff, #c9a6ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
         .modal-content p {
-            margin-bottom: 28px;
+            margin-bottom: 32px;
             font-size: 1rem;
-            color: #e2d4ff;
+            color: #e9deff;
+            line-height: 1.5;
         }
         .modal-btn {
             background: linear-gradient(95deg, #8b5cf6, #6d28d9);
             border: none;
-            padding: 14px 32px;
+            padding: 14px 36px;
             border-radius: 60px;
             color: white;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             font-family: 'Montserrat', sans-serif;
             font-size: 1rem;
@@ -347,6 +379,15 @@
         .modal-btn:hover {
             transform: scale(1.02);
             background: linear-gradient(95deg, #9d6eff, #7c3aed);
+        }
+        
+        @media (max-width: 768px) {
+            .modal-content {
+                padding: 32px 24px;
+            }
+            .modal-content h3 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -367,7 +408,7 @@
 <!-- БЛОК 2: О СЕБЕ + ФОТО -->
 <section>
     <div class="container">
-        <div class="grid-2" style="align-items: center;">
+        <div class="grid-2">
             <div>
                 <div class="badge">честный путь</div>
                 <h2>Я была там же, где и ты.</h2>
@@ -382,7 +423,7 @@
             </div>
             <div style="text-align: center;">
                 <div class="img-wrapper">
-                    <img src="https://github.com/semspb/lady/blob/main/business.jpg?raw=true" alt="Евгения Успешная" style="width:100%; border-radius: 32px; max-width: 400px;">
+                    <img src="https://github.com/semspb/lady/blob/main/business.jpg?raw=true" alt="Евгения Успешная" style="width:100%; border-radius: 32px; max-width: 450px;">
                 </div>
                 <p style="margin-top: 20px;">✨ Евгения Успешная — ваш проводник в мир спокойного дохода</p>
             </div>
@@ -414,7 +455,7 @@
     </div>
 </section>
 
-<!-- БЛОК 4: ПОЧЕМУ ЭТО МАМЕ + ВТОРАЯ ФОТОГРАФИЯ (carsee) -->
+<!-- БЛОК 4: ДОХОД, КОТОРЫЙ НЕ ОТНИМАЕТ ТЕБЯ У СЕМЬИ + УВЕЛИЧЕННАЯ КАРТИНКА carsee (как просили) -->
 <section>
     <div class="container">
         <div class="grid-2" style="align-items: center;">
@@ -430,11 +471,11 @@
                 </ul>
                 <p>Я сама проверила: мой сын Никита видит, что мама может быть и любящей, и занятой своим делом. Мы вместе путешествуем, планируем будущее и строим жизнь, о которой мечтали.</p>
             </div>
-            <div style="text-align: center;">
+            <div class="feature-image-block">
                 <div class="img-wrapper">
-                    <img src="https://github.com/semspb/lady/blob/main/carsee.png?raw=true" alt="Успех и свобода" style="width:100%; border-radius: 32px; max-width: 400px;">
+                    <img src="https://github.com/semspb/lady/blob/main/carsee.png?raw=true" alt="Финансовая свобода — это реально">
                 </div>
-                <p style="margin-top: 14px;">🌟 Финансовая свобода — это реально</p>
+                <p style="margin-top: 20px; font-weight: 500; font-size: 1.1rem;">🌟 Финансовая свобода — это реально</p>
             </div>
         </div>
     </div>
@@ -455,7 +496,7 @@
     </div>
 </section>
 
-<!-- БЛОК 6: РЕЗУЛЬТАТЫ + ТРАНСФОРМАЦИЯ -->
+<!-- БЛОК 6: РЕЗУЛЬТАТЫ -->
 <section>
     <div class="container">
         <h2 style="text-align: center;">У меня получилось. <span class="gradient-text">Получится и у тебя</span></h2>
@@ -471,7 +512,7 @@
     </div>
 </section>
 
-<!-- БЛОК 7: ПРИЗЫВ + TELEGRAM -->
+<!-- БЛОК 7: ПРИЗЫВ -->
 <section style="border-bottom: none;">
     <div class="container">
         <div class="telegram-banner">
@@ -487,13 +528,12 @@
 
 <footer>
     <div class="container">
-        <p>© 2026 Евгения Успешная — для мам, которые выбирают себя и свой доход.<br>Связаться: <a href="https://vk.com/smireugen" target="_blank" style="color:#c9a6ff;">vk.com/smireugen</a></p>
+        <p>© 2026 Евгения Успешная — для мам, которые выбирают себя и свой доход.<br>Связаться: <a href="https://vk.com/smireugen" target="_blank">vk.com/smireugen</a></p>
         <p style="margin-top: 8px;">Сделано с заботой о вашем спокойствии и свободе.</p>
     </div>
 </footer>
 
 <script>
-    // частицы
     function createParticles() {
         const container = document.getElementById('particles');
         if (!container) return;
@@ -513,22 +553,19 @@
     }
     createParticles();
 
-    // красивое модальное окно
     function showModalAndRedirect(url) {
-        // создаём оверлей
         const overlay = document.createElement('div');
         overlay.className = 'modal-overlay';
         overlay.innerHTML = `
             <div class="modal-content">
-                <i class="fas fa-sparkles"></i>
-                <h3>✨ Вы на верном пути! ✨</h3>
-                <p>Евгения уже готовит для вас первый полезный урок. Вы сделали правильный выбор — финансовая свобода начинается с этого шага.</p>
-                <button class="modal-btn" id="modalConfirmBtn">🚀 Перейти к обучению →</button>
+                <i class="fas fa-star-of-life"></i>
+                <h3>✨ Евгения, приветствует вас ✨</h3>
+                <p>Вы сделали правильный выбор! Финансовая свобода начинается с первого шага. Я приготовила для вас полезный урок, который поможет начать путь к доходу из дома. Переходите в бота — там всё просто и понятно.</p>
+                <button class="modal-btn" id="modalConfirmBtn">🚀 Забрать урок →</button>
             </div>
         `;
         document.body.appendChild(overlay);
         setTimeout(() => overlay.classList.add('active'), 10);
-
         const confirmBtn = overlay.querySelector('#modalConfirmBtn');
         const closeModal = () => {
             overlay.classList.remove('active');
@@ -538,11 +575,8 @@
             closeModal();
             window.open(url, '_blank');
         });
-        // клик по фону тоже закрывает
         overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                closeModal();
-            }
+            if (e.target === overlay) closeModal();
         });
     }
 
@@ -552,7 +586,6 @@
         showModalAndRedirect(tgUrl);
     }
 
-    // назначаем все кнопки
     const heroBtn = document.getElementById('heroTelegramBtn');
     if (heroBtn) heroBtn.addEventListener('click', handleTelegramRedirect);
     const finalBtn = document.getElementById('finalTelegramBtn');
@@ -563,7 +596,6 @@
         btn.addEventListener('click', handleTelegramRedirect);
     });
 
-    // анимация при скролле
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -572,13 +604,13 @@
             }
         });
     }, { threshold: 0.2 });
-    document.querySelectorAll('.card, .transform-card, .telegram-banner, .grid-2 > div, .img-wrapper').forEach(el => {
+    document.querySelectorAll('.card, .transform-card, .telegram-banner, .grid-2 > div, .img-wrapper, .feature-image-block').forEach(el => {
         el.style.opacity = '0';
         observer.observe(el);
     });
     const styleAnim = document.createElement('style');
     styleAnim.textContent = `
-        .card, .transform-card, .telegram-banner, .grid-2 > div, .img-wrapper {
+        .card, .transform-card, .telegram-banner, .grid-2 > div, .img-wrapper, .feature-image-block {
             opacity: 0;
         }
         .animate-on-scroll {
