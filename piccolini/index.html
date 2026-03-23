@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Детский хор Piccolini — Казань | Где рождается голос</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS CSS (анимация при скролле) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0c0b16;
+            color: #f0ede8;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* === музыкальный фон === */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, #1e1a2f, #08060e);
+            overflow: hidden;
+        }
+
+        .music-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 280px;
+            background: repeating-linear-gradient(90deg, 
+                rgba(255, 200, 100, 0.08) 0px, 
+                rgba(255, 200, 100, 0.08) 2px,
+                transparent 2px,
+                transparent 8px);
+            pointer-events: none;
+            animation: waveMove 16s linear infinite;
+        }
+
+        @keyframes waveMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        .floating-notes i {
+            position: absolute;
+            color: rgba(255, 210, 110, 0.2);
+            font-size: 2rem;
+            animation: floatNote 10s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes floatNote {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* контейнер */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* анимации появления */
+        section {
+            margin: 80px 0;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2.6rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #FFE6B0, #E0B87A);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 6px rgba(255, 200, 100, 0.5);
+        }
+
+        .btn {
+            display: inline-block;
+            background: #f5c542;
+            color: #1e1a2f;
+            padding: 14px 38px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #ffdb7e;
+            transform: scale(1.02);
+            box-shadow: 0 12px 28px rgba(245,197,66,0.3);
+        }
+
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+            margin: 48px 0;
+        }
+
+        .card {
+            background: rgba(20, 18, 32, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 28px 24px;
+            width: 280px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 215, 120, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            border-color: #f5c542;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5);
+        }
+
+        .photo-placeholder {
+            background: rgba(0,0,0,0.4);
+            border-radius: 28px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #f5c54280;
+            backdrop-filter: blur(4px);
+            transition: 0.3s;
+            color: #f5c542;
+            font-size: 2.5rem;
+        }
+
+        .grid-3, .grid-2 {
+            display: grid;
+            gap: 30px;
+        }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+        .review-card {
+            background: rgba(30, 27, 46, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            padding: 28px;
+            border-left: 5px solid #f5c542;
+        }
+
+        .team-card {
+            text-align: center;
+        }
+
+        footer {
+            background: #08060ec9;
+            backdrop-filter: blur(12px);
+            padding: 48px 0 32px;
+            border-radius: 48px 48px 0 0;
+            margin-top: 80px;
+        }
+
+        @media (max-width: 760px) {
+            h2 { font-size: 2rem; }
+            .container { padding: 0 20px; }
+            section { margin: 50px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero-bg">
+    <div class="music-wave"></div>
+    <div class="floating-notes" id="floatingNotes"></div>
+</div>
+
+<main>
+    <!-- Герой-секция с эмоциональным акцентом -->
+    <section style="min-height: 90vh; display: flex; align-items: center; justify-content: center; text-align: center;" data-aos="fade-up">
+        <div class="container">
+            <span style="font-size: 1rem; letter-spacing: 3px; background: #f5c54220; padding: 6px 18px; border-radius: 40px;">Казань | Детская школа искусств №4</span>
+            <h1 style="font-size: 4.2rem; margin: 24px 0 16px; line-height: 1.2;">Детский хор<br><span style="color: #F5C542;">«Piccolini»</span></h1>
+            <p style="font-size: 1.3rem; max-width: 700px; margin: 0 auto 32px; opacity: 0.9;">Где рождается голос, а песня становится судьбой.<br> Здесь каждый ребенок находит свою ноту.</p>
+            <a href="#join" class="btn"><i class="fas fa-music"></i> Стать частью хора</a>
+            <div style="margin-top: 48px;">
+                <i class="fas fa-arrow-down" style="animation: bounce 2s infinite; font-size: 1.8rem; opacity: 0.6;"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Эмоциональный блок про каждого ребенка -->
+    <div class="container">
+        <section data-aos="fade-right">
+            <h2>Это не про «звезд»<br>Это про каждого ребенка</h2>
+            <div class="card-grid">
+                <div class="card" data-aos="zoom-in">
+                    <i class="fas fa-heart" style="font-size: 2.5rem; color: #f5c542; margin-bottom: 16px;"></i>
+                    <h3>Принимаем всех</h3>
+                    <p>Не важно, есть ли опыт — мы верим в способности каждого. Главное — желание петь и расти.</p>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="100">
+                    <i class="fas fa-users" style="font-size: 2.5rem; color: #f5c542;"></i>
+                    <h3>Учим дружить</h3>
+                    <p>В хоре дети учатся слышать друг друга, поддерживать и радоваться общим победам.</p>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="200">
+                    <i class="fas fa-chalkboard-user" style="font-size: 2.5rem; color: #f5c542;"></i>
+                    <h3>Раскрываем личность</h3>
+                    <p>От робкого голоса до уверенного выступления — путь, который меняет детей изнутри.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Творчество как путь к себе -->
+        <section data-aos="fade-up">
+            <h2>Творчество — путь к себе</h2>
+            <div class="grid-2" style="align-items: center;">
+                <div>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">Музыка — язык без границ. В нашем хоре ребенок учится не просто вокалу, а умению быть собой, слышать других и верить в свои силы. Мы создаём пространство, где детские сердца раскрываются.</p>
+                    <ul style="list-style: none;">
+                        <li><i class="fas fa-check-circle" style="color:#f5c542;"></i> Раскрытие способностей без давления</li>
+                        <li><i class="fas fa-check-circle" style="color:#f5c542;"></i> Уверенность на сцене и в жизни</li>
+                        <li><i class="fas fa-check-circle" style="color:#f5c542;"></i> Настоящие друзья и поддержка</li>
+                    </ul>
+                </div>
+                <div class="photo-placeholder" style="height: 280px;">
+                    <i class="fas fa-children" style="font-size: 4rem;"></i> <span style="margin-left: 12px;">♫ здесь будут наши фото</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Блок достижений + эмоциональная нота -->
+        <section data-aos="flip-up">
+            <h2>Больше, чем хор</h2>
+            <div class="grid-3">
+                <div class="card"><i class="fas fa-olympic" style="font-size: 2.8rem;"></i><h3>Сочи 2014</h3><p>Церемония закрытия Олимпийских игр</p></div>
+                <div class="card"><i class="fas fa-landmark" style="font-size: 2.8rem;"></i><h3>Сводный хор России</h3><p>Под управлением Валерия Гергиева</p></div>
+                <div class="card"><i class="fas fa-trophy" style="font-size: 2.8rem;"></i><h3>Гран-при конкурсов</h3><p>Международные и всероссийские победы</p></div>
+            </div>
+            <div class="photo-placeholder" style="padding: 20px; margin-top: 20px;">
+                <i class="fas fa-images"></i>  Фотогалерея: выступления, репетиции, счастливые моменты
+            </div>
+        </section>
+
+        <!-- Команда (педагоги) с фото-блоками -->
+        <section data-aos="fade-up">
+            <h2>Наша команда — те, кто верит в детей</h2>
+            <div class="grid-3">
+                <div class="team-card" data-aos="fade-right">
+                    <div class="photo-placeholder" style="height: 220px; border-radius: 40px;"><i class="fas fa-user-circle fa-4x"></i></div>
+                    <h3>Светлана Михайловна Семенова</h3>
+                    <p>Художественный руководитель, дирижер<br>Заслуженный работник культуры РТ. 20+ лет в родной школе.</p>
+                </div>
+                <div class="team-card" data-aos="fade-up">
+                    <div class="photo-placeholder" style="height: 220px; border-radius: 40px;"><i class="fas fa-music fa-4x"></i></div>
+                    <h3>Лариса Изотова</h3>
+                    <p>Концертмейстер<br>Та, кто помогает хору дышать и звучать.</p>
+                </div>
+                <div class="team-card" data-aos="fade-left">
+                    <div class="photo-placeholder" style="height: 220px; border-radius: 40px;"><i class="fas fa-hands-clapping fa-4x"></i></div>
+                    <h3>Никита Точилкин</h3>
+                    <p>Хормейстер, дирижер<br>Выпускник хора, Московская консерватория. Возвращается, чтобы вдохновлять.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8 отзывов родителей, четное количество, только имена -->
+        <section data-aos="zoom-in">
+            <h2>Сердце родителей <i class="fas fa-heart" style="color: #f5c542;"></i></h2>
+            <div class="grid-2" style="gap: 28px;">
+                <div class="review-card"><i class="fas fa-quote-left" style="color:#f5c542; margin-right: 10px;"></i> <strong>Елена</strong><br>«Дочка пришла в хор зажатой, боялась даже голос подать. Через полгода — сольная партия! Главное — она расцвела, появились друзья. Спасибо за тепло и веру в каждого ребенка».</div>
+                <div class="review-card"><i class="fas fa-quote-left" style="color:#f5c542;"></i> <strong>Алексей</strong><br>«Сын занимается третий год. Я далек от музыки, но вижу, как это его меняет. Стал собраннее, увереннее. А поездки и концерты — настоящие приключения!»</div>
+                <div class="review-card"><i class="fas fa-quote-left" style="color:#f5c542;"></i> <strong>Мария</strong><br>«Хор для дочки — второй дом. Здесь не просто поют, учат дружить, поддерживать, радоваться за других. Редкое качество в современном мире».</div>
+                <div class="review-card"><i class="fas fa-quote-left" style="color:#f5c542;"></i> <strong>Рустем</strong><br>«Дочь не считала себя музыкальной. Пошли за компанию — теперь это главное увлечение. Видеть, как ребенок раскрывается — дорогого стоит».</div>
+                <div class="review-card"><i class="fas fa-quote-left" style="color:#f5c542;"></i> <strong>Ольга</strong><br>«Я сама музыкант, присматривалась долго. Хор “Piccolini” — это уровень. Дети чувствуют музыку, атмосфера добрая, рабочая, без суеты».</div>
+                <div class="review-card"><i class="fas fa-quote-left" style="color:#f5c542;"></i> <strong>Дмитрий</strong><br>«Привели сына, потому что постоянно пел дома, но стеснялся. Теперь поет везде с удовольствием. Ребята дружные, педагоги с душой. Настоящая творческая семья».</div>
+                <div class="review-card"><i class="fas fa-quote-left" style="color:#f5c542;"></i> <strong>Анна</strong><br>«Три года назад выбрали по отзывам. Ребенок вырос, научился держаться на сцене, выступал в Кремле. Главное — научился слышать других и работать в команде».</div>
+                <div class="review-card"><i class="fas fa-quote-left" style="color:#f5c542;"></i> <strong>Ильдар</strong><br>«Дочка в хоре с шести лет, теперь это часть жизни. Педагоги вкладываются не формально, а по-настоящему. Делают детей увереннее и счастливее».</div>
+            </div>
+        </section>
+
+        <!-- Социальная направленность и семейность -->
+        <section data-aos="fade-up">
+            <div class="photo-placeholder" style="margin-bottom: 30px; padding: 30px; gap: 20px; display: flex; flex-wrap: wrap; justify-content: center;">
+                <i class="fas fa-camera"></i> <span>Семейные закулисья — здесь будут фото родителей и детей вместе</span> <i class="fas fa-heart"></i>
+            </div>
+            <h2>С нами поют всей семьей</h2>
+            <p style="font-size: 1.2rem;">Концерты, поездки, общие победы и волнения — всё это сближает. Мы открыты для диалога и всегда вместе переживаем за наших детей. «Piccolini» — это пространство, где родители становятся друзьями, а дети обретают крылья.</p>
+        </section>
+
+        <!-- Присоединяйтесь (форма и контакты) -->
+        <section id="join" data-aos="fade-up" style="background: rgba(0,0,0,0.35); border-radius: 48px; padding: 40px 28px;">
+            <h2>Присоединяйтесь</h2>
+            <p style="margin-bottom: 20px;">Мы ждем мальчишек и девчонок, которые любят музыку или только хотят попробовать. Не важно, есть ли музыкальное образование. Важно желание петь и открытость.</p>
+            <div class="grid-2">
+                <div>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Казань, ул. Гагарина, д. 101</p>
+                    <p><i class="fas fa-phone-alt"></i> +7 (843) 564-70-89 / 564-59-16</p>
+                    <p><i class="fas fa-envelope"></i> dmsh4kazan@list.ru</p>
+                    <p><i class="fab fa-vk"></i> vk.com/dmsh4kazan</p>
+                </div>
+                <div>
+                    <a href="https://vk.com/dmsh4kazan" class="btn" style="background: #2c2a3a; color: #f5c542;"><i class="fab fa-vk"></i> Написать в сообществе</a>
+                    <p style="margin-top: 20px;"><i class="fas fa-music"></i> Приходите на репетицию или позвоните — мы всё расскажем!</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="font-size: 1.1rem;">♫ Детский хор «Piccolini» — здесь каждый голос важен. ♫</p>
+            <p style="opacity: 0.6; margin-top: 16px;">Казань, ДШИ №4 | С любовью к детям и музыке</p>
+        </div>
+    </footer>
+</main>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,
+        once: false,
+        mirror: true,
+    });
+
+    // Генерация плавающих музыкальных нот (анимация)
+    function createFloatingNotes() {
+        const container = document.getElementById('floatingNotes');
+        const icons = ['fa-music', 'fa-head-side-vr', 'fa-drum', 'fa-guitar', 'fa-microphone-alt', 'fa-record-vinyl'];
+        for (let i = 0; i < 40; i++) {
+            const note = document.createElement('i');
+            const randIcon = icons[Math.floor(Math.random() * icons.length)];
+            note.classList.add('fas', randIcon);
+            const size = Math.random() * 24 + 18;
+            note.style.fontSize = size + 'px';
+            note.style.left = Math.random() * 100 + '%';
+            note.style.animationDuration = Math.random() * 12 + 8 + 's';
+            note.style.animationDelay = Math.random() * 15 + 's';
+            note.style.opacity = Math.random() * 0.4 + 0.1;
+            container.appendChild(note);
+        }
+    }
+    createFloatingNotes();
+    
+    // Добавляем анимацию bounce для стрелки
+    const style = document.createElement('style');
+    style.textContent = `@keyframes bounce { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(10px); } }`;
+    document.head.appendChild(style);
+</script>
+</body>
+</html>
