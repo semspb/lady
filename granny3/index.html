@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История Галины Ивановны | Сайты на нейросетях</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --orange: #e67e22;
+            --orange-deep: #c0602d;
+            --orange-glow: rgba(230, 126, 34, 0.3);
+            --dark: #1a1209;
+            --cream: #fdf8f3;
+            --warm: #f5efe6;
+            --text: #2c1f0e;
+            --muted: #7a6a58;
+            --green: #27ae60;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ─── PROGRESS BAR ─── */
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--orange), #f39c12);
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            background: var(--dark);
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 80% at 50% 120%, rgba(230,126,34,0.22) 0%, transparent 70%);
+        }
+
+        .hero-grain {
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 200px;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 40px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(230,126,34,0.15);
+            border: 1px solid rgba(230,126,34,0.4);
+            color: var(--orange);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border-radius: 100px;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-size: clamp(30px, 4vw, 50px);
+            font-weight: 900;
+            line-height: 1.15;
+            color: #fff;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--orange);
+        }
+
+        .hero-sub {
+            font-size: 16px;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.7;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .price-block {
+            margin-bottom: 32px;
+        }
+
+        .price-old {
+            font-size: 16px;
+            color: rgba(255,255,255,0.35);
+            text-decoration: line-through;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .price-new {
+            font-size: 64px;
+            font-weight: 900;
+            color: var(--orange);
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+
+        .price-note {
+            font-size: 13px;
+            color: rgba(255,255,255,0.45);
+            margin-top: 6px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--orange);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 17px;
+            font-weight: 800;
+            padding: 20px 48px;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 0.01em;
+            transition: all 0.25s;
+            box-shadow: 0 8px 40px rgba(230,126,34,0.45);
+        }
+
+        .btn-primary:hover {
+            background: #f08030;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 50px rgba(230,126,34,0.55);
+        }
+
+        .trust-row {
+            display: flex;
+            gap: 20px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .trust-item::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        /* HERO RIGHT — PHOTO */
+        .hero-photo-wrap {
+            position: relative;
+        }
+
+        .hero-photo-wrap img {
+            width: 100%;
+            max-width: 460px;
+            border-radius: 24px;
+            display: block;
+            filter: brightness(0.95) saturate(1.1);
+        }
+
+        .hero-photo-badge {
+            position: absolute;
+            bottom: -18px;
+            left: 24px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+        }
+
+        .hero-photo-badge .num {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--orange);
+            line-height: 1;
+        }
+
+        .hero-photo-badge .label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* ─── TIMER STRIP ─── */
+        .timer-strip {
+            background: var(--orange);
+            padding: 14px 40px;
+            text-align: center;
+        }
+
+        .timer-strip p {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .timer-strip span {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+        }
+
+        /* ─── STORY SECTION ─── */
+        .story {
+            background: #fff;
+            padding: 100px 40px;
+        }
+
+        .story-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .story-img-wrap {
+            position: sticky;
+            top: 80px;
+        }
+
+        .story-img-wrap img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+        }
+
+        .story-img-caption {
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--muted);
+            text-align: center;
+            font-style: italic;
+        }
+
+        .section-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 14px;
+        }
+
+        .story h2 {
+            font-size: clamp(26px, 3vw, 40px);
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            color: var(--dark);
+        }
+
+        .story p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #4a3928;
+            margin-bottom: 22px;
+            font-weight: 400;
+        }
+
+        .story p strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .pullquote {
+            border-left: 4px solid var(--orange);
+            background: var(--warm);
+            padding: 28px 32px;
+            border-radius: 0 16px 16px 0;
+            margin: 36px 0;
+            font-size: 18px;
+            font-style: italic;
+            color: var(--text);
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .emotion-tag {
+            display: inline-block;
+            background: #fde8d8;
+            color: var(--orange-deep);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 100px;
+            margin-bottom: 10px;
+        }
+
+        /* ─── MOMENT SECTION ─── */
+        .moment {
+            background: var(--dark);
+            padding: 100px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .moment::before {
+            content: '«';
+            position: absolute;
+            top: -40px;
+            left: 30px;
+            font-size: 400px;
+            color: rgba(230,126,34,0.05);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .moment-inner {
+            max-width: 880px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .moment h2 {
+            font-size: clamp(28px, 4vw, 52px);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
+        }
+
+        .moment h2 em {
+            font-style: normal;
+            color: var(--orange);
+        }
+
+        .moment p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.8;
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        /* ─── SUCCESS ─── */
+        .success {
+            background: var(--warm);
+            padding: 100px 40px;
+        }
+
+        .success-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 440px;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .success h2 {
+            font-size: clamp(26px, 3vw, 40px);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
+            color: var(--dark);
+        }
+
+        .success p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #4a3928;
+            margin-bottom: 18px;
+        }
+
+        .result-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 36px;
+        }
+
+        .result-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .result-card .num {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--orange);
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        .result-card .unit {
+            font-size: 20px;
+        }
+
+        .result-card p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 6px;
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+
+        .result-card.highlight {
+            background: var(--orange);
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .result-card.highlight .num { color: #fff; }
+        .result-card.highlight p { color: rgba(255,255,255,0.8); }
+
+        .success-img {
+            border-radius: 20px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+        }
+
+        /* ─── MATH SECTION ─── */
+        .math {
+            background: #fff;
+            padding: 100px 40px;
+        }
+
+        .math-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .math h2 {
+            font-size: clamp(26px, 3vw, 40px);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .math-sub {
+            text-align: center;
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 60px;
+        }
+
+        .math-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .math-card {
+            border-radius: 20px;
+            padding: 40px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .math-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.08;
+            background: radial-gradient(circle at 50% 0%, currentColor, transparent 70%);
+        }
+
+        .math-card.c1 { background: #fdf0e8; color: var(--orange); }
+        .math-card.c2 { background: #edf8f3; color: var(--green); }
+        .math-card.c3 { background: #f0eafb; color: #8e44ad; }
+
+        .math-card .icon { font-size: 36px; margin-bottom: 16px; }
+        .math-card .big { font-size: 52px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+        .math-card h4 { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin: 12px 0 8px; }
+        .math-card p { font-size: 14px; color: var(--muted); line-height: 1.5; font-weight: 500; }
+
+        .math-note {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ─── MODULES ─── */
+        .modules {
+            background: var(--dark);
+            padding: 100px 40px;
+        }
+
+        .modules-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .modules .section-eyebrow { color: rgba(230,126,34,0.8); }
+        .modules h2 { font-size: clamp(26px, 3vw, 42px); font-weight: 900; color: #fff; letter-spacing: -0.02em; margin-bottom: 14px; }
+        .modules-sub { color: rgba(255,255,255,0.5); font-size: 16px; margin-bottom: 50px; }
+
+        .module-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .module-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 28px 32px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            transition: all 0.2s;
+            cursor: default;
+        }
+
+        .module-item:hover {
+            background: rgba(230,126,34,0.08);
+            border-color: rgba(230,126,34,0.25);
+        }
+
+        .module-num {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--orange);
+            min-width: 40px;
+        }
+
+        .module-icon {
+            font-size: 28px;
+            min-width: 40px;
+        }
+
+        .module-text h4 {
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .module-text p {
+            color: rgba(255,255,255,0.45);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .module-item.bonus {
+            background: rgba(230,126,34,0.1);
+            border-color: rgba(230,126,34,0.3);
+        }
+
+        /* ─── WHY CHEAP ─── */
+        .why {
+            background: var(--cream);
+            padding: 100px 40px;
+        }
+
+        .why-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .why img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.1);
+        }
+
+        .why h2 {
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
+        }
+
+        .why .pullquote {
+            font-size: 17px;
+        }
+
+        /* ─── ORDER SECTION ─── */
+        .order {
+            background: var(--dark);
+            padding: 100px 40px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .order::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(230,126,34,0.18) 0%, transparent 70%);
+        }
+
+        .order-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .order h2 {
+            font-size: clamp(30px, 4vw, 54px);
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .order h2 em {
+            color: var(--orange);
+            font-style: normal;
+        }
+
+        .order-sub {
+            font-size: 17px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 48px;
+            line-height: 1.7;
+        }
+
+        .order .price-old { color: rgba(255,255,255,0.25); font-size: 18px; }
+        .order .price-new { margin-bottom: 8px; }
+        .order .price-note { margin-bottom: 36px; }
+
+        .order-guarantees {
+            margin-top: 32px;
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+
+        .order-guarantee {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .order-guarantee::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 900;
+        }
+
+        /* ─── GUARANTEE FOOTER ─── */
+        .guarantee {
+            background: var(--orange);
+            padding: 48px 40px;
+            text-align: center;
+        }
+
+        .guarantee h3 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .guarantee p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .guarantee .copy {
+            margin-top: 24px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.45);
+        }
+
+        /* ─── GENOFFON ─── */
+        .genoffon-footer {
+            background: rgba(12, 15, 28, 0.95);
+            backdrop-filter: blur(4px);
+            padding: 14px 20px;
+            border-top: 1px solid rgba(255, 200, 100, 0.12);
+            font-family: 'Montserrat', sans-serif;
+        }
+        .genoffon-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px 20px;
+        }
+        .genoffon-brand span {
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #e2d4ff, #b88eff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .genoffon-divider { width: 1px; height: 28px; background: rgba(255, 200, 150, 0.3); }
+        .genoffon-offer { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; flex: 1; justify-content: flex-end; }
+        .genoffon-text { font-size: 0.85rem; color: #b9c2e6; white-space: nowrap; }
+        .genoffon-text strong { color: #ffcf8a; font-weight: 500; }
+        .genoffon-text span { opacity: 0.7; }
+        .genoffon-btn {
+            background: rgba(255, 200, 100, 0.1);
+            border: 1px solid rgba(255, 200, 100, 0.35);
+            padding: 6px 18px;
+            border-radius: 100px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.8rem;
+            color: #ffdfa5;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .genoffon-btn:hover { background: rgba(255, 200, 100, 0.25); border-color: rgba(255, 200, 100, 0.7); }
+
+        /* MODAL */
+        .genoffon-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000; opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .genoffon-modal-overlay.active { opacity: 1; visibility: visible; }
+        .genoffon-modal-window {
+            background: linear-gradient(135deg, #1a1f32, #111425);
+            border-radius: 48px; max-width: 500px; width: 90%;
+            padding: 44px 36px; text-align: center;
+            border: 1px solid rgba(255, 200, 100, 0.4);
+            box-shadow: 0 35px 60px rgba(0,0,0,0.5);
+            transform: scale(0.9); transition: transform 0.3s;
+        }
+        .genoffon-modal-overlay.active .genoffon-modal-window { transform: scale(1); }
+        .genoffon-modal-window i { font-size: 4rem; color: #ffd48a; margin-bottom: 20px; display: block; }
+        .genoffon-modal-window h3 {
+            font-size: 1.9rem; font-weight: 700; margin-bottom: 18px;
+            background: linear-gradient(135deg, #f0e6ff, #c9a6ff);
+            background-clip: text; -webkit-background-clip: text; color: transparent;
+        }
+        .genoffon-modal-window p { margin-bottom: 24px; font-size: 1rem; color: #e9deff; line-height: 1.5; }
+        .genoffon-modal-highlight {
+            background: rgba(255, 200, 100, 0.1); border-radius: 20px; padding: 14px;
+            margin: 18px 0; font-size: 0.85rem; border-left: 2px solid #ffcf8a;
+            text-align: left; color: #e0e7ff;
+        }
+        .genoffon-modal-btn {
+            background: linear-gradient(95deg, #ffb347, #ff8c00);
+            border: none; padding: 14px 36px; border-radius: 60px; color: #0a0c18;
+            font-weight: 700; cursor: pointer; font-family: 'Montserrat', sans-serif;
+            font-size: 1rem; transition: all 0.2s;
+        }
+        .genoffon-modal-btn:hover { transform: scale(1.02); }
+        .genoffon-close {
+            margin-top: 20px; font-size: 0.7rem; color: #7f89b0;
+            cursor: pointer; display: inline-block;
+        }
+        .genoffon-close:hover { color: #ffcf8a; }
+
+        /* ─── ANIMATIONS ─── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .hero-inner { grid-template-columns: 1fr; text-align: center; }
+            .hero-photo-wrap { order: -1; }
+            .hero-photo-wrap img { max-width: 360px; margin: 0 auto; }
+            .trust-row { justify-content: center; }
+            .story-inner { grid-template-columns: 1fr; }
+            .story-img-wrap { position: static; }
+            .success-inner { grid-template-columns: 1fr; }
+            .math-grid { grid-template-columns: 1fr; }
+            .why-inner { grid-template-columns: 1fr; }
+            .genoffon-inner { flex-direction: column; align-items: center; }
+            .genoffon-offer { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+    <div class="hero-grain"></div>
+    <div class="hero-inner">
+        <div class="hero-text">
+            <div class="hero-badge">🔥 История пенсионерки · 67 лет</div>
+            <h1>Мне <em>67 лет.</em><br>Я зарабатываю<br><em>15 000₽</em> за сайт</h1>
+            <p class="hero-sub">Без кода. Без курсов. Просто разговаривая<br>с компьютером — как с внуком.</p>
+            <div class="price-block">
+                <p class="price-old">Было: 17 990₽</p>
+                <p class="price-new">1990₽</p>
+                <p class="price-note">⏰ Цена действует только сегодня</p>
+            </div>
+            <a href="#order" class="btn-primary">🚀 Хочу узнать секрет</a>
+            <div class="trust-row">
+                <span class="trust-item">Оплата безопасна</span>
+                <span class="trust-item">Доступ за 1 минуту</span>
+                <span class="trust-item">Возврат в 3 дня</span>
+            </div>
+        </div>
+        <div class="hero-photo-wrap fade-up">
+            <img src="http://zaloveclub.ru/images/galina_nout.png" alt="Галина Ивановна за ноутбуком">
+            <div class="hero-photo-badge">
+                <div>
+                    <div class="num">6</div>
+                    <div class="label">месяцев<br>практики</div>
+                </div>
+                <div style="width:1px;height:36px;background:#eee;"></div>
+                <div>
+                    <div class="num">0₽</div>
+                    <div class="label">затраты<br>на создание</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════ TIMER ═══════════════ -->
+<div class="timer-strip">
+    <p>⏰ Акционная цена заканчивается через: <span id="timer">--:--:--</span></p>
+</div>
+
+<!-- ═══════════════ STORY ═══════════════ -->
+<section class="story">
+    <div class="story-inner">
+        <div class="story-img-wrap fade-up">
+            <img src="http://zaloveclub.ru/images/galina_money.png" alt="Галина Ивановна считает деньги">
+            <p class="story-img-caption">Галина Ивановна, 67 лет. Обычная пенсионерка из обычного города.</p>
+        </div>
+        <div>
+            <p class="section-eyebrow">Всё началось здесь</p>
+            <h2>«Я думала,<br>моя жизнь уже позади...»</h2>
+
+            <span class="emotion-tag">6 месяцев назад</span>
+            <p>Я стояла в очереди в аптеке. Держала коробку таблеток от давления и считала мелочь в кошельке. <strong>Мне не хватало 40 рублей.</strong></p>
+            <p>Я отложила лекарство и вышла — тихо, чтобы никто не видел. Чувствовала себя обузой. Внук просил телефон. Дочь вздыхала, глядя на счета за коммуналку.</p>
+
+            <div class="pullquote">
+                «Компьютер для меня был тёмным лесом. Я боялась нажать не туда. Боялась вирусов. Думала: "Галина, ты старая. Твоё время прошло."»
+            </div>
+
+            <p>Но однажды я увидела рекламу про нейросети. Сначала подумала — развод. Но от безысходности решила попробовать. <strong>И всё изменилось.</strong></p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════ EMOTIONAL BREAK ═══════════════ -->
+<section class="moment">
+    <div class="moment-inner fade-up">
+        <p class="section-eyebrow" style="color:rgba(230,126,34,0.7);">Поворотный момент</p>
+        <h2>Оказывается, возраст —<br>это <em>не приговор.</em><br>Это опыт.</h2>
+        <p>Я не умею программировать. Я не умею рисовать. Зато я умею разговаривать с людьми и понимать, что им нужно. Этого оказалось достаточно.</p>
+    </div>
+</section>
+
+<!-- ═══════════════ SUCCESS ═══════════════ -->
+<section class="success">
+    <div class="success-inner">
+        <div class="fade-up">
+            <p class="section-eyebrow">Что у меня получилось</p>
+            <h2>Магия, доступная каждому</h2>
+            <p>Есть <strong>нейросети</strong> — волшебные помощники. Я пишу: <em>«Сделай сайт для парикмахерской, красивый, в розовых тонах»</em> — и он сам пишет код, рисует, настраивает.</p>
+            <p>Это называется <strong>вайбкодинг</strong> — когда вместо знаний достаточно настроения и желания помочь людям.</p>
+
+            <div class="result-cards">
+                <div class="result-card">
+                    <div class="num">15 <span class="unit">мин</span></div>
+                    <p>Первый сайт</p>
+                </div>
+                <div class="result-card">
+                    <div class="num">0₽</div>
+                    <p>Затраты на создание</p>
+                </div>
+                <div class="result-card highlight">
+                    <div>
+                        <div class="num">15 000₽</div>
+                        <p>Продала первый сайт</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fade-up">
+            <img src="http://zaloveclub.ru/images/galina_ekran.png" alt="Галина показывает сайт" class="success-img">
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════ MATH ═══════════════ -->
+<section class="math">
+    <div class="math-inner">
+        <p class="section-eyebrow" style="text-align:center;">Почему это работает</p>
+        <h2>Математика проста</h2>
+        <p class="math-sub">Сайты нужны всем. Раньше они стоили 50 000₽ и делались месяц. Теперь — за вечер.</p>
+
+        <div class="math-grid">
+            <div class="math-card c1 fade-up">
+                <div class="icon">💰</div>
+                <div class="big">0₽</div>
+                <h4>Себестоимость</h4>
+                <p>Нейросети работают бесплатно</p>
+            </div>
+            <div class="math-card c2 fade-up" style="transition-delay:0.1s">
+                <div class="icon">⚡</div>
+                <div class="big">30-60</div>
+                <h4>Минут на сайт</h4>
+                <p>Один готовый проект за вечер</p>
+            </div>
+            <div class="math-card c3 fade-up" style="transition-delay:0.2s">
+                <div class="icon">💵</div>
+                <div class="big">15к</div>
+                <h4>Рублей прибыли</h4>
+                <p>За каждый проданный сайт</p>
+            </div>
+        </div>
+
+        <p class="math-note">
+            Пекарни, репетиторы, мастера маникюра, автосервисы, стоматологии —<br>
+            <strong>все они ищут того, кто сделает им сайт</strong>. А вы теперь умеете.
+        </p>
+    </div>
+</section>
+
+<!-- ═══════════════ MODULES ═══════════════ -->
+<section class="modules">
+    <div class="modules-inner">
+        <p class="section-eyebrow">Содержание курса</p>
+        <h2>Что внутри</h2>
+        <p class="modules-sub">Объясняю всё человеческим языком. Без терминов. Без паники.</p>
+
+        <div class="module-list">
+            <div class="module-item fade-up">
+                <span class="module-num">01</span>
+                <span class="module-icon">🤖</span>
+                <div class="module-text">
+                    <h4>Бесплатные нейросети</h4>
+                    <p>Где брать инструменты, которые делают всё за вас</p>
+                </div>
+            </div>
+            <div class="module-item fade-up" style="transition-delay:0.05s">
+                <span class="module-num">02</span>
+                <span class="module-icon">✍️</span>
+                <div class="module-text">
+                    <h4>Промпт-инжиниринг для бабушек</h4>
+                    <p>Какие слова писать, чтобы получить идеальный результат</p>
+                </div>
+            </div>
+            <div class="module-item fade-up" style="transition-delay:0.1s">
+                <span class="module-num">03</span>
+                <span class="module-icon">🤝</span>
+                <div class="module-text">
+                    <h4>Первый клиент</h4>
+                    <p>Как найти покупателя и не бояться назвать цену</p>
+                </div>
+            </div>
+            <div class="module-item fade-up" style="transition-delay:0.15s">
+                <span class="module-num">04</span>
+                <span class="module-icon">💳</span>
+                <div class="module-text">
+                    <h4>Деньги и налоговая</h4>
+                    <p>Как принимать оплату и работать спокойно</p>
+                </div>
+            </div>
+            <div class="module-item fade-up" style="transition-delay:0.2s">
+                <span class="module-num">05</span>
+                <span class="module-icon">📣</span>
+                <div class="module-text">
+                    <h4>Ваши продавцы</h4>
+                    <p>Как найти тех, кто будет продавать ваши сайты</p>
+                </div>
+            </div>
+            <div class="module-item bonus fade-up" style="transition-delay:0.25s">
+                <span class="module-num" style="color:#f39c12">🎁</span>
+                <span class="module-icon">📋</span>
+                <div class="module-text">
+                    <h4>БОНУС: 50 идей для клиентов</h4>
+                    <p>Список тех, кому нужен сайт прямо сейчас — уже сегодня</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════ WHY CHEAP ═══════════════ -->
+<section class="why">
+    <div class="why-inner">
+        <div class="fade-up">
+            <img src="http://zaloveclub.ru/images/galina_main.png" alt="Галина Ивановна портрет">
+        </div>
+        <div class="fade-up">
+            <p class="section-eyebrow">Вопрос, который задают все</p>
+            <h2>Почему<br>так дёшево?</h2>
+            <div class="pullquote">
+                «Многие спрашивают: "Галина Ивановна, если это так круто — почему вы продаёте это за цену чашки кофе?"»
+                <br><br>
+                «Ответ простой. Я видела слишком много людей в отчаянии. Пенсионеров, мам в декрете, студентов. Всем нужны деньги, но никто не даёт шанса. Я хочу дать этот шанс.»
+                <br><br>
+                <strong>— Галина Ивановна</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════ ORDER ═══════════════ -->
+<section class="order" id="order">
+    <div class="order-inner">
+        <p class="section-eyebrow" style="color:rgba(230,126,34,0.7);">Сделай первый шаг</p>
+        <h2>Не ждите,<br>пока станет <em>поздно</em></h2>
+        <p class="order-sub">Вам не нужно быть молодым. Вам не нужно быть гением.<br>Вам нужно просто захотеть.</p>
+
+        <div class="price-block">
+            <p class="price-old">Было: 17 990₽</p>
+            <p class="price-new">1990₽</p>
+            <p class="price-note" style="color:#f39c12">⏰ ТОЛЬКО СЕГОДНЯ</p>
+        </div>
+
+        <a href="#" class="btn-primary" style="font-size:20px;padding:22px 64px;">🎯 Получить доступ</a>
+
+        <div class="order-guarantees">
+            <span class="order-guarantee">Доступ за 1 минуту</span>
+            <span class="order-guarantee">Возврат за 3 дня</span>
+            <span class="order-guarantee">Поддержка 24/7</span>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════ GUARANTEE ═══════════════ -->
+<section class="guarantee">
+    <h3>🛡️ Гарантия возврата</h3>
+    <p>Если у вас не получится создать первый сайт в течение 3 дней — вернём деньги без вопросов и без обид.</p>
+    <p class="copy">© 2024 Галина Ивановна и команда проекта</p>
+</section>
+
+<!-- ═══════════════ GENOFFON ═══════════════ -->
+<div class="genoffon-footer">
+    <div class="genoffon-inner">
+        <div class="genoffon-brand">
+            <span>GenOffOn</span>
+        </div>
+        <div class="genoffon-divider"></div>
+        <div class="genoffon-offer">
+            <div class="genoffon-text">
+                Сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span>
+            </div>
+            <button class="genoffon-btn" id="genoffonOpenBtn">Узнать →</button>
+        </div>
+    </div>
+</div>
+
+<div class="genoffon-modal-overlay" id="genoffonModal">
+    <div class="genoffon-modal-window">
+        <i>✨</i>
+        <h3>Мы верим в ваши проекты</h3>
+        <p>Сделаем лендинг <strong>бесплатно</strong> — просто расскажите о себе и своей идее.</p>
+        <div class="genoffon-modal-highlight">
+            📌 <strong>Условия:</strong><br>
+            Разместим на вашем сайте реферальную ссылку на GenOffOn.<br>
+            Вы получаете стильный сайт + бонусы в нашем проекте.
+        </div>
+        <p style="font-size: 0.85rem; margin-bottom: 20px;">Переходите в Telegram-бота — обсудим детали</p>
+        <button class="genoffon-modal-btn" id="genoffonRedirectBtn">📩 Перейти в GenOffOn_bot</button>
+        <div class="genoffon-close" id="genoffonCloseBtn">✖️ закрыть</div>
+    </div>
+</div>
+
+<script>
+    // PROGRESS BAR
+    window.addEventListener('scroll', () => {
+        const el = document.getElementById('progress-bar');
+        const h = document.documentElement;
+        const pct = (h.scrollTop || document.body.scrollTop) / ((h.scrollHeight || document.body.scrollHeight) - h.clientHeight) * 100;
+        el.style.width = pct + '%';
+    });
+
+    // COUNTDOWN TIMER
+    function updateTimer() {
+        const now = new Date();
+        const end = new Date();
+        end.setHours(23, 59, 59, 0);
+        let diff = Math.max(0, end - now);
+        const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+        diff %= 3600000;
+        const m = String(Math.floor(diff / 60000)).padStart(2, '0');
+        diff %= 60000;
+        const s = String(Math.floor(diff / 1000)).padStart(2, '0');
+        document.getElementById('timer').textContent = `${h}:${m}:${s}`;
+    }
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    // FADE-UP OBSERVER
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // GENOFFON MODAL
+    (function () {
+        const tgUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
+        const modal = document.getElementById('genoffonModal');
+        const openBtn = document.getElementById('genoffonOpenBtn');
+        const redirectBtn = document.getElementById('genoffonRedirectBtn');
+        const closeBtn = document.getElementById('genoffonCloseBtn');
+        if (!modal || !openBtn) return;
+        openBtn.addEventListener('click', () => modal.classList.add('active'));
+        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+        redirectBtn.addEventListener('click', () => { window.open(tgUrl, '_blank'); modal.classList.remove('active'); });
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
+    })();
+</script>
+</body>
+</html>
