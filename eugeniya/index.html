@@ -366,6 +366,112 @@
         footer a:hover {
             text-decoration: underline;
         }
+
+        /* ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON — АДАПТИВ ========== */
+        .genoffon-footer {
+            background: rgba(12, 15, 28, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 14px 20px;
+            border-top: 1px solid rgba(255, 200, 100, 0.12);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .genoffon-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px 20px;
+        }
+        .genoffon-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .genoffon-brand span {
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #e2d4ff, #b88eff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            white-space: nowrap;
+        }
+        .genoffon-divider {
+            width: 1px;
+            height: 28px;
+            background: rgba(255, 200, 150, 0.3);
+            flex-shrink: 0;
+        }
+        .genoffon-offer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+            justify-content: flex-end;
+        }
+        .genoffon-text {
+            font-size: 0.85rem;
+            color: #b9c2e6;
+            white-space: nowrap;
+        }
+        .genoffon-text strong {
+            color: #ffcf8a;
+            font-weight: 500;
+        }
+        .genoffon-text span {
+            opacity: 0.7;
+        }
+        .genoffon-btn {
+            background: rgba(255, 200, 100, 0.1);
+            border: 1px solid rgba(255, 200, 100, 0.35);
+            padding: 6px 18px;
+            border-radius: 100px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.8rem;
+            color: #ffdfa5;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .genoffon-btn:hover {
+            background: rgba(255, 200, 100, 0.25);
+            border-color: rgba(255, 200, 100, 0.7);
+        }
+
+        /* мобильная адаптация блока */
+        @media (max-width: 700px) {
+            .genoffon-inner {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .genoffon-brand {
+                justify-content: center;
+            }
+            .genoffon-divider {
+                display: none;
+            }
+            .genoffon-offer {
+                justify-content: center;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .genoffon-text {
+                white-space: normal;
+                text-align: center;
+                font-size: 0.85rem;
+            }
+            .genoffon-btn {
+                width: auto;
+                padding: 8px 24px;
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -503,18 +609,18 @@
     </div>
 </section>
 
-<!-- ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON (ПОДВАЛ) ========== -->
-<div style="background: rgba(12, 15, 28, 0.5); backdrop-filter: blur(4px); padding: 16px 32px; border-top: 1px solid rgba(255, 200, 100, 0.12);">
-    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 1.3rem; font-weight: 600; background: linear-gradient(135deg, #e2d4ff, #b88eff); background-clip: text; -webkit-background-clip: text; color: transparent;">GenOffOn</span>
+<!-- ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON — АДАПТИВНЫЙ, ВИДЕН НА МОБИЛКЕ ========== -->
+<div class="genoffon-footer">
+    <div class="genoffon-inner">
+        <div class="genoffon-brand">
+            <span>GenOffOn</span>
         </div>
-        <div style="width: 1px; height: 28px; background: rgba(255, 200, 150, 0.25);"></div>
-        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px; flex: 1; justify-content: flex-end;">
-            <div style="font-size: 0.85rem; color: #b9c2e6;">
-                Сделаем лендинг <strong style="color: #ffcf8a;">бесплатно</strong> · <span style="opacity:0.7;">Мы верим в вас</span>
+        <div class="genoffon-divider"></div>
+        <div class="genoffon-offer">
+            <div class="genoffon-text">
+                Сделаем лендинг <strong>бесплатно</strong> · <span>Мы верим в вас</span>
             </div>
-            <button id="genoffonModalBtn" style="background: rgba(255, 200, 100, 0.1); border: 1px solid rgba(255, 200, 100, 0.35); padding: 6px 18px; border-radius: 100px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 0.8rem; color: #ffdfa5; cursor: pointer; transition: all 0.2s;">Узнать →</button>
+            <button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button>
         </div>
     </div>
 </div>
@@ -544,7 +650,6 @@
 </div>
 
 <script>
-    // частицы
     function createParticles() {
         const container = document.getElementById('particles');
         if (!container) return;
@@ -564,57 +669,31 @@
     createParticles();
 
     const tgUrl = 'https://t.me/GenOffOn_bot?start=r_11887113';
-
-    function showModalAndRedirect(url, modalId, redirectBtnId, closeBtnId) {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        modal.classList.add('active');
-        const redirectBtn = document.getElementById(redirectBtnId);
-        const closeBtn = document.getElementById(closeBtnId);
-        const closeModal = () => modal.classList.remove('active');
-        if (redirectBtn) {
-            redirectBtn.onclick = () => {
-                window.open(url, '_blank');
-                closeModal();
-            };
-        }
-        if (closeBtn) closeBtn.onclick = closeModal;
-        modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+    const modal = document.getElementById('genoffonModal');
+    
+    function openModal() {
+        if (modal) modal.classList.add('active');
     }
-
-    // основная кнопка телеграм (лендинг)
+    function closeModal() {
+        if (modal) modal.classList.remove('active');
+    }
+    
+    // настройка кнопок модалки
+    const redirectBtn = document.getElementById('genoffonRedirectBtn');
+    const closeModalBtn = document.getElementById('genoffonCloseBtn');
+    if (redirectBtn) redirectBtn.onclick = () => { window.open(tgUrl, '_blank'); closeModal(); };
+    if (closeModalBtn) closeModalBtn.onclick = closeModal;
+    if (modal) modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+    
+    // кнопка GenOffOn в подвале
+    const genBtn = document.getElementById('genoffonModalBtn');
+    if (genBtn) genBtn.onclick = openModal;
+    
+    // основные кнопки лендинга (ведут в то же модальное окно)
     const heroBtn = document.getElementById('heroTelegramBtn');
     const finalBtn = document.getElementById('finalTelegramBtn');
-    const mainModal = document.getElementById('genoffonModal');
-    
-    function handleMainTelegram(e) {
-        e.preventDefault();
-        const modal = document.getElementById('genoffonModal');
-        modal.classList.add('active');
-        const redirect = document.getElementById('genoffonRedirectBtn');
-        const close = document.getElementById('genoffonCloseBtn');
-        const closeModal = () => modal.classList.remove('active');
-        if (redirect) redirect.onclick = () => { window.open(tgUrl, '_blank'); closeModal(); };
-        if (close) close.onclick = closeModal;
-        modal.onclick = (e) => { if (e.target === modal) closeModal(); };
-    }
-    if (heroBtn) heroBtn.addEventListener('click', handleMainTelegram);
-    if (finalBtn) finalBtn.addEventListener('click', handleMainTelegram);
-    
-    // блок genoffon в подвале
-    const genBtn = document.getElementById('genoffonModalBtn');
-    if (genBtn) {
-        genBtn.addEventListener('click', () => {
-            const modal = document.getElementById('genoffonModal');
-            modal.classList.add('active');
-            const redirect = document.getElementById('genoffonRedirectBtn');
-            const close = document.getElementById('genoffonCloseBtn');
-            const closeModal = () => modal.classList.remove('active');
-            if (redirect) redirect.onclick = () => { window.open(tgUrl, '_blank'); closeModal(); };
-            if (close) close.onclick = closeModal;
-            modal.onclick = (e) => { if (e.target === modal) closeModal(); };
-        });
-    }
+    if (heroBtn) heroBtn.onclick = openModal;
+    if (finalBtn) finalBtn.onclick = openModal;
 
     // анимация скролла
     const observer = new IntersectionObserver((entries) => {
