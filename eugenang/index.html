@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff3366' d='M50,90 L20,55 C10,45 5,30 15,20 C25,10 40,12 50,25 C60,12 75,10 85,20 C95,30 90,45 80,55 Z'/%3E%3C/svg%3E">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Я могла быть Анжелой. Но осталась Евгенией.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green: #1a3d2b;
+  --green-mid: #2d5a3d;
+  --green-light: #3d7a52;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --black: #0d0d0d;
+  --white: #f5f2ec;
+  --warm-white: #faf7f2;
+  --text: #1c1c1c;
+  --text-muted: #5a5a5a;
+  --rose: #c4727a;
+  --rose-muted: #e8c4c7;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--warm-white);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, .serif {
+  font-family: 'Cormorant Garamond', serif;
+  line-height: 1.25;
+}
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,10,0.75);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+  background: var(--green);
+  color: var(--white);
+  border-radius: 20px;
+  max-width: 480px;
+  width: 100%;
+  padding: 48px 40px 40px;
+  text-align: center;
+  position: relative;
+  border: 1px solid var(--gold);
+  animation: modalIn .35s cubic-bezier(.22,.61,.36,1) both;
+}
+@keyframes modalIn {
+  from { opacity:0; transform:scale(.88) translateY(30px); }
+  to { opacity:1; transform:scale(1) translateY(0); }
+}
+.modal-icon { font-size: 52px; margin-bottom: 20px; }
+.modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.modal-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(245,242,236,0.9);
+  margin-bottom: 28px;
+}
+.modal-btn {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--black);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 16px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all .3s;
+  border: none;
+  cursor: pointer;
+  letter-spacing: .5px;
+}
+.modal-btn:hover { background: var(--gold-light); transform: scale(1.04); }
+.modal-close {
+  position: absolute;
+  top: 16px; right: 20px;
+  background: none;
+  border: none;
+  color: rgba(245,242,236,0.5);
+  font-size: 26px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color .2s;
+}
+.modal-close:hover { color: var(--white); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  background: var(--black);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+.hero-left {
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 48px;
+  position: relative;
+}
+.hero-left::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,.6) 0%, transparent 60%);
+}
+.hero-left-img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: .45;
+  filter: grayscale(100%);
+}
+.hero-left-content {
+  position: relative;
+  z-index: 2;
+  color: var(--white);
+  max-width: 420px;
+}
+.hero-eyebrow {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+.hero-title {
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  color: var(--white);
+}
+.hero-sub {
+  font-size: 17px;
+  color: rgba(245,242,236,.75);
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+.hero-right {
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-right-img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: .35;
+}
+.hero-right-content {
+  position: relative;
+  z-index: 2;
+  color: var(--white);
+  text-align: center;
+}
+.hero-badge {
+  display: inline-block;
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 50px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+/* ─── CTA BUTTON ─── */
+.cta-btn {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--black);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 18px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: all .3s;
+  letter-spacing: .3px;
+}
+.cta-btn:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,168,76,.35); }
+.cta-btn.dark {
+  background: var(--green);
+  color: var(--white);
+}
+.cta-btn.dark:hover { background: var(--green-mid); }
+.cta-btn.outline {
+  background: transparent;
+  color: var(--gold);
+  border: 2px solid var(--gold);
+}
+.cta-btn.outline:hover { background: var(--gold); color: var(--black); }
+.micro-text {
+  font-size: 13px;
+  color: rgba(245,242,236,.5);
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+/* ─── SECTIONS ─── */
+section {
+  padding: 96px 24px;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.container-wide {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.section-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: block;
+}
+.section-title {
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 32px;
+  line-height: 1.2;
+}
+.section-title.white { color: var(--white); }
+.section-title.gold { color: var(--gold-light); }
+
+/* ─── BLOCK 2: Узнаёшь себя ─── */
+.recognize {
+  background: var(--warm-white);
+}
+.recognize-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.recognize-img {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+.recognize-img img {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.recognize-img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(26,61,43,.6) 0%, transparent 50%);
+  z-index: 1;
+  border-radius: 16px;
+}
+.pain-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pain-list li {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 12px;
+  border-left: 3px solid var(--gold);
+  box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.pain-list li::before {
+  content: '✦';
+  color: var(--gold);
+  font-size: 14px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ─── BLOCK 3: Звонок ─── */
+.call-block {
+  background: var(--green);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.call-block::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,.12) 0%, transparent 70%);
+}
+.call-narrative {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+.call-narrative p {
+  font-size: 18px;
+  line-height: 1.85;
+  color: rgba(245,242,236,.9);
+  margin-bottom: 20px;
+}
+.call-narrative p strong {
+  color: var(--gold-light);
+}
+.call-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-style: italic;
+  color: var(--gold-light);
+  border-left: 3px solid var(--gold);
+  padding: 16px 28px;
+  margin: 36px 0;
+  text-align: left;
+  line-height: 1.4;
+}
+
+/* ─── BLOCK 4: Анжела vs Евгения ─── */
+.vs-block {
+  background: var(--black);
+  color: var(--white);
+  padding: 96px 24px;
+}
+.vs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 48px 0;
+}
+.vs-col {
+  padding: 48px 40px;
+}
+.vs-col.angela {
+  background: linear-gradient(135deg, #2a1a1f 0%, #3d1f28 100%);
+  position: relative;
+}
+.vs-col.evgenia {
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+  position: relative;
+}
+.vs-col-inner { position: relative; z-index: 2; }
+.vs-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.vs-col.angela .vs-name { color: var(--rose); }
+.vs-col.evgenia .vs-name { color: var(--gold-light); }
+.vs-list {
+  list-style: none;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.vs-list li {
+  font-size: 15px;
+  line-height: 1.6;
+  padding-left: 20px;
+  position: relative;
+  color: rgba(245,242,236,.85);
+}
+.vs-col.angela .vs-list li::before { content: '✗'; color: var(--rose); position: absolute; left: 0; }
+.vs-col.evgenia .vs-list li::before { content: '✓'; color: var(--gold-light); position: absolute; left: 0; }
+.big-quote {
+  background: var(--green-mid);
+  border-radius: 16px;
+  padding: 48px;
+  text-align: center;
+  margin-top: 48px;
+  border: 1px solid rgba(201,168,76,.3);
+}
+.big-quote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic;
+  color: var(--gold-light);
+  line-height: 1.5;
+}
+
+/* ─── BLOCK 5: Выбор ─── */
+.choice-block {
+  background: var(--warm-white);
+}
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.choice-img img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 16px;
+  display: block;
+}
+.choice-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 32px 0;
+}
+.feature-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.feature-icon {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.feature-text { font-size: 16px; line-height: 1.65; }
+
+/* ─── BLOCK 6: Цифры ─── */
+.numbers-block {
+  background: var(--green);
+  color: var(--white);
+}
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin: 48px 0;
+}
+.number-card {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(201,168,76,.25);
+  border-radius: 16px;
+  padding: 36px 28px;
+  text-align: center;
+}
+.number-card .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 54px;
+  font-weight: 700;
+  color: var(--gold-light);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.number-card .label {
+  font-size: 14px;
+  color: rgba(245,242,236,.65);
+  line-height: 1.5;
+}
+.number-highlight {
+  background: rgba(201,168,76,.12);
+  border: 1px solid var(--gold);
+  border-radius: 16px;
+  padding: 32px 40px;
+  text-align: center;
+  margin-top: 16px;
+}
+.number-highlight p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+.number-highlight small {
+  font-size: 14px;
+  color: rgba(245,242,236,.65);
+  display: block;
+  margin-top: 8px;
+}
+.note-box {
+  background: rgba(255,255,255,.05);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-top: 32px;
+  font-size: 15px;
+  color: rgba(245,242,236,.75);
+  line-height: 1.7;
+  border-left: 3px solid var(--gold);
+}
+
+/* ─── BLOCK 7: Страх ─── */
+.fear-block {
+  background: var(--warm-white);
+}
+.fear-timeline {
+  position: relative;
+  padding-left: 40px;
+  margin-top: 40px;
+}
+.fear-timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold), var(--green));
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 36px;
+  background: white;
+  border-radius: 14px;
+  padding: 24px 28px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06);
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -34px; top: 28px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 3px solid var(--warm-white);
+}
+.timeline-item h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+.timeline-item p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+
+/* ─── BLOCK 8: Результат ─── */
+.result-block {
+  background: var(--black);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.result-block::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 60%;
+  background: linear-gradient(to top, rgba(26,61,43,.5), transparent);
+}
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.result-img {
+  border-radius: 16px;
+  overflow: hidden;
+}
+.result-img video {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+}
+.result-img img {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  display: block;
+}
+.result-milestones {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.milestone {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.milestone-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 56px;
+  text-align: right;
+}
+.milestone-text { font-size: 16px; line-height: 1.7; color: rgba(245,242,236,.85); padding-top: 6px; }
+.milestone-text strong { color: var(--gold-light); display: block; font-size: 18px; margin-bottom: 4px; }
+
+/* ─── BLOCK 9: Кейсы ─── */
+.cases-block {
+  background: #f0ede7;
+}
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+.case-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,.08);
+  transition: transform .3s;
+}
+.case-card:hover { transform: translateY(-6px); }
+.case-img {
+  height: 260px;
+  overflow: hidden;
+  position: relative;
+}
+.case-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.case-img::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 50%;
+  background: linear-gradient(to top, rgba(26,61,43,.8), transparent);
+}
+.case-result {
+  position: absolute;
+  bottom: 16px; left: 16px;
+  z-index: 2;
+  background: var(--gold);
+  color: var(--black);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 30px;
+}
+.case-body {
+  padding: 24px 28px 28px;
+}
+.case-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 4px;
+}
+.case-role {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.case-quote {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ─── BLOCK 10: Что получишь ─── */
+.offer-block {
+  background: var(--green);
+  color: var(--white);
+}
+.offer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 40px 0;
+}
+.offer-item {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(201,168,76,.2);
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: background .3s;
+}
+.offer-item:hover { background: rgba(255,255,255,.12); }
+.offer-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.offer-text h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+.offer-text p { font-size: 15px; color: rgba(245,242,236,.75); line-height: 1.65; }
+.format-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--black);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 24px;
+  border-radius: 30px;
+  margin-bottom: 32px;
+}
+
+/* ─── BLOCK 11: FAQ ─── */
+.faq-block {
+  background: var(--warm-white);
+}
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 40px;
+}
+.faq-item {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,.05);
+}
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px;
+  cursor: pointer;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green);
+  gap: 20px;
+  transition: background .2s;
+}
+.faq-q:hover { background: #fafaf8; }
+.faq-arrow {
+  font-size: 20px;
+  color: var(--gold);
+  transition: transform .3s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease, padding .3s;
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  padding: 0 28px;
+}
+.faq-item.open .faq-a {
+  max-height: 400px;
+  padding: 0 28px 24px;
+}
+
+/* ─── BLOCK 12: Финал ─── */
+.final-block {
+  background: var(--black);
+  color: var(--white);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.final-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('https://github.com/semspb/lady/blob/main/arena.jpg?raw=true') center/cover no-repeat;
+  opacity: .08;
+}
+.final-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.final-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 32px 0;
+  text-align: left;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.final-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 17px;
+  color: rgba(245,242,236,.85);
+  list-style: none;
+}
+.final-list li::before {
+  content: '→';
+  color: var(--gold);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--black);
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 48px 24px;
+  text-align: center;
+  color: rgba(245,242,236,.45);
+  font-size: 14px;
+  line-height: 1.8;
+}
+footer a { color: var(--gold); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+.footer-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  color: var(--white);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left, .hero-right { padding: 60px 28px; min-height: 50vh; }
+  .recognize-grid, .choice-grid, .result-grid, .vs-grid,
+  .offer-grid, .cases-grid, .numbers-grid { grid-template-columns: 1fr; }
+  .vs-grid { gap: 0; }
+  section { padding: 64px 20px; }
+  .case-card { max-width: 380px; margin: 0 auto; }
+}
+
+/* ─── ANIMATIONS ─── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ MODAL ═══════════════════════════════ -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-icon">🎯</div>
+    <div class="modal-title">Респект! Ты принимаешь правильное решение.</div>
+    <p class="modal-text">
+      Не бойся. Изучи информацию, задай вопросы и прими решение осознанно.<br><br>
+      Перейди в бота — получи материал, который изменил мою жизнь. Без воды и манипуляций. Только то, что работает.
+    </p>
+    <a class="modal-btn" href="https://t.me/GenOffOn_bot?start=r_11887113" target="_blank">
+      Перейти к боту в Telegram →
+    </a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ BLOCK 1: HERO ═══════════════════════════════ -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <img class="hero-left-img" src="https://github.com/semspb/lady/blob/main/sport.jpg?raw=true" alt="девушка">
+    <div class="hero-left-content">
+      <p class="hero-eyebrow">Честная история</p>
+      <h1 class="hero-title">Я врала родителям, что у меня всё хорошо. А сама работала за копейки и копила долги.</h1>
+      <p class="hero-sub">Перестала врать, научилась продажам и заработала на квартиру за год. Рассказываю как.</p>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-right-img" src="https://github.com/semspb/lady/blob/main/business.jpg?raw=true" alt="сейчас">
+    <div class="hero-right-content">
+      <div class="hero-badge">История Евгении</div>
+      <h2 class="section-title white" style="font-size:clamp(26px,3vw,44px); margin-bottom:32px;">Я могла быть Анжелой.<br>Но осталась Евгенией.</h2>
+      <button class="cta-btn" onclick="openModal()">
+        Хочу перестать врать и начать жить
+      </button>
+      <p class="micro-text">Никаких вложений. Никаких сомнительных схем. Только навык, который остаётся с тобой навсегда.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 2: Узнаёшь себя ═══════════════════════════════ -->
+<section class="recognize">
+  <div class="container">
+    <div class="recognize-grid">
+      <div class="recognize-img fade-up">
+        <img src="https://github.com/semspb/lady/blob/main/arena.jpg?raw=true" alt="честный кадр">
+      </div>
+      <div class="fade-up">
+        <span class="section-label">Это про тебя?</span>
+        <h2 class="section-title">Я знаю это чувство.<br>Когда ты говоришь<br>«всё нормально»,<br>а внутри пустота.</h2>
+        <ul class="pain-list">
+          <li>Работала с 9 до 21, а в конце месяца не хватало даже на новые джинсы.</li>
+          <li>Вела SMM: рилсы, сторис, контент — а заказчики считали, что это «просто постить фотки».</li>
+          <li>Снималась как модель: красивые фото, а в кармане пусто. Ощущение, что ты просто «картинка».</li>
+          <li>Боялась сказать родителям правду: у меня нет накоплений. Есть только долги и усталость.</li>
+          <li>Каждое воскресенье придумывала, почему не могу приехать. Стыдно. Нечего надеть. Нечего рассказать.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 3: Звонок ═══════════════════════════════ -->
+<section class="call-block">
+  <div class="container">
+    <div class="call-narrative fade-up">
+      <span class="section-label" style="color:var(--gold);">Переломный момент</span>
+      <h2 class="section-title white">Я помню день, когда всё сломалось.</h2>
+
+      <p>Мама позвонила. Спросила: <strong>«Дочь, тебе помочь? Я вижу, что ты что-то не договариваешь».</strong></p>
+
+      <p>Я разревелась. Прямо на улице. Сказала правду: денег нет, работы нет нормальной, я не знаю, что делать, и мне стыдно.</p>
+
+      <blockquote class="call-quote">«Я всегда знала. Просто ждала, когда ты сама скажешь».</blockquote>
+
+      <p>В тот вечер я поняла: я больше не хочу врать. Не хочу, чтобы родители волновались. Не хочу быть взрослой девочкой, которая не может о себе позаботиться.</p>
+
+      <p>Я решила: <strong>либо я сейчас меняю жизнь, либо так и буду врать до 30 лет.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 4: Анжела vs Евгения ═══════════════════════════════ -->
+<section class="vs-block">
+  <div class="container-wide">
+    <div class="fade-up" style="text-align:center;">
+      <span class="section-label">Выбор, который изменил всё</span>
+      <h2 class="section-title white">Я могла бы быть Анжелой. Но осталась Евгенией.</h2>
+      <p style="color:rgba(245,242,236,.7); max-width:640px; margin:0 auto 16px; font-size:17px; line-height:1.75;">У меня есть подруга. Назовём её Анжела. Мы начинали одинаково. Те же съёмные квартиры, те же долги, тот же страх перед звонком родителям.</p>
+    </div>
+
+    <div class="vs-grid fade-up">
+      <div class="vs-col angela">
+        <div class="vs-col-inner">
+          <div class="vs-name">Анжела</div>
+          <p style="color:rgba(245,242,236,.6); font-size:15px; margin-top:4px;">"Зачем пахать, если можно красиво жить уже сейчас?"</p>
+          <ul class="vs-list">
+            <li>Зависит от настроения других</li>
+            <li>Не может сказать «нет», когда надо</li>
+            <li>Улыбается, но глаза пустые</li>
+            <li>До сих пор врёт родителям</li>
+            <li>Квартира есть. Покой — нет.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="vs-col evgenia">
+        <div class="vs-col-inner">
+          <div class="vs-name">Евгения</div>
+          <p style="color:rgba(245,242,236,.6); font-size:15px; margin-top:4px;">"Хочу смотреть в глаза родителям и не отводить взгляд."</p>
+          <ul class="vs-list">
+            <li>Сплю спокойно</li>
+            <li>Не прячу телефон</li>
+            <li>Родители гордятся</li>
+            <li>Не играю роль</li>
+            <li>Квартира есть. И покой — тоже.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="big-quote fade-up">
+      <p>«Я не говорю, что путь Евгении легче. Он честнее. А честный путь в итоге приводит туда, где тебе не стыдно проснуться утром».</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 5: Что я выбрала ═══════════════════════════════ -->
+<section class="choice-block">
+  <div class="container">
+    <div class="choice-grid">
+      <div class="choice-img fade-up">
+        <img src="https://github.com/semspb/lady/blob/main/car.png?raw=true" alt="работа">
+      </div>
+      <div class="fade-up">
+        <span class="section-label">Мой путь</span>
+        <h2 class="section-title">Я выбрала продажи.<br>Не чтобы «впаривать».<br>А чтобы приносить<br>ценность.</h2>
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:16px; line-height:1.75;">Я долго думала, что продажи — это унизительно. Просить, уговаривать, «обрабатывать». Пока не увидела, как люди без связей и стартового капитала просто разговаривают с людьми и получают чеки, о которых я не могла мечтать.</p>
+
+        <div class="choice-features">
+          <div class="feature-item">
+            <div class="feature-icon">🎯</div>
+            <p class="feature-text">Не ищет работу, а <strong>выбирает проекты</strong></p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">💡</div>
+            <p class="feature-text">Не просит, а <strong>предлагает решение</strong></p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔑</div>
+            <p class="feature-text">Не зависит от одного «спонсора» — <strong>десятки клиентов</strong></p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">❤️</div>
+            <p class="feature-text">Можно <strong>смотреть в глаза родителям</strong> и говорить правду</p>
+          </div>
+        </div>
+
+        <button class="cta-btn" onclick="openModal()">Хочу так же</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 6: Цифры ═══════════════════════════════ -->
+<section class="numbers-block">
+  <div class="container">
+    <div class="fade-up" style="text-align:center;">
+      <span class="section-label" style="color:var(--gold);">Математика</span>
+      <h2 class="section-title white">Считаю на пальцах. Потому что мне самой важно было понять: а реально ли это?</h2>
+      <p style="color:rgba(245,242,236,.7); max-width:640px; margin:0 auto; font-size:16px; line-height:1.75;">Я продаю продукты, которые уже созданы. Мне не нужно ничего изобретать, вкладывать деньги или нанимать команду. Моя задача — просто общаться с людьми.</p>
+    </div>
+
+    <div class="numbers-grid fade-up">
+      <div class="number-card">
+        <div class="num">100к+</div>
+        <div class="label">Стоимость продукта<br>от 100 000 руб.</div>
+      </div>
+      <div class="number-card">
+        <div class="num">90%</div>
+        <div class="label">Моя комиссия<br>до 90% с продажи</div>
+      </div>
+      <div class="number-card">
+        <div class="num">90к</div>
+        <div class="label">С одной продажи<br>до 90 000 руб.</div>
+      </div>
+    </div>
+
+    <div class="number-highlight fade-up">
+      <p>10 продаж = 900 000 руб.</p>
+      <small>Миллион рублей чистыми. Без начальника. Без аренды офиса. Без инвестиций.</small>
+    </div>
+
+    <div class="note-box fade-up">
+      <strong style="color:var(--gold-light);">Почему комиссия до 90%?</strong><br>
+      У продукта нет себестоимости в классическом смысле — это экспертиза, сервис, закрытые знания. Я не продаю физические товары с закупкой. Я продаю то, что масштабируется без моих затрат.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 7: Страх ═══════════════════════════════ -->
+<section class="fear-block">
+  <div class="container">
+    <span class="section-label">Честно о начале</span>
+    <h2 class="section-title">Первый месяц было страшно. <br> Я не притворяюсь, что было легко.</h2>
+    <p style="color:var(--text-muted); margin-bottom:16px; font-size:16px; line-height:1.75;">Я боялась взять трубку. Боялась, что мне скажут «нет». Боялась, что ничего не получится. Но я каждый день напоминала себе: если сдамся сейчас — через год будет то же самое.</p>
+
+    <div class="fear-timeline fade-up">
+      <div class="timeline-item">
+        <h4>Неделя 1–2: Страх</h4>
+        <p>Боялась взять трубку. По 10–20 звонков в день. Ошибалась. Краснела. Записывала, переслушивала.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Неделя 3: Первая победа</h4>
+        <p>Продала первый дорогой продукт. Клиент сказал: «Спасибо, я искал именно такого человека, как вы». Я плакала — впервые не от стыда. От того, что смогла.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Месяц 3: Разворот</h4>
+        <p>Заработала больше, чем за год официанткой. Позвонила маме и сказала правду впервые за долгое время.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Год 1: Квартира</h4>
+        <p>Первый взнос. Не в ипотеку на 30 лет. Своя. Где захожу и понимаю: это моё. Честно. Без стыда.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 8: Результат ═══════════════════════════════ -->
+<section class="result-block">
+  <div class="container">
+    <div class="result-grid">
+      <div class="result-img fade-up">
+        <video autoplay muted loop playsinline>
+          <source src="https://github.com/semspb/lady/blob/main/see.mp4?raw=true" type="video/mp4">
+          <img src="https://github.com/semspb/lady/blob/main/arena.jpg?raw=true" alt="результат">
+        </video>
+      </div>
+      <div class="fade-up">
+        <span class="section-label" style="color:var(--gold);">Результат</span>
+        <h2 class="section-title white">Через три месяца я заработала больше, чем за год официанткой.</h2>
+
+        <div class="result-milestones">
+          <div class="milestone">
+            <div class="milestone-num">01</div>
+            <div class="milestone-text">
+              <strong>Правда вместо лжи</strong>
+              Перестала врать родителям. Сказала: «Мам, у меня всё налаживается. Я нашла своё».
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-num">02</div>
+            <div class="milestone-text">
+              <strong>Официальные договоры</strong>
+              Показала маме. С моей фамилией, печатями, суммами. Она расплакалась: «Теперь я спокойна».
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-num">03</div>
+            <div class="milestone-text">
+              <strong>Своя квартира</strong>
+              Через год — первый взнос. Не ипотека. Своя. Где можно пригласить родителей без стыда.
+            </div>
+          </div>
+        </div>
+
+        <button class="cta-btn" style="margin-top:32px;" onclick="openModal()">Записаться на бесплатную встречу</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 9: Кейсы ═══════════════════════════════ -->
+<section class="cases-block">
+  <div class="container-wide">
+    <div class="fade-up" style="text-align:center;">
+      <span class="section-label">Мы — Евгении</span>
+      <h2 class="section-title">Я не единственная, кто перестал врать и начал жить.</h2>
+    </div>
+
+    <div class="cases-grid">
+
+      <!-- Кейс 1: Алина -->
+      <div class="case-card fade-up">
+        <div class="case-img">
+          <img src="https://github.com/semspb/lady/blob/main/alina.jpg?raw=true" alt="Алина">
+          <div class="case-result">+270 000 руб. / месяц</div>
+        </div>
+        <div class="case-body">
+          <div class="case-name">Алина</div>
+          <div class="case-role">Была официанткой</div>
+          <p class="case-quote">«Я врала родителям, что работаю в хорошем месте. А сама ела дошик и не могла оплатить коммуналку. После того как разобралась с продажами, закрыла три сделки за первую неделю. Позвонила маме. Сказала правду. Она молчала, потом: "Наконец-то". Сейчас живу в своей студии».</p>
+        </div>
+      </div>
+
+      <!-- Кейс 2: Катя -->
+      <div class="case-card fade-up">
+        <div class="case-img">
+          <img src="https://github.com/semspb/lady/blob/main/kate.png?raw=true" alt="Катя">
+          <div class="case-result">от 150 000 руб. / мес.</div>
+        </div>
+        <div class="case-body">
+          <div class="case-name">Катя</div>
+          <div class="case-role">Была SMM-менеджером</div>
+          <p class="case-quote">«Я вела соцсети экспертов за 20–30 тысяч. Работала с утра до ночи. Сейчас продаю за них — 3–4 часа в день, зарабатываю в 5 раз больше. Перестала врать подругам, что "всё хорошо". На самом деле просто денег не было. Теперь есть».</p>
+        </div>
+      </div>
+
+      <!-- Кейс 3: Евгения -->
+      <div class="case-card fade-up">
+        <div class="case-img">
+          <img src="https://github.com/semspb/lady/blob/main/sport.jpg?raw=true" alt="Евгения">
+          <div class="case-result">Квартира за год</div>
+        </div>
+        <div class="case-body">
+          <div class="case-name">Евгения</div>
+          <div class="case-role">Автор этой страницы</div>
+          <p class="case-quote">«Первый месяц было страшно. Второй — интересно. Третий — заработала больше, чем за год официанткой. А через год был первый взнос на квартиру. И я перестала врать».</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 10: Что получишь ═══════════════════════════════ -->
+<section class="offer-block">
+  <div class="container">
+    <div class="fade-up">
+      <span class="section-label" style="color:var(--gold);">Бесплатная встреча</span>
+      <div class="format-badge">Онлайн · Без воды · Без продаж на вебинаре</div>
+      <h2 class="section-title white">Я не даю «волшебный пинок». <br> Я даю систему.</h2>
+    </div>
+
+    <div class="offer-grid fade-up">
+      <div class="offer-item">
+        <div class="offer-num">01</div>
+        <div class="offer-text">
+          <h4>Где брать продукты</h4>
+          <p>Каналы с высокой маржинальностью. Условия, как заходить без опыта — чтобы тебя сразу брали.</p>
+        </div>
+      </div>
+      <div class="offer-item">
+        <div class="offer-num">02</div>
+        <div class="offer-text">
+          <h4>Скрипты, которые работают</h4>
+          <p>Не шаблоны из интернета. Живые фразы: как начать, отвечать на возражения, закрывать мягко.</p>
+        </div>
+      </div>
+      <div class="offer-item">
+        <div class="offer-num">03</div>
+        <div class="offer-text">
+          <h4>Как упаковать себя</h4>
+          <p>Чтобы клиенты видели в тебе эксперта, а не «девочку на побегушках».</p>
+        </div>
+      </div>
+      <div class="offer-item">
+        <div class="offer-num">04</div>
+        <div class="offer-text">
+          <h4>Психологическая настройка</h4>
+          <p>Как перестать бояться денег. Перестать оправдываться. Не прогибаться. Перестать врать себе.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;" class="fade-up">
+      <button class="cta-btn outline" onclick="openModal()">Записаться. Хочу перестать врать.</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 11: FAQ ═══════════════════════════════ -->
+<section class="faq-block">
+  <div class="container">
+    <span class="section-label">Вопросы и ответы</span>
+    <h2 class="section-title">Часто спрашивают</h2>
+
+    <div class="faq-list fade-up">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Это точно легально? Без серых схем?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">Да. Я продаю легальные продукты: консультации, наставничество, сервисы. Всё официально. Работаю как самозанятая, плачу налоги. Могу показать договоры. Мне нечего скрывать. В отличие от Анжелы.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          А если у меня нет опыта в продажах? Совсем.
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">У меня тоже не было. Я училась с нуля. Важно другое: ты умеешь общаться, ты не боишься людей, ты хочешь зарабатывать. Остальному научу.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Мне нужно будет что-то покупать? Вкладывать деньги?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">Нет. Ты ничего не покупаешь. Ты продаёшь готовый продукт и получаешь свой процент. Твои вложения — только твоё время и желание.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          А сколько времени это занимает?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">Первые результаты — через 2–3 недели, если начать сразу. На полную замену дохода у меня ушло 3 месяца. На квартиру — год. Всё зависит от твоего темпа.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          А если у меня не получится? Снова останусь ни с чем?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">А если получится? Ты останешься там, где сейчас, и через год ничего не изменится? Будешь снова придумывать отговорки для родителей? Или попробуешь и узнаешь, на что способна? Я не даю гарантий — это честно. Но я даю всё, что знаю сама. А дальше — выбор за тобой. Между «быть Анжелой» и «остаться собой».</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BLOCK 12: Финал ═══════════════════════════════ -->
+<section class="final-block">
+  <div class="container">
+    <div class="final-content fade-up">
+      <span class="section-label" style="color:var(--gold);">Твой выбор</span>
+      <h2 class="section-title white" style="font-size:clamp(28px,4vw,52px);">Анжела получила квартиру быстрее. Но я получила возможность пригласить родителей в гости и не врать, откуда она.</h2>
+
+      <p style="color:rgba(245,242,236,.75); font-size:17px; margin:28px 0; line-height:1.8;">Навык продаж останется с тобой навсегда. Его не отнимут. Он не обесценится. С ним ты всегда сможешь себя обеспечить. Честно. С чистой совестью.</p>
+
+      <p style="color:rgba(245,242,236,.6); margin-bottom:8px;">Если ты хочешь:</p>
+      <ul class="final-list">
+        <li>перестать врать родителям</li>
+        <li>спать спокойно</li>
+        <li>иметь доход, который не стыдно показать</li>
+        <li>остаться собой, но с деньгами</li>
+      </ul>
+
+      <p style="color:rgba(245,242,236,.8); font-size:17px; margin:28px 0 36px;">Я покажу, как я это сделала.</p>
+
+      <button class="cta-btn" style="font-size:18px; padding:22px 52px;" onclick="openModal()">
+        Да. Я выбираю быть ✦ Собой ✦
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer>
+  <div class="footer-name">Женское сообщество ZaLoveClub</div>
+  
+  <p>
+    <a href="https://t.me/GenOffOn_bot?start=r_11887113" onclick="openModal(); return false;">Telegram-бот</a>
+  </p>
+  
+  <!-- Блок юридических ссылок -->
+  <div style="margin: 16px 0; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+    <a href="http://zaloveclub.ru/oferta" target="_blank" style="color: #c8a96e; text-decoration: underline; font-size: 13px;">Публичная оферта</a>
+    <a href="http://zaloveclub.ru/privacy" target="_blank" style="color: #c8a96e; text-decoration: underline; font-size: 13px;">Политика конфиденциальности</a>
+    <a href="http://zaloveclub.ru/refund" target="_blank" style="color: #c8a96e; text-decoration: underline; font-size: 13px;">Политика возвратов</a>
+  </div>
+  
+  <br>
+  <p>Работаю официально, плачу налоги.Чего и Вам желаю!</p>
+  <br>
+  <p style="max-width:600px; margin:0 auto; font-size:13px; color:rgba(245,242,236,.3);">Информация не является публичной офертой. Результаты индивидуальны и зависят от ваших действий. Я делюсь своим опытом, а не даю гарантий.</p>
+</footer>
+ 
+<!-- ═══════════════════════════════ SCRIPTS ═══════════════════════════════ -->
+<script>
+// Modal
+function openModal() {
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+// FAQ accordion
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
