@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Олечка | Ниа Гара — комик, актриса, художник, певица</title>
+    <!-- Google Fonts + smooth -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fefaf5;
+            color: #1a1a1a;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
+
+        /* анимации и переходы */
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleSoft {
+            0% { transform: scale(0.96); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .animate-up {
+            animation: fadeUp 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.35s; }
+        .delay-4 { animation-delay: 0.5s; }
+
+        section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* hero */
+        .hero {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-content {
+            flex: 1.2;
+            min-width: 280px;
+        }
+
+        .hero-gallery {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            border-radius: 2rem;
+            overflow: hidden;
+            background: #f0e7dc;
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            aspect-ratio: 1 / 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+        }
+
+        .gallery-item.large {
+            grid-column: span 1;
+        }
+
+        /* заголовки */
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1F1A17, #B1624B);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1a1a1a;
+            color: #fefaf5;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1.2rem;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            line-height: 1.4;
+            color: #2c2c2c;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            border-left: 3px solid #B1624B;
+            padding-left: 1.2rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #1f1a17;
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #B1624B;
+            box-shadow: 0 4px 12px rgba(177, 98, 75, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #9a4f3b;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(177, 98, 75, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #1f1a17;
+            color: #1f1a17;
+        }
+
+        .btn-outline:hover {
+            background: #1f1a17;
+            color: white;
+        }
+
+        /* карточки фактов */
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .fact-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            border: 1px solid #f0e2d6;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -15px rgba(0,0,0,0.1);
+            border-color: #e2cbbc;
+        }
+
+        .fact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .fact-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .fact-card p {
+            color: #3a3a3a;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            background: #fff3e9;
+            border-radius: 2rem;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #e6dbd1;
+            padding: 1.2rem 0;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .faq-answer {
+            color: #4a4a4a;
+            margin-top: 0.7rem;
+            padding-right: 1rem;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .testimonial {
+            background: #ffffffd9;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            margin: 1rem 0;
+            font-style: normal;
+            border-left: 5px solid #B1624B;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: #1f1a17;
+            color: #cdc6c0;
+            margin-top: 2rem;
+        }
+
+        .floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #B1624B;
+            color: white;
+            border-radius: 60px;
+            padding: 12px 24px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            z-index: 99;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .floating-cta:hover {
+            background: #8b4634;
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 800px) {
+            section {
+                padding: 3rem 1.5rem;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
+            .hero-grid {
+                flex-direction: column;
+            }
+            .hero-gallery {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- фиксированная кнопка на подписку -->
+<a href="https://t.me/olhaha2025" target="_blank" class="floating-cta">📱 Подписаться в Telegram</a>
+
+<!-- ХЕРО С ГАЛЕРЕЕЙ 4 фото -->
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-content animate-up">
+            <div class="badge">🔥 Ниа Гара & Олечка — официальный лендинг</div>
+            <h1>«Я комик, актриса, певица, художник и член Союза художников России. <br>Всё это звучит как проблема, но я сделала из неё Telegram-канал.»</h1>
+            <div class="lead">
+                40 песен, 60 фильмов, 50 выступлений и ни одного вовремя выложенного поста.<br>
+                Подпишись — будет смешно, странно и местами сюрреалистично.
+            </div>
+            <div class="btn-group">
+                <a href="https://t.me/olhaha2025" target="_blank" class="btn btn-primary">🎭 Подписаться →</a>
+                <a href="#about" class="btn btn-outline">📖 Почему я?</a>
+            </div>
+        </div>
+        <div class="hero-gallery animate-up delay-1">
+            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_main.jpg" alt="Олечка сцена" loading="lazy" onerror="this.src='https://placehold.co/600x600/f0e7dc/8B5A4B?text=Олечка'"></div>
+            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_people.jpg" alt="Олечка люди" loading="lazy" onerror="this.src='https://placehold.co/600x600/f0e7dc/8B5A4B?text=комик'"></div>
+            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_vrost.jpg" alt="Олечка рост" loading="lazy" onerror="this.src='https://placehold.co/600x600/f0e7dc/8B5A4B?text=актриса'"></div>
+            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_sexy.jpg" alt="Олечка стиль" loading="lazy" onerror="this.src='https://placehold.co/600x600/f0e7dc/8B5A4B?text=певица'"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Блок: этот канал для тебя -->
+<section id="about">
+    <div class="container">
+        <div class="animate-up">
+            <div class="badge">🎯 Твоя аудитория</div>
+            <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Этот канал для тебя, если:</h2>
+        </div>
+        <div class="facts-grid">
+            <div class="fact-card animate-up delay-1">
+                <div class="fact-icon">🎨🤪</div>
+                <h3>Творческий хаос</h3>
+                <p>Любишь людей, у которых синдром самозванца соседствует с членским билетом в Союзе художников.</p>
+            </div>
+            <div class="fact-card animate-up delay-2">
+                <div class="fact-icon">📸🚫</div>
+                <h3>Надоели идеальные блоги</h3>
+                <p>Хочешь живого, неотфотошопленного творчества. Где краска, тушь и жизнь размазаны поровну.</p>
+            </div>
+            <div class="fact-card animate-up delay-3">
+                <div class="fact-icon">🎤🎸</div>
+                <h3>Сам пробуешь петь/шутить</h3>
+                <p>Нужно доказательство, что нормально — не успевать, но продолжать. И даже смеяться над провалами.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- достижения с юмором -->
+<section style="background: #fef5ed; border-radius: 48px; margin: 1rem auto; width: calc(100% - 2rem);">
+    <div class="container">
+        <div class="animate-up">
+            <div class="badge">⭐ 5 лет творческого многозадора</div>
+            <h2 style="font-size: 2rem;">Кто это пишет? <br>Я — Олечка (она же Ниа Гара)</h2>
+        </div>
+        <div class="facts-grid">
+            <div class="fact-card animate-up delay-1"><div class="fact-icon">🎵</div><h3>40+ песен</h3><p>39 про отношения, одна — про кота. У кота всё хорошо.<br><strong>В канале:</strong> новые треки первыми, иногда в акустике под чайник.</p></div>
+            <div class="fact-card animate-up delay-2"><div class="fact-icon">🎭</div><h3>50+ выступлений</h3><p>Москва, Сочи, Индия. В Индии кричат «бис!», даже не понимая слов.<br><strong>Байки:</strong> как я чуть не потеряла штаны на сцене.</p></div>
+            <div class="fact-card animate-up delay-3"><div class="fact-icon">🖼️</div><h3>Член Союза художников РФ</h3><p>Сюрреализм. Если не понял что нарисовано — нормально. Я сама не всегда понимаю.<br><strong>Что получишь:</strong> картины и их создание с матом и объяснениями.</p></div>
+            <div class="fact-card animate-up delay-4"><div class="fact-icon">🎬</div><h3>60+ фильмов</h3><p>Если не видел — не страшно, я в некоторых себя не узнаю.<br><strong>Закулисные истории:</strong> как я чуть не подожгла декорации.</p></div>
+            <div class="fact-card animate-up delay-4"><div class="fact-icon">📺</div><h3>Вела «Времечко»</h3><p>Если застал — соболезную по возрасту. Если нет — знай: умею не материться в эфире (почти).</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Чего НЕ будет -->
+<section>
+    <div class="container">
+        <div class="highlight animate-up">
+            <h2 style="font-size: 1.9rem; margin-bottom: 1rem;">❌ ЧЕГО НЕ БУДЕТ (обещаю)</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; margin-top: 1rem;">
+                <div><span style="font-weight:800;">🚫</span> Идеальной картинки. У меня вечно что-то размазано.</div>
+                <div><span style="font-weight:800;">🚫</span> Советов «успех за 3 дня». Я 5 лет учусь выкладывать сторис вовремя.</div>
+                <div><span style="font-weight:800;">🚫</span> Спама. Я ленивая. Посты 1–2 в неделю, чаще — если муза накатит.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- СТЕНДАП FAQ -->
+<section>
+    <div class="container">
+        <div class="animate-up">
+            <div class="badge">😂 Давай честно</div>
+            <h2 style="font-size: 2rem;">FAQ в стиле стендап</h2>
+        </div>
+        <div class="faq-list" id="faqContainer">
+            <div class="faq-item animate-up delay-1"><div class="faq-question">— А если мне не понравится? <span style="font-size:1.5rem;">👇</span></div><div class="faq-answer">Отпишешься. Я не буду присылать курьера с угрозами. Хотя могла бы — у меня 60 фильмов, там полно связей.</div></div>
+            <div class="faq-item animate-up delay-2"><div class="faq-question">— Ты говоришь, что редко постишь. Зачем подписываться? <span>👇</span></div><div class="faq-answer">Затем, что каждый пост — как мини-спектакль. Плюс эксклюзивные «записки из-под одеяла», которые никуда больше не выкладываю.</div></div>
+            <div class="faq-item animate-up delay-3"><div class="faq-question">— А можно просто почитать и не подписываться? <span>👇</span></div><div class="faq-answer">Можно. Но тогда ты не узнаешь, чем закончилась история с индийским продюсером, который хотел, чтобы я спела на санскрите. И не получишь бонус.</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Бонус и живой отзыв -->
+<section>
+    <div class="container">
+        <div class="highlight animate-up" style="background: #1f1a17; color: #fefaf5;">
+            <h2 style="font-size: 2rem;">🎁 БОНУС (прямо сейчас)</h2>
+            <p style="font-size: 1.2rem; margin: 1rem 0;">Подпишись в ближайшие 24 часа (ну или когда прочитаешь — я не проверяю) — и я пришлю в личку секретный файл:</p>
+            <p style="font-weight: 800; font-size: 1.3rem;">📂 «Моя самая провальная шутка, после которой я хотела уйти в монастырь»</p>
+            <p>Текст, голосовое или кривой мем — на выбор жертвы. Будет стыдно и смешно. Мне — стыдно, тебе — смешно.</p>
+            <div style="margin-top: 1.5rem;"><a href="https://t.me/olhaha2025" target="_blank" class="btn btn-primary" style="background: #B1624B;">👉 ЗАБРАТЬ БОНУС И ПОДПИСАТЬСЯ</a></div>
+        </div>
+
+        <div class="testimonial animate-up delay-1">
+            <p>⭐ «Олечка — единственный человек, у которого я подписан на канал, хотя она пишет раз в месяц. Каждый пост как мини-спектакль, а сторис — отдельный вид искусства.»</p>
+            <p style="margin-top: 0.5rem; font-weight: 500;">— Иван, подписчик (не муж, не продюсер)</p>
+        </div>
+        <div class="testimonial animate-up delay-2">
+            <p>⭐ «Я пришла за картинами, а осталась из-за историй про Индию. И да, кот действительно появился в канале — он теперь звезда, чем Олечка недовольна.»</p>
+            <p style="margin-top: 0.5rem; font-weight: 500;">— Анна, подписчица</p>
+        </div>
+    </div>
+</section>
+
+<!-- Финальный призыв -->
+<section style="text-align: center;">
+    <div class="container animate-up">
+        <h2 style="font-size: 2.5rem;">КОРОЧЕ, ДАВАЙ СЮДА</h2>
+        <p style="font-size: 1.2rem; max-width: 700px; margin: 1rem auto;">Жми, подписывайся, забирай бонус и получай порцию творческого хаоса. Без спама, только сюрреализм и смех.</p>
+        <div class="btn-group" style="justify-content: center; margin-top: 2rem;">
+            <a href="https://t.me/olhaha2025" target="_blank" class="btn btn-primary" style="padding: 1rem 2.5rem;">📲 ПОДПИСАТЬСЯ НА КАНАЛ</a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.9rem; color: #6b5a4f;">📞 Директор (для предложений): 8 926 920-13-04 — строгий, но тоже шутит.</p>
+    </div>
+</section>
+
+<footer>
+    <p>© Олечка / Ниа Гара — комик, актриса, художник, певица. Сделано с юмором и анимацией.</p>
+    <p style="margin-top: 0.7rem;">🌐 t.me/olhaha2025 — подпишись, чтобы не пропустить провальную шутку и новые картины</p>
+</footer>
+
+<script>
+    // анимация появления при скролле (дополнительно к базовой)
+    const animateElements = document.querySelectorAll('.animate-up, .fact-card, .gallery-item, .testimonial, .highlight');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+    animateElements.forEach(el => {
+        if (el.style.opacity !== '1') {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        }
+    });
+    // сразу включаем видимость для уже показанных (на случай если стили не сработали)
+    setTimeout(() => {
+        document.querySelectorAll('.animate-up, .fact-card, .gallery-item').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if(rect.top < window.innerHeight - 100){
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }
+        });
+    }, 200);
+
+    // Аккордеон FAQ
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const questionDiv = item.querySelector('.faq-question');
+        questionDiv.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            faqItems.forEach(i => i.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        });
+    });
+    // первый открытый для интриги
+    if(faqItems.length) faqItems[0].classList.add('active');
+</script>
+</body>
+</html>
