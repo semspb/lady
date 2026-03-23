@@ -620,5 +620,59 @@
     `;
     document.head.appendChild(styleAnim);
 </script>
+
+    <!-- БЛОК: Сделаем лендинг бесплатно. GenOffOn -->
+<div style="background: linear-gradient(135deg, #0f1222 0%, #0a0c1a 100%); padding: 48px 32px 40px; text-align: center; border-top: 1px solid rgba(255,200,100,0.25);">
+    <h2 style="font-size: 2.2rem; font-weight: 800; background: linear-gradient(135deg, #FFE6B0 0%, #FFB347 100%); background-clip: text; -webkit-background-clip: text; color: transparent; margin-bottom: 16px;">Сделаем лендинг бесплатно</h2>
+    <div style="font-size: 1.3rem; color: #e2d4ff; font-weight: 500; margin-bottom: 12px;">Мы верим в вас.</div>
+    <div style="font-size: 1.8rem; font-weight: 800; color: #FFD966; letter-spacing: 2px; margin-bottom: 32px;">GenOffOn</div>
+    <button id="openModalBtnGen" style="background: linear-gradient(95deg, #FFB347, #FF8C00); border: none; padding: 14px 42px; border-radius: 60px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; color: #0a0c18; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);">🔥 Хочу свой сайт</button>
+</div>
+
+<!-- Модальное окно -->
+<div id="modalOverlayGen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease;">
+    <div style="background: linear-gradient(135deg, #1a1f32, #111425); border-radius: 48px; max-width: 520px; width: 90%; padding: 40px 32px; text-align: center; border: 1px solid rgba(255, 200, 100, 0.4); box-shadow: 0 30px 50px rgba(0,0,0,0.6); transform: scale(0.95); transition: transform 0.25s ease;">
+        <div style="font-size: 3.5rem; color: #FFD966; margin-bottom: 16px;">✨</div>
+        <h3 style="font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #FFE6B0, #FFB347); background-clip: text; -webkit-background-clip: text; color: transparent; margin-bottom: 24px;">Мы верим в ваши проекты</h3>
+        <p style="color: #d4dcff; line-height: 1.5; margin-bottom: 20px;">Сделаем лендинг <strong>бесплатно</strong> для тех, кто готов заявить о себе.</p>
+        <div style="background: rgba(255, 200, 100, 0.15); border-radius: 20px; padding: 14px; margin: 20px 0; font-size: 0.95rem; border-left: 3px solid #FFB347; text-align: left;">
+            📌 <strong>Условия:</strong><br>
+            Разместим на вашем сайте реферальную ссылку на проект GenOffOn.<br>
+            Вы получаете готовый стильный лендинг + возможность получать бонусы в нашем проекте.
+        </div>
+        <p style="color: #d4dcff; font-size: 0.95rem;">Переходите в Telegram-бота — расскажем детали и начнём работу.</p>
+        <button id="redirectBtnGen" style="background: linear-gradient(95deg, #FFB347, #FF8C00); border: none; padding: 14px 36px; border-radius: 60px; font-weight: 700; font-size: 1rem; font-family: 'Montserrat', sans-serif; color: #0a0c18; cursor: pointer; transition: 0.2s; margin-top: 8px;">🚀 Перейти в GenOffOn_bot</button>
+        <div id="closeModalBtnGen" style="margin-top: 20px; font-size: 0.8rem; color: #8f9bb3; cursor: pointer;">✖️ закрыть</div>
+    </div>
+</div>
+
+<script>
+    const modalGen = document.getElementById('modalOverlayGen');
+    const openBtnGen = document.getElementById('openModalBtnGen');
+    const closeBtnGen = document.getElementById('closeModalBtnGen');
+    const redirectBtnGen = document.getElementById('redirectBtnGen');
+    const tgUrlGen = 'https://t.me/GenOffOn_bot?start=r_11887113';
+
+    if (openBtnGen) {
+        openBtnGen.addEventListener('click', () => {
+            modalGen.style.opacity = '1';
+            modalGen.style.visibility = 'visible';
+            const modalWindow = modalGen.querySelector('div > div');
+            if (modalWindow) modalWindow.style.transform = 'scale(1)';
+        });
+    }
+
+    const closeModal = () => {
+        modalGen.style.opacity = '0';
+        modalGen.style.visibility = 'hidden';
+    };
+
+    if (closeBtnGen) closeBtnGen.addEventListener('click', closeModal);
+    if (modalGen) modalGen.addEventListener('click', (e) => { if (e.target === modalGen) closeModal(); });
+    if (redirectBtnGen) redirectBtnGen.addEventListener('click', () => {
+        window.open(tgUrlGen, '_blank');
+        closeModal();
+    });
+</script>
 </body>
 </html>
