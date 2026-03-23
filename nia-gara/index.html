@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Олечка | Ниа Гара — комик, актриса, художник, певица</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fefaf5;
+            color: #1a1a1a;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .animate-up {
+            animation: fadeUp 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.35s; }
+        .delay-4 { animation-delay: 0.5s; }
+        .delay-5 { animation-delay: 0.65s; }
+        .delay-6 { animation-delay: 0.8s; }
+        .delay-7 { animation-delay: 0.95s; }
+
+        section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-content {
+            flex: 1.2;
+            min-width: 280px;
+        }
+
+        .hero-gallery {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            border-radius: 2rem;
+            overflow: hidden;
+            background: #f0e7dc;
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            aspect-ratio: 1 / 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1F1A17, #B1624B);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1a1a1a;
+            color: #fefaf5;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1.2rem;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            line-height: 1.4;
+            color: #2c2c2c;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            border-left: 3px solid #B1624B;
+            padding-left: 1.2rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #1f1a17;
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #B1624B;
+            box-shadow: 0 4px 12px rgba(177, 98, 75, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #9a4f3b;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(177, 98, 75, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #1f1a17;
+            color: #1f1a17;
+        }
+
+        .btn-outline:hover {
+            background: #1f1a17;
+            color: white;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .fact-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            border: 1px solid #f0e2d6;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -15px rgba(0,0,0,0.1);
+            border-color: #e2cbbc;
+        }
+
+        .fact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .fact-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .fact-card p {
+            color: #3a3a3a;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            background: #fff3e9;
+            border-radius: 2rem;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border-left: 4px solid #B1624B;
+            transition: 0.2s;
+        }
+
+        .testimonial-card p {
+            font-style: normal;
+            line-height: 1.5;
+        }
+
+        .testimonial-author {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: #B1624B;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #e6dbd1;
+            padding: 1.2rem 0;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .faq-answer {
+            color: #4a4a4a;
+            margin-top: 0.7rem;
+            padding-right: 1rem;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: #1f1a17;
+            color: #cdc6c0;
+            margin-top: 2rem;
+        }
+
+        .floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #B1624B;
+            color: white;
+            border-radius: 60px;
+            padding: 12px 24px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            z-index: 99;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .floating-cta:hover {
+            background: #8b4634;
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 800px) {
+            section {
+                padding: 3rem 1.5rem;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
+            .hero-grid {
+                flex-direction: column;
+            }
+            .hero-gallery {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<a href="https://t.me/olhaha2025" target="_blank" class="floating-cta">📱 Подписаться в Telegram</a>
+
+<!-- ХЕРО С ГАЛЕРЕЕЙ 4 фото -->
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-content animate-up">
+            <div class="badge">🔥 Ниа Гара & Олечка — официальный лендинг</div>
+            <h1>«Я комик, актриса, певица, художник и член Союза художников России. <br>Всё это звучит как проблема, но я сделала из неё Telegram-канал.»</h1>
+            <div class="lead">
+                40 песен, 60 фильмов, 50 выступлений и ни одного вовремя выложенного поста.<br>
+                Подпишись — будет смешно, странно и местами сюрреалистично.
+            </div>
+            <div class="btn-group">
+                <a href="https://t.me/olhaha2025" target="_blank" class="btn btn-primary">🎭 Подписаться →</a>
+                <a href="#about" class="btn btn-outline">📖 Почему я?</a>
+            </div>
+        </div>
+        <div class="hero-gallery animate-up delay-1">
+            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_main.jpg" alt="Олечка сцена" loading="lazy" onerror="this.src='https://placehold.co/600x600/f0e7dc/8B5A4B?text=Олечка'"></div>
+            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_people.jpg" alt="Олечка люди" loading="lazy" onerror="this.src='https://placehold.co/600x600/f0e7dc/8B5A4B?text=комик'"></div>
+            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_vrost.jpg" alt="Олечка рост" loading="lazy" onerror="this.src='https://placehold.co/600x600/f0e7dc/8B5A4B?text=актриса'"></div>
+            <div class="gallery-item"><img src="http://zaloveclub.ru/images/niagara_sexy.jpg" alt="Олечка стиль" loading="lazy" onerror="this.src='https://placehold.co/600x600/f0e7dc/8B5A4B?text=певица'"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Блок: этот канал для тебя -->
+<section id="about">
+    <div class="container">
+        <div class="animate-up">
+            <div class="badge">🎯 Твоя аудитория</div>
+            <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Этот канал для тебя, если:</h2>
+        </div>
+        <div class="facts-grid">
+            <div class="fact-card animate-up delay-1">
+                <div class="fact-icon">🎨🤪</div>
+                <h3>Творческий хаос</h3>
+                <p>Любишь людей, у которых синдром самозванца соседствует с членским билетом в Союзе художников.</p>
+            </div>
+            <div class="fact-card animate-up delay-2">
+                <div class="fact-icon">📸🚫</div>
+                <h3>Надоели идеальные блоги</h3>
+                <p>Хочешь живого, неотфотошопленного творчества. Где краска, тушь и жизнь размазаны поровну.</p>
+            </div>
+            <div class="fact-card animate-up delay-3">
+                <div class="fact-icon">🎤🎸</div>
+                <h3>Сам пробуешь петь/шутить</h3>
+                <p>Нужно доказательство, что нормально — не успевать, но продолжать. И даже смеяться над провалами.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- достижения с юмором (8 карточек) -->
+<section style="background: #fef5ed; border-radius: 48px; margin: 1rem auto; width: calc(100% - 2rem);">
+    <div class="container">
+        <div class="animate-up">
+            <div class="badge">⭐ 5 лет творческого многозадора</div>
+            <h2 style="font-size: 2rem;">Кто это пишет? <br>Я — Олечка (она же Ниа Гара)</h2>
+        </div>
+        <div class="facts-grid">
+            <div class="fact-card animate-up delay-1"><div class="fact-icon">🎵</div><h3>40+ песен</h3><p>39 про отношения, одна — про кота. У кота всё хорошо.<br><strong>В канале:</strong> новые треки первыми, иногда в акустике под чайник.</p></div>
+            <div class="fact-card animate-up delay-2"><div class="fact-icon">🎭</div><h3>50+ выступлений</h3><p>Москва, Сочи, Индия. В Индии кричат «бис!», даже не понимая слов.<br><strong>Байки:</strong> как я чуть не потеряла штаны на сцене.</p></div>
+            <div class="fact-card animate-up delay-3"><div class="fact-icon">🖼️</div><h3>Член Союза художников РФ</h3><p>Сюрреализм. Если не понял что нарисовано — нормально. Я сама не всегда понимаю.<br><strong>Что получишь:</strong> картины и их создание с матом и объяснениями.</p></div>
+            <div class="fact-card animate-up delay-4"><div class="fact-icon">🎬</div><h3>60+ фильмов</h3><p>Если не видел — не страшно, я в некоторых себя не узнаю.<br><strong>Закулисные истории:</strong> как я чуть не подожгла декорации.</p></div>
+            <div class="fact-card animate-up delay-5"><div class="fact-icon">📺</div><h3>Вела «Времечко»</h3><p>Если застал — соболезную по возрасту. Если нет — знай: умею не материться в эфире (почти).</p></div>
+            <div class="fact-card animate-up delay-6"><div class="fact-icon">🎤</div><h3>Стендап-комик</h3><p>Стендап — моя первая любовь и самый честный жанр. Шучу про творческий кризис, индийских продюсеров и кота.<br><strong>В канале:</strong> живые микрофонные байки, тексты, которые не прошли цензуру, и моменты, когда я чуть не умерла со смеху на сцене.</p></div>
+            <div class="fact-card animate-up delay-7"><div class="fact-icon">🎭</div><h3>Ниа Гара</h3><p>Под этим именем я пишу и исполняю песни. Почему Ниа? А почему бы и нет. Гара — потому что звучит как водопад, а моя жизнь — это поток.<br><strong>В канале:</strong> премьеры треков, черновики, тексты, которые я переписала 15 раз, и объяснение, почему на концертах я всегда теряю микрофон.</p></div>
+            <div class="fact-card animate-up delay-8"><div class="fact-icon">🖼️</div><h3>Сюрреализм вживую</h3><p>Член Союза художников — это не только корочка, но и десятки выставок, включая персональные. Мои картины видели в галереях Москвы и даже за границей.<br><strong>В канале:</strong> анонсы выставок, видео с открытий, и как я объясняю зрителям, что «это не просто пятно, это метафора».</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Чего НЕ будет -->
+<section>
+    <div class="container">
+        <div class="highlight animate-up">
+            <h2 style="font-size: 1.9rem; margin-bottom: 1rem;">❌ ЧЕГО НЕ БУДЕТ (обещаю)</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; margin-top: 1rem;">
+                <div><span style="font-weight:800;">🚫</span> Идеальной картинки. У меня вечно что-то размазано.</div>
+                <div><span style="font-weight:800;">🚫</span> Советов «успех за 3 дня». Я 5 лет учусь выкладывать сторис вовремя.</div>
+                <div><span style="font-weight:800;">🚫</span> Спама. Я ленивая. Посты 1–2 в неделю, чаще — если муза накатит.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Бонус (без обязательств) -->
+<section>
+    <div class="container">
+        <div class="highlight animate-up" style="background: #1f1a17; color: #fefaf5;">
+            <h2 style="font-size: 2rem;">🎁 БОНУС УЖЕ ВНУТРИ</h2>
+            <p style="font-size: 1.2rem; margin: 1rem 0;">Никаких файлов, которые нужно высылать. Просто подпишись — и получишь:</p>
+            <p style="font-weight: 800; font-size: 1.3rem;">💥 Хорошее настроение + смех до слёз в каждом посте</p>
+            <p>Это единственный канал, где тебе не будут обещать миллионы, зато гарантируют неожиданные сюрреалистичные истории, песни под чайник и честный юмор без цензуры (почти).</p>
+            <div style="margin-top: 1.5rem;"><a href="https://t.me/olhaha2025" target="_blank" class="btn btn-primary" style="background: #B1624B;">👉 ЗАБРАТЬ НАСТРОЕНИЕ</a></div>
+        </div>
+    </div>
+</section>
+
+<!-- 8 креативных отзывов -->
+<section>
+    <div class="container">
+        <div class="animate-up">
+            <div class="badge">💬 Говорят те, кто уже подписался</div>
+            <h2 style="font-size: 2rem;">8 отзывов, которые я не покупала (жаль, не додумалась)</h2>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card animate-up delay-1"><p>«Олечка — единственный человек, который смог рассмешить меня во время кастинга. Я взял её, но она опоздала на съёмочную площадку на 15 минут, потому что рисовала кота. 10/10.»</p><div class="testimonial-author">— Продюсер, имя скрыто по этическим соображениям</div></div>
+            <div class="testimonial-card animate-up delay-2"><p>«Я видел её картины. Я не знаю, что это, но это в Союзе художников. Она мне должна объяснить, но она просто сказала: «Это ты». Я до сих пор в шоке.»</p><div class="testimonial-author">— Коллега-художник, который теперь боится зеркал</div></div>
+            <div class="testimonial-card animate-up delay-3"><p>«Я не понимаю по-русски, но она так смешно падала со сцены, что я чуть не упал сам. Подписался, чтобы смотреть повторы.»</p><div class="testimonial-author">— Случайный зритель из Гоа</div></div>
+            <div class="testimonial-card animate-up delay-4"><p>«Я её кот. Мне не нравится, что она поёт вместо того, чтобы кормить меня. Но канал смотрю — там хоть иногда выкладывают мои фото.»</p><div class="testimonial-author">— Кот Кузя, неофициальный соавтор песен</div></div>
+            <div class="testimonial-card animate-up delay-5"><p>«Думал, очередной блог про “успешный успех”. А тут женщина честно говорит, что не успевает. Я тоже не успеваю. Мы не успеваем вместе. Лучший канал.»</p><div class="testimonial-author">— Марат, менеджер по продажам, подписался после первого поста</div></div>
+            <div class="testimonial-card animate-up delay-6"><p>«Я режиссёр, снимал её в эпизоде. Она пришла в костюме, который сама нарисовала. Сказала: “Это сюрреализм, режиссёр, вы всё равно не поймёте”. Я не понял. Но переснимать не стал.»</p><div class="testimonial-author">— Режиссёр одного из 60 фильмов</div></div>
+            <div class="testimonial-card animate-up delay-7"><p>«Она на моём дне рождения спела песню про кота. Все плакали. Кот тоже. Я теперь фанат навсегда.»</p><div class="testimonial-author">— Подписчица Анна, свидетельница исторического момента</div></div>
+            <div class="testimonial-card animate-up delay-8"><p>«Мне её менеджер сказал: “Позвони, она смешная”. Я позвонил. Она забыла, что назначила встречу. Мы говорили про искусство 40 минут. Я ничего не понял, но подписался.»</p><div class="testimonial-author">— Потенциальный инвестор (пока не вложился, но канал читает)</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- СТЕНДАП FAQ: 7 вопросов с развёрнутыми ответами -->
+<section>
+    <div class="container">
+        <div class="animate-up">
+            <div class="badge">😂 Давай честно</div>
+            <h2 style="font-size: 2rem;">7 вопросов, которые мне задают чаще всего</h2>
+            <p style="margin-bottom: 1rem;">(и мои ответы в стиле мини-выступления)</p>
+        </div>
+        <div class="faq-list" id="faqContainer">
+            <div class="faq-item animate-up delay-1"><div class="faq-question">— Ты реально член Союза художников? <span>👇</span></div><div class="faq-answer">Да, я даже показывала им свои картины. Они спросили: «Это вы нарисовали?» Я сказала: «Нет, это нарисовалось само». Меня приняли. С тех пор я хожу на собрания и с умным видом киваю. Один раз меня попросили выступить с докладом. Я прочитала текст песни про кота. Сказали, что это было очень концептуально.</div></div>
+            <div class="faq-item animate-up delay-2"><div class="faq-question">— Сколько у тебя песен? <span>👇</span></div><div class="faq-answer">Более 40. 39 — про неудачную любовь, одна — про кота. Кот, кстати, до сих пор со мной, а любовь — нет. Выводы делайте сами. Сейчас работаю над циклом «Бывшие и их коты». Возможно, это будет мой первый концептуальный альбом. Или второй, если считать альбом песен про чай.</div></div>
+            <div class="faq-item animate-up delay-3"><div class="faq-question">— Почему Ниа Гара? <span>👇</span></div><div class="faq-answer">Потому что Ниагара — это водопад, а я — поток сознания. Но продюсер сказал, что Ниагара звучит как название кафе, и предложил Гара. Я подумала: «Ну, пусть будет как водопад, но короче». Теперь все думают, что я армянка. Я не против, армянская кухня — моя любовь. Однажды меня даже пригласили выступать на свадьбу в Ереван, но я не поехала — боялась, что перепутают с водопадом.</div></div>
+            <div class="faq-item animate-up delay-4"><div class="faq-question">— Как ты всё успеваешь? <span>👇</span></div><div class="faq-answer">Не успеваю. Я вообще ничего не успеваю. Но я научилась делать вид, что так и задумано. Это называется «сюрреализм в жизни». Когда меня спрашивают: «Почему ты не выложила пост неделю?», я отвечаю: «Это арт-объект. Его отсутствие — часть концепции». Иногда люди верят. Особенно из Союза художников.</div></div>
+            <div class="faq-item animate-up delay-5"><div class="faq-question">— Ты правда снималась в 60 фильмах? <span>👇</span></div><div class="faq-answer">Да, и в 58 из них меня можно увидеть в кадре примерно 3 секунды. Обычно я играю официантку, которая приносит счёт, и главный герой говорит: «Сдачи не надо». Я обижаюсь, но в титрах меня указывают. Однажды я даже сказала фразу: «Ваш кофе, господин». Это был мой звёздный час. Потом я требовала прибавки, но мне сказали, что за одну фразу не доплачивают. Так я и стала комиком.</div></div>
+            <div class="faq-item animate-up delay-6"><div class="faq-question">— Зачем тебе канал? <span>👇</span></div><div class="faq-answer">Чтобы было где выкладывать свои провалы. Я могла бы их скрывать, но вдруг это искусство? А искусство должно быть доступно народу. Плюс это отличный способ не звонить маме каждый день. Она теперь читает канал и знает, что я жива, здорова и опять разлила краску на ковёр.</div></div>
+            <div class="faq-item animate-up delay-7"><div class="faq-question">— Ты боишься хейта? <span>👇</span></div><div class="faq-answer">Нет, я боюсь, что меня никто не заметит. А хейт — это хотя бы реакция. Главное, чтобы меня не перепутали с другой Олечкой. Та, кажется, шьёт одежду для собак. У нас разные аудитории. Хотя если кто-то из её клиентов придёт ко мне за жилеткой для таксы, я не обижусь. Просто нарисую на таксе сюрреалистичный портрет. И отправлю в канал. Вот это будет хейт.</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Финальный призыв -->
+<section style="text-align: center;">
+    <div class="container animate-up">
+        <h2 style="font-size: 2.5rem;">КОРОЧЕ, ДАВАЙ СЮДА</h2>
+        <p style="font-size: 1.2rem; max-width: 700px; margin: 1rem auto;">Жми, подписывайся, забирай хорошее настроение и получай порцию творческого хаоса. Без спама, только сюрреализм и смех.</p>
+        <div class="btn-group" style="justify-content: center; margin-top: 2rem;">
+            <a href="https://t.me/olhaha2025" target="_blank" class="btn btn-primary" style="padding: 1rem 2.5rem;">📲 ПОДПИСАТЬСЯ НА КАНАЛ</a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.9rem; color: #6b5a4f;">📞 Директор (для предложений): 8 926 920-13-04 — строгий, но тоже шутит.</p>
+    </div>
+</section>
+
+<footer>
+    <p>© Олечка / Ниа Гара — комик, актриса, художник, певица. Сделано с юмором и анимацией.</p>
+    <p style="margin-top: 0.7rem;">🌐 t.me/olhaha2025 — подпишись, чтобы не пропустить новые картины, песни и провальные шутки</p>
+</footer>
+
+<script>
+    // анимация появления при скролле
+    const animateElements = document.querySelectorAll('.animate-up, .fact-card, .gallery-item, .testimonial-card, .highlight');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+    animateElements.forEach(el => {
+        if (el.style.opacity !== '1') {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        }
+    });
+    setTimeout(() => {
+        document.querySelectorAll('.animate-up, .fact-card, .gallery-item').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if(rect.top < window.innerHeight - 100){
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }
+        });
+    }, 200);
+
+    // Аккордеон FAQ
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const questionDiv = item.querySelector('.faq-question');
+        questionDiv.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            faqItems.forEach(i => i.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        });
+    });
+    if(faqItems.length) faqItems[0].classList.add('active');
+</script>
+</body>
+</html>
