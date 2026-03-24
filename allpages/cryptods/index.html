@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курс «Крипта и DeFi: Навигатор по выживанию и капиталу» — полная программа</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #01010e;
+            color: #eef5ff;
+            line-height: 1.5;
+        }
+
+        .bg-ambient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, #0a1025, #000000);
+            z-index: -2;
+        }
+
+        .bg-ambient::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 80%, rgba(0, 200, 255, 0.08), transparent 70%);
+            animation: breathe 10s infinite alternate;
+        }
+
+        @keyframes breathe {
+            0% { opacity: 0.4; transform: scale(1);}
+            100% { opacity: 1; transform: scale(1.1);}
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* hero */
+        .hero {
+            padding: 70px 0 40px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .badge {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 100px;
+            padding: 6px 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        h1 {
+            font-size: clamp(2.8rem, 7vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #fff, #5bc0ff, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin: 30px 0;
+        }
+
+        .stat {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-weight: 600;
+        }
+
+        .stat span {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #5bc0ff;
+            margin-right: 8px;
+        }
+
+        /* модули */
+        .modules-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            margin: 50px 0;
+        }
+
+        .module {
+            background: rgba(10, 18, 40, 0.55);
+            backdrop-filter: blur(4px);
+            border-radius: 48px;
+            border: 1px solid rgba(91, 192, 255, 0.2);
+            overflow: hidden;
+            transition: all 0.25s;
+        }
+
+        .module:hover {
+            border-color: rgba(91, 192, 255, 0.6);
+            background: rgba(12, 22, 50, 0.7);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 32px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.2);
+            transition: 0.2s;
+        }
+
+        .module-num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #5bc0ff;
+            opacity: 0.7;
+            min-width: 80px;
+        }
+
+        .module-title {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .module-title h2 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .module-title p {
+            color: #9aaed6;
+            font-size: 0.9rem;
+            margin-top: 6px;
+        }
+
+        .lesson-count {
+            background: rgba(91, 192, 255, 0.15);
+            border-radius: 40px;
+            padding: 6px 18px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 20px;
+            white-space: nowrap;
+        }
+
+        .toggle-icon {
+            font-size: 1.6rem;
+            color: #5bc0ff;
+            transition: transform 0.3s;
+        }
+
+        .module-lessons {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid transparent;
+        }
+
+        .module.open .module-lessons {
+            max-height: 2000px;
+            border-top-color: rgba(91, 192, 255, 0.3);
+        }
+
+        .module.open .toggle-icon {
+            transform: rotate(45deg);
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 12px;
+            padding: 28px 32px;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.02);
+            padding: 12px 18px;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .lesson-item i {
+            color: #5bc0ff;
+            width: 24px;
+            font-size: 1rem;
+        }
+
+        .lesson-item:hover {
+            background: rgba(91, 192, 255, 0.1);
+            border-color: rgba(91, 192, 255, 0.3);
+        }
+
+        .bonus-section {
+            margin: 60px 0;
+            background: linear-gradient(125deg, #07112e, #030617);
+            border-radius: 56px;
+            padding: 48px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(95deg, #0c8eff, #5f3eff);
+            border: none;
+            padding: 16px 44px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 100, 255, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px 0 40px;
+            font-size: 0.8rem;
+            color: #5f6f9a;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 40px;
+        }
+
+        @media (max-width: 780px) {
+            .container {
+                padding: 0 20px;
+            }
+            .module-header {
+                flex-wrap: wrap;
+            }
+            .lesson-count {
+                margin-left: auto;
+                margin-right: 12px;
+            }
+            .module-title h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-ambient"></div>
+<div class="container">
+    <div class="hero">
+        <div class="badge"><i class="fas fa-shield-heart"></i> Антикризисный формат · Безопасность превыше всего</div>
+        <h1>Крипта и DeFi:<br>Навигатор по выживанию и капиталу</h1>
+        <p style="font-size: 1.2rem; max-width: 750px; color: #c7d6ff;">9 насыщенных модулей, 48 уроков, 12 практических квестов. От полной защиты активов до осознанного управления рисками в DeFi.</p>
+        <div class="hero-stats">
+            <div class="stat"><span>48</span> уроков</div>
+            <div class="stat"><span>9</span> модулей</div>
+            <div class="stat"><span>12+</span> чек-листов</div>
+            <div class="stat"><span>∞</span> доступ к обновлениям</div>
+        </div>
+    </div>
+
+    <!-- динамические модули с развернутыми списками уроков -->
+    <div class="modules-grid" id="modulesContainer">
+        <!-- данные модулей и уроков будут вставлены js, но для надежности продублируем вручную -->
+    </div>
+
+    <div class="bonus-section">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px;">
+            <div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 12px;"><i class="fas fa-gift" style="color:#5bc0ff;"></i> Бонусный пакет</h3>
+                <p style="max-width: 600px;">Глоссарий из 150 терминов, шаблон дневника эмоций, чек-лист безопасности «10 шагов до сделки», пошаговые гайды по Revoke.cash и Debank.</p>
+            </div>
+            <a href="#" class="btn-primary"><i class="fas fa-rocket"></i> Получить программу</a>
+        </div>
+    </div>
+    <footer>
+        <p>© 2025 · Образовательная платформа «Навигатор»<br>Данный курс носит исключительно информационный характер. Все инвестиционные решения вы принимаете самостоятельно. Криптовалюта связана с высокими рисками.</p>
+    </footer>
+</div>
+
+<script>
+    // ПОЛНОЕ СОДЕРЖАНИЕ: каждый модуль, каждый урок. Продающий объем.
+    const modulesData = [
+        { num: "01", title: "Перезагрузка мышления", desc: "Философия денег, психологические ловушки и основы капитал-менеджмента", lessons: [
+            "1.1 Инфляция vs Биткоин: почему старые деньги теряют ценность", "1.2 История крипты: от Сатоши до современного DeFi", "1.3 FOMO, FUD и Revenge Trading — анатомия эмоциональных потерь",
+            "1.4 Психология толпы: почему 80% новичков сливают депозит", "1.5 Правило спокойного сна: определяем комфортный риск", "1.6 Три типа капитала: стратегический, тактический, спекулятивный",
+            "1.7 Упражнение «Дневник эмоций» — первый шаг к контролю"
+        ] },
+        { num: "02", title: "Цифровая гигиена и безопасность", desc: "Кошельки, сид-фразы, фишинг и защита от drainer’ов", lessons: [
+            "2.1 Публичный адрес, приватный ключ, сид-фраза — что есть что", "2.2 Not your keys, not your coins: реальные истории потерь", "2.3 Горячие кошельки: MetaMask, Trust Wallet, Phantom (установка и настройка)",
+            "2.4 Холодные кошельки: Ledger, Trezor — когда и зачем покупать", "2.5 Централизованные биржи (CEX): удобство и риски", "2.6 Фишинг 2.0: как отличить настоящий сайт от подделки",
+            "2.7 Drainer'ы и бесконечные approve: как не подписать смертельную транзакцию", "2.8 Revoke.cash и безопасность токенов: отзываем опасные разрешения", "2.9 Чек-лист безопасности перед любой транзакцией"
+        ] },
+        { num: "03", title: "Вход в рынок: биржи, P2P, первые активы", desc: "Регистрация, KYC, безопасный обмен и первая покупка", lessons: [
+            "3.1 Выбор биржи с учетом геолокации: Binance, Bybit, OKX", "3.2 KYC и верификация: что делать, если не проходишь", "3.3 VPN в крипте: зачем и какие риски", "3.4 P2P-рынок: эскроу, рейтинг продавцов, безопасные сделки",
+            "3.5 Как не заблокировать банковскую карту при P2P", "3.6 Прямые фиатные шлюзы: Mercuryo, Banxa (комиссии vs безопасность)", "3.7 Первая покупка USDT или BTC: маркет vs лимит", "3.8 Тестовая транзакция: отправляем крипту на личный кошелек",
+            "3.9 Разбор частых ошибок при выводе и пополнении"
+        ] },
+        { num: "04", title: "Управление капиталом и риск-менеджмент", desc: "Математика выживания, DCA, фиксация прибыли", lessons: [
+            "4.1 Правило 1%: почему нельзя рисковать большим", "4.2 Соотношение риск/прибыль (Risk/Reward) — основа профита", "4.3 Стоп-лосс и тейк-профит: устанавливаем до входа", "4.4 DCA (Dollar Cost Averaging): как усреднять без паники",
+            "4.5 Стратегия HODL: когда держать, а когда выходить", "4.6 Фиксация прибыли: правило выхода тела депозита", "4.7 Медитация на волатильность: смотрим на -20% без действий", "4.8 Ребалансировка портфеля: как часто и зачем",
+            "4.9 Психологический журнал: анализ каждой сделки"
+        ] },
+        { num: "05", title: "Анализ активов: от голубых фишек до мемкоинов", desc: "CoinGecko, фундаменталка и защита от скамов", lessons: [
+            "5.1 Рыночная капитализация, объемы, FDV — что важно", "5.2 Топ-10 монет: BTC, ETH, SOL, BNB — почему это база", "5.3 Мемкоины: механика Pump.fun, rug pull, honeypot", "5.4 Как проверить проект за 10 минут: аудит, команда, whitepaper",
+            "5.5 Инструменты аналитика: CoinGecko, DexScreener, Token Sniffer", "5.6 Социальные сети проекта: что должно насторожить", "5.7 Анализ токеномики: инфляция, вестинг, разлоки", "5.8 Практика: выбираем 3 проекта и проходим чек-лист",
+            "5.9 Скам-детектор: реальные примеры мошеннических токенов"
+        ] },
+        { num: "06", title: "DeFi: пассивный доход или ловушка?", desc: "Стейкинг, пулы ликвидности, IL, стейблкоины и риски", lessons: [
+            "6.1 Что такое смарт-контракты и как они работают", "6.2 Стейкинг PoS: доходность, unbonding period, слэшинг", "6.3 Ликвидный стейкинг (Lido, Jito): плюсы и риски депега", "6.4 Рестейкинг (EigenLayer): сверхдоходность = сверхриски",
+            "6.5 Пулы ликвидности AMM: как устроены Uniswap, PancakeSwap", "6.6 Императивные потери (Impermanent Loss) на пальцах", "6.7 Стейблкоины: USDT, USDC, DAI и урок Terra/LUNA", "6.8 Диверсификация протоколов: почему нельзя держать всё в одном пуле",
+            "6.9 Инструменты мониторинга: Debank, Zapper, Zerion"
+        ] },
+        { num: "07", title: "Психология на практике: разбор катастроф", desc: "Реальные кейсы потери капитала и уроки выживания", lessons: [
+            "7.1 Кейс Terra/LUNA: как $40 млрд исчезли за 3 дня", "7.2 Кейс «одобрение»: drainer, который вынес кошелек за 1 минуту", "7.3 Кейс плеча x10: от $1k до $50k и обратно в 0", "7.4 Кейс FTX: почему нельзя хранить все активы на бирже",
+            "7.5 Кейс мошеннического NFT-минта: как поддельные сайты крадут подписи", "7.6 Кейс «синдром страуса»: когда надежда хуже фиксации убытка", "7.7 Анализ психологии толпы во время пампов и дампов", "7.8 Упражнение: воссоздаем чужую ошибку и находим решение"
+        ] },
+        { num: "08", title: "Стратегии и диверсификация портфеля", desc: "Пирамида активов, exit plan, аллокация", lessons: [
+            "8.1 Пирамида портфеля: ядро (BTC/ETH), рост (топ-20), риск (мемы/DeFi)", "8.2 Аллокация под разные риск-профили", "8.3 Стратегия выхода (Exit Plan): цели по кратности", "8.4 Конвертация в стейблкоины на пике цикла", "8.5 Тактический трейдинг vs долгосрочное инвестирование",
+            "8.6 Использование лимитных ордеров для набора позиций", "8.7 Ребалансировка раз в квартал: продаем перегретое", "8.8 Налоговая оптимизация: сроки владения активов", "8.9 Создание инвестиционного меморандума под свои цели"
+        ] },
+        { num: "09", title: "Юридическая гигиена и выход в фиат", desc: "Налоги, безопасный вывод, наследование", lessons: [
+            "9.1 Налогообложение крипты: общие принципы (не юр. консультация)", "9.2 Как вести учет сделок: таблицы, Koinly, CoinTracking", "9.3 P2P-вывод: как не получить блокировку от банка", "9.4 Легальные офф-рампы: лицензированные обменники, крипто-банки",
+            "9.5 Работа через ИП или самозанятость (разные юрисдикции)", "9.6 Что такое AML и почему ваши переводы могут остановить", "9.7 Наследование крипты: как передать доступ близким", "9.8 Защита от форс-мажора: распределение сид-фраз",
+            "9.9 Финальный аудит безопасности: проверка всех активов и разрешений"
+        ] }
+    ];
+
+    function renderModules() {
+        const container = document.getElementById('modulesContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        modulesData.forEach((mod, idx) => {
+            const moduleDiv = document.createElement('div');
+            moduleDiv.className = 'module';
+            // header
+            const header = document.createElement('div');
+            header.className = 'module-header';
+            header.innerHTML = `
+                <div class="module-num">${mod.num}</div>
+                <div class="module-title">
+                    <h2>${mod.title}</h2>
+                    <p>${mod.desc}</p>
+                </div>
+                <div class="lesson-count"><i class="fas fa-list-ul"></i> ${mod.lessons.length} уроков</div>
+                <div class="toggle-icon"><i class="fas fa-plus-circle"></i></div>
+            `;
+            const lessonsDiv = document.createElement('div');
+            lessonsDiv.className = 'module-lessons';
+            const grid = document.createElement('div');
+            grid.className = 'lessons-grid';
+            mod.lessons.forEach(lesson => {
+                const item = document.createElement('div');
+                item.className = 'lesson-item';
+                item.innerHTML = `<i class="fas fa-play-circle"></i> <span>${lesson}</span>`;
+                grid.appendChild(item);
+            });
+            lessonsDiv.appendChild(grid);
+            moduleDiv.appendChild(header);
+            moduleDiv.appendChild(lessonsDiv);
+            
+            // toggle открытие/закрытие
+            header.addEventListener('click', () => {
+                moduleDiv.classList.toggle('open');
+            });
+            container.appendChild(moduleDiv);
+        });
+    }
+
+    renderModules();
+    // открыть первый модуль по умолчанию для привлекательности
+    setTimeout(() => {
+        const firstModule = document.querySelector('.module');
+        if(firstModule) firstModule.classList.add('open');
+    }, 200);
+</script>
+</body>
+</html>
