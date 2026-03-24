@@ -736,15 +736,11 @@
 <!-- ========== ДЕЛИКАТНЫЙ БЛОК GENOFFON — ГОРИЗОНТАЛЬНЫЙ ========== -->
 <div class="genoffon-footer">
     <div class="genoffon-inner">
-        <div class="genoffon-brand">
-            <span>GenOffOn</span>
-        </div>
-        <div class="genoffon-divider"></div>
         <div class="genoffon-offer">
             <div class="genoffon-text">
                 Обмен энергиями. Мы сделаем лендинг <strong>бесплатно</strong> • <span>Мы верим в вас</span>
             </div>
-            <button class="genoffon-btn" id="genoffonModalBtn">Узнать →</button>
+            <button class="genoffon-btn" id="genoffonModalBtn">Узнать о GenOffOn →</button>
         </div>
     </div>
 </div>
@@ -783,30 +779,7 @@
         margin: 0 auto;
         display: flex;
         align-items: center;
-        gap: 1.5rem;
-        flex-wrap: nowrap; /* Никогда не переносим */
-    }
-
-    .genoffon-brand {
-        flex-shrink: 0;
-    }
-
-    .genoffon-brand span {
-        font-size: 1.65rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #FFD966, #FFB347);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        white-space: nowrap;
-    }
-
-    .genoffon-divider {
-        width: 2px;
-        height: 42px;
-        background: linear-gradient(180deg, #FFCF8A, rgba(255, 207, 138, 0.3));
-        border-radius: 2px;
-        flex-shrink: 0;
+        justify-content: space-between;
     }
 
     .genoffon-offer {
@@ -815,8 +788,7 @@
         gap: 1.5rem;
         justify-content: space-between;
         flex: 1;
-        flex-wrap: nowrap; /* Никогда не переносим */
-        min-width: 0; /* Позволяет тексту сжиматься */
+        flex-wrap: nowrap;
     }
 
     .genoffon-text {
@@ -939,14 +911,8 @@
         .genoffon-footer {
             padding: 0.8rem 1.5rem;
         }
-        .genoffon-inner {
-            gap: 1rem;
-        }
         .genoffon-offer {
             gap: 1rem;
-        }
-        .genoffon-brand span {
-            font-size: 1.4rem;
         }
         .genoffon-text {
             font-size: 0.9rem;
@@ -955,46 +921,27 @@
             padding: 0.5rem 1.2rem;
             font-size: 0.85rem;
         }
-        .genoffon-divider {
-            height: 36px;
-        }
     }
 
     @media (max-width: 900px) {
         .genoffon-footer {
             padding: 0.7rem 1.2rem;
         }
-        .genoffon-inner {
-            gap: 0.8rem;
-        }
         .genoffon-offer {
             gap: 0.8rem;
-        }
-        .genoffon-brand span {
-            font-size: 1.25rem;
         }
         .genoffon-text {
             font-size: 0.85rem;
         }
-        .genoffon-text strong,
-        .genoffon-text span {
-            display: inline;
-        }
         .genoffon-btn {
             padding: 0.45rem 1rem;
             font-size: 0.8rem;
-        }
-        .genoffon-divider {
-            height: 30px;
         }
     }
 
     @media (max-width: 750px) {
         .genoffon-text {
             font-size: 0.8rem;
-        }
-        .genoffon-brand span {
-            font-size: 1.15rem;
         }
     }
 
