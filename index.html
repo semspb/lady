@@ -36,6 +36,10 @@
                         'merge': 'merge 2s ease-in-out infinite',
                         'float-icon': 'floatIcon 20s linear infinite',
                         'glow': 'glow 2s ease-in-out infinite',
+                        'ripple': 'ripple 2s ease-out infinite',
+                        'ripple-delay': 'ripple 2s ease-out 0.5s infinite',
+                        'ripple-delay-2': 'ripple 2s ease-out 1s infinite',
+                        'pulse-ring': 'pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
@@ -59,6 +63,15 @@
                         glow: {
                             '0%, 100%': { boxShadow: '0 0 20px rgba(236, 72, 153, 0.5)' },
                             '50%': { boxShadow: '0 0 40px rgba(236, 72, 153, 0.9)' },
+                        },
+                        ripple: {
+                            '0%': { transform: 'scale(0.5)', opacity: 1 },
+                            '100%': { transform: 'scale(2.5)', opacity: 0 },
+                        },
+                        pulseRing: {
+                            '0%': { transform: 'scale(0.8)', opacity: 0.5 },
+                            '50%': { transform: 'scale(1.2)', opacity: 0 },
+                            '100%': { transform: 'scale(0.8)', opacity: 0.5 },
                         }
                     }
                 }
@@ -183,6 +196,93 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
         }
+
+        /* Energy Wave Animation */
+        .energy-wave {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(251, 191, 36, 0.6);
+            animation: ripple 2s ease-out infinite;
+        }
+
+        .energy-wave-2 {
+            animation-delay: 0.5s;
+        }
+
+        .energy-wave-3 {
+            animation-delay: 1s;
+        }
+
+        /* Goal Card Hover Effects */
+        .goal-card {
+            background: linear-gradient(135deg, rgba(79, 42, 106, 0.4) 0%, rgba(47, 25, 70, 0.6) 100%);
+            border: 1px solid rgba(183, 148, 244, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .goal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(183, 148, 244, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .goal-card:hover::before {
+            left: 100%;
+        }
+
+        .goal-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 10px 40px rgba(183, 148, 244, 0.2);
+        }
+
+        .goal-icon {
+            background: linear-gradient(135deg, #B794F4 0%, #FBBF24 100%);
+            transition: all 0.4s ease;
+        }
+
+        .goal-card:hover .goal-icon {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+
+        /* Mini Block Styles */
+        .mini-block {
+            background: linear-gradient(135deg, rgba(46, 26, 71, 0.6) 0%, rgba(31, 10, 51, 0.8) 100%);
+            border: 1px solid rgba(183, 148, 244, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mini-block::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #B794F4, #FBBF24);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .mini-block:hover {
+            transform: translateY(-5px);
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 8px 30px rgba(183, 148, 244, 0.2);
+        }
+
+        .mini-block:hover::after {
+            transform: scaleX(1);
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-za-gold selection:text-za-dark">
@@ -229,7 +329,7 @@
         </div>
     </section>
 
-    <!-- Philosophy Section -->
+    <!-- Philosophy Section - WITH ENERGY WAVES -->
     <section class="py-20 bg-za-primary relative z-10">
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -254,23 +354,34 @@
                     </div>
                 </div>
                 <div class="flex justify-center reveal" style="transition-delay: 0.2s;">
-                    <div class="relative w-48 h-48">
+                    <div class="relative w-56 h-56">
+                        <!-- Energy Waves - Rippling Effect -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="energy-wave w-20 h-20"></div>
+                            <div class="energy-wave energy-wave-2 w-20 h-20"></div>
+                            <div class="energy-wave energy-wave-3 w-20 h-20"></div>
+                        </div>
+                        
                         <!-- Two drops merging into heart -->
-                        <div class="absolute left-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-za-lavender to-za-primary rounded-full drop-left shadow-lg shadow-za-lavender/50"></div>
-                        <div class="absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-za-gold to-yellow-600 rounded-full drop-right shadow-lg shadow-za-gold/50"></div>
-                        <div class="heart-merged absolute inset-0 flex items-center justify-center">
-                            <svg class="w-24 h-24 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
+                        <div class="absolute left-10 top-1/2 -translate-y-1/2 w-14 h-14 bg-gradient-to-br from-za-lavender to-za-primary rounded-full drop-left shadow-lg shadow-za-lavender/50 z-10"></div>
+                        <div class="absolute right-10 top-1/2 -translate-y-1/2 w-14 h-14 bg-gradient-to-br from-za-gold to-yellow-600 rounded-full drop-right shadow-lg shadow-za-gold/50 z-10"></div>
+                        <div class="heart-merged absolute inset-0 flex items-center justify-center z-20">
+                            <svg class="w-28 h-28 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                             </svg>
                         </div>
                         <div class="absolute inset-0 bg-gradient-to-tr from-za-lavender/20 to-za-gold/20 rounded-full blur-3xl animate-pulse"></div>
+                        
+                        <!-- Floating particles -->
+                        <div class="absolute top-0 left-1/4 w-3 h-3 bg-za-gold rounded-full animate-ping"></div>
+                        <div class="absolute bottom-10 right-1/4 w-2 h-2 bg-za-lavender rounded-full animate-ping" style="animation-delay: 0.5s;"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Omega Scale Section - UPDATED -->
+    <!-- Omega Scale Section -->
     <section class="py-20 bg-za-light relative overflow-hidden z-10">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">Шкала Омега: где твоя энергия?</h2>
@@ -278,43 +389,43 @@
             
             <div class="relative max-w-2xl mx-auto flex flex-col items-center gap-3 reveal">
                 
-                <!-- Level 1: TOP - Enlightenment (Longest - Maximum Energy) -->
+                <!-- Level 1: TOP - Enlightenment -->
                 <div class="omega-bar w-full h-14 rounded-full bg-gradient-to-r from-yellow-400 via-za-gold to-yellow-400 text-za-dark text-xl flex items-center justify-center font-black shadow-[0_0_50px_rgba(251,191,36,0.7)]">
                     ✨ Просветление
                 </div>
 
-                <!-- Level 2: LOVE - Pink Glowing (BIGGER - Replaced "Любовь, радость, покой") -->
+                <!-- Level 2: LOVE - Pink Glowing -->
                 <div class="omega-bar omega-love w-[85%] h-20 rounded-full text-white text-2xl flex items-center justify-center font-bold">
                     <span>💖 ЛЮБОВЬ</span>
                     <span class="text-sm font-normal ml-4 opacity-90">| Энергоэффективное состояние</span>
                 </div>
                 
-                <!-- Level 3: Acceptance, reasonableness -->
+                <!-- Level 3: Acceptance -->
                 <div class="omega-bar w-[70%] h-10 rounded-full bg-indigo-800 text-white text-base flex items-center justify-center font-medium">
                     Принятие, разумность
                 </div>
 
-                <!-- Level 4: Courage, neutrality -->
+                <!-- Level 4: Courage -->
                 <div class="omega-bar w-[55%] h-10 rounded-full bg-indigo-900 text-white text-sm flex items-center justify-center font-medium">
                     Смелость, нейтралитет
                 </div>
                 
-                <!-- Level 5: Anger, pride -->
+                <!-- Level 5: Anger -->
                 <div class="omega-bar w-[45%] h-10 rounded-full bg-za-primary text-za-lilac text-sm flex items-center justify-center font-medium">
                     Гнев, гордость
                 </div>
                 
-                <!-- Level 6: Grief, fear, desire - WITH BORDER -->
+                <!-- Level 6: Fear - WITH BORDER -->
                 <div class="omega-bar omega-fear w-[35%] h-10 rounded-full bg-za-dark text-gray-300 text-sm flex items-center justify-center font-medium">
                     ⚡ Горе, страх, желание
                 </div>
                 
-                <!-- Level 7: BOTTOM - Shame, guilt, apathy (Shortest - No Energy) -->
+                <!-- Level 7: BOTTOM - Shame -->
                 <div class="omega-bar w-[25%] h-10 rounded-full bg-gray-800 text-gray-500 text-xs flex items-center justify-center font-medium">
                     Позор, вина, апатия
                 </div>
 
-                <!-- Arrow showing energy flow -->
+                <!-- Arrow -->
                 <div class="absolute -left-4 top-1/2 -translate-y-1/2 hidden lg:block">
                     <div class="flex flex-col items-center text-za-gold">
                         <svg class="w-8 h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -398,76 +509,185 @@
         </div>
     </section>
 
-    <!-- Goals Section -->
+    <!-- Goals Section - ENHANCED WITH 6 BLOCKS -->
     <section class="py-20 bg-za-light z-10 relative">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12 reveal">Что мы делаем</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4 reveal">Что мы делаем</h2>
+            <p class="text-za-lavender text-center mb-12 reveal max-w-2xl mx-auto">Наша миссия — помочь тебе держать уровень на всех планах существования</p>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-za-primary/40 transition-colors reveal">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-za-gold/20 flex items-center justify-center text-za-gold">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-1">Удерживаем уровень</h4>
-                        <p class="text-sm text-za-lilac">В физике, психике, эгрегоре</p>
-                    </div>
-                </div>
-
-                <div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-za-primary/40 transition-colors reveal" style="transition-delay: 0.1s;">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-za-gold/20 flex items-center justify-center text-za-gold">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-1">Развиваем любовь</h4>
-                        <p class="text-sm text-za-lilac">Как устойчивый фон жизни</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <!-- Goal 1 -->
+                <div class="goal-card p-6 rounded-2xl reveal">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Удерживаем уровень</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">В физике, в психике, в эгрегоре. Не проваливаемся в низкие состояния.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-za-primary/40 transition-colors reveal" style="transition-delay: 0.2s;">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-za-gold/20 flex items-center justify-center text-za-gold">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-1">Снимаем разделение</h4>
-                        <p class="text-sm text-za-lilac">Духовное и материальное — едины</p>
-                    </div>
-                </div>
-
-                <div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-za-primary/40 transition-colors reveal" style="transition-delay: 0.3s;">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-za-gold/20 flex items-center justify-center text-za-gold">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-1">Создаём эгрегор</h4>
-                        <p class="text-sm text-za-lilac">Круг людей высокой вибрации</p>
+                <!-- Goal 2 -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.1s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Развиваем любовь</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Делаем её не эпизодической эмоцией, а устойчивым фоном жизни.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-za-primary/40 transition-colors reveal md:col-span-2 lg:col-span-2" style="transition-delay: 0.4s;">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-za-gold/20 flex items-center justify-center text-za-gold">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                <!-- Goal 3 -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.2s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Снимаем разделение</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Показываем на практике: духовное и материальное — единый поток.</p>
+                        </div>
                     </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-1">Интегрируем в повседневность</h4>
-                        <p class="text-sm text-za-lilac">Работа над собой + бизнес + отношения + быт = целостность</p>
+                </div>
+
+                <!-- Goal 4 -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.3s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Создаём эгрегор</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Формируем круг людей высокой вибрации, где каждый усиливает каждого.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal 5 -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.4s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Интегрируем в жизнь</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Не отрываем работу над собой от бизнеса, отношений и быта.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal 6 - NEW -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.5s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Даём поддержку</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Ты никогда не останешься один. Сообщество поддержит в любой момент.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Who is this for -->
+    <!-- Who is this for - ENHANCED WITH 6 MINI BLOCKS -->
     <section class="py-20 bg-main-gradient border-y border-za-lavender/20 z-10 relative">
-        <div class="container mx-auto px-4 max-w-4xl text-center">
-            <h2 class="text-3xl md:text-4xl font-bold text-white mb-8 reveal">Это для тебя, если ты:</h2>
-            <ul class="space-y-4 text-za-lilac text-lg reveal">
-                <li>✓ понимаешь, что энергия — главная валюта</li>
-                <li>✓ готов развивать дела и состояние</li>
-                <li>✓ не делишь на «духовное» и «материальное»</li>
-                <li>✓ хочешь быть в кругу людей в любви и достатке</li>
-                <li class="font-bold text-white mt-4">✓ выбираешь ZaLoveClub — за любовь и за лове</li>
-            </ul>
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4 reveal">Это для тебя, если ты:</h2>
+            <p class="text-za-lavender text-center mb-12 reveal">Ты чувствуешь, что готов к большему</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+                <!-- Mini Block 1 -->
+                <div class="mini-block p-6 rounded-xl reveal">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-za-gold to-yellow-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Понимаешь, что <span class="text-white font-semibold">энергия — главная валюта</span> в жизни</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 2 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.1s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-za-lavender to-za-primary flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Готов развивать не только <span class="text-white font-semibold">дела, но и состояние</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 3 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.2s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Не делишь жизнь на <span class="text-white font-semibold">«духовное» и «материальное»</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 4 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.3s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-za-gold to-yellow-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Хочешь быть в кругу людей в <span class="text-white font-semibold">любви, ресурсе и достатке</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 5 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.4s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-za-lavender to-za-primary flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Ценишь <span class="text-white font-semibold">качество жизни</span> и внутренний покой</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 6 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.5s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Выбираешь <span class="text-white font-semibold">ZaLoveClub</span> — за любовь и за лове</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -642,4 +862,6 @@
     </script>
 </body>
 </html>
+
+
 
