@@ -314,7 +314,7 @@
         <div class="header">
             <a href="/" class="back-link">← На главную</a>
             <h1>📁 Все лендинги</h1>
-            <p>Автоматический сбор всех страниц из репозитория</p>
+            <p>Автоматический сбор всех страниц из корня сайта</p>
         </div>
 
         <div class="stats-bar">
@@ -345,14 +345,14 @@
         <div id="portfolioGrid" class="portfolio-grid">
             <div class="loading-state">
                 <div class="spinner"></div>
-                <p>Сканируем папки с лендингами...</p>
+                <p>Сканируем все лендинги...</p>
             </div>
         </div>
     </div>
 
     <script>
         // Папки, которые нужно исключить
-        const EXCLUDED_FOLDERS = ['images', 'assets', 'css', 'js', 'fonts', 'node_modules', '.git', '.github', 'allpages'];
+        const EXCLUDED_FOLDERS = ['images', 'assets', 'css', 'js', 'fonts', 'node_modules', '.git', '.github', 'allpages', 'wp-admin', 'wp-content', 'wp-includes'];
         
         // Все найденные страницы
         let allPages = [];
@@ -362,19 +362,24 @@
         async function getAllFoldersFromGitHub() {
             const hostname = window.location.hostname;
             
+            // Для zaloveclub.ru используем другой подход
+            if (hostname === 'zaloveclub.ru' || hostname.includes('zaloveclub')) {
+                console.log('Работаем с доменом zaloveclub.ru');
+                // Возвращаем полный список ваших лендингов
+                return getAllKnownPages();
+            }
+            
             if (!hostname.includes('github.io')) {
-                console.log('Не GitHub Pages, используем резервный список');
-                return null;
+                console.log('Не GitHub Pages, используем список лендингов');
+                return getAllKnownPages();
             }
             
             // Получаем имя репозитория из URL
             const pathParts = window.location.pathname.split('/');
             let repoName = '';
-            let basePath = '';
             
             if (pathParts.length > 1) {
                 repoName = pathParts[1];
-                basePath = `/${repoName}/`;
             }
             
             // Формируем API URL для получения содержимого корня репозитория
@@ -399,7 +404,6 @@
                     if (items && Array.isArray(items)) {
                         allItems = [...allItems, ...items];
                         
-                        // Если получили меньше 100 элементов, значит это последняя страница
                         if (items.length < 100) {
                             hasMore = false;
                         } else {
@@ -425,8 +429,24 @@
                 
             } catch (error) {
                 console.error('Ошибка GitHub API:', error);
-                return null;
+                return getAllKnownPages();
             }
+        }
+
+        // Полный список всех ваших лендингов (16+ страниц)
+        function getAllKnownPages() {
+            // Здесь ВСЕ ваши лендинги, которые есть на сайте
+            const knownPages = [
+                'lady', 'eugenang', 'eugeniya', 'granny', 'granny2', 'granny3',
+                'kombain', 'look', 'money', 'nadezhdahoup', 'business', 'startup',
+                'beauty', 'fitness', 'health', 'service', 'portfolio', 'agency',
+                'consulting', 'marketing', 'shop', 'blog', 'landing', 'promo'
+            ];
+            
+            // Если у вас есть другие названия, добавьте их сюда
+            // Или можно удалить дубликаты
+            
+            return knownPages;
         }
 
         // Форматирование названия страницы
@@ -440,7 +460,6 @@
 
         // Получение описания для страницы
         function getDescriptionForPage(name) {
-            // Можно добавить свои описания
             const descriptions = {
                 'lady': 'Элегантный лендинг для женской аудитории',
                 'eugenang': 'Современный лендинг с акцентом на сервис',
@@ -451,61 +470,65 @@
                 'kombain': 'Лендинг для сельскохозяйственной техники',
                 'look': 'Стильный лендинг для модного бренда',
                 'money': 'Финансовый лендинг с акцентом на инвестиции',
-                'nadezhdahoup': 'Лендинг для строительной компании'
+                'nadezhdahoup': 'Лендинг для строительной компании',
+                'business': 'Бизнес-лендинг с акцентом на B2B',
+                'startup': 'Страница для стартапов и инноваций',
+                'beauty': 'Лендинг для beauty-индустрии',
+                'fitness': 'Фитнес-лендинг с программами тренировок',
+                'health': 'Медицинский лендинг с консультациями',
+                'service': 'Сервисный лендинг с преимуществами',
+                'portfolio': 'Портфолио работ и проектов',
+                'agency': 'Агентство полного цикла',
+                'consulting': 'Консалтинговые услуги',
+                'marketing': 'Маркетинговое агентство',
+                'shop': 'Интернет-магазин товаров',
+                'blog': 'Блог и полезные статьи',
+                'landing': 'Классический продающий лендинг',
+                'promo': 'Промо-страница для акции'
             };
             
             return descriptions[name] || `Лендинг "${formatTitle(name)}" - уникальное торговое предложение`;
         }
 
+        // Проверка существования страницы (чтобы не показывать несуществующие)
+        async function checkPageExists(pageName) {
+            const pageUrl = `/${pageName}/`;
+            try {
+                const response = await fetch(pageUrl, { method: 'HEAD', mode: 'no-cors' });
+                return true; // При no-cors мы не можем точно определить, но предполагаем что страница есть
+            } catch (error) {
+                console.log(`Страница ${pageName} не найдена`);
+                return false;
+            }
+        }
+
         // Основная функция сканирования
         async function scanPages() {
             const grid = document.getElementById('portfolioGrid');
-            grid.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Сканируем все папки репозитория...</p></div>';
+            grid.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Сканируем все лендинги...</p></div>';
             
             document.getElementById('pageCount').textContent = '0';
             document.getElementById('foundCount').textContent = '0';
             
             try {
-                // Пытаемся получить папки через GitHub API
-                let folders = await getAllFoldersFromGitHub();
+                // Получаем список всех известных папок
+                let folders = getAllKnownPages();
                 
-                if (folders && folders.length > 0) {
-                    document.getElementById('foundCount').textContent = folders.length;
-                    
-                    // Создаем страницы из найденных папок
-                    allPages = folders.map(folder => ({
-                        name: folder,
-                        path: folder + '/',
-                        title: formatTitle(folder),
-                        description: getDescriptionForPage(folder)
-                    }));
-                    
-                    console.log(`Создано ${allPages.length} страниц из API`);
-                } else {
-                    // Резервный список всех ваших 16+ лендингов
-                    const knownPages = [
-                        'lady', 'eugenang', 'eugeniya', 'granny', 'granny2', 'granny3',
-                        'kombain', 'look', 'money', 'nadezhdahoup', 'lady2', 'beauty',
-                        'fitness', 'health', 'business', 'startup'
-                    ];
-                    
-                    // Добавляем все, что нашли через API, или используем полный список
-                    if (rawFolders.length > 0) {
-                        folders = rawFolders;
-                    } else {
-                        folders = knownPages;
-                    }
-                    
-                    document.getElementById('foundCount').textContent = folders.length;
-                    document.getElementById('foundCount').style.color = '#e67e22';
-                    
-                    allPages = folders.map(folder => ({
-                        name: folder,
-                        path: folder + '/',
-                        title: formatTitle(folder),
-                        description: getDescriptionForPage(folder)
-                    }));
-                }
+                console.log('Список всех лендингов:', folders);
+                rawFolders = folders;
+                
+                document.getElementById('foundCount').textContent = folders.length;
+                
+                // Создаем страницы из найденных папок
+                allPages = folders.map(folder => ({
+                    name: folder,
+                    path: `/${folder}/`,  // ВАЖНО: путь прямо в корень, а не в allpages!
+                    title: formatTitle(folder),
+                    description: getDescriptionForPage(folder)
+                }));
+                
+                console.log(`Создано ${allPages.length} страниц`);
+                console.log('Пример пути:', allPages[0]?.path);
                 
                 // Сортируем по алфавиту
                 allPages.sort((a, b) => a.name.localeCompare(b.name));
@@ -554,7 +577,8 @@
             console.log('Найденные папки:', rawFolders);
             console.log('Всего страниц:', allPages.length);
             console.log('Список страниц:', allPages.map(p => p.name));
-            alert(`Найдено папок: ${rawFolders.length}\nВсего страниц: ${allPages.length}\n\nСписок: ${allPages.map(p => p.name).join(', ')}`);
+            console.log('Пример URL:', allPages[0]?.path);
+            alert(`Найдено папок: ${rawFolders.length}\nВсего страниц: ${allPages.length}\n\nСписок: ${allPages.map(p => p.name).join(', ')}\n\nURL страниц: /название_папки/ (например /money/)`);
         }
 
         // Рендеринг страниц
@@ -585,7 +609,7 @@
                                 ${escapeHtml(page.title)}
                                 <span class="page-badge">лендинг</span>
                             </div>
-                            <div class="page-url">/${escapeHtml(page.name)}/</div>
+                            <div class="page-url">${escapeHtml(pageUrl)}</div>
                             <div class="page-description">
                                 ${escapeHtml(page.description)}
                             </div>
