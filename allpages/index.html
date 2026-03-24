@@ -4,27 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
-    <!-- ==================== SEO (ПОИСКОВАЯ ОПТИМИЗАЦИЯ) ==================== -->
-    <meta name="description" content="Каталог всех лендингов и страниц портфолио. Автоматическое обновление при добавлении новых проектов. Более 16 уникальных лендингов.">
-    <meta name="keywords" content="портфолио, лендинги, веб-страницы, каталог сайтов, веб-разработка">
+    <!-- ==================== SEO ==================== -->
+    <meta name="description" content="Каталог всех лендингов и страниц портфолио. Просмотр превью прямо на странице. Более 16 уникальных проектов.">
+    <meta name="keywords" content="портфолио, лендинги, каталог сайтов, превью сайтов">
     <meta name="author" content="ZaLoveClub">
     <meta name="robots" content="index, follow">
     
-    <!-- ==================== OPEN GRAPH (ДЛЯ СОЦСЕТЕЙ) ==================== -->
+    <!-- ==================== OPEN GRAPH ==================== -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Каталог всех лендингов | ZaLoveClub Portfolio">
-    <meta property="og:description" content="Все созданные лендинги в одном месте. Автоматическое обновление каталога. Более 16 проектов.">
+    <meta property="og:title" content="Каталог лендингов | ZaLoveClub">
+    <meta property="og:description" content="Все лендинги в одном месте. Просмотр превью без перехода на сайт.">
     <meta property="og:image" content="catalog-preview.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://zaloveclub.ru/allpages/">
     <meta property="og:site_name" content="ZaLoveClub">
     <meta property="og:locale" content="ru_RU">
     
-    <!-- ==================== TWITTER CARD ==================== -->
+    <!-- ==================== TWITTER ==================== -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Каталог всех лендингов | ZaLoveClub">
-    <meta name="twitter:description" content="Все созданные лендинги в одном месте. Автоматическое обновление каталога.">
+    <meta name="twitter:title" content="Каталог лендингов | ZaLoveClub">
+    <meta name="twitter:description" content="Просмотр превью прямо на странице. Все лендинги в одном месте.">
     <meta name="twitter:image" content="catalog-preview.jpg">
     
     <!-- ==================== FAVICON ==================== -->
@@ -33,7 +31,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
-    <title>Каталог всех лендингов | ZaLoveClub Portfolio</title>
+    <title>Каталог лендингов | ZaLoveClub — Просмотр превью</title>
     
     <style>
         /* ==================== CSS ПЕРЕМЕННЫЕ ==================== */
@@ -61,14 +59,13 @@
 
         body {
             background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-dark) 100%);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             padding: 2rem 1.5rem;
             min-height: 100vh;
-            color: var(--text-dark);
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -102,14 +99,11 @@
             font-size: 2.5rem;
             color: var(--primary-dark);
             margin-bottom: 0.5rem;
-            letter-spacing: -0.5px;
         }
 
         .subtitle {
             color: var(--text-muted);
             font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
         }
 
         /* ==================== СТАТИСТИКА ==================== */
@@ -172,8 +166,9 @@
         /* ==================== СЕТКА КАРТОЧЕК ==================== */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         /* ==================== КАРТОЧКА ЛЕНДИНГА ==================== */
@@ -183,8 +178,9 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
             border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
         }
 
         .card:hover {
@@ -192,20 +188,42 @@
             box-shadow: var(--shadow-hover);
         }
 
-        /* Превью */
-        .preview {
-            height: 200px;
+        /* Превью с прокруткой */
+        .preview-container {
+            height: 500px;
             background: var(--bg-dark);
             position: relative;
             overflow: hidden;
             border-bottom: 1px solid var(--border);
         }
 
-        .preview iframe {
+        .preview-iframe {
             width: 100%;
             height: 100%;
             border: none;
-            pointer-events: none;
+            background: var(--white);
+            transition: opacity 0.3s;
+        }
+
+        .preview-iframe.loading {
+            opacity: 0;
+        }
+
+        .preview-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         .preview-placeholder {
@@ -284,10 +302,44 @@
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .open-link:hover {
             text-decoration: underline;
+        }
+
+        /* ==================== КНОПКА ПОКАЗАТЬ ЕЩЕ ==================== */
+        .load-more-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .load-more-btn {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .load-more-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: scale(1.02);
+        }
+
+        .load-more-btn.hidden {
+            display: none;
         }
 
         /* ==================== СОСТОЯНИЯ ==================== */
@@ -297,10 +349,7 @@
             background: var(--white);
             border-radius: 32px;
             color: var(--text-light);
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            grid-column: span 2;
         }
 
         .spinner {
@@ -328,11 +377,19 @@
             text-decoration: none;
         }
 
-        footer a:hover {
-            text-decoration: underline;
+        /* ==================== АДАПТИВНОСТЬ ==================== */
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .loading, .empty, .error {
+                grid-column: span 1;
+            }
+            .preview-container {
+                height: 450px;
+            }
         }
 
-        /* ==================== АДАПТИВНОСТЬ ==================== */
         @media (max-width: 640px) {
             body {
                 padding: 1rem;
@@ -340,8 +397,8 @@
             h1 {
                 font-size: 1.8rem;
             }
-            .grid {
-                grid-template-columns: 1fr;
+            .preview-container {
+                height: 400px;
             }
             .stats-bar {
                 flex-direction: column;
@@ -355,25 +412,19 @@
 </head>
 <body>
     <div class="container">
-        <!-- ==================== ШАПКА ==================== -->
+        <!-- ШАПКА -->
         <div class="header">
-            <a href="/" class="back-link">
-                <span>←</span> На главную
-            </a>
+            <a href="/" class="back-link">← На главную</a>
             <h1>📁 Все лендинги</h1>
-            <p class="subtitle">Автоматический каталог всех страниц в папке /allpages/</p>
+            <p class="subtitle">Просмотр превью прямо на странице. Прокручивайте сайты, не переходя на них.</p>
         </div>
 
-        <!-- ==================== СТАТИСТИКА ==================== -->
+        <!-- СТАТИСТИКА -->
         <div class="stats-bar">
             <div class="stats-info">
                 <div class="stat">
                     <span class="stat-number" id="pageCount">0</span>
                     <span class="stat-label">страниц</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number" id="checkedCount">0</span>
-                    <span class="stat-label">проверено</span>
                 </div>
                 <div class="stat">
                     <span id="lastUpdate">—</span>
@@ -385,7 +436,7 @@
             </button>
         </div>
 
-        <!-- ==================== СЕТКА КАРТОЧЕК ==================== -->
+        <!-- СЕТКА КАРТОЧЕК -->
         <div id="grid" class="grid">
             <div class="loading">
                 <div class="spinner"></div>
@@ -393,37 +444,39 @@
             </div>
         </div>
 
-        <!-- ==================== ПОДВАЛ ==================== -->
+        <!-- КНОПКА ПОКАЗАТЬ ЕЩЕ -->
+        <div id="loadMoreContainer" class="load-more-container">
+            <button id="loadMoreBtn" class="load-more-btn" onclick="loadMore()">
+                📂 Показать еще
+            </button>
+        </div>
+
+        <!-- ПОДВАЛ -->
         <footer>
-            <p>📌 Каталог обновляется автоматически. При добавлении новой папки в /allpages/ она появится здесь.</p>
+            <p>📌 Превью можно прокручивать прямо в карточке. Нажмите "Открыть" для перехода на сайт.</p>
             <p style="margin-top: 0.5rem;">
                 <a href="/oferta" target="_blank">Публичная оферта</a> &nbsp;|&nbsp;
                 <a href="/privacy" target="_blank">Политика конфиденциальности</a> &nbsp;|&nbsp;
                 <a href="/refund" target="_blank">Политика возвратов</a>
             </p>
-            <p style="margin-top: 1rem;">© ZaLoveClub — Все лендинги в одном месте</p>
+            <p style="margin-top: 1rem;">© ZaLoveClub — Каталог лендингов с превью</p>
         </footer>
     </div>
 
     <script>
         // ==================== КОНФИГУРАЦИЯ ====================
-        // Папки, которые НЕ нужно показывать
-        const EXCLUDED_FOLDERS = [
-            'images', 'assets', 'css', 'js', 'fonts', 
-            'node_modules', '.git', '.github', 'cgi-bin',
-            'wp-admin', 'wp-content', 'wp-includes'
-        ];
-        
-        // ВАШИ РЕАЛЬНЫЕ ПАПКИ (добавьте все названия, которые есть в /allpages/)
-        // Это резервный список на случай, если авто-сканирование не сработает
+        // ВАШИ РЕАЛЬНЫЕ ПАПКИ (добавьте ВСЕ названия)
         const YOUR_FOLDERS = [
             'lady', 'eugenang', 'eugeniya', 'granny', 'granny2', 'granny3',
             'kombain', 'look', 'money', 'nadezhdahoup', 'nadezhdahoup2',
             'nia-gara', 'niagara', 'oferta', 'piccolini', 'portfolio'
         ];
         
+        // Количество карточек за одну подгрузку
+        const ITEMS_PER_PAGE = 6;
+        
         let allPages = [];
-        let checkedCount = 0;
+        let currentPage = 1;
         
         // ==================== ФУНКЦИИ ====================
         
@@ -441,7 +494,7 @@
             }
         }
         
-        // Получение мета-информации со страницы
+        // Получение мета-информации
         async function getPageInfo(pageName) {
             const pageUrl = `./${pageName}/`;
             const indexUrl = `${pageUrl}index.html`;
@@ -456,7 +509,6 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 
-                // Заголовок (приоритет: title → og:title → имя папки)
                 let title = doc.querySelector('title')?.innerText || '';
                 if (!title) {
                     title = doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || '';
@@ -465,47 +517,35 @@
                     title = formatTitle(pageName);
                 }
                 
-                // Описание (приоритет: description → og:description → стандартное)
                 let description = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
                 if (!description) {
                     description = doc.querySelector('meta[property="og:description"]')?.getAttribute('content') || '';
                 }
                 if (!description) {
-                    description = `Лендинг «${formatTitle(pageName)}» — уникальная страница с авторским дизайном и продающим контентом.`;
-                }
-                
-                // Превью-картинка (приоритет: og:image → стандартная)
-                let previewImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
-                if (previewImage && !previewImage.startsWith('http') && !previewImage.startsWith('/')) {
-                    previewImage = `./${pageName}/${previewImage}`;
+                    description = `Лендинг «${formatTitle(pageName)}» — уникальная страница с авторским дизайном.`;
                 }
                 
                 return {
                     name: pageName,
                     title: title,
                     description: description,
-                    previewImage: previewImage,
                     url: pageUrl
                 };
                 
             } catch (error) {
-                console.warn(`Ошибка загрузки ${pageName}:`, error);
                 return getDefaultInfo(pageName);
             }
         }
         
-        // Информация по умолчанию
         function getDefaultInfo(pageName) {
             return {
                 name: pageName,
                 title: formatTitle(pageName),
-                description: `Лендинг «${formatTitle(pageName)}» — автоматически обнаруженная страница в каталоге.`,
-                previewImage: '',
+                description: `Лендинг «${formatTitle(pageName)}» — автоматически обнаруженная страница.`,
                 url: `./${pageName}/`
             };
         }
         
-        // Форматирование названия папки в красивый заголовок
         function formatTitle(name) {
             let formatted = name.charAt(0).toUpperCase() + name.slice(1);
             formatted = formatted.replace(/([0-9]+)$/, ' $1');
@@ -513,25 +553,18 @@
             return formatted;
         }
         
-        // Основная функция сканирования
+        // Основное сканирование
         async function scanPages() {
             const grid = document.getElementById('grid');
             const countSpan = document.getElementById('pageCount');
-            const checkedSpan = document.getElementById('checkedCount');
             const updateSpan = document.getElementById('lastUpdate');
             
             grid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Сканируем папку allpages...</p></div>';
             
             allPages = [];
-            checkedCount = 0;
-            const totalToCheck = YOUR_FOLDERS.length;
             
-            // Проверяем каждую папку из списка
             for (const folder of YOUR_FOLDERS) {
                 const exists = await checkPageExists(folder);
-                checkedCount++;
-                checkedSpan.textContent = `${checkedCount}/${totalToCheck}`;
-                
                 if (exists) {
                     const pageInfo = await getPageInfo(folder);
                     allPages.push(pageInfo);
@@ -541,67 +574,77 @@
                 }
             }
             
-            // Сортируем по алфавиту
             allPages.sort((a, b) => a.name.localeCompare(b.name));
             
-            // Обновляем статистику
             countSpan.textContent = allPages.length;
             updateSpan.textContent = new Date().toLocaleTimeString();
+            
+            currentPage = 1;
+            renderVisiblePages();
             
             // Сохраняем в кэш
             if (allPages.length > 0) {
                 localStorage.setItem('catalogCache', JSON.stringify({
                     pages: allPages,
-                    timestamp: Date.now(),
-                    count: allPages.length
+                    timestamp: Date.now()
                 }));
             }
             
-            // Рендерим
-            renderPages(allPages);
-            
             if (allPages.length === 0) {
                 grid.innerHTML = `
-                    <div class="empty">
+                    <div class="empty" style="grid-column: span 2;">
                         📭 Папки не найдены<br><br>
-                        <small style="color: #8ba0b5;">Убедитесь, что в папке /allpages/ есть папки с лендингами.<br>
-                        Каждая папка должна содержать файл index.html</small>
+                        <small>Убедитесь, что в папке /allpages/ есть папки с лендингами.</small>
                     </div>
                 `;
             }
         }
         
-        // Рендеринг страниц
-        function renderPages(pages) {
+        // Рендеринг видимых страниц (постранично)
+        function renderVisiblePages() {
             const grid = document.getElementById('grid');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
             
-            if (pages.length === 0) return;
+            const startIndex = 0;
+            const endIndex = currentPage * ITEMS_PER_PAGE;
+            const visiblePages = allPages.slice(startIndex, endIndex);
+            
+            if (visiblePages.length === 0) {
+                grid.innerHTML = '<div class="empty">📭 Нет страниц для отображения</div>';
+                return;
+            }
             
             let html = '';
-            for (const page of pages) {
-                // Формируем превью
-                let previewHtml = '';
-                if (page.previewImage) {
-                    previewHtml = `<iframe src="${page.url}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'preview-placeholder\\'>📄 ${escapeHtml(page.title)}</div>'"></iframe>`;
-                } else {
-                    previewHtml = `<div class="preview-placeholder">📄 ${escapeHtml(page.title)}</div>`;
-                }
+            for (const page of visiblePages) {
+                const pageUrl = page.url;
+                const iframeId = `iframe-${page.name.replace(/[^a-zA-Z0-9]/g, '-')}`;
                 
                 html += `
-                    <div class="card" onclick="window.open('${page.url}', '_blank')">
-                        <div class="preview">
-                            ${previewHtml}
+                    <div class="card">
+                        <div class="preview-container">
+                            <div id="loader-${page.name}" class="preview-loader" style="display: flex;"></div>
+                            <iframe 
+                                id="${iframeId}"
+                                class="preview-iframe loading"
+                                src="${pageUrl}"
+                                loading="lazy"
+                                sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
+                                onload="document.getElementById('loader-${page.name}').style.display='none'; this.classList.remove('loading');"
+                                onerror="this.parentElement.innerHTML='<div class=\\'preview-placeholder\\'>📄 ${escapeHtml(page.title)}<br><span style=\\'font-size:12px\\'>Превью недоступно</span></div>'"
+                            ></iframe>
                         </div>
                         <div class="info">
                             <div class="name">
                                 ${escapeHtml(page.title)}
-                                <span class="badge">✅ лендинг</span>
+                                <span class="badge">лендинг</span>
                             </div>
                             <div class="url">${escapeHtml(page.url)}</div>
                             <div class="desc">${escapeHtml(page.description)}</div>
                             <div class="footer">
-                                <span>🖱️ Нажмите для открытия</span>
-                                <a href="${page.url}" class="open-link" target="_blank" onclick="event.stopPropagation()">Открыть →</a>
+                                <span>🖱️ Прокручивайте превью</span>
+                                <a href="${page.url}" class="open-link" target="_blank">
+                                    Открыть сайт →
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -609,9 +652,21 @@
             }
             
             grid.innerHTML = html;
+            
+            // Показываем/скрываем кнопку "Показать еще"
+            if (endIndex >= allPages.length) {
+                loadMoreBtn.classList.add('hidden');
+            } else {
+                loadMoreBtn.classList.remove('hidden');
+            }
         }
         
-        // Экранирование HTML
+        // Загрузка следующих страниц
+        function loadMore() {
+            currentPage++;
+            renderVisiblePages();
+        }
+        
         function escapeHtml(str) {
             if (!str) return '';
             return str
@@ -622,22 +677,16 @@
                 .replace(/'/g, '&#39;');
         }
         
-        // Запуск при загрузке
+        // Запуск
         document.addEventListener('DOMContentLoaded', () => {
             scanPages();
         });
         
-        // Делаем функцию глобальной для кнопки обновления
         window.scanPages = scanPages;
+        window.loadMore = loadMore;
     </script>
     
     <!-- ==================== МЕТРИКИ ==================== -->
-    <!-- 
-        ВАЖНО: Замените XXXXXXXXX на свой ID счетчика Яндекс.Метрики
-        Замените G-XXXXXXXXXX на свой ID Google Analytics
-    -->
-    
-    <!-- Яндекс.Метрика -->
     <script type="text/javascript">
        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
        m[i].l=1*new Date();
@@ -653,7 +702,6 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/XXXXXXXX" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     
-    <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -662,33 +710,15 @@
       gtag('config', 'G-XXXXXXXXXX');
     </script>
     
-    <!-- ==================== СТРУКТУРИРОВАННЫЕ ДАННЫЕ (Schema.org) ==================== -->
+    <!-- ==================== СТРУКТУРИРОВАННЫЕ ДАННЫЕ ==================== -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      "name": "Каталог всех лендингов | ZaLoveClub",
-      "description": "Автоматический каталог всех созданных лендингов и страниц портфолио. Более 16 уникальных проектов.",
+      "name": "Каталог лендингов | ZaLoveClub",
+      "description": "Просмотр превью всех лендингов прямо на странице. Прокручивайте сайты без перехода.",
       "url": "https://zaloveclub.ru/allpages/",
-      "image": "catalog-preview.jpg",
-      "author": {
-        "@type": "Person",
-        "name": "Евгения"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "ZaLoveClub",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://zaloveclub.ru/logo.png"
-        }
-      },
-      "numberOfItems": 16,
-      "about": {
-        "@type": "CreativeWork",
-        "name": "Портфолио лендингов",
-        "description": "Коллекция одностраничных сайтов, созданных для различных проектов и задач"
-      }
+      "numberOfItems": ${YOUR_FOLDERS.length}
     }
     </script>
 </body>
