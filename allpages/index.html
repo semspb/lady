@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <!-- ==================== SEO ==================== -->
-    <meta name="description" content="Каталог всех лендингов и страниц портфолио. Просмотр превью прямо на странице. Более 16 уникальных проектов.">
+    <meta name="description" content="Каталог всех лендингов и страниц портфолио. Просмотр превью прямо на странице.">
     <meta name="keywords" content="портфолио, лендинги, каталог сайтов, превью сайтов">
     <meta name="author" content="ZaLoveClub">
     <meta name="robots" content="index, follow">
@@ -431,8 +431,8 @@
                     <span class="stat-label">последнее обновление</span>
                 </div>
             </div>
-            <button class="refresh-btn" onclick="scanPages()">
-                🔄 Сканировать заново
+            <button class="refresh-btn" onclick="loadSites()">
+                🔄 Обновить список
             </button>
         </div>
 
@@ -440,7 +440,7 @@
         <div id="grid" class="grid">
             <div class="loading">
                 <div class="spinner"></div>
-                <p>Сканируем папку allpages...</p>
+                <p>Загружаем список сайтов...</p>
             </div>
         </div>
 
@@ -453,7 +453,7 @@
 
         <!-- ПОДВАЛ -->
         <footer>
-            <p>📌 Превью можно прокручивать прямо в карточке. Нажмите "Открыть" для перехода на сайт.</p>
+            <p>📌 Чтобы добавить новый сайт в каталог, отредактируйте файл <strong>sites.json</strong> и добавьте туда ссылку.</p>
             <p style="margin-top: 0.5rem;">
                 <a href="/oferta" target="_blank">Публичная оферта</a> &nbsp;|&nbsp;
                 <a href="/privacy" target="_blank">Политика конфиденциальности</a> &nbsp;|&nbsp;
@@ -464,185 +464,125 @@
     </div>
 
     <script>
-        // ==================== КОНФИГУРАЦИЯ ====================
-        // ВАШИ РЕАЛЬНЫЕ ПАПКИ (добавьте ВСЕ названия)
-        const YOUR_FOLDERS = [
-            'lady', 'eugenang', 'eugeniya', 'granny', 'granny2', 'granny3',
-            'kombain', 'look', 'money', 'nadezhdahoup', 'nadezhdahoup2',
-            'nia-gara', 'niagara', 'oferta', 'piccolini', 'portfolio'
-        ];
-        
-        // Количество карточек за одну подгрузку
+        // ==================== НАСТРОЙКИ ====================
         const ITEMS_PER_PAGE = 6;
-        
-        let allPages = [];
+        let allSites = [];
         let currentPage = 1;
         
-        // ==================== ФУНКЦИИ ====================
-        
-        // Проверка существования страницы
-        async function checkPageExists(pageName) {
-            const pageUrl = `./${pageName}/`;
-            try {
-                const response = await fetch(pageUrl, { 
-                    method: 'HEAD',
-                    cache: 'no-cache'
-                });
-                return response.ok || response.status === 304;
-            } catch (error) {
-                return false;
-            }
-        }
-        
-        // Получение мета-информации
-        async function getPageInfo(pageName) {
-            const pageUrl = `./${pageName}/`;
-            const indexUrl = `${pageUrl}index.html`;
-            
-            try {
-                const response = await fetch(indexUrl);
-                if (!response.ok) {
-                    return getDefaultInfo(pageName);
-                }
-                
-                const html = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                
-                let title = doc.querySelector('title')?.innerText || '';
-                if (!title) {
-                    title = doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || '';
-                }
-                if (!title) {
-                    title = formatTitle(pageName);
-                }
-                
-                let description = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
-                if (!description) {
-                    description = doc.querySelector('meta[property="og:description"]')?.getAttribute('content') || '';
-                }
-                if (!description) {
-                    description = `Лендинг «${formatTitle(pageName)}» — уникальная страница с авторским дизайном.`;
-                }
-                
-                return {
-                    name: pageName,
-                    title: title,
-                    description: description,
-                    url: pageUrl
-                };
-                
-            } catch (error) {
-                return getDefaultInfo(pageName);
-            }
-        }
-        
-        function getDefaultInfo(pageName) {
-            return {
-                name: pageName,
-                title: formatTitle(pageName),
-                description: `Лендинг «${formatTitle(pageName)}» — автоматически обнаруженная страница.`,
-                url: `./${pageName}/`
-            };
-        }
-        
-        function formatTitle(name) {
-            let formatted = name.charAt(0).toUpperCase() + name.slice(1);
-            formatted = formatted.replace(/([0-9]+)$/, ' $1');
-            formatted = formatted.replace(/[-_]/g, ' ');
-            return formatted;
-        }
-        
-        // Основное сканирование
-        async function scanPages() {
+        // ==================== ЗАГРУЗКА СПИСКА ИЗ JSON ====================
+        async function loadSites() {
             const grid = document.getElementById('grid');
             const countSpan = document.getElementById('pageCount');
             const updateSpan = document.getElementById('lastUpdate');
             
-            grid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Сканируем папку allpages...</p></div>';
+            grid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Загружаем список сайтов...</p></div>';
             
-            allPages = [];
-            
-            for (const folder of YOUR_FOLDERS) {
-                const exists = await checkPageExists(folder);
-                if (exists) {
-                    const pageInfo = await getPageInfo(folder);
-                    allPages.push(pageInfo);
-                    console.log(`✅ ${folder} — найден`);
-                } else {
-                    console.log(`❌ ${folder} — не найден`);
+            try {
+                // Загружаем файл sites.json
+                const response = await fetch('./sites.json?t=' + Date.now());
+                if (!response.ok) {
+                    throw new Error('Файл sites.json не найден');
                 }
-            }
-            
-            allPages.sort((a, b) => a.name.localeCompare(b.name));
-            
-            countSpan.textContent = allPages.length;
-            updateSpan.textContent = new Date().toLocaleTimeString();
-            
-            currentPage = 1;
-            renderVisiblePages();
-            
-            // Сохраняем в кэш
-            if (allPages.length > 0) {
-                localStorage.setItem('catalogCache', JSON.stringify({
-                    pages: allPages,
-                    timestamp: Date.now()
-                }));
-            }
-            
-            if (allPages.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty" style="grid-column: span 2;">
-                        📭 Папки не найдены<br><br>
-                        <small>Убедитесь, что в папке /allpages/ есть папки с лендингами.</small>
-                    </div>
-                `;
+                const data = await response.json();
+                
+                allSites = data.sites || [];
+                
+                // Сортируем по названию
+                allSites.sort((a, b) => (a.title || a.name).localeCompare(b.title || b.name));
+                
+                countSpan.textContent = allSites.length;
+                updateSpan.textContent = new Date().toLocaleTimeString();
+                
+                currentPage = 1;
+                renderVisibleSites();
+                
+                // Сохраняем в кэш
+                if (allSites.length > 0) {
+                    localStorage.setItem('sitesCache', JSON.stringify({
+                        sites: allSites,
+                        timestamp: Date.now()
+                    }));
+                }
+                
+                if (allSites.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty" style="grid-column: span 2;">
+                            📭 Список сайтов пуст<br><br>
+                            <small>Отредактируйте файл <strong>sites.json</strong> и добавьте ссылки на ваши лендинги.</small>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                
+                // Пытаемся загрузить из кэша
+                const cached = localStorage.getItem('sitesCache');
+                if (cached) {
+                    const data = JSON.parse(cached);
+                    allSites = data.sites;
+                    renderVisibleSites();
+                    countSpan.textContent = allSites.length;
+                    updateSpan.textContent = 'из кэша';
+                    grid.innerHTML += '<div class="error" style="margin-top: 1rem; grid-column: span 2;">⚠️ Не удалось обновить список. Показаны сохраненные страницы.</div>';
+                } else {
+                    grid.innerHTML = `
+                        <div class="empty" style="grid-column: span 2;">
+                            ❌ Ошибка загрузки списка<br><br>
+                            <small>Убедитесь, что файл <strong>sites.json</strong> существует в папке /allpages/</small>
+                        </div>
+                    `;
+                }
             }
         }
         
-        // Рендеринг видимых страниц (постранично)
-        function renderVisiblePages() {
+        // ==================== РЕНДЕРИНГ ====================
+        function renderVisibleSites() {
             const grid = document.getElementById('grid');
             const loadMoreBtn = document.getElementById('loadMoreBtn');
             
-            const startIndex = 0;
             const endIndex = currentPage * ITEMS_PER_PAGE;
-            const visiblePages = allPages.slice(startIndex, endIndex);
+            const visibleSites = allSites.slice(0, endIndex);
             
-            if (visiblePages.length === 0) {
-                grid.innerHTML = '<div class="empty">📭 Нет страниц для отображения</div>';
+            if (visibleSites.length === 0) {
+                grid.innerHTML = '<div class="empty">📭 Нет сайтов для отображения</div>';
                 return;
             }
             
             let html = '';
-            for (const page of visiblePages) {
-                const pageUrl = page.url;
-                const iframeId = `iframe-${page.name.replace(/[^a-zA-Z0-9]/g, '-')}`;
+            for (const site of visibleSites) {
+                const siteUrl = site.url;
+                const siteName = site.name || generateNameFromUrl(siteUrl);
+                const siteTitle = site.title || formatTitle(siteName);
+                const siteDesc = site.description || `Лендинг «${siteTitle}»`;
+                const previewUrl = site.preview || '';
+                
+                const safeName = siteName.replace(/[^a-zA-Z0-9]/g, '-');
                 
                 html += `
                     <div class="card">
                         <div class="preview-container">
-                            <div id="loader-${page.name}" class="preview-loader" style="display: flex;"></div>
+                            <div id="loader-${safeName}" class="preview-loader" style="display: flex;"></div>
                             <iframe 
-                                id="${iframeId}"
+                                id="iframe-${safeName}"
                                 class="preview-iframe loading"
-                                src="${pageUrl}"
+                                src="${siteUrl}"
                                 loading="lazy"
                                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
-                                onload="document.getElementById('loader-${page.name}').style.display='none'; this.classList.remove('loading');"
-                                onerror="this.parentElement.innerHTML='<div class=\\'preview-placeholder\\'>📄 ${escapeHtml(page.title)}<br><span style=\\'font-size:12px\\'>Превью недоступно</span></div>'"
+                                onload="document.getElementById('loader-${safeName}').style.display='none'; this.classList.remove('loading');"
+                                onerror="this.parentElement.innerHTML='<div class=\\'preview-placeholder\\'>📄 ${escapeHtml(siteTitle)}<br><span style=\\'font-size:12px\\'>Превью недоступно</span></div>'"
                             ></iframe>
                         </div>
                         <div class="info">
                             <div class="name">
-                                ${escapeHtml(page.title)}
+                                ${escapeHtml(siteTitle)}
                                 <span class="badge">лендинг</span>
                             </div>
-                            <div class="url">${escapeHtml(page.url)}</div>
-                            <div class="desc">${escapeHtml(page.description)}</div>
+                            <div class="url">${escapeHtml(siteUrl)}</div>
+                            <div class="desc">${escapeHtml(siteDesc)}</div>
                             <div class="footer">
                                 <span>🖱️ Прокручивайте превью</span>
-                                <a href="${page.url}" class="open-link" target="_blank">
+                                <a href="${siteUrl}" class="open-link" target="_blank">
                                     Открыть сайт →
                                 </a>
                             </div>
@@ -654,17 +594,29 @@
             grid.innerHTML = html;
             
             // Показываем/скрываем кнопку "Показать еще"
-            if (endIndex >= allPages.length) {
+            if (endIndex >= allSites.length) {
                 loadMoreBtn.classList.add('hidden');
             } else {
                 loadMoreBtn.classList.remove('hidden');
             }
         }
         
-        // Загрузка следующих страниц
         function loadMore() {
             currentPage++;
-            renderVisiblePages();
+            renderVisibleSites();
+        }
+        
+        function formatTitle(name) {
+            let formatted = name.charAt(0).toUpperCase() + name.slice(1);
+            formatted = formatted.replace(/([0-9]+)$/, ' $1');
+            formatted = formatted.replace(/[-_]/g, ' ');
+            return formatted;
+        }
+        
+        function generateNameFromUrl(url) {
+            let clean = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+            let parts = clean.split('/');
+            return parts[parts.length - 1] || parts[0];
         }
         
         function escapeHtml(str) {
@@ -679,10 +631,10 @@
         
         // Запуск
         document.addEventListener('DOMContentLoaded', () => {
-            scanPages();
+            loadSites();
         });
         
-        window.scanPages = scanPages;
+        window.loadSites = loadSites;
         window.loadMore = loadMore;
     </script>
     
@@ -708,18 +660,6 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-XXXXXXXXXX');
-    </script>
-    
-    <!-- ==================== СТРУКТУРИРОВАННЫЕ ДАННЫЕ ==================== -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "Каталог лендингов | ZaLoveClub",
-      "description": "Просмотр превью всех лендингов прямо на странице. Прокручивайте сайты без перехода.",
-      "url": "https://zaloveclub.ru/allpages/",
-      "numberOfItems": ${YOUR_FOLDERS.length}
-    }
     </script>
 </body>
 </html>
