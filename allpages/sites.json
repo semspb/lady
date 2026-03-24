@@ -1,0 +1,39 @@
+{
+  "sites": [
+    {
+      "name": "lady",
+      "url": "/lady/",
+      "title": "Lady — Элегантный лендинг",
+      "description": "Элегантный лендинг для женской аудитории",
+      "preview": ""
+    },
+    {
+      "name": "money",
+      "url": "/money/",
+      "title": "Money — Финансовый лендинг",
+      "description": "Финансовый лендинг с акцентом на инвестиции",
+      "preview": ""
+    },
+    {
+      "name": "eugenang",
+      "url": "/eugenang/",
+      "title": "Eugenang — Современный лендинг",
+      "description": "Современный лендинг с акцентом на сервис",
+      "preview": ""
+    },
+    {
+      "name": "granny",
+      "url": "/granny/",
+      "title": "Granny — Теплый дизайн",
+      "description": "Теплый и уютный дизайн для старшего поколения",
+      "preview": ""
+    },
+    {
+      "name": "niagara",
+      "url": "/allpages/niagara/",
+      "title": "Олечка | Ниа Гара",
+      "description": "Комик, актриса, художник, певица. Творческий хаос и сюрреализм.",
+      "preview": "/allpages/niagara/preview.jpg"
+    }
+  ]
+}
