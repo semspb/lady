@@ -2,9 +2,57 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Все лендинги | Портфолио страниц</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- ==================== SEO (ПОИСКОВАЯ ОПТИМИЗАЦИЯ) ==================== -->
+    <meta name="description" content="Каталог всех лендингов и страниц портфолио. Автоматическое обновление при добавлении новых проектов. Более 16 уникальных лендингов.">
+    <meta name="keywords" content="портфолио, лендинги, веб-страницы, каталог сайтов, веб-разработка">
+    <meta name="author" content="ZaLoveClub">
+    <meta name="robots" content="index, follow">
+    
+    <!-- ==================== OPEN GRAPH (ДЛЯ СОЦСЕТЕЙ) ==================== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Каталог всех лендингов | ZaLoveClub Portfolio">
+    <meta property="og:description" content="Все созданные лендинги в одном месте. Автоматическое обновление каталога. Более 16 проектов.">
+    <meta property="og:image" content="catalog-preview.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://zaloveclub.ru/allpages/">
+    <meta property="og:site_name" content="ZaLoveClub">
+    <meta property="og:locale" content="ru_RU">
+    
+    <!-- ==================== TWITTER CARD ==================== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Каталог всех лендингов | ZaLoveClub">
+    <meta name="twitter:description" content="Все созданные лендинги в одном месте. Автоматическое обновление каталога.">
+    <meta name="twitter:image" content="catalog-preview.jpg">
+    
+    <!-- ==================== FAVICON ==================== -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <title>Каталог всех лендингов | ZaLoveClub Portfolio</title>
+    
     <style>
+        /* ==================== CSS ПЕРЕМЕННЫЕ ==================== */
+        :root {
+            --primary: #1f5e93;
+            --primary-dark: #0e4168;
+            --secondary: #2c5a7a;
+            --accent: #c9a84c;
+            --bg-light: #f8fafc;
+            --bg-dark: #f1f5f9;
+            --white: #ffffff;
+            --text-dark: #1e2f3e;
+            --text-muted: #4a627a;
+            --text-light: #6c8eaa;
+            --border: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,10 +60,11 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-dark) 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             padding: 2rem 1.5rem;
             min-height: 100vh;
+            color: var(--text-dark);
         }
 
         .container {
@@ -23,6 +72,7 @@
             margin: 0 auto;
         }
 
+        /* ==================== ШАПКА ==================== */
         .header {
             text-align: center;
             margin-bottom: 3rem;
@@ -32,48 +82,48 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: white;
+            background: var(--white);
             padding: 0.5rem 1.2rem;
             border-radius: 40px;
             text-decoration: none;
-            color: #1f5e93;
+            color: var(--primary);
             font-weight: 500;
             margin-bottom: 1.5rem;
             transition: all 0.2s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow);
         }
 
         .back-link:hover {
             transform: translateX(-4px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-hover);
         }
 
-        .header h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
             margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
         }
 
-        .header p {
-            color: #4a627a;
+        .subtitle {
+            color: var(--text-muted);
             font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
+        /* ==================== СТАТИСТИКА ==================== */
         .stats-bar {
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 60px;
+            margin-bottom: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 2rem;
-            background: white;
-            padding: 1rem 1.5rem;
-            border-radius: 60px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow);
         }
 
         .stats-info {
@@ -92,95 +142,93 @@
         .stat-number {
             font-size: 1.8rem;
             font-weight: 800;
-            color: #1f5e93;
+            color: var(--primary);
         }
 
         .stat-label {
-            color: #5f7f9c;
+            color: var(--text-light);
             font-size: 0.9rem;
         }
 
         .refresh-btn {
-            background: #1f5e93;
-            color: white;
+            background: var(--primary);
+            color: var(--white);
             border: none;
             padding: 0.6rem 1.3rem;
             border-radius: 40px;
             cursor: pointer;
             font-weight: 500;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
-            font-size: 0.9rem;
         }
 
         .refresh-btn:hover {
-            background: #0e4168;
+            background: var(--primary-dark);
             transform: scale(0.98);
         }
 
-        .portfolio-grid {
+        /* ==================== СЕТКА КАРТОЧЕК ==================== */
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
         }
 
-        .landing-card {
-            background: white;
+        /* ==================== КАРТОЧКА ЛЕНДИНГА ==================== */
+        .card {
+            background: var(--white);
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .landing-card:hover {
+        .card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-hover);
         }
 
-        .preview-container {
+        /* Превью */
+        .preview {
             height: 200px;
-            background: #f1f5f9;
+            background: var(--bg-dark);
             position: relative;
             overflow: hidden;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .preview-iframe {
+        .preview iframe {
             width: 100%;
             height: 100%;
             border: none;
-            background: white;
+            pointer-events: none;
         }
 
-        .preview-fallback {
+        .preview-placeholder {
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            font-size: 2rem;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .preview-fallback span {
-            font-size: 0.9rem;
-            opacity: 0.9;
+        /* Контент карточки */
+        .info {
+            padding: 1.2rem;
         }
 
-        .card-content {
-            padding: 1.3rem;
-        }
-
-        .page-title {
+        .name {
             font-size: 1.2rem;
             font-weight: 700;
-            color: #1e2f3e;
+            color: var(--text-dark);
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
@@ -189,72 +237,66 @@
             gap: 8px;
         }
 
-        .page-badge {
+        .badge {
             background: #eef2ff;
-            color: #1f5e93;
+            color: var(--primary);
             padding: 0.2rem 0.6rem;
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: 500;
         }
 
-        .page-url {
+        .url {
             font-family: monospace;
-            font-size: 0.75rem;
-            color: #5f7f9c;
-            background: #f8fafc;
-            padding: 0.3rem 0.6rem;
-            border-radius: 12px;
+            font-size: 0.7rem;
+            color: var(--text-light);
+            background: var(--bg-dark);
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
             display: inline-block;
             margin-bottom: 0.8rem;
             word-break: break-all;
         }
 
-        .page-description {
-            font-size: 0.9rem;
+        .desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
             line-height: 1.5;
-            color: #334e68;
-            margin: 0.7rem 0;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .card-footer {
+        .footer {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid #eef2f6;
             font-size: 0.75rem;
-            color: #7c8ea0;
+            color: var(--text-light);
         }
 
         .open-link {
-            color: #1f5e93;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
         }
 
         .open-link:hover {
             text-decoration: underline;
         }
 
-        .loading-state, .error-state {
+        /* ==================== СОСТОЯНИЯ ==================== */
+        .loading, .empty, .error {
             text-align: center;
             padding: 4rem;
-            background: white;
+            background: var(--white);
             border-radius: 32px;
-            color: #5f7f9c;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem;
-            background: white;
-            border-radius: 32px;
-            color: #5f7f9c;
+            color: var(--text-light);
         }
 
         @keyframes spin {
@@ -264,26 +306,45 @@
         .spinner {
             width: 40px;
             height: 40px;
-            border: 3px solid #e2e8f0;
-            border-top-color: #1f5e93;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto 1rem;
         }
 
+        /* ==================== ПОДВАЛ ==================== */
+        footer {
+            margin-top: 3rem;
+            padding: 2rem 1rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ==================== АДАПТИВНОСТЬ ==================== */
         @media (max-width: 640px) {
             body {
                 padding: 1rem;
             }
-            .header h1 {
-                font-size: 2rem;
+            h1 {
+                font-size: 1.8rem;
             }
-            .portfolio-grid {
+            .grid {
                 grid-template-columns: 1fr;
             }
             .stats-bar {
                 flex-direction: column;
-                align-items: stretch;
                 text-align: center;
             }
             .stats-info {
@@ -294,17 +355,21 @@
 </head>
 <body>
     <div class="container">
+        <!-- ==================== ШАПКА ==================== -->
         <div class="header">
-            <a href="/" class="back-link">← На главную</a>
+            <a href="/" class="back-link">
+                <span>←</span> На главную
+            </a>
             <h1>📁 Все лендинги</h1>
-            <p>Только реально существующие страницы</p>
+            <p class="subtitle">Автоматический каталог всех страниц в папке /allpages/</p>
         </div>
 
+        <!-- ==================== СТАТИСТИКА ==================== -->
         <div class="stats-bar">
             <div class="stats-info">
                 <div class="stat">
                     <span class="stat-number" id="pageCount">0</span>
-                    <span class="stat-label">реальных страниц</span>
+                    <span class="stat-label">страниц</span>
                 </div>
                 <div class="stat">
                     <span class="stat-number" id="checkedCount">0</span>
@@ -320,171 +385,223 @@
             </button>
         </div>
 
-        <div id="portfolioGrid" class="portfolio-grid">
-            <div class="loading-state">
+        <!-- ==================== СЕТКА КАРТОЧЕК ==================== -->
+        <div id="grid" class="grid">
+            <div class="loading">
                 <div class="spinner"></div>
-                <p>Проверяем существующие лендинги...</p>
+                <p>Сканируем папку allpages...</p>
             </div>
         </div>
+
+        <!-- ==================== ПОДВАЛ ==================== -->
+        <footer>
+            <p>📌 Каталог обновляется автоматически. При добавлении новой папки в /allpages/ она появится здесь.</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="/oferta" target="_blank">Публичная оферта</a> &nbsp;|&nbsp;
+                <a href="/privacy" target="_blank">Политика конфиденциальности</a> &nbsp;|&nbsp;
+                <a href="/refund" target="_blank">Политика возвратов</a>
+            </p>
+            <p style="margin-top: 1rem;">© ZaLoveClub — Все лендинги в одном месте</p>
+        </footer>
     </div>
 
     <script>
-        // ВАШИ РЕАЛЬНЫЕ ПАПКИ (то, что есть в репозитории)
-        // ЗАМЕНИТЕ ЭТОТ СПИСОК НА ВАШИ РЕАЛЬНЫЕ 16 ПАПОК!
-        const YOUR_REAL_FOLDERS = [
-            'lady',
-            'eugenang', 
-            'eugeniya',
-            'granny',
-            'granny2',
-            'granny3',
-            'kombain',
-            'look',
-            'money',
-            'nadezhdahoup'
-            // ДОБАВЬТЕ СЮДА ОСТАЛЬНЫЕ 6 НАЗВАНИЙ ВАШИХ ПАПОК
+        // ==================== КОНФИГУРАЦИЯ ====================
+        // Папки, которые НЕ нужно показывать
+        const EXCLUDED_FOLDERS = [
+            'images', 'assets', 'css', 'js', 'fonts', 
+            'node_modules', '.git', '.github', 'cgi-bin',
+            'wp-admin', 'wp-content', 'wp-includes'
         ];
-
-        let existingPages = [];
+        
+        // ВАШИ РЕАЛЬНЫЕ ПАПКИ (добавьте все названия, которые есть в /allpages/)
+        // Это резервный список на случай, если авто-сканирование не сработает
+        const YOUR_FOLDERS = [
+            'lady', 'eugenang', 'eugeniya', 'granny', 'granny2', 'granny3',
+            'kombain', 'look', 'money', 'nadezhdahoup', 'nadezhdahoup2',
+            'nia-gara', 'niagara', 'oferta', 'piccolini', 'portfolio'
+        ];
+        
+        let allPages = [];
         let checkedCount = 0;
-
+        
+        // ==================== ФУНКЦИИ ====================
+        
         // Проверка существования страницы
         async function checkPageExists(pageName) {
-            const pageUrl = `/${pageName}/`;
+            const pageUrl = `./${pageName}/`;
             try {
                 const response = await fetch(pageUrl, { 
                     method: 'HEAD',
                     cache: 'no-cache'
                 });
-                // Если статус 200 или 304 (редирект тоже считается существующим)
                 return response.ok || response.status === 304;
             } catch (error) {
-                console.log(`Проверка ${pageName}: ошибка`, error);
                 return false;
             }
         }
-
-        // Форматирование названия
+        
+        // Получение мета-информации со страницы
+        async function getPageInfo(pageName) {
+            const pageUrl = `./${pageName}/`;
+            const indexUrl = `${pageUrl}index.html`;
+            
+            try {
+                const response = await fetch(indexUrl);
+                if (!response.ok) {
+                    return getDefaultInfo(pageName);
+                }
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Заголовок (приоритет: title → og:title → имя папки)
+                let title = doc.querySelector('title')?.innerText || '';
+                if (!title) {
+                    title = doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || '';
+                }
+                if (!title) {
+                    title = formatTitle(pageName);
+                }
+                
+                // Описание (приоритет: description → og:description → стандартное)
+                let description = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+                if (!description) {
+                    description = doc.querySelector('meta[property="og:description"]')?.getAttribute('content') || '';
+                }
+                if (!description) {
+                    description = `Лендинг «${formatTitle(pageName)}» — уникальная страница с авторским дизайном и продающим контентом.`;
+                }
+                
+                // Превью-картинка (приоритет: og:image → стандартная)
+                let previewImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+                if (previewImage && !previewImage.startsWith('http') && !previewImage.startsWith('/')) {
+                    previewImage = `./${pageName}/${previewImage}`;
+                }
+                
+                return {
+                    name: pageName,
+                    title: title,
+                    description: description,
+                    previewImage: previewImage,
+                    url: pageUrl
+                };
+                
+            } catch (error) {
+                console.warn(`Ошибка загрузки ${pageName}:`, error);
+                return getDefaultInfo(pageName);
+            }
+        }
+        
+        // Информация по умолчанию
+        function getDefaultInfo(pageName) {
+            return {
+                name: pageName,
+                title: formatTitle(pageName),
+                description: `Лендинг «${formatTitle(pageName)}» — автоматически обнаруженная страница в каталоге.`,
+                previewImage: '',
+                url: `./${pageName}/`
+            };
+        }
+        
+        // Форматирование названия папки в красивый заголовок
         function formatTitle(name) {
             let formatted = name.charAt(0).toUpperCase() + name.slice(1);
             formatted = formatted.replace(/([0-9]+)$/, ' $1');
-            formatted = formatted.replace(/([a-z])([A-Z])/g, '$1 $2');
             formatted = formatted.replace(/[-_]/g, ' ');
             return formatted;
         }
-
-        // Описания для страниц
-        function getDescriptionForPage(name) {
-            const descriptions = {
-                'lady': 'Элегантный лендинг для женской аудитории',
-                'eugenang': 'Современный лендинг с акцентом на сервис',
-                'eugeniya': 'Персональная страница портфолио',
-                'granny': 'Теплый и уютный дизайн для старшего поколения',
-                'granny2': 'Обновленная версия с улучшенной навигацией',
-                'granny3': 'Финальная версия с адаптивным дизайном',
-                'kombain': 'Лендинг для сельскохозяйственной техники',
-                'look': 'Стильный лендинг для модного бренда',
-                'money': 'Финансовый лендинг с акцентом на инвестиции',
-                'nadezhdahoup': 'Лендинг для строительной компании'
-            };
-            return descriptions[name] || `Лендинг "${formatTitle(name)}"`;
-        }
-
+        
         // Основная функция сканирования
         async function scanPages() {
-            const grid = document.getElementById('portfolioGrid');
-            grid.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Проверяем существование страниц...</p></div>';
+            const grid = document.getElementById('grid');
+            const countSpan = document.getElementById('pageCount');
+            const checkedSpan = document.getElementById('checkedCount');
+            const updateSpan = document.getElementById('lastUpdate');
             
-            document.getElementById('pageCount').textContent = '0';
-            document.getElementById('checkedCount').textContent = '0';
+            grid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Сканируем папку allpages...</p></div>';
             
-            existingPages = [];
+            allPages = [];
             checkedCount = 0;
-            const totalToCheck = YOUR_REAL_FOLDERS.length;
+            const totalToCheck = YOUR_FOLDERS.length;
             
-            // Проверяем каждую папку
-            for (const folder of YOUR_REAL_FOLDERS) {
+            // Проверяем каждую папку из списка
+            for (const folder of YOUR_FOLDERS) {
                 const exists = await checkPageExists(folder);
                 checkedCount++;
-                
-                document.getElementById('checkedCount').textContent = `${checkedCount}/${totalToCheck}`;
+                checkedSpan.textContent = `${checkedCount}/${totalToCheck}`;
                 
                 if (exists) {
-                    existingPages.push({
-                        name: folder,
-                        path: `/${folder}/`,
-                        title: formatTitle(folder),
-                        description: getDescriptionForPage(folder)
-                    });
-                    console.log(`✅ ${folder} - существует`);
+                    const pageInfo = await getPageInfo(folder);
+                    allPages.push(pageInfo);
+                    console.log(`✅ ${folder} — найден`);
                 } else {
-                    console.log(`❌ ${folder} - не существует`);
+                    console.log(`❌ ${folder} — не найден`);
                 }
             }
             
-            // Обновляем счетчик реальных страниц
-            document.getElementById('pageCount').textContent = existingPages.length;
-            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+            // Сортируем по алфавиту
+            allPages.sort((a, b) => a.name.localeCompare(b.name));
+            
+            // Обновляем статистику
+            countSpan.textContent = allPages.length;
+            updateSpan.textContent = new Date().toLocaleTimeString();
             
             // Сохраняем в кэш
-            if (existingPages.length > 0) {
-                localStorage.setItem('realPages', JSON.stringify({
-                    pages: existingPages,
+            if (allPages.length > 0) {
+                localStorage.setItem('catalogCache', JSON.stringify({
+                    pages: allPages,
                     timestamp: Date.now(),
-                    count: existingPages.length
+                    count: allPages.length
                 }));
             }
             
             // Рендерим
-            renderPages(existingPages);
+            renderPages(allPages);
             
-            if (existingPages.length === 0) {
+            if (allPages.length === 0) {
                 grid.innerHTML = `
-                    <div class="empty-state">
-                        📭 Реальные страницы не найдены<br><br>
-                        Проверьте список папок в коде (YOUR_REAL_FOLDERS)<br>
-                        Сейчас там: ${YOUR_REAL_FOLDERS.join(', ')}
+                    <div class="empty">
+                        📭 Папки не найдены<br><br>
+                        <small style="color: #8ba0b5;">Убедитесь, что в папке /allpages/ есть папки с лендингами.<br>
+                        Каждая папка должна содержать файл index.html</small>
                     </div>
                 `;
             }
         }
-
+        
         // Рендеринг страниц
         function renderPages(pages) {
-            const grid = document.getElementById('portfolioGrid');
+            const grid = document.getElementById('grid');
             
-            if (!pages || pages.length === 0) {
-                return;
-            }
-
+            if (pages.length === 0) return;
+            
             let html = '';
             for (const page of pages) {
-                const pageUrl = page.path;
+                // Формируем превью
+                let previewHtml = '';
+                if (page.previewImage) {
+                    previewHtml = `<iframe src="${page.url}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'preview-placeholder\\'>📄 ${escapeHtml(page.title)}</div>'"></iframe>`;
+                } else {
+                    previewHtml = `<div class="preview-placeholder">📄 ${escapeHtml(page.title)}</div>`;
+                }
                 
                 html += `
-                    <div class="landing-card" onclick="window.open('${pageUrl}', '_blank')">
-                        <div class="preview-container">
-                            <iframe 
-                                class="preview-iframe" 
-                                src="${pageUrl}" 
-                                loading="lazy"
-                                onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'preview-fallback\\'><span>📄</span><span>${escapeHtml(page.title)}</span><span style=\\'font-size:12px\\'>${escapeHtml(pageUrl)}</span></div>'"
-                            ></iframe>
+                    <div class="card" onclick="window.open('${page.url}', '_blank')">
+                        <div class="preview">
+                            ${previewHtml}
                         </div>
-                        <div class="card-content">
-                            <div class="page-title">
+                        <div class="info">
+                            <div class="name">
                                 ${escapeHtml(page.title)}
-                                <span class="page-badge">✅ активен</span>
+                                <span class="badge">✅ лендинг</span>
                             </div>
-                            <div class="page-url">${escapeHtml(pageUrl)}</div>
-                            <div class="page-description">
-                                ${escapeHtml(page.description)}
-                            </div>
-                            <div class="card-footer">
+                            <div class="url">${escapeHtml(page.url)}</div>
+                            <div class="desc">${escapeHtml(page.description)}</div>
+                            <div class="footer">
                                 <span>🖱️ Нажмите для открытия</span>
-                                <a href="${pageUrl}" class="open-link" target="_blank" onclick="event.stopPropagation()">
-                                    Открыть →
-                                </a>
+                                <a href="${page.url}" class="open-link" target="_blank" onclick="event.stopPropagation()">Открыть →</a>
                             </div>
                         </div>
                     </div>
@@ -493,7 +610,8 @@
             
             grid.innerHTML = html;
         }
-
+        
+        // Экранирование HTML
         function escapeHtml(str) {
             if (!str) return '';
             return str
@@ -503,13 +621,75 @@
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#39;');
         }
-
-        // Инициализация
+        
+        // Запуск при загрузке
         document.addEventListener('DOMContentLoaded', () => {
             scanPages();
         });
         
+        // Делаем функцию глобальной для кнопки обновления
         window.scanPages = scanPages;
+    </script>
+    
+    <!-- ==================== МЕТРИКИ ==================== -->
+    <!-- 
+        ВАЖНО: Замените XXXXXXXXX на свой ID счетчика Яндекс.Метрики
+        Замените G-XXXXXXXXXX на свой ID Google Analytics
+    -->
+    
+    <!-- Яндекс.Метрика -->
+    <script type="text/javascript">
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+       ym(XXXXXXXX, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/XXXXXXXX" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <!-- ==================== СТРУКТУРИРОВАННЫЕ ДАННЫЕ (Schema.org) ==================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Каталог всех лендингов | ZaLoveClub",
+      "description": "Автоматический каталог всех созданных лендингов и страниц портфолио. Более 16 уникальных проектов.",
+      "url": "https://zaloveclub.ru/allpages/",
+      "image": "catalog-preview.jpg",
+      "author": {
+        "@type": "Person",
+        "name": "Евгения"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ZaLoveClub",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://zaloveclub.ru/logo.png"
+        }
+      },
+      "numberOfItems": 16,
+      "about": {
+        "@type": "CreativeWork",
+        "name": "Портфолио лендингов",
+        "description": "Коллекция одностраничных сайтов, созданных для различных проектов и задач"
+      }
+    }
     </script>
 </body>
 </html>
