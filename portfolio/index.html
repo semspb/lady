@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Визуальное портфолио | Превью сайтов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f7fc;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            padding: 2rem 1.5rem;
+            color: #1a2c3e;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1e3c72, #2b4c7c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            color: #4a627a;
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Form card */
+        .add-card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.2s ease;
+            border: 1px solid #e2edf2;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .input-group {
+            flex: 3;
+            min-width: 200px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2c4c6e;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.3px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            font-size: 1rem;
+            border: 1.5px solid #dce5ec;
+            border-radius: 20px;
+            background: #ffffff;
+            transition: 0.2s;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #2f6b9f;
+            box-shadow: 0 0 0 3px rgba(47, 107, 159, 0.2);
+        }
+
+        .btn-add {
+            background: #1f5e93;
+            color: white;
+            border: none;
+            padding: 0.85rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .btn-add:hover {
+            background: #0e4168;
+            transform: scale(0.97);
+            box-shadow: 0 6px 12px -8px rgba(0,0,0,0.2);
+        }
+
+        .btn-add:active {
+            transform: scale(0.96);
+        }
+
+        /* Статус загрузки */
+        .status-msg {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            padding: 0.6rem 1rem;
+            border-radius: 60px;
+            background: #eef2f5;
+            display: inline-block;
+            color: #2c5a7a;
+        }
+
+        /* Сетка портфолио */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Карточка превью */
+        .site-card {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.08);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e9f0f5;
+        }
+
+        .site-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 35px -14px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Превью iframe или изображение-заглушка */
+        .preview-frame {
+            background: #f0f4f9;
+            border-bottom: 1px solid #e2e8f0;
+            height: 200px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.2s;
+            display: block;
+        }
+
+        .placeholder-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #eef3fa;
+            color: #5f7f9c;
+            font-size: 0.9rem;
+            height: 100%;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .favicon-placeholder {
+            font-size: 2.8rem;
+            opacity: 0.6;
+        }
+
+        /* Контент карточки */
+        .card-content {
+            padding: 1.2rem 1.3rem 1.3rem;
+            flex: 1;
+        }
+
+        .site-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .site-title a {
+            text-decoration: none;
+            color: #1f5e93;
+            border-bottom: 1px dotted #bdd4e4;
+        }
+
+        .site-title a:hover {
+            color: #0f3b58;
+        }
+
+        .site-desc {
+            font-size: 0.9rem;
+            line-height: 1.45;
+            color: #2c4f6e;
+            margin: 0.6rem 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .site-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: #6c8eaa;
+            border-top: 1px solid #e9f0f5;
+            padding-top: 0.8rem;
+        }
+
+        .site-url {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 65%;
+            font-family: monospace;
+            font-size: 0.7rem;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #a3bfd6;
+            transition: 0.2s;
+            padding: 4px 8px;
+            border-radius: 30px;
+        }
+
+        .delete-btn:hover {
+            color: #c2412c;
+            background: #fff0ee;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: #fbfeff;
+            border-radius: 48px;
+            color: #6f95b5;
+            border: 1px dashed #cbdde9;
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6f8eaa;
+        }
+
+        @media (max-width: 550px) {
+            body {
+                padding: 1rem;
+            }
+            .form-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-add {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🌐 Web Portfolio · Живые превью</h1>
+        <p>Вставьте ссылку на сайт — автоматически подтянем заголовок, описание и превью (og:image или скриншот)</p>
+    </div>
+
+    <div class="add-card">
+        <div class="form-row">
+            <div class="input-group">
+                <label>🔗 URL сайта (http:// или https://)</label>
+                <input type="text" id="siteUrl" placeholder="https://example.com или https://мойсайт.ru" autocomplete="off">
+            </div>
+            <button class="btn-add" id="addBtn">➕ Добавить в портфолио</button>
+        </div>
+        <div id="statusMsg" class="status-msg"></div>
+    </div>
+
+    <div id="portfolioGrid" class="portfolio-grid">
+        <!-- динамические карточки -->
+    </div>
+    <footer>
+        ⚡ Превью генерируется через сервис микроснимков + мета-теги с оригинального сайта (заголовок/описание)
+    </footer>
+</div>
+
+<script>
+    // ---------- КЛЮЧЕВАЯ ЛОГИКА ----------
+    // Для получения мета-информации (title, description) и favicon используем прокси-сервис allorigins
+    // Превью-картинку получаем через сервис screenshots (page2images) — но нужен ключ? 
+    // Чтобы не требовать API-ключей, используем надежный бесплатный метод: 
+    // - Миниатюра: сервис "https://api.microlink.io" (отлично парсит og:image, title, description) БЕЗ КЛЮЧА, но с ограничениями.
+    // - Однако microlink может требовать ключ для production, но для портфолио и демо — отлично подходит.
+    // - Также можно использовать "https://jsonlink.io" или локальный fallback.
+    // Для 100% работы без ключа реализуем универсальный загрузчик через стороннее API: "https://api.microlink.io?url=".
+    // + дополнительно, если картинка не находится, ставим плейсхолдер с favicon.
+    // -------------------------------------------------------------------------
+    // Сохраняем список проектов в localStorage
+    let portfolioItems = [];
+
+    // DOM элементы
+    const gridContainer = document.getElementById('portfolioGrid');
+    const urlInput = document.getElementById('siteUrl');
+    const addButton = document.getElementById('addBtn');
+    const statusDiv = document.getElementById('statusMsg');
+
+    // Функция показа статуса
+    function setStatus(text, isError = false) {
+        statusDiv.textContent = text;
+        statusDiv.style.color = isError ? '#b91c1c' : '#2c5a7a';
+        statusDiv.style.background = isError ? '#ffe6e5' : '#eef2f5';
+        setTimeout(() => {
+            if (statusDiv.textContent === text) {
+                // не сбрасываем мгновенно, но через 4 секунды очистим если не новое сообщение
+                setTimeout(() => {
+                    if (statusDiv.textContent === text) statusDiv.textContent = '';
+                }, 4000);
+            }
+        }, 5000);
+    }
+
+    // Получение мета-данных + картинки превью (используем microlink)
+    async function fetchSiteMetadata(url) {
+        // нормализуем url
+        let normalizedUrl = url.trim();
+        if (!normalizedUrl.startsWith('http://') && !normalizedUrl.startsWith('https://')) {
+            normalizedUrl = 'https://' + normalizedUrl;
+        }
+        // валидация url
+        try {
+            new URL(normalizedUrl);
+        } catch (e) {
+            throw new Error('Некорректный URL. Убедитесь, что ссылка начинается с http:// или https://');
+        }
+
+        // Используем microlink API (бесплатно, без ключа, но ограничение ~50 запросов в минуту, для демо достаточно)
+        const microlinkApiUrl = `https://api.microlink.io?url=${encodeURIComponent(normalizedUrl)}&screenshot=true&meta=true&embed=screenshot.url`;
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12000); // 12 сек таймаут
+        
+        try {
+            const response = await fetch(microlinkApiUrl, { signal: controller.signal });
+            clearTimeout(timeoutId);
+            if (!response.ok) throw new Error(`Ошибка загрузки метаданных (${response.status})`);
+            const data = await response.json();
+            
+            // microlink структура: data.status, data.data
+            if (!data || !data.data) throw new Error('Не удалось распарсить метаданные сайта');
+            
+            const info = data.data;
+            // Заголовок: info.title
+            let title = info.title || 'Без названия';
+            // Описание: info.description
+            let description = info.description || 'Описание отсутствует. Сайт не предоставил мета-тег description.';
+            // Превью картинка: info.image?.url (og:image) или info.screenshot?.url (скриншот)
+            let previewImage = null;
+            if (info.image && info.image.url) {
+                previewImage = info.image.url;
+            } else if (info.screenshot && info.screenshot.url) {
+                previewImage = info.screenshot.url;
+            } else if (info.logo && info.logo.url) {
+                // иногда логотип как fallback
+                previewImage = info.logo.url;
+            }
+            
+            // дополнительно favicon для плейсхолдера
+            let favicon = info.logo?.url || `https://www.google.com/s2/favicons?domain=${new URL(normalizedUrl).hostname}&sz=64`;
+            
+            return {
+                url: normalizedUrl,
+                title: title,
+                description: description,
+                previewImg: previewImage,
+                favicon: favicon,
+                domain: new URL(normalizedUrl).hostname
+            };
+        } catch (err) {
+            clearTimeout(timeoutId);
+            console.warn('microlink error', err);
+            // Fallback: пробуем получить хотя бы базовый title через allorigins + парсинг html (старый метод)
+            return await fallbackFetchMetadata(normalizedUrl);
+        }
+    }
+
+    // Резервный метод: извлекаем title и примерное описание, картинка - favicon
+    async function fallbackFetchMetadata(url) {
+        try {
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+            const resp = await fetch(proxyUrl, { timeout: 8000 });
+            if (!resp.ok) throw new Error();
+            const data = await resp.json();
+            const html = data.contents;
+            // парсим title
+            let titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+            let title = titleMatch ? titleMatch[1].trim() : 'Сайт без заголовка';
+            // описание: мета-тег description
+            let descMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i);
+            if (!descMatch) {
+                descMatch = html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']+)["']/i);
+            }
+            let description = descMatch ? descMatch[1].trim() : 'Описание не найдено. Добавьте сайт вручную.';
+            // картинка og:image
+            let imgMatch = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i);
+            let previewImg = imgMatch ? imgMatch[1] : null;
+            const domain = new URL(url).hostname;
+            let favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+            
+            return {
+                url: url,
+                title: title,
+                description: description.substring(0, 220),
+                previewImg: previewImg,
+                favicon: favicon,
+                domain: domain
+            };
+        } catch (err) {
+            // Если всё сломалось, возвращаем минимальные данные
+            const domain = new URL(url).hostname;
+            return {
+                url: url,
+                title: domain,
+                description: 'Не удалось загрузить информацию с сайта. Возможно, ресурс недоступен или CORS ограничения.',
+                previewImg: null,
+                favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=64`,
+                domain: domain
+            };
+        }
+    }
+
+    // Генерация уникального ID
+    function generateId() {
+        return Date.now() + '-' + Math.random().toString(36).substring(2, 8);
+    }
+
+    // Добавление нового элемента в портфолио (асинхронно)
+    async function addPortfolioItem(rawUrl) {
+        if (!rawUrl || rawUrl.trim() === '') {
+            setStatus('❌ Введите ссылку на сайт', true);
+            return false;
+        }
+        setStatus('🔄 Загружаем метаданные и превью...', false);
+        
+        try {
+            const metadata = await fetchSiteMetadata(rawUrl);
+            const newItem = {
+                id: generateId(),
+                url: metadata.url,
+                title: metadata.title,
+                description: metadata.description,
+                previewImg: metadata.previewImg,
+                favicon: metadata.favicon,
+                domain: metadata.domain,
+                createdAt: Date.now()
+            };
+            portfolioItems.unshift(newItem); // новые в начало
+            saveToLocalStorage();
+            renderPortfolio();
+            setStatus(`✅ Добавлен: ${newItem.title}`, false);
+            urlInput.value = '';
+            return true;
+        } catch (err) {
+            console.error(err);
+            setStatus(`⚠️ Ошибка: ${err.message || 'Не удалось добавить сайт'}`, true);
+            return false;
+        }
+    }
+
+    // Удаление элемента
+    function deleteItem(id) {
+        portfolioItems = portfolioItems.filter(item => item.id !== id);
+        saveToLocalStorage();
+        renderPortfolio();
+        setStatus('🗑 Проект удален', false);
+    }
+
+    // Сохранение в localStorage
+    function saveToLocalStorage() {
+        localStorage.setItem('webPortfolio', JSON.stringify(portfolioItems));
+    }
+
+    // Загрузка из localStorage
+    function loadFromLocalStorage() {
+        const stored = localStorage.getItem('webPortfolio');
+        if (stored) {
+            try {
+                portfolioItems = JSON.parse(stored);
+                // сортировка по дате добавления (новые сверху)
+                portfolioItems.sort((a,b) => b.createdAt - a.createdAt);
+            } catch(e) { portfolioItems = []; }
+        } else {
+            // Несколько демо-примеров для красоты
+            portfolioItems = [
+                {
+                    id: 'demo1',
+                    url: 'https://github.com',
+                    title: 'GitHub',
+                    description: 'Платформа для совместной разработки и хостинга IT-проектов. Миллионы репозиториев и инструменты DevOps.',
+                    previewImg: 'https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png',
+                    favicon: 'https://github.com/favicon.ico',
+                    domain: 'github.com',
+                    createdAt: Date.now() - 86400000
+                },
+                {
+                    id: 'demo2',
+                    url: 'https://vercel.com',
+                    title: 'Vercel',
+                    description: 'Платформа для фронтенд-разработчиков, развертывание и хостинг веб-приложений с автоматическими превью.',
+                    previewImg: 'https://assets.vercel.com/image/upload/v1588805858/front/favicon/vercel/32x32.png',
+                    favicon: 'https://vercel.com/favicon.ico',
+                    domain: 'vercel.com',
+                    createdAt: Date.now() - 172800000
+                }
+            ];
+            saveToLocalStorage();
+        }
+    }
+
+    // Рендерим сетку
+    function renderPortfolio() {
+        if (!gridContainer) return;
+        if (portfolioItems.length === 0) {
+            gridContainer.innerHTML = `
+                <div class="empty-state">
+                    🧩 Портфолио пустое<br>
+                    Добавьте первый сайт через форму выше — описание и превью подгрузятся автоматически!
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        for (let item of portfolioItems) {
+            // Обработка картинки превью
+            let previewHtml = '';
+            if (item.previewImg && item.previewImg.startsWith('http')) {
+                previewHtml = `<img class="preview-img" src="${escapeHtml(item.previewImg)}" alt="preview of ${escapeHtml(item.title)}" loading="lazy" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'placeholder-preview\'><div class=\'favicon-placeholder\'>🖼️</div>Превью недоступно</div>';">`;
+            } else {
+                previewHtml = `<div class="placeholder-preview">
+                                <div class="favicon-placeholder">🌐</div>
+                                <span>Нет превью</span>
+                                <img style="width:32px;height:32px;border-radius:8px;" src="${escapeHtml(item.favicon || '')}" alt="favicon" onerror="this.style.display='none'">
+                              </div>`;
+            }
+            
+            // Описание: обрезаем если слишком длинное
+            let descText = item.description.length > 150 ? item.description.slice(0, 150) + '…' : item.description;
+            
+            html += `
+                <div class="site-card" data-id="${escapeHtml(item.id)}">
+                    <div class="preview-frame">
+                        ${previewHtml}
+                    </div>
+                    <div class="card-content">
+                        <div class="site-title">
+                            <span>📄</span>
+                            <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.title)}</a>
+                        </div>
+                        <div class="site-desc">${escapeHtml(descText)}</div>
+                        <div class="site-meta">
+                            <span class="site-url" title="${escapeHtml(item.url)}">${escapeHtml(item.domain)}</span>
+                            <button class="delete-btn" data-id="${escapeHtml(item.id)}" title="Удалить из портфолио">✖</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        gridContainer.innerHTML = html;
+        
+        // Добавляем обработчики на кнопки удаления
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                if (id) deleteItem(id);
+            });
+        });
+    }
+    
+    // простой escape для защиты от XSS
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+    
+    // Обработчик добавления
+    function onAddClick() {
+        let rawUrl = urlInput.value.trim();
+        if (!rawUrl) {
+            setStatus('🔗 Пожалуйста, введите ссылку', true);
+            return;
+        }
+        addPortfolioItem(rawUrl);
+    }
+    
+    // Инициализация
+    function init() {
+        loadFromLocalStorage();
+        renderPortfolio();
+        addButton.addEventListener('click', onAddClick);
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') onAddClick();
+        });
+    }
+    
+    init();
+</script>
+</body>
+</html>
