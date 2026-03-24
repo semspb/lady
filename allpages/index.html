@@ -23,7 +23,6 @@
             margin: 0 auto;
         }
 
-        /* Header */
         .header {
             text-align: center;
             margin-bottom: 3rem;
@@ -64,7 +63,6 @@
             font-size: 1.1rem;
         }
 
-        /* Статистика */
         .stats-bar {
             display: flex;
             justify-content: space-between;
@@ -122,25 +120,12 @@
             transform: scale(0.98);
         }
 
-        .debug-btn {
-            background: #6c8eaa;
-            color: white;
-            border: none;
-            padding: 0.6rem 1.3rem;
-            border-radius: 40px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        /* Сетка карточек */
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
             gap: 2rem;
         }
 
-        /* Карточка лендинга */
         .landing-card {
             background: white;
             border-radius: 24px;
@@ -156,7 +141,6 @@
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
         }
 
-        /* Превью */
         .preview-container {
             height: 200px;
             background: #f1f5f9;
@@ -189,7 +173,6 @@
             opacity: 0.9;
         }
 
-        /* Контент карточки */
         .card-content {
             padding: 1.3rem;
         }
@@ -314,142 +297,74 @@
         <div class="header">
             <a href="/" class="back-link">← На главную</a>
             <h1>📁 Все лендинги</h1>
-            <p>Автоматический сбор всех страниц из корня сайта</p>
+            <p>Только реально существующие страницы</p>
         </div>
 
         <div class="stats-bar">
             <div class="stats-info">
                 <div class="stat">
                     <span class="stat-number" id="pageCount">0</span>
-                    <span class="stat-label">страниц</span>
+                    <span class="stat-label">реальных страниц</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-number" id="foundCount">0</span>
-                    <span class="stat-label">найдено через API</span>
+                    <span class="stat-number" id="checkedCount">0</span>
+                    <span class="stat-label">проверено</span>
                 </div>
                 <div class="stat">
                     <span id="lastUpdate">—</span>
                     <span class="stat-label">последнее обновление</span>
                 </div>
             </div>
-            <div style="display: flex; gap: 10px;">
-                <button class="refresh-btn" onclick="scanPages()">
-                    🔄 Сканировать заново
-                </button>
-                <button class="debug-btn" onclick="showDebugInfo()">
-                    🐛 Показать все папки
-                </button>
-            </div>
+            <button class="refresh-btn" onclick="scanPages()">
+                🔄 Сканировать заново
+            </button>
         </div>
 
         <div id="portfolioGrid" class="portfolio-grid">
             <div class="loading-state">
                 <div class="spinner"></div>
-                <p>Сканируем все лендинги...</p>
+                <p>Проверяем существующие лендинги...</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Папки, которые нужно исключить
-        const EXCLUDED_FOLDERS = ['images', 'assets', 'css', 'js', 'fonts', 'node_modules', '.git', '.github', 'allpages', 'wp-admin', 'wp-content', 'wp-includes'];
-        
-        // Все найденные страницы
-        let allPages = [];
-        let rawFolders = [];
+        // ВАШИ РЕАЛЬНЫЕ ПАПКИ (то, что есть в репозитории)
+        // ЗАМЕНИТЕ ЭТОТ СПИСОК НА ВАШИ РЕАЛЬНЫЕ 16 ПАПОК!
+        const YOUR_REAL_FOLDERS = [
+            'lady',
+            'eugenang', 
+            'eugeniya',
+            'granny',
+            'granny2',
+            'granny3',
+            'kombain',
+            'look',
+            'money',
+            'nadezhdahoup'
+            // ДОБАВЬТЕ СЮДА ОСТАЛЬНЫЕ 6 НАЗВАНИЙ ВАШИХ ПАПОК
+        ];
 
-        // Функция получения ВСЕХ папок через GitHub API с пагинацией
-        async function getAllFoldersFromGitHub() {
-            const hostname = window.location.hostname;
-            
-            // Для zaloveclub.ru используем другой подход
-            if (hostname === 'zaloveclub.ru' || hostname.includes('zaloveclub')) {
-                console.log('Работаем с доменом zaloveclub.ru');
-                // Возвращаем полный список ваших лендингов
-                return getAllKnownPages();
-            }
-            
-            if (!hostname.includes('github.io')) {
-                console.log('Не GitHub Pages, используем список лендингов');
-                return getAllKnownPages();
-            }
-            
-            // Получаем имя репозитория из URL
-            const pathParts = window.location.pathname.split('/');
-            let repoName = '';
-            
-            if (pathParts.length > 1) {
-                repoName = pathParts[1];
-            }
-            
-            // Формируем API URL для получения содержимого корня репозитория
-            const apiUrl = `https://api.github.com/repos/semspb/${repoName}/contents/`;
-            
+        let existingPages = [];
+        let checkedCount = 0;
+
+        // Проверка существования страницы
+        async function checkPageExists(pageName) {
+            const pageUrl = `/${pageName}/`;
             try {
-                let allItems = [];
-                let page = 1;
-                let hasMore = true;
-                
-                while (hasMore) {
-                    const paginatedUrl = `${apiUrl}?page=${page}&per_page=100`;
-                    console.log(`Загружаем страницу ${page}...`);
-                    
-                    const response = await fetch(paginatedUrl);
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
-                    }
-                    
-                    const items = await response.json();
-                    
-                    if (items && Array.isArray(items)) {
-                        allItems = [...allItems, ...items];
-                        
-                        if (items.length < 100) {
-                            hasMore = false;
-                        } else {
-                            page++;
-                        }
-                    } else {
-                        hasMore = false;
-                    }
-                }
-                
-                console.log(`Всего элементов в корне: ${allItems.length}`);
-                
-                // Фильтруем только папки
-                const folders = allItems
-                    .filter(item => item.type === 'dir')
-                    .map(dir => dir.name)
-                    .filter(name => !EXCLUDED_FOLDERS.includes(name) && !name.startsWith('.'));
-                
-                console.log('Найденные папки:', folders);
-                rawFolders = folders;
-                
-                return folders;
-                
+                const response = await fetch(pageUrl, { 
+                    method: 'HEAD',
+                    cache: 'no-cache'
+                });
+                // Если статус 200 или 304 (редирект тоже считается существующим)
+                return response.ok || response.status === 304;
             } catch (error) {
-                console.error('Ошибка GitHub API:', error);
-                return getAllKnownPages();
+                console.log(`Проверка ${pageName}: ошибка`, error);
+                return false;
             }
         }
 
-        // Полный список всех ваших лендингов (16+ страниц)
-        function getAllKnownPages() {
-            // Здесь ВСЕ ваши лендинги, которые есть на сайте
-            const knownPages = [
-                'lady', 'eugenang', 'eugeniya', 'granny', 'granny2', 'granny3',
-                'kombain', 'look', 'money', 'nadezhdahoup', 'business', 'startup',
-                'beauty', 'fitness', 'health', 'service', 'portfolio', 'agency',
-                'consulting', 'marketing', 'shop', 'blog', 'landing', 'promo'
-            ];
-            
-            // Если у вас есть другие названия, добавьте их сюда
-            // Или можно удалить дубликаты
-            
-            return knownPages;
-        }
-
-        // Форматирование названия страницы
+        // Форматирование названия
         function formatTitle(name) {
             let formatted = name.charAt(0).toUpperCase() + name.slice(1);
             formatted = formatted.replace(/([0-9]+)$/, ' $1');
@@ -458,7 +373,7 @@
             return formatted;
         }
 
-        // Получение описания для страницы
+        // Описания для страниц
         function getDescriptionForPage(name) {
             const descriptions = {
                 'lady': 'Элегантный лендинг для женской аудитории',
@@ -470,115 +385,68 @@
                 'kombain': 'Лендинг для сельскохозяйственной техники',
                 'look': 'Стильный лендинг для модного бренда',
                 'money': 'Финансовый лендинг с акцентом на инвестиции',
-                'nadezhdahoup': 'Лендинг для строительной компании',
-                'business': 'Бизнес-лендинг с акцентом на B2B',
-                'startup': 'Страница для стартапов и инноваций',
-                'beauty': 'Лендинг для beauty-индустрии',
-                'fitness': 'Фитнес-лендинг с программами тренировок',
-                'health': 'Медицинский лендинг с консультациями',
-                'service': 'Сервисный лендинг с преимуществами',
-                'portfolio': 'Портфолио работ и проектов',
-                'agency': 'Агентство полного цикла',
-                'consulting': 'Консалтинговые услуги',
-                'marketing': 'Маркетинговое агентство',
-                'shop': 'Интернет-магазин товаров',
-                'blog': 'Блог и полезные статьи',
-                'landing': 'Классический продающий лендинг',
-                'promo': 'Промо-страница для акции'
+                'nadezhdahoup': 'Лендинг для строительной компании'
             };
-            
-            return descriptions[name] || `Лендинг "${formatTitle(name)}" - уникальное торговое предложение`;
-        }
-
-        // Проверка существования страницы (чтобы не показывать несуществующие)
-        async function checkPageExists(pageName) {
-            const pageUrl = `/${pageName}/`;
-            try {
-                const response = await fetch(pageUrl, { method: 'HEAD', mode: 'no-cors' });
-                return true; // При no-cors мы не можем точно определить, но предполагаем что страница есть
-            } catch (error) {
-                console.log(`Страница ${pageName} не найдена`);
-                return false;
-            }
+            return descriptions[name] || `Лендинг "${formatTitle(name)}"`;
         }
 
         // Основная функция сканирования
         async function scanPages() {
             const grid = document.getElementById('portfolioGrid');
-            grid.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Сканируем все лендинги...</p></div>';
+            grid.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Проверяем существование страниц...</p></div>';
             
             document.getElementById('pageCount').textContent = '0';
-            document.getElementById('foundCount').textContent = '0';
+            document.getElementById('checkedCount').textContent = '0';
             
-            try {
-                // Получаем список всех известных папок
-                let folders = getAllKnownPages();
+            existingPages = [];
+            checkedCount = 0;
+            const totalToCheck = YOUR_REAL_FOLDERS.length;
+            
+            // Проверяем каждую папку
+            for (const folder of YOUR_REAL_FOLDERS) {
+                const exists = await checkPageExists(folder);
+                checkedCount++;
                 
-                console.log('Список всех лендингов:', folders);
-                rawFolders = folders;
+                document.getElementById('checkedCount').textContent = `${checkedCount}/${totalToCheck}`;
                 
-                document.getElementById('foundCount').textContent = folders.length;
-                
-                // Создаем страницы из найденных папок
-                allPages = folders.map(folder => ({
-                    name: folder,
-                    path: `/${folder}/`,  // ВАЖНО: путь прямо в корень, а не в allpages!
-                    title: formatTitle(folder),
-                    description: getDescriptionForPage(folder)
-                }));
-                
-                console.log(`Создано ${allPages.length} страниц`);
-                console.log('Пример пути:', allPages[0]?.path);
-                
-                // Сортируем по алфавиту
-                allPages.sort((a, b) => a.name.localeCompare(b.name));
-                
-                // Обновляем счетчик
-                document.getElementById('pageCount').textContent = allPages.length;
-                document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
-                
-                // Сохраняем в кэш
-                localStorage.setItem('cachedPages', JSON.stringify({
-                    pages: allPages,
-                    folders: rawFolders,
-                    timestamp: Date.now(),
-                    count: allPages.length
-                }));
-                
-                // Рендерим
-                renderPages(allPages);
-                
-                if (allPages.length === 0) {
-                    grid.innerHTML = '<div class="empty-state">📭 Страницы не найдены. Убедитесь, что папки с лендингами существуют.</div>';
-                }
-                
-            } catch (error) {
-                console.error('Ошибка сканирования:', error);
-                
-                // Пытаемся загрузить из кэша
-                const cached = localStorage.getItem('cachedPages');
-                if (cached) {
-                    const data = JSON.parse(cached);
-                    allPages = data.pages;
-                    renderPages(allPages);
-                    document.getElementById('pageCount').textContent = allPages.length;
-                    document.getElementById('foundCount').textContent = data.count || allPages.length;
-                    document.getElementById('lastUpdate').textContent = 'из кэша';
-                    grid.innerHTML += '<div class="error-state" style="margin-top: 1rem;">⚠️ Не удалось обновить список. Показаны сохраненные страницы.</div>';
+                if (exists) {
+                    existingPages.push({
+                        name: folder,
+                        path: `/${folder}/`,
+                        title: formatTitle(folder),
+                        description: getDescriptionForPage(folder)
+                    });
+                    console.log(`✅ ${folder} - существует`);
                 } else {
-                    grid.innerHTML = '<div class="error-state">❌ Ошибка загрузки списка страниц. Проверьте подключение к интернету.</div>';
+                    console.log(`❌ ${folder} - не существует`);
                 }
             }
-        }
-
-        // Отображение отладочной информации
-        function showDebugInfo() {
-            console.log('=== DEBUG INFO ===');
-            console.log('Найденные папки:', rawFolders);
-            console.log('Всего страниц:', allPages.length);
-            console.log('Список страниц:', allPages.map(p => p.name));
-            console.log('Пример URL:', allPages[0]?.path);
-            alert(`Найдено папок: ${rawFolders.length}\nВсего страниц: ${allPages.length}\n\nСписок: ${allPages.map(p => p.name).join(', ')}\n\nURL страниц: /название_папки/ (например /money/)`);
+            
+            // Обновляем счетчик реальных страниц
+            document.getElementById('pageCount').textContent = existingPages.length;
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+            
+            // Сохраняем в кэш
+            if (existingPages.length > 0) {
+                localStorage.setItem('realPages', JSON.stringify({
+                    pages: existingPages,
+                    timestamp: Date.now(),
+                    count: existingPages.length
+                }));
+            }
+            
+            // Рендерим
+            renderPages(existingPages);
+            
+            if (existingPages.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        📭 Реальные страницы не найдены<br><br>
+                        Проверьте список папок в коде (YOUR_REAL_FOLDERS)<br>
+                        Сейчас там: ${YOUR_REAL_FOLDERS.join(', ')}
+                    </div>
+                `;
+            }
         }
 
         // Рендеринг страниц
@@ -600,14 +468,13 @@
                                 class="preview-iframe" 
                                 src="${pageUrl}" 
                                 loading="lazy"
-                                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'preview-fallback\\'><span>📄</span><span>${escapeHtml(page.title)}</span></div>'"
+                                onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'preview-fallback\\'><span>📄</span><span>${escapeHtml(page.title)}</span><span style=\\'font-size:12px\\'>${escapeHtml(pageUrl)}</span></div>'"
                             ></iframe>
                         </div>
                         <div class="card-content">
                             <div class="page-title">
                                 ${escapeHtml(page.title)}
-                                <span class="page-badge">лендинг</span>
+                                <span class="page-badge">✅ активен</span>
                             </div>
                             <div class="page-url">${escapeHtml(pageUrl)}</div>
                             <div class="page-description">
@@ -627,7 +494,6 @@
             grid.innerHTML = html;
         }
 
-        // Экранирование HTML
         function escapeHtml(str) {
             if (!str) return '';
             return str
@@ -643,9 +509,7 @@
             scanPages();
         });
         
-        // Делаем функции глобальными для вызова из HTML
         window.scanPages = scanPages;
-        window.showDebugInfo = showDebugInfo;
     </script>
 </body>
 </html>
