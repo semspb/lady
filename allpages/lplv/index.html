@@ -1,0 +1,499 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Семитриум Любви | 7 сфер × 3 уровня — древний метод целостности</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f9f6f0;
+            background-image: radial-gradient(circle at 10% 20%, rgba(180, 140, 100, 0.05) 0%, rgba(150, 120, 90, 0.02) 90%);
+            color: #2c241a;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .greek, .hero-sub, .quote-text, .arche-name, .testimonial-name {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* кнопки */
+        .btn-primary {
+            display: inline-block;
+            background: #8B5A3C;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary:hover {
+            background: #5e3e28;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #c6a43f;
+        }
+
+        /* hero */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 1rem 0 1rem;
+        }
+
+        .ancient-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: #e8dfd3;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #7a5a3a;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 3.8rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: #3e2a1f;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-sub {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #7f6242;
+            font-style: italic;
+        }
+
+        .hero-descr {
+            max-width: 700px;
+            margin: 1rem auto 0;
+            font-size: 1.1rem;
+            color: #5c4632;
+        }
+
+        /* блок проблема */
+        .problem-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .problem-item {
+            background: #fffbf5;
+            padding: 1rem 1.5rem;
+            border-radius: 60px;
+            border: 1px solid #eeddcc;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #3e2a1f;
+        }
+        .section-sub {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            color: #6b513a;
+        }
+
+        /* аккордеон сетка */
+        .accordion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0 2rem;
+        }
+        .accordion-card {
+            background: #ffffffdd;
+            backdrop-filter: blur(2px);
+            border-radius: 1.8rem;
+            border: 1px solid #e9ddcf;
+            overflow: hidden;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 1.2rem 1.5rem;
+            cursor: pointer;
+            background: #fffaf3;
+            transition: background 0.2s;
+        }
+        .accordion-header:hover {
+            background: #f7efe5;
+        }
+        .arche-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #5a3e2a;
+        }
+        .arche-tag {
+            font-size: 0.8rem;
+            color: #b28b65;
+            font-style: italic;
+            margin-left: 0.5rem;
+        }
+        .accordion-icon {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: #b48c5c;
+            transition: transform 0.2s;
+        }
+        .accordion-body {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.2s ease;
+            background: #fefcf8;
+            border-top: 0px solid #eeddcc;
+        }
+        .accordion-card.open .accordion-body {
+            padding: 1.2rem 1.5rem 1.8rem;
+            max-height: 280px;
+            border-top-width: 1px;
+        }
+        .trinity-line {
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .trinity-label {
+            font-weight: 600;
+            min-width: 70px;
+            color: #7a5a3a;
+        }
+
+        .trinity-concepts {
+            background: #ede3d7;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .trinity-row {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .trinity-card {
+            flex: 1;
+            min-width: 160px;
+            background: #fffbf5;
+            border-radius: 1.5rem;
+            padding: 1rem;
+        }
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .step {
+            background: #fffbf0;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+        }
+        .testimonials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .testimonial-card {
+            background: #fffef9;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            flex: 1;
+            min-width: 240px;
+            border-left: 4px solid #c6a43f;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: #3a2a1e;
+        }
+        .testimonial-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #8b5a3c;
+        }
+        .cta-center {
+            text-align: center;
+            margin: 2rem 0 1rem;
+        }
+        footer {
+            margin-top: 4rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #aa8f72;
+            border-top: 1px solid #e2d4c6;
+            padding-top: 2rem;
+        }
+
+        @media (max-width: 700px) {
+            h1 { font-size: 2.4rem; }
+            .hero-sub { font-size: 1.2rem; }
+            .section-title { font-size: 1.8rem; }
+            .accordion-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- hero -->
+    <div class="hero">
+        <div class="ancient-badge">СЕМИТРИУМ ЛЮБВИ · 7×3</div>
+        <h1>Семь начал любви</h1>
+        <div class="hero-sub">7 сфер × 3 уровня. Древний метод целостности.</div>
+        <div class="hero-descr">Узнайте, на каких уровнях вы любите: <strong>Тело, Душа или Дух</strong>. И где теряете себя.</div>
+        <div style="margin: 2rem 0 0;">
+            <a href="#test-start" class="btn-primary" id="heroBtn">⟡ Пройти тест бесплатно ⟡</a>
+            <p style="margin-top: 0.8rem; font-size: 0.85rem; color:#7f6b55;">21 вопрос. 5 минут. Без регистрации.</p>
+        </div>
+    </div>
+
+    <!-- проблема -->
+    <div>
+        <h2 class="section-title">Знакомо?</h2>
+        <div class="problem-grid">
+            <div class="problem-item">🔥 Страсть прошла — и любовь кончилась?</div>
+            <div class="problem-item">🙏 Вы отдаёте, а партнёр не ценит?</div>
+            <div class="problem-item">🌀 Ревнуете и не можете это контролировать?</div>
+            <div class="problem-item">😔 Боитесь остаться одни, даже если тяготитесь?</div>
+        </div>
+        <p style="text-align: center; font-weight: 500;">Проблема не в вас. Проблема в том, что вы смешиваете всё в одну кучу.</p>
+    </div>
+
+    <!-- древнее знание -->
+    <div style="margin: 3rem 0;">
+        <h2 class="section-title">Древние греки знали: любовь не одна</h2>
+        <div style="background: #e9dfd3; border-radius: 2rem; padding: 1.8rem; text-align: center; max-width: 800px; margin: 0 auto;">
+            <div style="font-size: 1.3rem; font-style: italic; font-family: 'Cormorant Garamond';">«Любовь — это семь разных сил. Одна сжигает, другая спасает, третья держит в клетке. Целостный человек умеет владеть всеми.»</div>
+        </div>
+        <p style="text-align: center; margin-top: 1.5rem;">Семь начал: <strong>Эрос · Филия · Стора · Агапэ · Прагма · Мания · Автаркия</strong></p>
+    </div>
+
+    <!-- аккордеон 7 сфер -->
+    <h2 class="section-title">Семь начал. Семь сил внутри вас</h2>
+    <p class="section-sub">Нажмите на любую сферу, чтобы увидеть её Тринити — проявление на уровне Тела, Души и Духа.</p>
+    <div class="accordion-grid" id="accordionGrid">
+        <!-- 1 Эрос -->
+        <div class="accordion-card">
+            <div class="accordion-header">
+                <div><span class="arche-name">Эрос</span> <span class="arche-tag">Пламя в крови</span></div>
+                <span class="accordion-icon">+</span>
+            </div>
+            <div class="accordion-body">
+                <div class="trinity-line"><span class="trinity-label">🔴 Тело:</span> Плоть желает, прикосновение зажигает</div>
+                <div class="trinity-line"><span class="trinity-label">🟠 Душа:</span> Сердце трепещет, мечты о нём/ней</div>
+                <div class="trinity-line"><span class="trinity-label">🟡 Дух:</span> Дух выбирает страсть как путь единения</div>
+            </div>
+        </div>
+        <!-- 2 Филия -->
+        <div class="accordion-card">
+            <div class="accordion-header">
+                <div><span class="arche-name">Филия</span> <span class="arche-tag">Тепло дружбы</span></div>
+                <span class="accordion-icon">+</span>
+            </div>
+            <div class="accordion-body">
+                <div class="trinity-line"><span class="trinity-label">🔴 Тело:</span> Рядом физически — уже радость</div>
+                <div class="trinity-line"><span class="trinity-label">🟠 Душа:</span> Общие воспоминания греют душу</div>
+                <div class="trinity-line"><span class="trinity-label">🟡 Дух:</span> Выбор друга как верного спутника</div>
+            </div>
+        </div>
+        <!-- 3 Стора -->
+        <div class="accordion-card">
+            <div class="accordion-header">
+                <div><span class="arche-name">Стора</span> <span class="arche-tag">Нежная привязанность</span></div>
+                <span class="accordion-icon">+</span>
+            </div>
+            <div class="accordion-body">
+                <div class="trinity-line"><span class="trinity-label">🔴 Тело:</span> Тепло родного тела, уют объятий</div>
+                <div class="trinity-line"><span class="trinity-label">🟠 Душа:</span> Нежная привязанность без условий</div>
+                <div class="trinity-line"><span class="trinity-label">🟡 Дух:</span> Верность роду и дому как святыне</div>
+            </div>
+        </div>
+        <!-- 4 Агапэ -->
+        <div class="accordion-card">
+            <div class="accordion-header">
+                <div><span class="arche-name">Агапэ</span> <span class="arche-tag">Жертва без счёта</span></div>
+                <span class="accordion-icon">+</span>
+            </div>
+            <div class="accordion-body">
+                <div class="trinity-line"><span class="trinity-label">🔴 Тело:</span> Тело терпит, ухаживает, не оставляет</div>
+                <div class="trinity-line"><span class="trinity-label">🟠 Душа:</span> Душа прощает, милует, не судит</div>
+                <div class="trinity-line"><span class="trinity-label">🟡 Дух:</span> Дух служит миру через любовь к одному</div>
+            </div>
+        </div>
+        <!-- 5 Прагма -->
+        <div class="accordion-card">
+            <div class="accordion-header">
+                <div><span class="arche-name">Прагма</span> <span class="arche-tag">Холодный рассудок</span></div>
+                <span class="accordion-icon">+</span>
+            </div>
+            <div class="accordion-body">
+                <div class="trinity-line"><span class="trinity-label">🔴 Тело:</span> Комфорт и безопасность тела</div>
+                <div class="trinity-line"><span class="trinity-label">🟠 Душа:</span> Рациональный выбор души — «мне спокойно»</div>
+                <div class="trinity-line"><span class="trinity-label">🟡 Дух:</span> Духовный контракт, кармический союз</div>
+            </div>
+        </div>
+        <!-- 6 Мания -->
+        <div class="accordion-card">
+            <div class="accordion-header">
+                <div><span class="arche-name">Мания</span> <span class="arche-tag">Безумие</span></div>
+                <span class="accordion-icon">+</span>
+            </div>
+            <div class="accordion-body">
+                <div class="trinity-line"><span class="trinity-label">🔴 Тело:</span> Не могу без его запаха, зависимости</div>
+                <div class="trinity-line"><span class="trinity-label">🟠 Душа:</span> Ревность разрывает, страх потери</div>
+                <div class="trinity-line"><span class="trinity-label">🟡 Дух:</span> Духовное безумие — потеря своей воли</div>
+            </div>
+        </div>
+        <!-- 7 Автаркия -->
+        <div class="accordion-card">
+            <div class="accordion-header">
+                <div><span class="arche-name">Автаркия</span> <span class="arche-tag">Самодостаточность</span></div>
+                <span class="accordion-icon">+</span>
+            </div>
+            <div class="accordion-body">
+                <div class="trinity-line"><span class="trinity-label">🔴 Тело:</span> Моё тело полно и без партнёра</div>
+                <div class="trinity-line"><span class="trinity-label">🟠 Душа:</span> Душа целостна в одиночестве</div>
+                <div class="trinity-line"><span class="trinity-label">🟡 Дух:</span> Я люблю, но свободен отпустить</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Тринити концепция -->
+    <div class="trinity-concepts">
+        <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Три уровня одной любви</h3>
+        <div class="trinity-row">
+            <div class="trinity-card"><span style="font-size: 1.8rem;">🔴</span><br><strong>Тело</strong><br>Плоть желает, комфорт согревает, здоровье бережёт</div>
+            <div class="trinity-card"><span style="font-size: 1.8rem;">🟠</span><br><strong>Душа</strong><br>Чувства трепещут, память хранит, принятие прощает</div>
+            <div class="trinity-card"><span style="font-size: 1.8rem;">🟡</span><br><strong>Дух</strong><br>Выбор осознан, смысл наполняет, свобода отпускает</div>
+        </div>
+        <p style="margin-top: 1.5rem;"><em>Любовь целостна, когда все три уровня говорят «да» одному человеку. И когда Автаркия позволяет сказать «нет».</em></p>
+    </div>
+
+    <!-- как это работает -->
+    <h2 class="section-title">Как это работает</h2>
+    <div class="steps">
+        <div class="step"><span style="font-size: 2rem;">📝</span><br><strong>1. Тест</strong><br>21 вопрос, 5 минут</div>
+        <div class="step"><span style="font-size: 2rem;">📊</span><br><strong>2. 21 показатель</strong><br>баллы по каждой сфере на всех уровнях</div>
+        <div class="step"><span style="font-size: 2rem;">🧭</span><br><strong>3. Профиль любви</strong><br>ваша сила и слепые пятна</div>
+    </div>
+
+    <!-- что вы узнаете -->
+    <div style="background: #f4ede4; border-radius: 2rem; padding: 1.8rem; margin: 2rem 0;">
+        <h3 style="font-size: 1.8rem; text-align: center;">Что вы узнаете о себе</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1rem;">
+            <div style="background: white; border-radius: 2rem; padding: 0.5rem 1.2rem;">✔ Какое начало правит вами</div>
+            <div style="background: white; border-radius: 2rem; padding: 0.5rem 1.2rem;">✔ Любовь телом, душой или духом</div>
+            <div style="background: white; border-radius: 2rem; padding: 0.5rem 1.2rem;">✔ Не превратилась ли любовь в Манию</div>
+            <div style="background: white; border-radius: 2rem; padding: 0.5rem 1.2rem;">✔ Где вы теряете себя</div>
+            <div style="background: white; border-radius: 2rem; padding: 0.5rem 1.2rem;">✔ Почему угасла страсть</div>
+            <div style="background: white; border-radius: 2rem; padding: 0.5rem 1.2rem;">✔ Как вернуть Автаркию</div>
+        </div>
+    </div>
+
+    <!-- отзывы 4 -->
+    <h2 class="section-title">Отклики тех, кто прошёл</h2>
+    <div class="testimonials">
+        <div class="testimonial-card"><div class="testimonial-text">«Я думала, что люблю мужа. Тест показал: высокая Стора и Агапэ, но почти нет Эроса. Теперь понимаю, почему мы стали соседями. Работаю над собой.»</div><div class="testimonial-name">Анна, 38 лет</div></div>
+        <div class="testimonial-card"><div class="testimonial-text">«Моя Мания зашкаливала. Я считал это сильной любовью. А оказалось — безумием. Автаркия спасла наши отношения.»</div><div class="testimonial-name">Дмитрий, 42 года</div></div>
+        <div class="testimonial-card"><div class="testimonial-text">«После теста я увидела, что моя любовь — только на уровне Духа. Идеи, смыслы, а тела и души нет. Теперь знаю, куда двигаться.»</div><div class="testimonial-name">Елена, 29 лет</div></div>
+        <div class="testimonial-card"><div class="testimonial-text">«Прошёл с женой. Сравнили результаты — наконец поняли, где мы не совпадаем. Семитриум стал картой нашего брака. Спасибо.»</div><div class="testimonial-name">Сергей, 51 год</div></div>
+    </div>
+
+    <!-- финальный призыв -->
+    <div id="test-start" class="cta-center">
+        <h2 style="font-size: 2rem;">Узнайте свой истинный профиль любви</h2>
+        <p style="margin-bottom: 1.2rem;">21 вопрос. 5 минут. Бесплатно.</p>
+        <a href="#" class="btn-primary" id="finalTestBtn">⟡ Начать тест Семитриума ⟡</a>
+        <p style="margin-top: 0.8rem; font-size: 0.8rem;">Никакой регистрации. Результат можно сохранить.</p>
+    </div>
+
+    <footer>
+        <p><strong>Семитриум Любви</strong> — метод на стыке древнегреческой философии и современной психологии.</p>
+        <p>© 2026 · Проект Семитриум · <a href="#" style="color:#8b5a3c;">О методе</a> · <a href="#" style="color:#8b5a3c;">Контакты</a> · <a href="#" style="color:#8b5a3c;">Политика</a></p>
+    </footer>
+</div>
+
+<script>
+    // аккордеон
+    const cards = document.querySelectorAll('.accordion-card');
+    cards.forEach(card => {
+        const header = card.querySelector('.accordion-header');
+        const icon = card.querySelector('.accordion-icon');
+        header.addEventListener('click', () => {
+            const isOpen = card.classList.contains('open');
+            // закрыть все, если хотим только один открытый? (по желанию, можно оставить множественный)
+            // сделаем множественный, но чтобы комфортно:
+            if (!isOpen) {
+                card.classList.add('open');
+                icon.textContent = '−';
+            } else {
+                card.classList.remove('open');
+                icon.textContent = '+';
+            }
+        });
+    });
+
+    // Кнопки ведут на демо-уведомление (заглушка теста)
+    const btns = document.querySelectorAll('#heroBtn, #finalTestBtn');
+    btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('✨ Демо-версия теста «Семитриум Любви» ✨\n\nПолная версия включает 21 вопрос (по 3 на каждую сферу).\nПосле ответов вы получите 21 показатель — уровень любви на Теле, Душе и Духе для каждого из 7 начал.\n\nСпасибо за интерес!');
+        });
+    });
+</script>
+</body>
+</html>
+```
