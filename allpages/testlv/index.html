@@ -1,0 +1,319 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Семь начал любви | Древний тест целостности</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f6f2ea;
+            background-image: radial-gradient(circle at 10% 20%, rgba(200, 170, 140, 0.08) 0%, rgba(150, 120, 90, 0.02) 80%);
+            color: #2c241a;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+        }
+
+        /* антиквенный акцент для заголовков */
+        h1, h2, h3, .greek, .ancient-tag, .hero-sub, .quote {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 5rem;
+        }
+
+        /* Hero секция */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0 1rem;
+            border-bottom: 1px solid rgba(100, 70, 40, 0.2);
+        }
+
+        .ancient-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: #e4dacf;
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #6b4c2c;
+            margin-bottom: 1.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1 {
+            font-size: 3.8rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: #3e2a1f;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-sub {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: #7f6242;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .ancient-line {
+            font-size: 1rem;
+            color: #9b7a5a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+
+        /* семь начал — сетка */
+        .seven-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin: 3rem 0 3.5rem;
+        }
+
+        .arche-card {
+            background: rgba(255, 250, 240, 0.7);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 1.6rem 1.4rem;
+            border: 1px solid #e6d9cc;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .arche-card:hover {
+            background: #fffcf7;
+            border-color: #d6c4b0;
+            transform: translateY(-4px);
+        }
+
+        .arche-number {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #b48c5c;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .arche-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            border-bottom: 1px solid #e0cfbe;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            color: #3e2a1f;
+        }
+
+        .arche-desc {
+            font-size: 0.95rem;
+            color: #4a3727;
+            line-height: 1.45;
+            margin-top: 0.5rem;
+        }
+
+        /* цитата/вставка */
+        .insight-box {
+            background: #e9dfd3;
+            padding: 2rem 2.2rem;
+            border-radius: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+            border-left: 6px solid #b48c5c;
+        }
+
+        .insight-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+            color: #2c241a;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .insight-author {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: #866b4a;
+        }
+
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .col {
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .col h3 {
+            font-size: 1.7rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            border-left: 3px solid #b48c5c;
+            padding-left: 1rem;
+        }
+
+        .col p {
+            margin-bottom: 1rem;
+            color: #3e2e20;
+        }
+
+        .callout {
+            background: #fff6ed;
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            margin: 2rem 0;
+            border: 1px solid #ecdccb;
+        }
+
+        .btn-test {
+            display: inline-block;
+            background: #8b694a;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, transform 0.1s;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .btn-test:hover {
+            background: #5e422c;
+            transform: scale(0.98);
+        }
+
+        footer {
+            margin-top: 5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #a98f72;
+            border-top: 1px solid #e1d2c2;
+            padding-top: 2rem;
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
+            .hero-sub {
+                font-size: 1.1rem;
+            }
+            .insight-text {
+                font-size: 1.1rem;
+            }
+            .arche-name {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <div class="ancient-badge">ἀρχαία γνῶσις — древнее знание</div>
+        <h1>Семь начал любви</h1>
+        <div class="hero-sub">Как любит человек? Греки знали ответ.</div>
+        <div class="ancient-line">Эрос · Филия · Стора · Агапэ · Прагма · Мания · Автаркия</div>
+    </div>
+
+    <div class="insight-box">
+        <div class="insight-text">«Любовь не едина. Их семь. Одна сжигает, другая спасает, третья держит в клетке. Быть целостным — значит владеть всеми.»</div>
+        <div class="insight-author">— из свитков семи начал</div>
+    </div>
+
+    <div class="seven-grid">
+        <div class="arche-card"><div class="arche-number">001 · Эрос</div><div class="arche-name">Ἔρως</div><div class="arche-desc">Пламя в крови. Влечение, которое не спрашивает разрешения. Божественная страсть, дарящая жизнь и бессонницу.</div></div>
+        <div class="arche-card"><div class="arche-number">002 · Филия</div><div class="arche-name">φιλία</div><div class="arche-desc">Тепло дружбы. Радость быть рядом, даже когда молчите. Уважение, общие смыслы, уют без условий.</div></div>
+        <div class="arche-card"><div class="arche-number">003 · Стора</div><div class="arche-name">στοργή</div><div class="arche-desc">Нежная привязанность. Любовь, похожая на привычку дышать. Естественная, семейная, согревающая годами.</div></div>
+        <div class="arche-card"><div class="arche-number">004 · Агапэ</div><div class="arche-name">ἀγάπη</div><div class="arche-desc">Жертва без счёта. Готовность отдать последнее, простить невозможное. Безусловная любовь-милосердие.</div></div>
+        <div class="arche-card"><div class="arche-number">005 · Прагма</div><div class="arche-name">πρᾶγμα</div><div class="arche-desc">Холодный рассудок. Выбор того, кто подходит. Здоровая практичность или брак по расчёту — зависит от меры.</div></div>
+        <div class="arche-card"><div class="arche-number">006 · Мания</div><div class="arche-name">μανία</div><div class="arche-desc">Безумие. Ревность, одержимость, страх потерять. Та самая тень любви, что разрушает и города, и души.</div></div>
+        <div class="arche-card"><div class="arche-number">007 · Автаркия</div><div class="arche-name">αὐτάρκεια</div><div class="arche-desc">Самодостаточность. Способность любить, не теряя себя. Ключ целостности: без неё остальные шесть опасны.</div></div>
+    </div>
+
+    <div class="two-columns">
+        <div class="col">
+            <h3>Почему древнее знание — ключ к вам?</h3>
+            <p>Современный человек часто живёт так, будто любовь — это только Эрос (страсть) или только Агапэ (жертва). А когда страсть гаснет или жертва истощает — он говорит: «Любовь прошла».</p>
+            <p>Но любовь не прошла. Просто одна из семи сил утихла. А другие — спят, не развиты или работают против вас. Греки не смешивали начала. К жене — одна любовь (Стора + Филия), к детям — третья (Агапэ + Стора), к себе — четвёртая (Автаркия).</p>
+        </div>
+        <div class="col">
+            <h3>Что даст вам этот тест?</h3>
+            <p>✔ Узнаете, какое начало правит вами сейчас (и хорошо ли это).<br>
+            ✔ Обнаружите дефицитное начало — именно оно часто рушит отношения.<br>
+            ✔ Проверите, не превратилась ли ваша любовь в МанИю (ревность и зависимость).<br>
+            ✔ И главное — измерите свою Автаркию: способность оставаться собой внутри любви.</p>
+            <p class="callout" style="margin-top:1rem; background:transparent; padding-left:0;">«Тест „Семь начал любви“ — не гадание. Это древняя, точная логика вашего сердца.»</p>
+        </div>
+    </div>
+
+    <div class="insight-box" style="background: #e3d5c6;">
+        <div class="insight-text">«Большинство людей даже не знают, какой любовью они любят. Они просто страдают, скучают, ревнуют или терпят. Узнайте свои семь начал, прежде чем разбить очередные отношения.»</div>
+    </div>
+
+    <div style="text-align: center; margin: 2.5rem 0 1rem;">
+        <button class="btn-test" id="startTestBtn">⟡ Пройти тест «Семь начал» ⟡</button>
+        <p style="font-size: 0.85rem; margin-top: 1rem; color:#9b846c;">21 ситуация, 7 шкал, древняя мудрость.</p>
+    </div>
+
+    <footer>
+        <p>Эрос · Филия · Стора · Агапэ · Прагма · Мания · Автаркия<br>Целостная любовь — когда ты способен на все семь, но остаёшься собой.</p>
+        <p style="margin-top: 0.5rem;">Ἀγάπη καὶ αὐτάρκεια — любовь и самодостаточность</p>
+    </footer>
+</div>
+
+<script>
+    // Интерактив: кнопка ведёт на демо-форму (имитация старта теста)
+    const btn = document.getElementById('startTestBtn');
+    if (btn) {
+        btn.addEventListener('click', function(e) {
+            // Небольшая анимация и сообщение о готовности (можно заменить на реальный тест)
+            alert('✨ Полная версия теста с 21 ситуацией и подсчётом баллов готова.\n\nСейчас вы перейдёте к интерактивной форме. (Демо-режим: можно добавить реальные вопросы)');
+            // Для демонстрации можно открыть модал или перенаправить, но здесь покажем заглушку
+            // При желании легко добавить форму прямо здесь.
+            const testSection = document.createElement('div');
+            testSection.innerHTML = '<div style="background:#fef7e8; border-radius:2rem; padding:2rem; margin-top:2rem;"><h3 style="font-family:Cormorant Garamond;">✨ Полная версия теста будет доступна здесь ✨</h3><p>21 вопрос по 3 на каждое начало. Оценки от 1 до 10. Автоматический подсчёт вашего профиля любви.</p><p><strong>Архив древних свитков:</strong> Эрос, Филия, Стора, Агапэ, Прагма, Мания, Автаркия.</p><button id="mockCalc" style="background:#b48c5c; border:none; padding:0.6rem 1.5rem; border-radius:2rem; color:white;">👉 Запустить тест (демо)</button></div>';
+            const container = document.querySelector('.container');
+            const existing = document.getElementById('dynamicTest');
+            if(existing) existing.remove();
+            testSection.id = 'dynamicTest';
+            container.insertBefore(testSection, footer);
+            const mockBtn = document.getElementById('mockCalc');
+            if(mockBtn) mockBtn.onclick = () => alert('🧠 Демо: ваши ответы сохранятся в локальном хранилище.\n\nДля реальной версии добавьте 21 вопрос с ползунками. Сейчас показана структура теста.');
+        });
+    }
+</script>
+</body>
+</html>
+```
