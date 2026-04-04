@@ -1,1 +1,893 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff3366' d='M50,90 L20,55 C10,45 5,30 15,20 C25,10 40,12 50,25 C60,12 75,10 85,20 C95,30 90,45 80,55 Z'/%3E%3C/svg%3E">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZaLoveClub — Клуб тех, кто держит уровень</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        za: {
+                            dark: '#1A0F2E',
+                            primary: '#2E1A47',
+                            light: '#1F0A33',
+                            lavender: '#B794F4',
+                            lilac: '#E9D5FF',
+                            gold: '#FBBF24',
+                            pink: '#EC4899',
+                            pinkLight: '#F472B6',
+                        }
+                    },
+                    backgroundImage: {
+                        'main-gradient': 'linear-gradient(135deg, #1A0F2E 0%, #2E1A47 50%, #1F0A33 100%)',
+                        'btn-gradient': 'linear-gradient(90deg, #9B59B6, #F1C40F)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'merge': 'merge 2s ease-in-out infinite',
+                        'float-icon': 'floatIcon 20s linear infinite',
+                        'glow': 'glow 2s ease-in-out infinite',
+                        'ripple': 'ripple 2s ease-out infinite',
+                        'ripple-delay': 'ripple 2s ease-out 0.5s infinite',
+                        'ripple-delay-2': 'ripple 2s ease-out 1s infinite',
+                        'pulse-ring': 'pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'logo-float': 'logoFloat 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        merge: {
+                            '0%, 100%': { transform: 'translateX(-25px) scale(0.8)', opacity: 0.4 },
+                            '50%': { transform: 'translateX(0) scale(1)', opacity: 1 },
+                        },
+                        floatIcon: {
+                            '0%': { transform: 'translateY(110vh) rotate(0deg)', opacity: 0 },
+                            '10%': { opacity: 0.2 },
+                            '90%': { opacity: 0.2 },
+                            '100%': { transform: 'translateY(-10vh) rotate(360deg)', opacity: 0 },
+                        },
+                        glow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(236, 72, 153, 0.5)' },
+                            '50%': { boxShadow: '0 0 40px rgba(236, 72, 153, 0.9)' },
+                        },
+                        ripple: {
+                            '0%': { transform: 'scale(0.5)', opacity: 1 },
+                            '100%': { transform: 'scale(2.5)', opacity: 0 },
+                        },
+                        pulseRing: {
+                            '0%': { transform: 'scale(0.8)', opacity: 0.5 },
+                            '50%': { transform: 'scale(1.2)', opacity: 0 },
+                            '100%': { transform: 'scale(0.8)', opacity: 0.5 },
+                        },
+                        logoFloat: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #1A0F2E;
+            color: #E9D5FF;
+            overflow-x: hidden;
+        }
 
+        .text-gradient {
+            background: linear-gradient(90deg, #B794F4, #FBBF24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass-card {
+            background: rgba(46, 26, 71, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(183, 148, 244, 0.2);
+        }
+
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-glow:hover::before {
+            left: 100%;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bg-icon {
+            position: fixed;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        .omega-bar {
+            transition: all 0.6s ease;
+            position: relative;
+        }
+
+        .omega-bar:hover {
+            filter: brightness(1.3);
+            transform: scale(1.02);
+        }
+
+        .omega-love {
+            background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%);
+            box-shadow: 0 0 40px rgba(236, 72, 153, 0.7);
+            animation: glow 2s ease-in-out infinite;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .omega-fear {
+            border: 2px solid rgba(239, 68, 68, 0.6);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .modal-overlay {
+            background: rgba(26, 15, 46, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Logo Styles */
+        .logo-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo-img {
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+            transition: all 0.4s ease;
+            animation: logo-float 6s ease-in-out infinite;
+        }
+
+        .logo-container:hover .logo-img {
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.7));
+            transform: scale(1.03);
+        }
+
+        /* Energy Wave Animation */
+        .energy-wave {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(251, 191, 36, 0.6);
+            animation: ripple 2s ease-out infinite;
+        }
+
+        .energy-wave-2 {
+            animation-delay: 0.5s;
+        }
+
+        .energy-wave-3 {
+            animation-delay: 1s;
+        }
+
+        /* Goal Card Hover Effects */
+        .goal-card {
+            background: linear-gradient(135deg, rgba(79, 42, 106, 0.4) 0%, rgba(47, 25, 70, 0.6) 100%);
+            border: 1px solid rgba(183, 148, 244, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .goal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(183, 148, 244, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .goal-card:hover::before {
+            left: 100%;
+        }
+
+        .goal-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 10px 40px rgba(183, 148, 244, 0.2);
+        }
+
+        .goal-icon {
+            background: linear-gradient(135deg, #B794F4 0%, #FBBF24 100%);
+            transition: all 0.4s ease;
+        }
+
+        .goal-card:hover .goal-icon {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+
+        /* Mini Block Styles */
+        .mini-block {
+            background: linear-gradient(135deg, rgba(46, 26, 71, 0.6) 0%, rgba(31, 10, 51, 0.8) 100%);
+            border: 1px solid rgba(183, 148, 244, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mini-block::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #B794F4, #FBBF24);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .mini-block:hover {
+            transform: translateY(-5px);
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 8px 30px rgba(183, 148, 244, 0.2);
+        }
+
+        .mini-block:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Responsive logo */
+        @media (max-width: 768px) {
+            .logo-img {
+                height: 3rem !important;
+            }
+        }
+
+        /* Accessibility: reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+            .logo-img,
+            .btn-glow,
+            .goal-card,
+            .mini-block,
+            .omega-bar {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-za-gold selection:text-za-dark">
+
+    <!-- Background Floating Icons -->
+    <div id="bg-icons-container" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center bg-main-gradient overflow-hidden pt-20">
+        <div class="relative z-10 container mx-auto px-4 text-center">
+            
+            <!-- LOGO: PNG Integration -->
+            <div class="mb-8 animate-fade-in-up flex justify-center items-center">
+                <div class="logo-container">
+                    <!-- Декоративное свечение за логотипом -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-za-lavender/20 to-za-gold/20 rounded-full blur-2xl opacity-50"></div>
+                    
+                    <!-- Реальный логотип PNG -->
+                    <img 
+                        src="http://zaloveclub.ru/images/zalovelogo.png" 
+                        alt="ZaLoveClub — логотип клуба"
+                        class="logo-img relative z-10 h-16 md:h-20 lg:h-24 w-auto"
+                        loading="eager"
+                        width="280"
+                        height="96"
+                    >
+                </div>
+            </div>
+
+            <div class="mb-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-2">
+                    <span class="text-white">Za</span><span class="text-gradient">Love</span><span class="text-white">Club</span>
+                </h1>
+                <p class="text-za-lavender text-lg md:text-xl font-light italic">За любовь и за лове</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto mb-10 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                    Клуб тех, кто <span class="text-gradient">держит уровень</span>
+                </h2>
+                <p class="text-lg md:text-xl text-za-lilac leading-relaxed">
+                    Объединяем тех, кто верит в чувство и находится на высоком уровне энергии.<br>
+                    Потому что важно поддерживать энергию.
+                </p>
+            </div>
+
+            <button onclick="openModal()" class="btn-glow bg-btn-gradient text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg animate-fade-in-up" style="animation-delay: 0.6s;">
+                Присоединиться
+            </button>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="py-20 bg-za-primary relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                        Любовь — это энергия.<br>
+                        <span class="text-za-gold">Деньги — это энергия.</span>
+                    </h2>
+                    <p class="text-za-lilac mb-6 text-lg leading-relaxed">
+                        Мы не разделяем их. Мы — сообщество, где любовь перестаёт быть просто эмоцией и становится высшей вибрацией, определяющей качество жизни.
+                    </p>
+                    <p class="text-za-lilac mb-6 text-lg leading-relaxed">
+                        ZaLoveClub — это не про романтику. Это про <strong class="text-white">абсолютную любовь</strong>: к себе, к делу, к миру.
+                    </p>
+                    <div class="bg-za-dark/50 p-6 rounded-xl border-l-4 border-za-gold">
+                        <p class="text-white font-medium">Когда ты в высокой энергии:</p>
+                        <ul class="mt-2 space-y-2 text-za-lavender">
+                            <li class="flex items-center"><span class="w-2 h-2 bg-za-gold rounded-full mr-3"></span>у тебя отлично идут дела</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-za-gold rounded-full mr-3"></span>деньги приходят легко</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-za-gold rounded-full mr-3"></span>ты действуешь из изобилия</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex justify-center reveal" style="transition-delay: 0.2s;">
+                    <div class="relative w-56 h-56">
+                        <!-- Energy Waves -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="energy-wave w-20 h-20"></div>
+                            <div class="energy-wave energy-wave-2 w-20 h-20"></div>
+                            <div class="energy-wave energy-wave-3 w-20 h-20"></div>
+                        </div>
+                        
+                        <!-- Decorative heart -->
+                        <div class="absolute inset-0 flex items-center justify-center z-20">
+                            <svg class="w-28 h-28 text-za-pink drop-shadow-2xl animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-za-lavender/20 to-za-gold/20 rounded-full blur-3xl animate-pulse"></div>
+                        
+                        <!-- Floating particles -->
+                        <div class="absolute top-0 left-1/4 w-3 h-3 bg-za-gold rounded-full animate-ping"></div>
+                        <div class="absolute bottom-10 right-1/4 w-2 h-2 bg-za-lavender rounded-full animate-ping" style="animation-delay: 0.5s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Omega Scale Section -->
+    <section class="py-20 bg-za-light relative overflow-hidden z-10">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">Шкала Омега: где твоя энергия?</h2>
+            <p class="text-za-lavender mb-12 max-w-2xl mx-auto reveal">Энергия растёт снизу вверх: внизу — пустота, вверху — изобилие</p>
+            
+            <div class="relative max-w-2xl mx-auto flex flex-col items-center gap-3 reveal">
+                
+                <!-- Level 1: TOP - Enlightenment -->
+                <div class="omega-bar w-full h-14 rounded-full bg-gradient-to-r from-yellow-400 via-za-gold to-yellow-400 text-za-dark text-xl flex items-center justify-center font-black shadow-[0_0_50px_rgba(251,191,36,0.7)]">
+                    ✨ Просветление
+                </div>
+
+                <!-- Level 2: LOVE - Pink Glowing -->
+                <div class="omega-bar omega-love w-[85%] h-20 rounded-full text-white text-2xl flex items-center justify-center font-bold">
+                    <span>💖 ЛЮБОВЬ</span>
+                    <span class="text-sm font-normal ml-4 opacity-90">| Энергоэффективное состояние</span>
+                </div>
+                
+                <!-- Level 3: Acceptance -->
+                <div class="omega-bar w-[70%] h-10 rounded-full bg-indigo-800 text-white text-base flex items-center justify-center font-medium">
+                    Принятие, разумность
+                </div>
+
+                <!-- Level 4: Courage -->
+                <div class="omega-bar w-[55%] h-10 rounded-full bg-indigo-900 text-white text-sm flex items-center justify-center font-medium">
+                    Смелость, нейтралитет
+                </div>
+                
+                <!-- Level 5: Anger -->
+                <div class="omega-bar w-[45%] h-10 rounded-full bg-za-primary text-za-lilac text-sm flex items-center justify-center font-medium">
+                    Гнев, гордость
+                </div>
+                
+                <!-- Level 6: Fear -->
+                <div class="omega-bar omega-fear w-[35%] h-10 rounded-full bg-za-dark text-gray-300 text-sm flex items-center justify-center font-medium">
+                    ⚡ Горе, страх, желание
+                </div>
+                
+                <!-- Level 7: BOTTOM - Shame -->
+                <div class="omega-bar w-[25%] h-10 rounded-full bg-gray-800 text-gray-500 text-xs flex items-center justify-center font-medium">
+                    Позор, вина, апатия
+                </div>
+
+                <!-- Arrow -->
+                <div class="absolute -left-4 top-1/2 -translate-y-1/2 hidden lg:block">
+                    <div class="flex flex-col items-center text-za-gold">
+                        <svg class="w-8 h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                        </svg>
+                        <span class="text-xs mt-2 rotate-[-90deg] whitespace-nowrap">Энергия растёт ↑</span>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="mt-12 text-za-lilac max-w-3xl mx-auto reveal">
+                Наша цель — <strong class="text-white">удерживаться в состояниях выше любви</strong> и быстро возвращаться, если случается просадка.
+            </p>
+        </div>
+    </section>
+
+    <!-- Three Energies Section -->
+    <section class="py-20 bg-main-gradient z-10 relative">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-16 reveal">Энергия бывает разной.<br>Мы работаем с ней осознанно.</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-2xl hover:bg-za-primary/60 transition-all duration-300 transform hover:-translate-y-2 reveal group">
+                    <div class="w-14 h-14 bg-za-dark rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-za-lavender/30">
+                        <svg class="w-8 h-8 text-za-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Физическая энергия</h3>
+                    <p class="text-za-lilac text-sm">Здоровье, тело, сон, питание, движение. Фундамент высоких состояний.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl hover:bg-za-primary/60 transition-all duration-300 transform hover:-translate-y-2 reveal group" style="transition-delay: 0.1s;">
+                    <div class="w-14 h-14 bg-za-dark rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-za-lavender/30">
+                        <svg class="w-8 h-8 text-za-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Психическая энергия</h3>
+                    <p class="text-za-lilac text-sm">Мысли, эмоции, внимание. Управление состоянием, а не реакция.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl hover:bg-za-primary/60 transition-all duration-300 transform hover:-translate-y-2 reveal group" style="transition-delay: 0.2s;">
+                    <div class="w-14 h-14 bg-za-dark rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-za-lavender/30">
+                        <svg class="w-8 h-8 text-za-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Энергия эгрегора</h3>
+                    <p class="text-za-lilac text-sm">Связь с сообществом. Когда держим уровень вместе — эгрегор усиливает.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Name Meaning Section -->
+    <section class="py-20 bg-za-primary relative overflow-hidden z-10">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1 reveal flex justify-center">
+                    <div class="relative w-48 h-48">
+                        <div class="absolute inset-0 border-4 border-za-lavender/30 rounded-full animate-spin" style="animation-duration: 20s;"></div>
+                        <div class="absolute inset-4 border-4 border-za-gold/30 rounded-full animate-spin" style="animation-direction: reverse; animation-duration: 15s;"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-6xl animate-pulse">💜</div>
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 text-4xl animate-bounce">💰</div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Почему ZaLoveClub?</h2>
+                    <div class="space-y-4 text-za-lilac">
+                        <p><strong class="text-white text-lg">ZA</strong> — движение, намерение, выбор.</p>
+                        <p><strong class="text-white text-lg">LOVE</strong> — любовь как высшая вибрация.</p>
+                        <p><strong class="text-white text-lg">LOVE</strong> — в сленге «лове» = деньги.</p>
+                        
+                        <div class="border-l-2 border-za-gold pl-4 my-6">
+                            <p class="text-white font-medium text-lg mb-2">Читается одновременно:</p>
+                            <p class="text-za-lavender italic text-xl">«За любовь»</p>
+                            <p class="text-za-gold italic text-xl">«За лове»</p>
+                        </div>
+                        
+                        <p class="font-bold text-white">ZaLoveClub — пространство, где ты можешь быть и в любви, и в деньгах.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goals Section -->
+    <section class="py-20 bg-za-light z-10 relative">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4 reveal">Что мы делаем</h2>
+            <p class="text-za-lavender text-center mb-12 reveal max-w-2xl mx-auto">Наша миссия — помочь тебе держать уровень на всех планах существования</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <!-- Goal 1 -->
+                <div class="goal-card p-6 rounded-2xl reveal">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Удерживаем уровень</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">В физике, в психике, в эгрегоре. Не проваливаемся в низкие состояния.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal 2 -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.1s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Развиваем любовь</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Делаем её не эпизодической эмоцией, а устойчивым фоном жизни.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal 3 -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.2s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Снимаем разделение</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Показываем на практике: духовное и материальное — единый поток.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal 4 -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.3s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Создаём эгрегор</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Формируем круг людей высокой вибрации, где каждый усиливает каждого.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal 5 -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.4s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Интегрируем в жизнь</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Не отрываем работу над собой от бизнеса, отношений и быта.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal 6 -->
+                <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.5s;">
+                    <div class="flex items-start space-x-4">
+                        <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">Даём поддержку</h4>
+                            <p class="text-sm text-za-lilac leading-relaxed">Ты никогда не останешься один. Сообщество поддержит в любой момент.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who is this for -->
+    <section class="py-20 bg-main-gradient border-y border-za-lavender/20 z-10 relative">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4 reveal">Это для тебя, если ты:</h2>
+            <p class="text-za-lavender text-center mb-12 reveal">Ты чувствуешь, что готов к большему</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+                <!-- Mini Block 1 -->
+                <div class="mini-block p-6 rounded-xl reveal">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-za-gold to-yellow-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Понимаешь, что <span class="text-white font-semibold">энергия — главная валюта</span> в жизни</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 2 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.1s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-za-lavender to-za-primary flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Готов развивать не только <span class="text-white font-semibold">дела, но и состояние</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 3 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.2s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Не делишь жизнь на <span class="text-white font-semibold">«духовное» и «материальное»</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 4 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.3s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-za-gold to-yellow-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Хочешь быть в кругу людей в <span class="text-white font-semibold">любви, ресурсе и достатке</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 5 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.4s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-za-lavender to-za-primary flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Ценишь <span class="text-white font-semibold">качество жизни</span> и внутренний покой</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Block 6 -->
+                <div class="mini-block p-6 rounded-xl reveal" style="transition-delay: 0.5s;">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-za-lilac text-sm leading-relaxed">Выбираешь <span class="text-white font-semibold">ZaLoveClub</span> — за любовь и за лове</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-za-primary z-10 relative">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4 reveal">Реальные голоса участников</h2>
+            <p class="text-za-gold text-center mb-12 reveal">Те, кто уже держит уровень</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-xl reveal">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-za-lavender/30 flex items-center justify-center text-white font-bold mr-3">А</div>
+                        <div>
+                            <p class="text-white font-bold text-sm">Анна, 34</p>
+                            <p class="text-za-gold text-xs">Предприниматель</p>
+                        </div>
+                    </div>
+                    <p class="text-za-lilac text-sm italic">«Теперь я и в любви, и в лове. Бизнес пошёл легче, спокойнее».</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl reveal" style="transition-delay: 0.1s;">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-za-lavender/30 flex items-center justify-center text-white font-bold mr-3">М</div>
+                        <div>
+                            <p class="text-white font-bold text-sm">Михаил, 41</p>
+                            <p class="text-za-gold text-xs">Инвестор</p>
+                        </div>
+                    </div>
+                    <p class="text-za-lilac text-sm italic">«Шкала Омега — про реальную настройку. Результаты предсказуемее».</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl reveal" style="transition-delay: 0.2s;">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-za-lavender/30 flex items-center justify-center text-white font-bold mr-3">Е</div>
+                        <div>
+                            <p class="text-white font-bold text-sm">Екатерина, 29</p>
+                            <p class="text-za-gold text-xs">Креативный директор</p>
+                        </div>
+                    </div>
+                    <p class="text-za-lilac text-sm italic">«Перестала стыдиться, что хочу и любви, и денег. Бесценно».</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl reveal" style="transition-delay: 0.3s;">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-za-lavender/30 flex items-center justify-center text-white font-bold mr-3">С</div>
+                        <div>
+                            <p class="text-white font-bold text-sm">Сергей, 38</p>
+                            <p class="text-za-gold text-xs">Digital-агентство</p>
+                        </div>
+                    </div>
+                    <p class="text-za-lilac text-sm italic">«Вышел на новый финансовый рубеж. Перестал тащить всё на себе».</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-za-light relative overflow-hidden z-10">
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 reveal">Присоединяйся к ZaLoveClub</h2>
+            <p class="text-xl text-za-lilac mb-8 max-w-2xl mx-auto reveal">
+                Вместе мы — эгрегор высокой энергии.
+            </p>
+            <button onclick="openModal()" class="btn-glow bg-btn-gradient text-white font-bold py-4 px-12 rounded-full text-xl shadow-lg hover:scale-105 transition-transform reveal">
+                Стать частью клуба
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-za-dark border-t border-za-lavender/20 text-center z-10 relative">
+        <div class="container mx-auto px-4">
+            <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 reveal">Держим уровень. На всех уровнях.</h3>
+            <p class="text-za-gold text-lg mb-8 reveal">И в любви, и в лове.</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-za-lavender to-za-gold mx-auto rounded-full reveal"></div>
+            <p class="mt-8 text-za-lilac/50 text-sm">© 2024 ZaLoveClub</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0" onclick="closeModal()"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="bg-gradient-to-br from-za-primary to-za-dark border border-za-gold/50 rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-za-lilac hover:text-white transition-colors z-20">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+
+                <div class="text-center relative z-10">
+                    <div class="w-20 h-20 bg-za-gold/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                        <svg class="w-10 h-10 text-za-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-white mb-4">Добро пожаловать</h3>
+                    
+                    <div class="text-za-lilac space-y-4 mb-8 text-left bg-za-dark/50 p-4 rounded-lg border border-za-lavender/20">
+                        <p>Мы рады, что ты принял решение присоединиться.</p>
+                        <p>С нами — <span class="text-za-gold font-bold">Энергия</span>.</p>
+                        <p>У нас тепло, интересно, весело, любовильно.</p>
+                        <p>Мы дружно идём за <span class="text-za-gold font-bold">«лове»</span>.</p>
+                    </div>
+
+                    <a href="https://t.me/GenOffOn_bot" target="_blank" class="block w-full btn-glow bg-btn-gradient text-white font-bold py-3 px-6 rounded-lg text-center shadow-lg">
+                        Перейти в Telegram-бот
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Background Icons
+        function createBackgroundIcons() {
+            const container = document.getElementById('bg-icons-container');
+            const icons = ['💜', '💰', '👼', '❤️', '✨'];
+            
+            for (let i = 0; i < 25; i++) {
+                const el = document.createElement('div');
+                el.classList.add('bg-icon');
+                el.innerText = icons[Math.floor(Math.random() * icons.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                
+                const duration = Math.random() * 10 + 15;
+                const delay = Math.random() * 10;
+                
+                el.style.animation = `floatIcon ${duration}s linear infinite`;
+                el.style.animationDelay = `-${delay}s`;
+                
+                if (el.innerText === '💰') el.classList.add('text-za-gold');
+                else el.classList.add('text-za-lavender');
+                
+                container.appendChild(el);
+            }
+        }
+
+        // Scroll Animation
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        // Modal
+        function openModal() {
+            document.getElementById('modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Logo error fallback
+        document.addEventListener('DOMContentLoaded', () => {
+            const logo = document.querySelector('.logo-img');
+            if (logo) {
+                logo.addEventListener('error', function() {
+                    this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 96"%3E%3Crect fill="%232E1A47" width="280" height="96" rx="12"/%3E%3Ctext fill="%23B794F4" font-family="Montserrat" font-weight="700" font-size="28" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3EZaLoveClub%3C/text%3E%3C/svg%3E';
+                    this.alt = 'ZaLoveClub — логотип (заглушка)';
+                });
+            }
+        });
+
+        window.addEventListener('load', () => {
+            createBackgroundIcons();
+            initScrollAnimations();
+        });
+    </script>
+</body>
+</html>
