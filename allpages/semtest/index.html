@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Сердце дня — Love Power Tracker</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fdf8f0 0%, #f9ede1 100%);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 1rem;
+            min-height: 100vh;
+            color: #2c241a;
+        }
+
+        /* кастомные шрифты */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: rgba(255, 252, 245, 0.85);
+            border-radius: 3rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 35px rgba(100, 70, 40, 0.15);
+            backdrop-filter: blur(2px);
+            border: 1px solid #f0e2d4;
+        }
+
+        /* шапка с сердечками */
+        .header-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: #fff5ea;
+            padding: 1rem 1.5rem;
+            border-radius: 3rem;
+        }
+        .love-total {
+            background: #ffefdf;
+            border-radius: 3rem;
+            padding: 0.4rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+        .love-total span {
+            font-size: 2rem;
+        }
+        .rank-box {
+            background: #e9dccc;
+            border-radius: 2rem;
+            padding: 0.3rem 1rem;
+            font-weight: 600;
+        }
+        .streak-box {
+            background: #ffddd3;
+            border-radius: 2rem;
+            padding: 0.3rem 1rem;
+            font-weight: 600;
+        }
+        .progress-section {
+            margin: 1rem 0 1.8rem;
+        }
+        .progress-bar {
+            background: #eeddcb;
+            border-radius: 2rem;
+            height: 14px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: #e64b2e;
+            width: 0%;
+            height: 100%;
+            border-radius: 2rem;
+            transition: width 0.4s ease;
+        }
+
+        /* вопросы */
+        .question-card {
+            background: #ffffffdb;
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+            padding: 1rem 1.2rem;
+            border: 1px solid #f7e3d4;
+            transition: 0.1s;
+        }
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+        .sphere-badge {
+            font-size: 0.7rem;
+            background: #f0e0d2;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2rem;
+        }
+        .options {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        .opt-btn {
+            background: #f4ece3;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+            font-family: inherit;
+            flex: 1;
+            text-align: center;
+        }
+        .opt-btn.selected {
+            background: #e64b2e;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .mana-warning {
+            color: #b1624b;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+        }
+
+        .submit-btn {
+            background: #8b5a3c;
+            border: none;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 3rem;
+            margin: 1.5rem 0 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .submit-btn:active {
+            transform: scale(0.97);
+        }
+
+        .today-score {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.8rem;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 999;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1.2);
+            }
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #ab8a6a;
+            margin-top: 2rem;
+        }
+        .calendar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        .day-dot {
+            width: 32px;
+            height: 32px;
+            background: #eedbcb;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .day-dot.active {
+            background: #e64b2e;
+            color: white;
+        }
+        .day-dot.high {
+            background: #ffb347;
+            color: white;
+        }
+        h2 {
+            font-family: 'Inter';
+            font-weight: 600;
+            font-size: 1.6rem;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="header-stats">
+        <div class="love-total"><span>❤️</span> <span id="totalHearts">0</span></div>
+        <div class="rank-box" id="rankName">🌱 Искатель</div>
+        <div class="streak-box">🔥 <span id="streakCount">0</span> дн.</div>
+    </div>
+    <div class="progress-section">
+        <div class="progress-bar"><div class="progress-fill" id="rankProgress"></div></div>
+        <div style="display: flex; justify-content: space-between; font-size:0.7rem; margin-top: 0.3rem;"><span id="nextRankName">Странник</span><span id="heartsToNext">0</span>❤️ до след. ранга</div>
+    </div>
+
+    <h2>✨ Сегодняшний чек-лист</h2>
+    <div id="questionsContainer"></div>
+    <button class="submit-btn" id="submitDay">💖 Завершить день и получить сердечки 💖</button>
+    <div class="today-score" id="todayScore">Сегодня: 0 ❤️</div>
+
+    <div style="margin-top: 2rem;">
+        <div style="display: flex; justify-content: space-between;"><span>📅 Календарь активности</span><span id="monthLabel"></span></div>
+        <div id="calendarGrid" class="calendar"></div>
+    </div>
+    <footer>Каждый вечер — 7 вопросов. Накопленная любовная сила = ❤️ сердечки</footer>
+</div>
+
+<script>
+    // ---------- Конфиг ----------
+    const QUESTIONS = [
+        { id: "eros", text: "Я хотел(а) партнёра физически (желание, влечение)", sphere: "Эрос", type: "body", penalty: false },
+        { id: "filia", text: "Мы говорили по душам или смеялись вместе", sphere: "Филия", type: "soul", penalty: false },
+        { id: "storge", text: "Я чувствовал(а) уют и тепло от его/её присутствия", sphere: "Стора", type: "body", penalty: false },
+        { id: "agape", text: "Я сделал(а) что-то приятное без просьбы", sphere: "Агапэ", type: "soul", penalty: false },
+        { id: "pragma", text: "Я оценил(а) вклад партнёра в быт или дела", sphere: "Прагма", type: "spirit", penalty: false },
+        { id: "mania", text: "⚠️ Я ревновал(а) или хотел(а) контролировать (штраф)", sphere: "Мания", type: "soul", penalty: true },
+        { id: "autarkeia", text: "У меня было время на себя без чувства вины", sphere: "Автаркия", type: "spirit", penalty: false }
+    ];
+
+    // ранги (пороги)
+    const RANKS = [
+        { name: "🌱 Искатель", threshold: 0 },
+        { name: "🚶 Странник", threshold: 7 },
+        { name: "🔥 Хранитель", threshold: 21 },
+        { name: "⚡ Мастер", threshold: 41 },
+        { name: "👑 Просветлённый", threshold: 71 }
+    ];
+
+    let store = {
+        totalHearts: 0,
+        streak: 0,
+        lastDate: null,    // YYYY-MM-DD последнего заполнения
+        history: {},       // "2025-04-05": { answers: {eros:0..2}, totalGain: number }
+        todayAnswers: {}   // текущие ответы (0,1,2) по id вопроса
+    };
+
+    function loadData() {
+        const saved = localStorage.getItem("love_power_tracker");
+        if(saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                store = { ...store, ...parsed };
+                if(!store.history) store.history = {};
+                if(!store.todayAnswers) store.todayAnswers = {};
+            } catch(e) {}
+        }
+        // инициализация todayAnswers для всех вопросов
+        QUESTIONS.forEach(q => { if(store.todayAnswers[q.id] === undefined) store.todayAnswers[q.id] = 0; });
+    }
+
+    function saveData() {
+        localStorage.setItem("love_power_tracker", JSON.stringify({
+            totalHearts: store.totalHearts,
+            streak: store.streak,
+            lastDate: store.lastDate,
+            history: store.history,
+            todayAnswers: store.todayAnswers
+        }));
+    }
+
+    function getTodayStr() {
+        return new Date().toISOString().slice(0,10);
+    }
+
+    // подсчёт баллов за день из ответов
+    function computeTodayScore() {
+        let score = 0;
+        for(let q of QUESTIONS) {
+            let val = store.todayAnswers[q.id] || 0;
+            if(q.penalty) {
+                score -= val;   // мания вычитает (0-2)
+            } else {
+                score += val;
+            }
+        }
+        return Math.max(0, score); // минимально 0
+    }
+
+    function updateUI() {
+        document.getElementById("totalHearts").innerText = store.totalHearts;
+        const rank = getRank(store.totalHearts);
+        document.getElementById("rankName").innerText = rank.name;
+        const nextRank = getNextRank(store.totalHearts);
+        if(nextRank) {
+            document.getElementById("nextRankName").innerText = nextRank.name;
+            const needed = nextRank.threshold - store.totalHearts;
+            document.getElementById("heartsToNext").innerText = needed > 0 ? needed : 0;
+            const percent = Math.min(100, (store.totalHearts - rank.threshold) / (nextRank.threshold - rank.threshold) * 100);
+            document.getElementById("rankProgress").style.width = percent + "%";
+        } else {
+            document.getElementById("nextRankName").innerText = "Вершина";
+            document.getElementById("heartsToNext").innerText = "0";
+            document.getElementById("rankProgress").style.width = "100%";
+        }
+        document.getElementById("streakCount").innerText = store.streak;
+        const todayScore = computeTodayScore();
+        document.getElementById("todayScore").innerHTML = `Сегодня: ${todayScore} ❤️`;
+        renderQuestions();
+        renderCalendar();
+    }
+
+    function getRank(hearts) {
+        let current = RANKS[0];
+        for(let r of RANKS) {
+            if(hearts >= r.threshold) current = r;
+        }
+        return current;
+    }
+    function getNextRank(hearts) {
+        for(let r of RANKS) {
+            if(hearts < r.threshold) return r;
+        }
+        return null;
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById("questionsContainer");
+        container.innerHTML = "";
+        QUESTIONS.forEach((q, idx) => {
+            const val = store.todayAnswers[q.id] || 0;
+            const card = document.createElement("div");
+            card.className = "question-card";
+            card.innerHTML = `
+                <div class="question-text">
+                    <span>${q.text}</span>
+                    <span class="sphere-badge">${q.sphere}</span>
+                    ${q.penalty ? '<span style="font-size:0.7rem;">⚠️ штраф</span>' : ''}
+                </div>
+                <div class="options">
+                    <button data-id="${q.id}" data-val="0" class="opt-btn ${val===0 ? 'selected' : ''}">0 ❌ нет</button>
+                    <button data-id="${q.id}" data-val="1" class="opt-btn ${val===1 ? 'selected' : ''}">1 🌙 немного</button>
+                    <button data-id="${q.id}" data-val="2" class="opt-btn ${val===2 ? 'selected' : ''}">2 ☀️ да!</button>
+                </div>
+                ${q.penalty && val>0 ? '<div class="mana-warning">⚠️ вычитает сердечки</div>' : ''}
+            `;
+            container.appendChild(card);
+        });
+        document.querySelectorAll(".opt-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const qid = btn.getAttribute("data-id");
+                const value = parseInt(btn.getAttribute("data-val"));
+                store.todayAnswers[qid] = value;
+                saveData();
+                updateUI();
+                animateHeart(btn);
+            });
+        });
+    }
+
+    function animateHeart(el) {
+        const rect = el.getBoundingClientRect();
+        const heart = document.createElement("div");
+        heart.className = "floating-heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = rect.left + rect.width/2 - 12 + "px";
+        heart.style.top = rect.top - 10 + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+    }
+
+    function submitDay() {
+        const today = getTodayStr();
+        const alreadySaved = store.history[today];
+        if(alreadySaved) {
+            alert("Сегодня вы уже завершили день! Сердечки за сегодня уже начислены.");
+            return;
+        }
+        let dayScore = computeTodayScore();
+        // бонус стрика: множитель (за каждый день непрерывно +10% до x2)
+        let multiplier = 1;
+        if(store.streak >= 7) multiplier = 1.5;
+        if(store.streak >= 14) multiplier = 2;
+        let gained = Math.floor(dayScore * multiplier);
+        if(gained === 0 && dayScore>0) gained = 1;
+        // сохранение истории
+        store.history[today] = {
+            answers: { ...store.todayAnswers },
+            totalGain: gained,
+            rawScore: dayScore,
+            multiplier: multiplier
+        };
+        store.totalHearts += gained;
+
+        // обновление стрика
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().slice(0,10);
+        if(store.lastDate === yesterdayStr) {
+            store.streak += 1;
+        } else if(store.lastDate !== today) {
+            store.streak = 1;
+        }
+        store.lastDate = today;
+
+        // сброс сегодняшних ответов для нового дня (оставляем 0)
+        QUESTIONS.forEach(q => { store.todayAnswers[q.id] = 0; });
+        saveData();
+        updateUI();
+        // вспышка общего счета
+        const totalDiv = document.querySelector(".love-total");
+        for(let i=0;i<3;i++) setTimeout(()=>animateHeart(totalDiv), i*100);
+        alert(`✨ +${gained} сердечек ✨\nМножитель стрика: x${multiplier}\nВсего любовной силы: ${store.totalHearts}`);
+    }
+
+    function renderCalendar() {
+        const container = document.getElementById("calendarGrid");
+        const days = Object.keys(store.history).sort().slice(-35);
+        container.innerHTML = "";
+        days.forEach(d => {
+            const dayData = store.history[d];
+            const gain = dayData.totalGain;
+            const dot = document.createElement("div");
+            dot.className = "day-dot";
+            if(gain >= 8) dot.classList.add("high");
+            else if(gain > 0) dot.classList.add("active");
+            dot.innerText = gain;
+            dot.title = `${d}: +${gain}❤️`;
+            container.appendChild(dot);
+        });
+        if(days.length === 0) container.innerHTML = "<div style='padding:0.5rem;'>Заполните первый день — появится календарь</div>";
+        const monthLabel = new Date().toLocaleString('ru', { month: 'long' });
+        document.getElementById("monthLabel").innerText = monthLabel;
+    }
+
+    function init() {
+        loadData();
+        // проверка на новый день: если lastDate !== today и сегодня ещё не сабмитили, оставляем todayAnswers как есть
+        const today = getTodayStr();
+        if(store.lastDate !== today && !store.history[today]) {
+            // можно оставить answers (пользователь ещё не отвечал сегодня) - ничего не сбрасываем
+        }
+        updateUI();
+        document.getElementById("submitDay").addEventListener("click", submitDay);
+    }
+    init();
+</script>
+</body>
+</html>
