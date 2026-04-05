@@ -56,6 +56,10 @@
     .img-card:hover { transform: translateY(-4px); filter: brightness(1.1); }
     .img-card.active { border-color: #8B5CF6; box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); transform: scale(0.98); }
     ::selection { background: #8B5CF6; color: white; }
+    .ai-glow { animation: ai-pulse 3s infinite ease-in-out; }
+    @keyframes ai-pulse { 0%, 100% { filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4)); } 50% { filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.9)); } }
+    .float-icon { animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
   </style>
 </head>
 <body class="bg-gray-950 text-gray-100 font-sans antialiased leading-relaxed">
@@ -67,7 +71,6 @@
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="relative pt-32 pb-20 px-4 overflow-hidden min-h-[90vh] flex items-center">
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-gray-950 to-gray-950 -z-10"></div>
     <div class="max-w-5xl mx-auto text-center fade-in">
@@ -85,7 +88,6 @@
     </div>
   </section>
 
-  <!-- INTERACTIVE PHOTO GAME -->
   <section class="py-20 px-4 bg-gray-900/30 border-y border-gray-800/50">
     <div class="max-w-6xl mx-auto fade-in">
       <div class="text-center mb-10">
@@ -113,12 +115,49 @@
     </div>
   </section>
 
-  <!-- TRUST FACTS -->
   <section class="py-24 px-4">
     <div class="max-w-6xl mx-auto fade-in">
       <div class="text-center mb-12">
-        <span class="text-3xl mb-2 block">📊</span>
-        <h2 class="text-3xl md:text-4xl font-bold mb-3">AI НЕ «ПРИДЁТ». ОН УЖЕ ЗДЕСЬ</h2>
+        <div class="flex justify-center mb-4">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="ai-glow float-icon">
+            <defs>
+              <linearGradient id="eyeGrad" x1="20" y1="24" x2="44" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#8B5CF6"/>
+                <stop offset="100%" stop-color="#EC4899"/>
+              </linearGradient>
+              <linearGradient id="bodyGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1F2937"/>
+                <stop offset="100%" stop-color="#111827"/>
+              </linearGradient>
+            </defs>
+            <!-- Голова робота -->
+            <rect x="14" y="8" width="36" height="24" rx="4" stroke="#8B5CF6" stroke-width="2" fill="url(#bodyGrad)"/>
+            <!-- Глаза -->
+            <circle cx="24" cy="20" r="4" fill="url(#eyeGrad)"/>
+            <circle cx="40" cy="20" r="4" fill="url(#eyeGrad)"/>
+            <!-- Блик в глазах -->
+            <circle cx="25" cy="19" r="1.5" fill="#FFFFFF"/>
+            <circle cx="41" cy="19" r="1.5" fill="#FFFFFF"/>
+            <!-- Антенна -->
+            <line x1="32" y1="2" x2="32" y2="8" stroke="#8B5CF6" stroke-width="2"/>
+            <circle cx="32" cy="2" r="2" fill="#8B5CF6"/>
+            <!-- Рот-сетка -->
+            <line x1="26" y1="26" x2="38" y2="26" stroke="#8B5CF6" stroke-width="2"/>
+            <!-- Тело -->
+            <rect x="18" y="34" width="28" height="20" rx="4" stroke="#8B5CF6" stroke-width="2" fill="url(#bodyGrad)"/>
+            <!-- Индикатор на груди -->
+            <circle cx="32" cy="44" r="3" fill="#8B5CF6">
+              <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <!-- Руки -->
+            <path d="M18 40 L8 44 L8 50" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M46 40 L56 44 L56 50" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <!-- Шестеренка/схема фона -->
+            <circle cx="52" cy="12" r="6" stroke="#4B5563" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
+            <circle cx="12" cy="52" r="6" stroke="#4B5563" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
+          </svg>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-3 tracking-tight">AI НЕ «ПРИДЁТ». ОН УЖЕ ЗДЕСЬ</h2>
         <p class="text-gray-400">Пока вы думаете «а вдруг не получится», рынок уже перестроился.</p>
       </div>
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -142,7 +181,6 @@
     </div>
   </section>
 
-  <!-- ABOUT & RESULTS -->
   <section class="py-20 px-4 bg-gray-900/30 border-t border-gray-800/50">
     <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center fade-in">
       <div class="order-2 md:order-1">
@@ -175,7 +213,6 @@
     </div>
   </section>
 
-  <!-- REVIEWS (4) -->
   <section class="py-24 px-4">
     <div class="max-w-6xl mx-auto fade-in">
       <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center tracking-tight">Результаты учеников</h2>
@@ -216,12 +253,10 @@
     </div>
   </section>
 
-  <!-- PRICING -->
   <section id="pricing" class="py-24 px-4 bg-gray-900/20 border-y border-gray-800/50">
     <div class="max-w-6xl mx-auto fade-in">
       <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center tracking-tight">Выбери свой уровень <span class="text-brand">проникновения в AI</span></h2>
       <div class="grid md:grid-cols-3 gap-6">
-        <!-- Базовый -->
         <div class="bg-gray-800/40 p-8 rounded-2xl border border-gray-700 hover:border-gray-500 transition flex flex-col">
           <h3 class="text-xl font-bold mb-2 text-gray-300">БАЗОВЫЙ</h3>
           <div class="text-sm text-gray-400 mb-5 min-h-[40px]">Для владельцев бизнеса / экспертов / блогеров, которые хотят разобраться в AI и начать использовать его в работе</div>
@@ -234,8 +269,6 @@
           </ul>
           <a href="https://t.me/AilinaSab" target="_blank" class="block w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-center font-semibold transition">Выбрать тариф</a>
         </div>
-
-        <!-- Стандартный -->
         <div class="bg-gradient-to-b from-purple-900/60 to-gray-900 p-8 rounded-2xl border-2 border-brand relative transform md:-translate-y-3 flex flex-col shadow-2xl shadow-brand/10">
           <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg">Популярный</div>
           <h3 class="text-xl font-bold mb-2 text-white">ШАРЮ ЗА ИИ</h3>
@@ -254,8 +287,6 @@
           </ul>
           <a href="https://t.me/AilinaSab" target="_blank" class="block w-full py-3 rounded-xl bg-brand hover:bg-brand-dark text-center font-bold transition text-white shadow-lg">Выбрать тариф →</a>
         </div>
-
-        <!-- ПРО -->
         <div class="bg-gray-800/40 p-8 rounded-2xl border border-gray-700 hover:border-yellow-500/60 transition flex flex-col">
           <h3 class="text-xl font-bold mb-2 text-yellow-400">ШАРЮ В ИИ</h3>
           <div class="text-sm text-gray-400 mb-5 min-h-[40px]">Для тех, кто хочет не просто контент, а системный доход через AI и личный бренд</div>
@@ -287,7 +318,6 @@
     </div>
   </section>
 
-  <!-- TIMER / FOMO -->
   <section class="py-16 px-4 bg-gradient-to-r from-purple-900/80 to-pink-900/80 text-center border-y border-gray-800/50">
     <div class="max-w-3xl mx-auto fade-in">
       <h2 class="text-2xl md:text-3xl font-bold mb-6 tracking-tight">ЦЕНЫ ВЫРОСТУТ ЧЕРЕЗ</h2>
@@ -333,7 +363,6 @@
     </div>
   </footer>
 
-  <!-- MODAL -->
   <div id="modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
     <div class="bg-gray-900 border border-gray-700 rounded-2xl max-w-md w-full p-6 relative text-center transform scale-95 opacity-0 transition-all duration-300 shadow-2xl" id="modal-content">
       <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition text-xl">✕</button>
@@ -384,10 +413,10 @@
       startTimer(86399, document.getElementById('hours'), document.getElementById('minutes'), document.getElementById('seconds'));
     });
   </script>
-  <!-- PIXEL PLACEHOLDER -->
   <script>
     /* Yandex.Metrica & FB Pixel Code Here */
   </script>
 </body>
 </html>
+
 
