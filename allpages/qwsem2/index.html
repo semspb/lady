@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Семитриум Любви - Документация</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0518;
+            --primary-purple: #2E0249;
+            --accent-gold: #D4AF37;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            color: white;
+        }
+
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 0%, #2E0249 0%, #0f0518 60%);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .gold-text {
+            color: var(--accent-gold);
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            margin: 4rem 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-gold);
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body class="antialiased selection:bg-purple-500 selection:text-white">
+
+    <div class="ambient-bg"></div>
+
+    <div class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+        
+        <!-- Header -->
+        <header class="text-center mb-16 fade-in-up">
+            <div class="inline-block p-3 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5 mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-light tracking-tight mb-4">Семитриум Любви</h1>
+            <p class="text-lg text-purple-200/60 uppercase tracking-[0.2em]">Проектное видение</p>
+        </header>
+
+        <!-- Content Container -->
+        <main class="glass-panel rounded-2xl p-8 md:p-12 fade-in-up delay-100">
+            
+            <!-- Section 1 -->
+            <section class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-6 border-l-4 border-[#D4AF37] pl-6">1. Описание Проекта</h2>
+                <div class="prose prose-invert prose-lg max-w-none text-gray-300">
+                    <p class="mb-4">
+                        <strong class="text-white font-medium">«Семитриум Любви»</strong> — это психо-философская диагностическая система, которая деконструирует феномен любви на <span class="text-[#D4AF37]">7 фундаментальных начал</span> (греческие архетипы) и проецирует их через <span class="text-[#D4AF37]">3 уровня человеческой природы</span> (Тело, Душа, Дух).
+                    </p>
+                    <p class="mb-6">
+                        В отличие от популярных тестов, предлагающих бинарные ответы («люблю/не люблю») или упрощенные типы привязанности, наш метод признает многомерность чувства. Мы исходим из того, что любовь — это не монолит, а сложный спектр энергий, где каждое начало имеет свою функцию, свою ловушку и свой ресурс.
+                    </p>
+                    
+                    <div class="bg-white/5 rounded-xl p-6 my-8 border border-white/10">
+                        <h3 class="text-xl font-serif text-white mb-4">Структурная матрица: 7 × 3</h3>
+                        <p class="mb-4 text-sm">Проект оперирует матрицей из 21 параметра, где пересекаются:</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-400 ml-2">
+                            <li><span class="text-purple-300">7 Греческих начал любви:</span> Эрос, Филия, Сторге, Агапэ, Людус, Прагма, Мания + Автаркия (как мета-состояние свободы).</li>
+                            <li><span class="text-purple-300">3 Уровня проявления:</span>
+                                <ul class="list-circle list-inside ml-6 mt-2 space-y-1 text-sm text-gray-500">
+                                    <li><strong class="text-gray-300">Соматический (Тело):</strong> Инстинкты, физиология, комфорт, безопасность.</li>
+                                    <li><strong class="text-gray-300">Психологический (Душа):</strong> Эмоции, эго, социальные роли, память, травмы.</li>
+                                    <li><strong class="text-gray-300">Экзистенциальный (Дух):</strong> Смыслы, воля, ценности, свобода выбора, трансценденция.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <p>
+                        <strong class="text-white">Продукт:</strong> Интерактивный алгоритмический тест, который вычисляет доминантные и дефицитные начала любви у пользователя, выявляет дисбалансы (например, гипертрофированный Эрос при нулевой Автаркии) и выдает персональную «Карту Любовного Потенциала».
+                    </p>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Section 2 -->
+            <section class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-6 border-l-4 border-[#D4AF37] pl-6">2. Философия Проекта</h2>
+                <div class="prose prose-invert prose-lg max-w-none text-gray-300">
+                    <p class="mb-6 italic text-purple-200/70">От Хаоса Чувств к Системе Знания</p>
+                    <p class="mb-6">Наша философия опирается на синтез античной мудрости и современной интегральной психологии. Мы утверждаем три базовых постулата:</p>
+
+                    <div class="space-y-8">
+                        <div class="relative pl-8 border-l border-white/10">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[#D4AF37]"></span>
+                            <h3 class="text-xl font-serif text-white mb-2">Постулат I: Любовь множественна и иерархична</h3>
+                            <p class="text-sm leading-relaxed mb-2">
+                                Древние греки не использовали одно слово для любви, потому что понимали: чувство к ребенку, к возлюбленному, к другу и к Богу — это разные биохимические и духовные процессы.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-400 text-sm space-y-1 ml-2">
+                                <li><span class="text-red-400">Ошибка современности:</span> Мы пытаемся удовлетворить все 7 потребностей одним человеком. Это приводит к краху отношений, когда партнер не может быть одновременно лучшим другом (Филия), страстным любовником (Эрос), заботливой «матерью/отцом» (Сторге) и деловым партнером (Прагма).</li>
+                                <li><span class="text-green-400">Наше решение:</span> Осознанное распределение ожиданий. Понимание, какое начало сейчас активно, позволяет не требовать невозможного и ценить имеющееся.</li>
+                            </ul>
+                        </div>
+
+                        <div class="relative pl-8 border-l border-white/10">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[#D4AF37]"></span>
+                            <h3 class="text-xl font-serif text-white mb-2">Постулат II: Триада «Тело – Душа – Дух» как фильтр истины</h3>
+                            <p class="text-sm leading-relaxed mb-2">Любое чувство искажается, если проходит только через один уровень.</p>
+                            <ul class="list-disc list-inside text-gray-400 text-sm space-y-1 ml-2">
+                                <li><span class="text-gray-300">Только Тело:</span> Похоть, зависимость, потребительское отношение.</li>
+                                <li><span class="text-gray-300">Только Душа:</span> Эмоциональные качели, проекции, идеализация или обесценивание.</li>
+                                <li><span class="text-gray-300">Только Дух:</span> Абстрактная, оторванная от жизни идея, аскеза без радости.</li>
+                            </ul>
+                            <p class="text-sm mt-2 text-[#D4AF37]">Истина любви рождается там, где есть конгруэнтность всех трех уровней. Если Тело говорит «да», Душа «боится», а Дух «сомневается» — отношения обречены на невроз. Наша система диагностирует именно эти разрывы.</p>
+                        </div>
+
+                        <div class="relative pl-8 border-l border-white/10">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[#D4AF37]"></span>
+                            <h3 class="text-xl font-serif text-white mb-2">Постулат III: Автаркия (Самодостаточность) как высшая форма любви</h3>
+                            <p class="text-sm leading-relaxed">
+                                Мы вводим <strong>Автаркию</strong> (αὐτάρκεια) не как отсутствие любви, а как её фундамент. Без Автаркии Эрос становится одержимостью (Манией), Агапэ — жертвенностью, а Филия — страхом одиночества. Только человек, способный быть целостным наедине с собой, способен на здоровый союз. Наш проект учит не «искать половинку», а «встречать целого», оставаясь целым.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Section 3 -->
+            <section class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-8 border-l-4 border-[#D4AF37] pl-6">3. Детализация 7 Сфер Любви</h2>
+                <div class="prose prose-invert prose-lg max-w-none text-gray-300">
+                    <p class="mb-8">Здесь мы разбираем каждое начало, его корни и то, почему работа с ним эффективна с точки зрения науки.</p>
+
+                    <div class="grid gap-6">
+                        <!-- Card 1 -->
+                        <div class="bg-white/5 rounded-lg p-6 border border-white/5 hover:border-rose-500/30 transition-colors">
+                            <h3 class="text-2xl font-serif text-rose-300 mb-2">1. ЭРОС (ἔρως) — Страсть и Влечение</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong class="text-gray-400">Происхождение:</strong> В платоновской традиции — стремление души к красоте и бессмертию через творение. В бытовом смысле — сексуальное влечение.</li>
+                                <li><strong class="text-gray-400">Механика:</strong> Активация дофаминовой системы вознаграждения. Фокус на идеализации объекта и слиянии.</li>
+                                <li><strong class="text-gray-400">Доказательная база:</strong> Нейробиология (Хелен Фишер) выделяет «систему влечения» как отдельный модуль мозга. Психология объектных отношений показывает, что незрелый Эрос часто является попыткой восполнить нарциссический дефицит.</li>
+                                <li class="text-rose-200/70 pt-2 border-t border-white/5"><strong>Зачем диагностировать:</strong> Чтобы отличить химическую вспышку от глубокой связи и не принять тревогу возбуждения за любовь.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white/5 rounded-lg p-6 border border-white/5 hover:border-green-500/30 transition-colors">
+                            <h3 class="text-2xl font-serif text-green-300 mb-2">2. ФИЛИЯ (φιλία) — Дружба и Равенство</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong class="text-gray-400">Происхождение:</strong> Аристотель считал Филию высшей формой социальной связи, основанной на добродетели и взаимном уважении равных.</li>
+                                <li><strong class="text-gray-400">Механика:</strong> Окситоциновая связь, доверие, общие интересы, интеллектуальное резонирование.</li>
+                                <li><strong class="text-gray-400">Доказательная база:</strong> Исследования Джона Готтмана доказывают, что крепкая дружба внутри брака — главный предиктор долгосрочного счастья пар.</li>
+                                <li class="text-green-200/70 pt-2 border-t border-white/5"><strong>Зачем диагностировать:</strong> Многие пары теряют Филию, сосредотачиваясь только на Эросе или Прагме. Возвращение дружбы спасает браки.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white/5 rounded-lg p-6 border border-white/5 hover:border-yellow-600/30 transition-colors">
+                            <h3 class="text-2xl font-serif text-yellow-600 mb-2">3. СТОРГЕ (στοργή) — Привязанность и Семейность</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong class="text-gray-400">Происхождение:</strong> Естественная, инстинктивная любовь родителей к детям и наоборот. Любовь «по праву рождения» или долгого соседства.</li>
+                                <li><strong class="text-gray-400">Механика:</strong> Чувство безопасности, привычки, забота, принятие недостатков. Низкий уровень драмы, высокий уровень стабильности.</li>
+                                <li><strong class="text-gray-400">Доказательная база:</strong> Теория привязанности (Джон Боулби). Надежная привязанность формирует базу для исследования мира.</li>
+                                <li class="text-yellow-200/70 pt-2 border-t border-white/5"><strong>Зачем диагностировать:</strong> Помогает понять, держит ли вас в отношениях искренняя теплота или просто страх перемен и привычка.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="bg-white/5 rounded-lg p-6 border border-white/5 hover:border-white/30 transition-colors">
+                            <h3 class="text-2xl font-serif text-white mb-2">4. АГАПЭ (ἀγάπη) — Безусловная Любовь и Жертвенность</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong class="text-gray-400">Происхождение:</strong> Христианский и стоический концепт любви-воли, любви к ближнему независимо от его заслуг.</li>
+                                <li><strong class="text-gray-400">Механика:</strong> Сознательный выбор благополучия другого. Эмпатия высшего порядка.</li>
+                                <li><strong class="text-gray-400">Доказательная база:</strong> Позитивная психология (Мартин Селигман): Альтруизм повышает субъективное благополучие. Логотерапия (Виктор Франкл): Любовь придает смысл.</li>
+                                <li class="text-gray-300 pt-2 border-t border-white/5"><strong>Зачем диагностировать:</strong> Чтобы отличить здоровую заботу от патологического самопожертвования (синдром спасателя).</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 5 -->
+                        <div class="bg-white/5 rounded-lg p-6 border border-white/5 hover:border-orange-400/30 transition-colors">
+                            <h3 class="text-2xl font-serif text-orange-300 mb-2">5. ЛЮДУС (ludus) — Игра и Флирт</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong class="text-gray-400">Происхождение:</strong> Латинский термин, введенный Джоном Аланом Ли. Любовь как развлечение, легкость, отсутствие обязательств.</li>
+                                <li><strong class="text-gray-400">Механика:</strong> Поддержание новизны, юмор, сексуальная игра, избегание глубины.</li>
+                                <li><strong class="text-gray-400">Доказательная база:</strong> Наличие элемента игры предотвращает рутину. Однако исключительно Людус коррелирует с избегающим типом привязанности.</li>
+                                <li class="text-orange-200/70 pt-2 border-t border-white/5"><strong>Зачем диагностировать:</strong> Помогает выявить инфантильность в отношениях или, наоборот, недостаток легкости и радости.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 6 -->
+                        <div class="bg-white/5 rounded-lg p-6 border border-white/5 hover:border-blue-400/30 transition-colors">
+                            <h3 class="text-2xl font-serif text-blue-300 mb-2">6. ПРАГМА (pragma) — Рассудочная Любовь</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong class="text-gray-400">Происхождение:</strong> Любовь как сделка, поиск подходящего партнера по критериям (статус, ресурсы, цели).</li>
+                                <li><strong class="text-gray-400">Механика:</strong> Рациональный выбор, планирование будущего, разделение обязанностей.</li>
+                                <li><strong class="text-gray-400">Доказательная база:</strong> Социология семьи: совпадение ценностей и финансовых целей снижает риск развода.</li>
+                                <li class="text-blue-200/70 pt-2 border-t border-white/5"><strong>Зачем диагностировать:</strong> Чтобы легитимизировать рациональность в любви. Прагма — это каркас устойчивости.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 7 -->
+                        <div class="bg-gradient-to-br from-purple-900/20 to-black rounded-lg p-6 border border-[#D4AF37]/30 transition-colors">
+                            <h3 class="text-2xl font-serif text-[#D4AF37] mb-2">7. АВТАРКИЯ (αὐτάρκεια) — Самодостаточность</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong class="text-gray-400">Концепция:</strong> В нашей системе Автаркия выступает как 7-е начало, модерирующее остальные. Это способность быть целостным без внешнего объекта.</li>
+                                <li><strong class="text-gray-400">Механика:</strong> Внутренний стержень, личные границы, самодостаточность.</li>
+                                <li><strong class="text-gray-400">Роль в системе:</strong> Без Автаркии Эрос становится Манией, а Агапэ — рабством.</li>
+                                <li class="text-[#D4AF37] pt-2 border-t border-white/10"><strong>Зачем диагностировать:</strong> Это ключ к свободе. Только целостный может любить здорово.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Section 4 -->
+            <section class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-6 border-l-4 border-[#D4AF37] pl-6">4. Научная Обоснованность</h2>
+                <div class="prose prose-invert prose-lg max-w-none text-gray-300">
+                    <p class="mb-6">Проект не является эзотерикой. Он базируется на трех столпах:</p>
+                    <ol class="list-decimal list-inside space-y-4 ml-2">
+                        <li>
+                            <strong class="text-white">Типология любви Джона Алана Ли (1973):</strong> Канадский социолог эмпирически выделил стили любви. Его шкалы (Love Attitudes Scale) широко используются в академической психологии и имеют подтвержденную валидность.
+                        </li>
+                        <li>
+                            <strong class="text-white">Интегральная теория Кена Уилбера:</strong> Использование уровней «Тело-Душа-Дух» позволяет избежать редукционизма. Мы оцениваем целостность личности.
+                        </li>
+                        <li>
+                            <strong class="text-white">Нейропластичность и осознанность:</strong> Сам факт называния эмоции (affect labeling) снижает активность миндалевидного тела и активирует префронтальную кору. Пользователь получает инструмент для сознательной коррекции поведения.
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Section 5 -->
+            <section class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-6 border-l-4 border-[#D4AF37] pl-6">5. Миссия Проекта</h2>
+                <div class="prose prose-invert prose-lg max-w-none text-gray-300">
+                    <blockquote class="text-2xl font-serif italic text-[#D4AF37] border-l-2 border-[#D4AF37] pl-6 my-8">
+                        «Трансформировать культуру отношений от невротической зависимости к осознанной целостности.»
+                    </blockquote>
+                    
+                    <h3 class="text-xl font-bold text-white mb-4">Тактические задачи:</h3>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 list-none ml-0">
+                        <li class="flex items-start">
+                            <span class="text-[#D4AF37] mr-2">✦</span>
+                            <span><strong>Демистификация:</strong> Дать людям точный язык для описания чувств.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#D4AF37] mr-2">✦</span>
+                            <span><strong>Профилактика:</strong> Снизить количество разрушительных разводов за счет ранней диагностики.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#D4AF37] mr-2">✦</span>
+                            <span><strong>Образование:</strong> Научить тому, что любовь — это навык, а не лотерея.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#D4AF37] mr-2">✦</span>
+                            <span><strong>Поддержка Автаркии:</strong> Вернуть моду на самодостаточность.</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Section 6 -->
+            <section class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-6 border-l-4 border-[#D4AF37] pl-6">6. Метафора: Сад</h2>
+                <div class="prose prose-invert prose-lg max-w-none text-gray-300 bg-gradient-to-r from-green-900/10 to-transparent p-6 rounded-xl border border-green-900/30">
+                    <p class="mb-4">Мы представляем личность человека как <strong>Сад</strong>.</p>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 list-none ml-0 text-sm">
+                        <li><span class="text-rose-400 font-bold">Эрос</span> — это яркие цветы (страсть, красота).</li>
+                        <li><span class="text-yellow-700 font-bold">Сторге</span> — это мощные корни и почва (стабильность).</li>
+                        <li><span class="text-green-400 font-bold">Филия</span> — это перекрестное опыление (дружба).</li>
+                        <li><span class="text-blue-400 font-bold">Прагма</span> — это садовые инструменты и план (структура).</li>
+                        <li><span class="text-orange-400 font-bold">Людус</span> — это фонтаны и декор (радость).</li>
+                        <li><span class="text-white font-bold">Агапэ</span> — это солнце и дождь (безусловность).</li>
+                        <li class="md:col-span-2 mt-2 pt-2 border-t border-white/10"><span class="text-[#D4AF37] font-bold">Автаркия</span> — это забор и дом садовника. Без них сад могут вытоптать. Садовник должен быть целостным, чтобы ухаживать за садом.</li>
+                    </ul>
+                    <p class="mt-4 italic text-center text-[#D4AF37]">«Наш тест показывает карту вашего сада.»</p>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-16 text-gray-600 text-sm fade-in-up delay-300">
+            <p>© 2026 Семитриум Любви. Все права защищены.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
+
