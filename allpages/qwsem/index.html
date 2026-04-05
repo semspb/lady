@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Семитриум Любви | Презентация</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-purple: #2E0249;
+            --accent-gold: #D4AF37;
+            --text-light: #F3E5F5;
+            --glass-bg: rgba(46, 2, 73, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f0518;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Typography */
+        h1, h2, h3, .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Background Animation */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #2E0249 0%, #1a0b2e 40%, #000000 100%);
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-1 { width: 600px; height: 600px; background: #5b2c94; top: -100px; left: -100px; animation-delay: 0s; }
+        .orb-2 { width: 500px; height: 500px; background: #9d4edd; bottom: -100px; right: -100px; animation-delay: -5s; }
+        .orb-3 { width: 300px; height: 300px; background: #ff9e00; top: 40%; left: 60%; opacity: 0.15; animation-delay: -10s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        /* Slide Transitions */
+        .slide-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .slide {
+            position: absolute;
+            width: 85%;
+            max-width: 1200px;
+            height: 80%;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+            z-index: 10;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-5px);
+        }
+
+        /* Text Animations */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .active .reveal-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-400 { transition-delay: 0.4s; }
+        .delay-500 { transition-delay: 0.5s; }
+
+        /* Custom UI Elements */
+        .gold-accent { color: var(--accent-gold); }
+        .gold-border { border-color: var(--accent-gold); }
+        
+        .nav-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #5b2c94, #D4AF37);
+            transition: width 0.5s ease;
+            z-index: 50;
+        }
+
+        /* Specific Slide Styles */
+        .grid-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .icon-large {
+            width: 48px;
+            height: 48px;
+            stroke: var(--accent-gold);
+            stroke-width: 1;
+            margin-bottom: 1rem;
+        }
+
+        .level-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .level-line {
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            margin: 0 1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar" style="width: 8.3%"></div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-8 right-8 z-50 flex gap-4">
+        <button class="nav-btn" onclick="prevSlide()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="nav-btn" onclick="nextSlide()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+    </div>
+
+    <div class="fixed top-8 left-8 z-50 text-xs tracking-[0.3em] uppercase opacity-60 font-light">
+        Семитриум · Презентация
+    </div>
+
+    <!-- SLIDES CONTAINER -->
+    <div class="slide-container">
+
+        <!-- SLIDE 1: TITLE -->
+        <div class="slide active text-center">
+            <div class="reveal-text mb-6">
+                <svg class="w-24 h-24 mx-auto text-[#D4AF37] opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            <h1 class="reveal-text delay-100 text-7xl md:text-9xl font-light serif tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-purple-200">
+                СЕМИТРИУМ
+            </h1>
+            <h2 class="reveal-text delay-200 text-2xl md:text-3xl font-light tracking-[0.2em] uppercase text-[#D4AF37] mb-12">
+                Архитектура Любви
+            </h2>
+            <p class="reveal-text delay-300 text-lg text-purple-100/70 max-w-xl mx-auto font-light leading-relaxed">
+                От хаоса чувств к системе знаний.<br>
+                Диагностическая система на стыке античной философии и нейробиологии.
+            </p>
+        </div>
+
+        <!-- SLIDE 2: PROBLEM -->
+        <div class="slide">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="reveal-text text-5xl serif mb-8 leading-tight">Почему мы <span class="italic text-[#D4AF37]">теряемся</span> в отношениях?</h2>
+                    <p class="reveal-text delay-100 text-xl font-light text-purple-100/80 mb-8 leading-relaxed">
+                        Современный человек страдает от смысловой слепоты. Мы используем одно слово «Любовь» для семи различных биохимических и духовных процессов.
+                    </p>
+                    <ul class="space-y-4 reveal-text delay-200">
+                        <li class="flex items-start">
+                            <span class="text-[#D4AF37] mr-4 text-2xl">✦</span>
+                            <span class="text-purple-100/70">Ожидание, что один партнер закроет все потребности (друг, любовник, родитель).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#D4AF37] mr-4 text-2xl">✦</span>
+                            <span class="text-purple-100/70">Путаница между дофаминовой зависимостью и глубокой привязанностью.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#D4AF37] mr-4 text-2xl">✦</span>
+                            <span class="text-purple-100/70">Отсутствие языка для описания своих истинных потребностей.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="reveal-text delay-300 glass-card p-8 flex flex-col justify-center items-center text-center h-full">
+                    <div class="text-6xl mb-6 opacity-50">🌫️</div>
+                    <h3 class="text-2xl serif mb-4">Результат хаоса</h3>
+                    <p class="text-sm uppercase tracking-widest text-purple-300/60">Неврозы · Разводы · Одиночество вдвоем</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: SOLUTION MATRIX -->
+        <div class="slide">
+            <div class="text-center mb-10">
+                <h2 class="reveal-text text-4xl serif mb-2">Метод Семитриум</h2>
+                <p class="reveal-text delay-100 text-purple-200/60 uppercase tracking-widest text-sm">Структурный анализ чувства</p>
+            </div>
+            
+            <div class="reveal-text delay-200 glass-card p-8 md:p-12 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                    <div class="text-center p-6 border border-white/5 rounded-lg hover:bg-white/5 transition-colors">
+                        <div class="text-4xl mb-4 text-rose-300">7</div>
+                        <h3 class="text-xl serif mb-2">Греческих Начал</h3>
+                        <p class="text-xs text-purple-200/50 uppercase tracking-wider">Архетипы</p>
+                        <p class="text-sm mt-4 text-gray-300">Эрос, Филия, Сторге, Агапэ, Людус, Прагма, Автаркия</p>
+                    </div>
+                    
+                    <div class="flex items-center justify-center">
+                        <div class="text-4xl text-[#D4AF37]">×</div>
+                    </div>
+
+                    <div class="text-center p-6 border border-white/5 rounded-lg hover:bg-white/5 transition-colors">
+                        <div class="text-4xl mb-4 text-blue-300">3</div>
+                        <h3 class="text-xl serif mb-2">Уровня Природы</h3>
+                        <p class="text-xs text-purple-200/50 uppercase tracking-wider">Измерения</p>
+                        <p class="text-sm mt-4 text-gray-300">Тело (Инстинкты) · Душа (Эмоции) · Дух (Смыслы)</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 text-center border-t border-white/10 pt-6">
+                    <p class="text-lg font-light">
+                        <span class="text-[#D4AF37]">21 Параметр</span> диагностики личности
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: PHILOSOPHY & SCIENCE -->
+        <div class="slide">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="reveal-text">
+                    <h2 class="text-5xl serif mb-8">Фундамент <br><span class="text-[#D4AF37] italic">Мудрости</span></h2>
+                    <div class="space-y-8">
+                        <div class="border-l border-[#D4AF37]/30 pl-6">
+                            <h3 class="text-xl serif mb-2 text-purple-200">Античность</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed">Платон и Аристотель понимали: любовь к Богу и любовь к возлюбленному — разные процессы. Мы вернули эту точность.</p>
+                        </div>
+                        <div class="border-l border-[#D4AF37]/30 pl-6">
+                            <h3 class="text-xl serif mb-2 text-purple-200">Нейробиология</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed">Исследования Хелен Фишер подтверждают: за страсть, романтику и привязанность отвечают разные сети мозга.</p>
+                        </div>
+                        <div class="border-l border-[#D4AF37]/30 pl-6">
+                            <h3 class="text-xl serif mb-2 text-purple-200">Интегральный подход</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed">Синтез тела, психики и духа позволяет избежать упрощений.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal-text delay-200 flex items-center justify-center">
+                    <div class="glass-card p-10 text-center max-w-md">
+                        <svg class="w-16 h-16 mx-auto mb-6 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                        <h3 class="text-2xl serif mb-4">Алхимия Смысла</h3>
+                        <p class="text-gray-300 font-light italic">"Мы не изобрели новое. Мы систематизировали вечное."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: THE 7 TYPES (PART 1) -->
+        <div class="slide">
+            <h2 class="reveal-text text-4xl serif mb-10 text-center">Начала I: <span class="text-[#D4AF37]">Энергия и Связь</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Eros -->
+                <div class="reveal-text delay-100 glass-card hover:bg-rose-900/20 group">
+                    <div class="h-10 w-10 mb-4 text-rose-400 group-hover:scale-110 transition-transform">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                    </div>
+                    <h3 class="text-xl serif mb-1">Эрос</h3>
+                    <p class="text-xs text-rose-300 uppercase tracking-widest mb-3">Страсть</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Дофамин. Влечение. Идеализация. Искра, способная сжечь или согреть.</p>
+                </div>
+                <!-- Philia -->
+                <div class="reveal-text delay-200 glass-card hover:bg-green-900/20 group">
+                    <div class="h-10 w-10 mb-4 text-green-400 group-hover:scale-110 transition-transform">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                    </div>
+                    <h3 class="text-xl serif mb-1">Филия</h3>
+                    <p class="text-xs text-green-300 uppercase tracking-widest mb-3">Дружба</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Окситоцин. Равенство. Интеллектуальная близость. Основа доверия.</p>
+                </div>
+                <!-- Storge -->
+                <div class="reveal-text delay-300 glass-card hover:bg-yellow-900/20 group">
+                    <div class="h-10 w-10 mb-4 text-yellow-600 group-hover:scale-110 transition-transform">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </div>
+                    <h3 class="text-xl serif mb-1">Сторге</h3>
+                    <p class="text-xs text-yellow-600 uppercase tracking-widest mb-3">Родство</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Привычка. Безопасность. Принятие. Любовь "по праву рождения".</p>
+                </div>
+                <!-- Ludus -->
+                <div class="reveal-text delay-400 glass-card hover:bg-orange-900/20 group">
+                    <div class="h-10 w-10 mb-4 text-orange-400 group-hover:scale-110 transition-transform">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                    </div>
+                    <h3 class="text-xl serif mb-1">Людус</h3>
+                    <p class="text-xs text-orange-300 uppercase tracking-widest mb-3">Игра</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Флирт. Легкость. Отсутствие драмы. Источник радости, но не глубины.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: THE 7 TYPES (PART 2) -->
+        <div class="slide">
+            <h2 class="reveal-text text-4xl serif mb-10 text-center">Начала II: <span class="text-[#D4AF37]">Воля и Свобода</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Pragma -->
+                <div class="reveal-text delay-100 glass-card border-t-2 border-blue-500/50">
+                    <h3 class="text-2xl serif mb-2 text-blue-200">Прагма</h3>
+                    <p class="text-xs text-blue-400 uppercase tracking-widest mb-4">Расчет и Партнерство</p>
+                    <p class="text-sm text-gray-300 mb-4">Совпадение целей, ресурсов и планов. Каркас устойчивости семьи.</p>
+                    <div class="text-[10px] text-gray-500 bg-black/20 p-2 rounded">Без Прагмы союз хрупок перед бытом.</div>
+                </div>
+
+                <!-- Agape -->
+                <div class="reveal-text delay-200 glass-card border-t-2 border-white/50">
+                    <h3 class="text-2xl serif mb-2 text-white">Агапэ</h3>
+                    <p class="text-xs text-gray-300 uppercase tracking-widest mb-4">Безусловность</p>
+                    <p class="text-sm text-gray-300 mb-4">Любовь-воля. Способность отдавать, не требуя взамен. Высшая эмпатия.</p>
+                    <div class="text-[10px] text-gray-500 bg-black/20 p-2 rounded">Без баланса становится жертвенностью.</div>
+                </div>
+
+                <!-- Autarkia -->
+                <div class="reveal-text delay-300 glass-card border border-[#D4AF37] bg-[#D4AF37]/5 relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-[#D4AF37] blur-2xl opacity-20"></div>
+                    <h3 class="text-2xl serif mb-2 text-[#D4AF37]">Автаркия</h3>
+                    <p class="text-xs text-[#D4AF37] uppercase tracking-widest mb-4">Самодостаточность</p>
+                    <p class="text-sm text-gray-200 mb-4 font-medium">Ключ ко всей системе. Любовь из избытка, а не из нужды.</p>
+                    <div class="text-[10px] text-[#D4AF37]/80 bg-[#D4AF37]/10 p-2 rounded border border-[#D4AF37]/20">Защищает Эрос от Мании, а Агапэ от рабства.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: THREE LEVELS -->
+        <div class="slide">
+            <div class="text-center mb-12">
+                <h2 class="reveal-text text-4xl serif mb-2">Где живет ваша любовь?</h2>
+                <p class="reveal-text delay-100 text-sm text-purple-200/50 uppercase tracking-widest">Диагностика дисбалансов</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-6">
+                <!-- Spirit -->
+                <div class="reveal-text delay-200 level-row group">
+                    <div class="w-32 text-right pr-4 text-purple-300 font-serif italic text-xl">Дух</div>
+                    <div class="level-line"></div>
+                    <div class="glass-card flex-1 py-4 px-6 border-l-2 border-purple-500 group-hover:bg-purple-900/20 transition-colors">
+                        <p class="text-sm text-gray-200">«Ради чего мы вместе?» Экзистенциальный выбор, общие ценности, смыслы.</p>
+                    </div>
+                </div>
+
+                <!-- Soul -->
+                <div class="reveal-text delay-300 level-row group">
+                    <div class="w-32 text-right pr-4 text-orange-300 font-serif italic text-xl">Душа</div>
+                    <div class="level-line"></div>
+                    <div class="glass-card flex-1 py-4 px-6 border-l-2 border-orange-500 group-hover:bg-orange-900/20 transition-colors">
+                        <p class="text-sm text-gray-200">«Что я чувствую?» Эмоциональный комфорт, проекции, психологическая близость.</p>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="reveal-text delay-400 level-row group">
+                    <div class="w-32 text-right pr-4 text-rose-300 font-serif italic text-xl">Тело</div>
+                    <div class="level-line"></div>
+                    <div class="glass-card flex-1 py-4 px-6 border-l-2 border-rose-500 group-hover:bg-rose-900/20 transition-colors">
+                        <p class="text-sm text-gray-200">«Чего я хочу?» Биологическое влечение, тактильность, базовая безопасность.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 reveal-text delay-500">
+                <p class="text-sm text-[#D4AF37] italic">Конгруэнтность — когда Тело, Душа и Дух говорят "Да" одному человеку.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: EVIDENCE -->
+        <div class="slide">
+            <h2 class="reveal-text text-4xl serif mb-12 text-center">Доказательная База</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="reveal-text delay-100 glass-card p-6 flex items-start">
+                    <div class="text-2xl mr-4 text-blue-400 font-serif">01</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-200 mb-2">Типология Ли (1973)</h3>
+                        <p class="text-sm text-gray-400">Академически признанная модель 6 стилей любви. Валидированные шкалы LAS.</p>
+                    </div>
+                </div>
+                <div class="reveal-text delay-200 glass-card p-6 flex items-start">
+                    <div class="text-2xl mr-4 text-green-400 font-serif">02</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-200 mb-2">Теория Привязанности</h3>
+                        <p class="text-sm text-gray-400">Боулби и Эйнсворт. Надежная привязанность как фундамент ментального здоровья.</p>
+                    </div>
+                </div>
+                <div class="reveal-text delay-300 glass-card p-6 flex items-start">
+                    <div class="text-2xl mr-4 text-rose-400 font-serif">03</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-200 mb-2">Исследования Готтмана</h3>
+                        <p class="text-sm text-gray-400">Дружба (Филия) внутри брака — главный предиктор удовлетворенности.</p>
+                    </div>
+                </div>
+                <div class="reveal-text delay-400 glass-card p-6 flex items-start">
+                    <div class="text-2xl mr-4 text-purple-400 font-serif">04</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-200 mb-2">Нейробиология</h3>
+                        <p class="text-sm text-gray-400">Разделение систем мозга: Влечение, Романтика, Привязанность (Фишер).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: USER JOURNEY -->
+        <div class="slide">
+            <h2 class="reveal-text text-4xl serif mb-16 text-center">Как это работает</h2>
+            <div class="flex flex-col md:flex-row justify-between items-center relative max-w-5xl mx-auto px-4">
+                <!-- Line -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent -z-10"></div>
+                
+                <!-- Steps -->
+                <div class="reveal-text delay-100 text-center group">
+                    <div class="w-16 h-16 mx-auto bg-[#1a0b2e] border border-[#D4AF37] rounded-full flex items-center justify-center text-xl mb-4 shadow-[0_0_15px_rgba(212,175,55,0.2)] group-hover:scale-110 transition-transform">1</div>
+                    <h3 class="text-lg serif text-[#D4AF37] mb-2">Диагностика</h3>
+                    <p class="text-xs text-gray-400 w-40 mx-auto">21 вопрос. Анализ 3 уровней.</p>
+                </div>
+
+                <div class="reveal-text delay-200 text-center group">
+                    <div class="w-16 h-16 mx-auto bg-[#1a0b2e] border border-purple-500 rounded-full flex items-center justify-center text-xl mb-4 shadow-[0_0_15px_rgba(168,85,247,0.2)] group-hover:scale-110 transition-transform">2</div>
+                    <h3 class="text-lg serif text-purple-300 mb-2">Профиль</h3>
+                    <p class="text-xs text-gray-400 w-40 mx-auto">Визуализация баланса сил.</p>
+                </div>
+
+                <div class="reveal-text delay-300 text-center group">
+                    <div class="w-16 h-16 mx-auto bg-[#1a0b2e] border border-blue-500 rounded-full flex items-center justify-center text-xl mb-4 shadow-[0_0_15px_rgba(59,130,246,0.2)] group-hover:scale-110 transition-transform">3</div>
+                    <h3 class="text-lg serif text-blue-300 mb-2">Инсайт</h3>
+                    <p class="text-xs text-gray-400 w-40 mx-auto">Понимание причин конфликтов.</p>
+                </div>
+
+                <div class="reveal-text delay-400 text-center group">
+                    <div class="w-16 h-16 mx-auto bg-[#1a0b2e] border border-green-500 rounded-full flex items-center justify-center text-xl mb-4 shadow-[0_0_15px_rgba(34,197,94,0.2)] group-hover:scale-110 transition-transform">4</div>
+                    <h3 class="text-lg serif text-green-300 mb-2">Рост</h3>
+                    <p class="text-xs text-gray-400 w-40 mx-auto">Развитие дефицитных начал.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: METAPHOR -->
+        <div class="slide">
+            <div class="glass-card border border-green-900/30 bg-gradient-to-b from-[#1a0b2e] to-[#0f2015] p-12 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-yellow-500/10 rounded-full blur-3xl"></div>
+                
+                <h2 class="reveal-text text-4xl serif mb-2 text-center text-green-100">Метафора Сада</h2>
+                <p class="reveal-text delay-100 text-center text-green-200/50 mb-12 text-sm uppercase tracking-widest">Ваша личность — это экосистема</p>
+                
+                <div class="relative h-64 w-full max-w-2xl mx-auto flex items-end justify-center pb-8 border-b border-white/10">
+                    <!-- Visual Metaphor Elements -->
+                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-32 bg-yellow-900/40 blur-sm"></div> <!-- Roots -->
+                    <div class="absolute bottom-32 left-1/2 -translate-x-1/2 text-6xl animate-float">🌹</div> <!-- Flower -->
+                    <div class="absolute bottom-0 w-full h-24 border-t-2 border-dashed border-slate-600/50 flex items-center justify-center">
+                        <span class="text-slate-500 text-xs uppercase tracking-[0.2em]">Границы (Автаркия)</span>
+                    </div>
+                </div>
+                
+                <div class="text-center reveal-text delay-200">
+                    <p class="text-lg font-light text-gray-300 italic">"Цветы без забора вытопчут. Забор без цветов — тюрьма."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: MISSION -->
+        <div class="slide text-center">
+            <div class="reveal-text mb-8 inline-block p-4 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5">
+                <svg class="w-10 h-10 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <h2 class="reveal-text delay-100 text-5xl md:text-6xl serif mb-8 leading-tight">
+                Трансформация <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-purple-400 italic">Культуры Отношений</span>
+            </h2>
+            <p class="reveal-text delay-200 text-xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed mb-12">
+                От невротической зависимости к осознанной целостности.
+            </p>
+            
+            <div class="reveal-text delay-300 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="p-4 border border-white/5 rounded bg-white/5">
+                    <h4 class="text-[#D4AF37] text-sm uppercase tracking-wider mb-1">Научность</h4>
+                    <p class="text-xs text-gray-400">Без эзотерики</p>
+                </div>
+                <div class="p-4 border border-white/5 rounded bg-white/5">
+                    <h4 class="text-[#D4AF37] text-sm uppercase tracking-wider mb-1">Развитие</h4>
+                    <p class="text-xs text-gray-400">Любовь — навык</p>
+                </div>
+                <div class="p-4 border border-white/5 rounded bg-white/5">
+                    <h4 class="text-[#D4AF37] text-sm uppercase tracking-wider mb-1">Свобода</h4>
+                    <p class="text-xs text-gray-400">Приоритет Автаркии</p>
+                </div>
+                <div class="p-4 border border-white/5 rounded bg-white/5">
+                    <h4 class="text-[#D4AF37] text-sm uppercase tracking-wider mb-1">Баланс</h4>
+                    <p class="text-xs text-gray-400">Гармония 7 начал</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: FINAL -->
+        <div class="slide text-center">
+            <h2 class="reveal-text text-6xl serif mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-[#D4AF37]">
+                Узнайте свои 7 начал
+            </h2>
+            <p class="reveal-text delay-100 text-xl text-gray-400 mb-12 max-w-xl mx-auto font-light">
+                Перестаньте блуждать в темноте чувств. Получите карту своего сердца.
+            </p>
+            
+            <div class="reveal-text delay-200 flex flex-col items-center">
+                <div class="bg-white p-2 rounded-lg mb-8 shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+                    <!-- Placeholder for QR -->
+                    <div class="w-40 h-40 bg-slate-900 flex items-center justify-center">
+                        <svg class="w-32 h-32 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M3 3h6v6H3V3zm2 2v2h2V5H5zm8-2h6v6h-6V3zm2 2v2h2V5h-2zM3 13h6v6H3v-6zm2 2v2h2v-2H5zm13-2h3v2h-3v-2zm-3 0h2v2h-2v-2zm3 3h3v3h-3v-3zm-3 3h2v2h-2v-2zm-3-3h2v2h-2v-2zm0-3h2v2h-2v-2z"/></svg>
+                    </div>
+                </div>
+                
+                <button class="bg-[#D4AF37] hover:bg-[#b5952f] text-black font-bold py-4 px-12 rounded-full text-lg transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(212,175,55,0.3)] tracking-widest uppercase">
+                    Пройти тест
+                </button>
+            </div>
+            
+            <div class="reveal-text delay-300 mt-16 text-gray-600 text-xs uppercase tracking-[0.2em]">
+                Семитриум Любви © 2026
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const totalSlides = slides.length;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
+
