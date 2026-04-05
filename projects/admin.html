@@ -1,1 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-form {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        .admin-form input, .admin-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .admin-form button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .preview-square {
+            width: 150px;
+            height: 150px;
+            margin: 10px 0;
+            border: 2px dashed #ddd;
+            background-size: cover;
+            background-position: center;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-form">
+        <h2>Добавить проект</h2>
+        <form id="add-project-form">
+            <input type="text" id="title" placeholder="Название проекта" required>
+            <textarea id="description" rows="3" placeholder="Описание проекта" required></textarea>
+            <input type="text" id="image" placeholder="Ссылка на картинку (URL) или загрузите файл">
+            <input type="file" id="image-file" accept="image/*">
+            <div class="preview-square" id="preview"></div>
+            <button type="submit">Добавить проект</button>
+        </form>
+        <div id="message"></div>
+        
+        <h3 style="margin-top: 30px;">Инструкция:</h3>
+        <ol>
+            <li>Заполните название и описание</li>
+            <li>Вставьте URL картинки ИЛИ выберите файл</li>
+            <li>Нажмите "Добавить проект"</li>
+            <li>Скопируйте появившийся JSON</li>
+            <li>Перейдите в репозиторий GitHub → projects.json → Edit → вставьте новый JSON</li>
+            <li>Загрузите картинку в папку /projects/images/ (если выбрали файл)</li>
+        </ol>
+    </div>
 
+    <script>
+        // Превью картинки
+        document.getElementById('image').addEventListener('input', function() {
+            const url = this.value;
+            if (url) {
+                document.getElementById('preview').style.backgroundImage = `url(${url})`;
+            }
+        });
+        
+        document.getElementById('image-file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('preview').style.backgroundImage = `url(${event.target.result})`;
+                    document.getElementById('image').value = ''; // очищаем URL поле
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Добавление проекта
+        document.getElementById('add-project-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            let image = document.getElementById('image').value;
+            const imageFile = document.getElementById('image-file').files[0];
+            
+            // Если выбран файл, показываем сообщение о необходимости загрузить его вручную
+            if (imageFile) {
+                const fileName = `images/${Date.now()}_${imageFile.name}`;
+                image = fileName;
+                alert(`Картинку нужно будет загрузить в папку /projects/${fileName} (через GitHub Web интерфейс)`);
+            }
+            
+            if (!image) {
+                alert('Укажите картинку (URL или файл)');
+                return;
+            }
+            
+            // Загружаем текущий projects.json
+            const response = await fetch('projects.json');
+            const projects = await response.json();
+            
+            // Новый ID
+            const newId = Math.max(...projects.map(p => p.id), 0) + 1;
+            
+            // Добавляем проект
+            projects.push({
+                id: newId,
+                title: title,
+                description: description,
+                image: image
+            });
+            
+            // Показываем результат для копирования
+            const newJson = JSON.stringify(projects, null, 2);
+            document.getElementById('message').innerHTML = `
+                <div class="success">
+                    <strong>✅ Готово! Скопируйте этот JSON:</strong>
+                    <pre style="background: white; padding: 10px; overflow-x: auto; margin-top: 10px;">${newJson}</pre>
+                    <button onclick="navigator.clipboard.writeText(${JSON.stringify(newJson)})">📋 Копировать JSON</button>
+                    <p style="margin-top: 10px;">Затем замените содержимое файла <strong>projects.json</strong> в вашем репозитории на GitHub.</p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
