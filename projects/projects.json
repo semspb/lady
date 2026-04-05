@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "Название проекта 1",
+    "description": "Краткое описание проекта",
+    "image": "images/project1.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Название проекта 2",
+    "description": "Еще один интересный проект",
+    "image": "https://via.placeholder.com/400"
+  }
+]
