@@ -88,6 +88,14 @@
         .delay-100 { animation-delay: 0.1s; }
         .delay-200 { animation-delay: 0.2s; }
         .delay-300 { animation-delay: 0.3s; }
+        
+        .logo-container img {
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
+            transition: transform 0.5s ease;
+        }
+        .logo-container:hover img {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-purple-500 selection:text-white">
@@ -98,10 +106,8 @@
         
         <!-- Header -->
         <header class="text-center mb-16 fade-in-up">
-            <div class="inline-block p-3 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5 mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
+            <div class="logo-container inline-block mb-6 p-4 rounded-full border border-[#D4AF37]/20 bg-[#D4AF37]/5">
+                <img src="http://zaloveclub.ru/images/semitrium1.svg" alt="Семитриум Логотип" class="h-24 w-auto object-contain">
             </div>
             <h1 class="text-5xl md:text-7xl font-light tracking-tight mb-4">Семитриум Любви</h1>
             <p class="text-lg text-purple-200/60 uppercase tracking-[0.2em]">Проектное видение</p>
