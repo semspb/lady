@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Семь начал любви · Семитриум · Презентация проекта</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #f7e4d4, #f1d5bd);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Playfair Display', serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        /* главный контейнер */
+        .presentation {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 250, 240, 0.96);
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            box-shadow: 0 35px 55px rgba(70, 40, 20, 0.25);
+            overflow: hidden;
+            transition: all 0.2s;
+            border: 1px solid rgba(235, 205, 175, 0.8);
+        }
+
+        /* зона слайдов */
+        .slides-container {
+            position: relative;
+            min-height: 580px;
+        }
+
+        .slide {
+            display: none;
+            padding: 2rem 2.2rem;
+            animation: slideFade 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            background: #fffcf7;
+            border-radius: 2rem;
+            margin: 0.9rem;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideFade {
+            0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* типографика */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, #bc4a2c, #e65c2e, #c43a1a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.75rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3a2a1e;
+            border-left: 6px solid #e64b2e;
+            padding-left: 1.2rem;
+            margin: 0.4rem 0 1.2rem 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #b4623a;
+            margin-top: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .subhead {
+            color: #b87a54;
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            border-left: 2px solid #f0cfb5;
+            padding-left: 1rem;
+        }
+
+        .grid-2 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: #fff7ef;
+            border-radius: 1.8rem;
+            padding: 1.3rem;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.02);
+            border: 1px solid #f3e2d2;
+            transition: transform 0.2s ease, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(110, 60, 25, 0.08);
+            background: #fffcf5;
+        }
+
+        .badge {
+            background: #f1e1d3;
+            border-radius: 2rem;
+            padding: 0.25rem 1rem;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* таблицы */
+        .elegant-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fefaf5;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .elegant-table th {
+            background: #f4e6db;
+            color: #5a3a24;
+            padding: 0.8rem;
+            font-weight: 600;
+        }
+
+        .elegant-table td {
+            padding: 0.7rem;
+            border-bottom: 1px solid #f2e0cf;
+        }
+
+        /* ранги */
+        .rank-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.8rem;
+            margin: 1.8rem 0;
+        }
+        .rank-pill {
+            background: #fcf3e9;
+            border-radius: 2rem;
+            padding: 0.7rem 1rem;
+            text-align: center;
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            border: 1px solid #f2dece;
+        }
+        .rank-pill:hover { background: #fae2d1; transform: scale(1.02);}
+
+        /* кнопки навигации */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem 1.6rem;
+            background: #fef8f0;
+            border-top: 1px solid #f2e0cf;
+        }
+        .nav-btn {
+            background: #f0e2d6;
+            border: none;
+            font-size: 1.2rem;
+            padding: 0.6rem 1.4rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            color: #4f3623;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .nav-btn:hover {
+            background: #e64b2e;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(200, 70, 30, 0.3);
+        }
+        .slide-counter {
+            background: #e8d9ce;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* анимированные сердечки (парящие) */
+        .floating-love {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.8rem;
+            animation: floatUp 0.9s ease-out forwards;
+            z-index: 1000;
+        }
+        @keyframes floatUp {
+            0% { opacity: 0.9; transform: translateY(0) scale(0.7);}
+            100% { opacity: 0; transform: translateY(-80px) scale(1.3);}
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #b47c58;
+            margin-top: 1rem;
+        }
+
+        .quote {
+            font-style: italic;
+            background: #fef3e8;
+            padding: 1.2rem;
+            border-radius: 2rem;
+            border-left: 4px solid #e64b2e;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 680px) {
+            .slide { padding: 1.2rem; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation">
+    <div class="slides-container" id="slidesContainer">
+        <!-- СЛАЙД 1: ТИТУЛ СЕМИ НАЧАЛ -->
+        <div class="slide active" data-idx="0">
+            <div style="text-align: center; padding: 1rem 0 2rem;">
+                <span style="font-size: 4.5rem;">🏛️❤️</span>
+                <h1 style="margin-top: 0.2rem;">Семь начал любви</h1>
+                <p style="font-size: 1.5rem; font-weight: 500; color: #bb6b42;">ΣΕΜΙΤΡΙΟΥΜ — Семитриум</p>
+                <div class="subhead" style="text-align: center; border-left: none;">Древняя система целостной любви: 7 сфер × 3 уровня</div>
+                <div style="margin: 1.8rem auto; width: 70px; height: 3px; background: #e64b2e;"></div>
+                <p style="color:#8b5a3a;">«Любовь не едина. Их семь. Одна сжигает, другая спасает, третья держит в клетке»</p>
+                <div style="margin-top: 1.5rem;"><span class="badge">ἀρχαία γνῶσις · древнее знание</span></div>
+            </div>
+        </div>
+
+        <!-- СЛАЙД 2: ПРОБЛЕМА (цитаты с сайта) -->
+        <div class="slide" data-idx="1">
+            <h2>📜 Знакомо?</h2>
+            <div class="grid-2">
+                <div class="card">🔥 <strong>Страсть прошла</strong><br>«Любовь кончилась» — потому что путают любовь только с Эросом</div>
+                <div class="card">🙏 <strong>Отдаёте, а партнёр не ценит</strong><br>Перекос в Агапэ (жертва без счёта)</div>
+                <div class="card">🌀 <strong>Ревность разрывает</strong><br>Зашкаливающая Мания — «безумие, что разрушает души»</div>
+                <div class="card">😔 <strong>Боитесь остаться одни</strong><br>Даже когда тяготитесь — низкая Автаркия</div>
+            </div>
+            <div class="quote">
+                «Большинство людей даже не знают, какой любовью они любят. Они просто страдают, скучают, ревнуют или терпят.»
+                <div style="margin-top:0.5rem;">— из свитков семи начал</div>
+            </div>
+        </div>
+
+        <!-- СЛАЙД 3: СЕМЬ НАЧАЛ (полный список) -->
+        <div class="slide" data-idx="2">
+            <h2>🏺 Семь сил внутри вас</h2>
+            <div class="grid-2">
+                <div class="card"><strong>1. Ἔρως · Эрос</strong><br>Пламя в крови, влечение, страсть</div>
+                <div class="card"><strong>2. φιλία · Филия</strong><br>Тепло дружбы, радость быть рядом</div>
+                <div class="card"><strong>3. στοργή · Стора</strong><br>Нежная привязанность, семейный уют</div>
+                <div class="card"><strong>4. ἀγάπη · Агапэ</strong><br>Жертва без счёта, милосердие</div>
+                <div class="card"><strong>5. πρᾶγμα · Прагма</strong><br>Холодный рассудок, рациональный выбор</div>
+                <div class="card"><strong>6. μανία · Мания</strong><br>Безумие, ревность, одержимость</div>
+                <div class="card"><strong>7. αὐτάρκεια · Автаркия</strong><br>Самодостаточность, свобода любить не теряя себя</div>
+            </div>
+            <div class="subhead">«Быть целостным — значит владеть всеми»</div>
+        </div>
+
+        <!-- СЛАЙД 4: ТРИНИТИ — 3 уровня (тело, душа, дух) -->
+        <div class="slide" data-idx="3">
+            <h2>🔴🟠🟡 Три уровня одной любви</h2>
+            <div class="grid-2">
+                <div class="card">🔴 <strong>Тело</strong><br>Плоть желает, комфорт согревает, прикосновение зажигает</div>
+                <div class="card">🟠 <strong>Душа</strong><br>Чувства трепещут, память хранит, принятие прощает</div>
+                <div class="card">🟡 <strong>Дух</strong><br>Выбор осознан, смысл наполняет, свобода отпускает</div>
+            </div>
+            <div class="quote">
+                «Любовь целостна, когда все три уровня говорят "да" одному человеку. И когда Автаркия позволяет сказать "нет".»
+            </div>
+        </div>
+
+        <!-- СЛАЙД 5: МАНИЯ И АВТАРКИЯ – КЛЮЧИ -->
+        <div class="slide" data-idx="4">
+            <h2>⚠️ Тень и свет</h2>
+            <div class="grid-2">
+                <div class="card" style="border-left: 5px solid #d9534f;"><strong>🌪️ Мания (μανία)</strong><br>«Безумие, ревность, страх потерять». Та самая тень любви, что разрушает города и души.</div>
+                <div class="card" style="border-left: 5px solid #3c9e6d;"><strong>🌿 Автаркия (αὐτάρκεια)</strong><br>Способность любить, не теряя себя. Ключ целостности: без неё остальные шесть опасны.</div>
+            </div>
+            <div class="quote" style="background: #f9ede2;">Без Автаркии даже Эрос становится одержимостью, а Агапэ — жертвой.</div>
+        </div>
+
+        <!-- СЛАЙД 6: ТЕСТ НА САЙТЕ (существующая диагностика) -->
+        <div class="slide" data-idx="5">
+            <h2>📋 Как сейчас: тест «Семь начал»</h2>
+            <div class="grid-2">
+                <div class="card">📝 <strong>21 вопрос</strong><br>5 минут, без регистрации</div>
+                <div class="card">📊 <strong>21 показатель</strong><br>баллы по каждой сфере на всех уровнях</div>
+                <div class="card">🧭 <strong>Профиль любви</strong><br>ваша сила и слепые пятна</div>
+                <div class="card">🔁 <strong>Статичный срез</strong><br>Одномоментная диагностика, но любовь — процесс</div>
+            </div>
+            <div class="quote">«Узнайте свои семь начал, прежде чем разбить очередные отношения»</div>
+        </div>
+
+        <!-- СЛАЙД 7: КОНЦЕПЦИЯ ПРОРЫВА (от теста к ритуалу) -->
+        <div class="slide" data-idx="6">
+            <h2>✨ От диагностики к ежедневной практике</h2>
+            <div style="background: #f6eadf; border-radius: 2rem; padding: 1.2rem; margin: 1rem 0;">
+                <p style="font-size:1.2rem; font-weight:500;">Что, если измерять любовь не раз в полгода, а <strong>каждый вечер</strong>?</p>
+            </div>
+            <div class="grid-2">
+                <div class="card">📊 <strong>Разовый тест</strong><br>→ осознание проблемы</div>
+                <div class="card">❤️ <strong>Ежедневный трекер</strong><br>→ практика + геймификация</div>
+            </div>
+            <div class="subhead">Накопление «сердечек» превращает древнюю мудрость в игровую привычку.</div>
+        </div>
+
+        <!-- СЛАЙД 8: КОНЦЕПЦИЯ ИГРОВОГО ТРЕКЕРА (без кода) -->
+        <div class="slide" data-idx="7">
+            <h2>🎮 «Сердце дня» — Love Power Tracker</h2>
+            <div class="grid-2">
+                <div class="card">🌙 <strong>7 ежедневных вопросов</strong><br>по одному на каждое начало (Эрос–Автаркия)</div>
+                <div class="card">❤️ <strong>Система сердечек</strong><br>0/1/2 балла, штраф за Манию</div>
+                <div class="card">🔥 <strong>Стрики и множители</strong><br>7 дней → x1.5, 14 дней → x2</div>
+                <div class="card">🏆 <strong>5 рангов</strong><br>Искатель → Просветлённый</div>
+            </div>
+            <div class="quote">Каждый вечер — 2 минуты, чтобы собрать любовную силу и видеть прогресс.</div>
+        </div>
+
+        <!-- СЛАЙД 9: ПРИМЕР ВОПРОСОВ (чек-лист 7 начал) -->
+        <div class="slide" data-idx="8">
+            <h2>📖 Ежедневный чек-лист (пример)</h2>
+            <table class="elegant-table">
+                <thead><tr><th>Начало</th><th>Уровень</th><th>Вопрос</th></tr></thead>
+                <tbody>
+                    <tr><td>Эрос</td><td>Тело</td><td>Я хотел(а) партнёра физически</td></tr>
+                    <tr><td>Филия</td><td>Душа</td><td>Мы говорили по душам или смеялись вместе</td></tr>
+                    <tr><td>Стора</td><td>Тело</td><td>Я чувствовал(а) уют и тепло от присутствия</td></tr>
+                    <tr><td>Агапэ</td><td>Душа</td><td>Я сделал(а) что-то приятное без просьбы</td></tr>
+                    <tr><td>Прагма</td><td>Дух</td><td>Я оценил(а) его/её вклад в быт или дела</td></tr>
+                    <tr style="background:#fef1e8;"><td>Мания ⚠️</td><td>Душа</td><td>Я ревновал(а) или хотел(а) контролировать (штраф)</td></tr>
+                    <tr><td>Автаркия</td><td>Дух</td><td>У меня было время на себя без чувства вины</td></tr>
+                </tbody>
+            </table>
+            <div class="subhead">Ответы: 0 ❌ / 1 🌙 немного / 2 ☀️ да!</div>
+        </div>
+
+        <!-- СЛАЙД 10: РАНГИ И ПРОГРЕСС -->
+        <div class="slide" data-idx="9">
+            <h2>🏅 Путь героя любви (ранги)</h2>
+            <div class="rank-steps">
+                <div class="rank-pill">🌱 Искатель<br>0–6❤️</div>
+                <div class="rank-pill">🚶 Странник<br>7–20❤️</div>
+                <div class="rank-pill">🔥 Хранитель<br>21–40❤️</div>
+                <div class="rank-pill">⚡ Мастер<br>41–70❤️</div>
+                <div class="rank-pill">👑 Просветлённый<br>71+❤️</div>
+            </div>
+            <div class="quote">«Сравнили с женой результаты — наконец поняли, где мы не совпадаем. Семитриум стал картой нашего брака.» — Сергей, 51 год</div>
+        </div>
+
+        <!-- СЛАЙД 11: ПРЕИМУЩЕСТВА (интерактив / дизайн) -->
+        <div class="slide" data-idx="10">
+            <h2>💎 Почему это резонирует?</h2>
+            <div class="grid-2">
+                <div class="card">🎮 <strong>Геймификация</strong><br>Ранги, стрики, анимации — держат интерес</div>
+                <div class="card">📊 <strong>Визуальный прогресс</strong><br>Календарь активности + полоса ранга</div>
+                <div class="card">🧠 <strong>Психологическая глубина</strong><br>7 начал, 3 уровня — системный подход</div>
+                <div class="card">🔒 <strong>Приватность</strong><br>Всё локально, без бэкенда</div>
+            </div>
+            <div class="quote">Отзыв с сайта: «Моя Мания зашкаливала. Я считал это сильной любовью. А оказалось — безумием. Автаркия спасла наши отношения.»</div>
+        </div>
+
+        <!-- СЛАЙД 12: ЗАКЛЮЧЕНИЕ + ПРИЗЫВ -->
+        <div class="slide" data-idx="11">
+            <div style="text-align: center; padding: 1rem 0;">
+                <span style="font-size: 4rem;">❤️‍🔥🏺</span>
+                <h2 style="border-left: none;">Превращаем древнюю мудрость<br>в ежедневный ритуал</h2>
+                <div class="rank-steps" style="justify-content: center;">
+                    <span class="badge">Эрос</span>
+                    <span class="badge">Филия</span>
+                    <span class="badge">Стора</span>
+                    <span class="badge">Агапэ</span>
+                    <span class="badge">Прагма</span>
+                    <span class="badge">Мания</span>
+                    <span class="badge">Автаркия</span>
+                </div>
+                <p style="margin: 1rem 0;">«Любовь целостна, когда все три уровня говорят "да" одному человеку»</p>
+                <div style="background: #f6e8dd; width: fit-content; margin: 1.5rem auto; padding: 0.8rem 1.8rem; border-radius: 3rem;">
+                    🌐 Сердце дня — ваш игровой трекер любовной силы
+                </div>
+                <footer style="margin-top: 1.5rem;">Основано на открытых данных ZaloveClub · Семь начал любви / Семитриум</footer>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevSlideBtn">← Назад</button>
+        <span class="slide-counter" id="slideCounter">1 / 12</span>
+        <button class="nav-btn" id="nextSlideBtn">Вперёд →</button>
+    </div>
+</div>
+<footer style="margin-top: 0.8rem;">✨ интерактивная презентация · нажимайте стрелки или кнопки · парящие сердца при переключении</footer>
+
+<script>
+    (function(){
+        const slides = document.querySelectorAll('.slide');
+        let current = 0;
+        const total = slides.length;
+        const prevBtn = document.getElementById('prevSlideBtn');
+        const nextBtn = document.getElementById('nextSlideBtn');
+        const counterSpan = document.getElementById('slideCounter');
+
+        function showFloatingHeart() {
+            const rect = document.querySelector('.presentation')?.getBoundingClientRect();
+            if(!rect) return;
+            const heartDiv = document.createElement('div');
+            heartDiv.className = 'floating-love';
+            heartDiv.innerHTML = '❤️‍🔥';
+            heartDiv.style.left = rect.left + rect.width/2 - 15 + 'px';
+            heartDiv.style.top = rect.top + 50 + 'px';
+            document.body.appendChild(heartDiv);
+            setTimeout(() => heartDiv.remove(), 900);
+        }
+
+        function updateSlide() {
+            slides.forEach((slide, idx) => {
+                if(idx === current) slide.classList.add('active');
+                else slide.classList.remove('active');
+            });
+            counterSpan.innerText = `${current+1} / ${total}`;
+            showFloatingHeart();
+        }
+
+        function nextSlide() {
+            if(current < total-1) {
+                current++;
+                updateSlide();
+            } else {
+                // легкий фидбек
+                nextBtn.style.transform = 'scale(0.96)';
+                setTimeout(() => nextBtn.style.transform = '', 150);
+                showFloatingHeart();
+            }
+        }
+
+        function prevSlide() {
+            if(current > 0) {
+                current--;
+                updateSlide();
+            } else {
+                prevBtn.style.transform = 'scale(0.96)';
+                setTimeout(() => prevBtn.style.transform = '', 150);
+                showFloatingHeart();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        window.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowLeft') {
+                prevSlide();
+                e.preventDefault();
+            } else if(e.key === 'ArrowRight') {
+                nextSlide();
+                e.preventDefault();
+            }
+        });
+
+        // клик по активному слайду тоже перелистывает для удобства (но не по кнопкам)
+        slides.forEach(slide => {
+            slide.addEventListener('click', (e) => {
+                if(e.target.closest('.nav-btn')) return;
+                if(e.target.closest('button')) return;
+                nextSlide();
+            });
+        });
+
+        updateSlide();
+    })();
+</script>
+</body>
+</html>
