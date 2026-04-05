@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Денежный Семитриум</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.1.0/cyrillic.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg-deep: #0b1712;
+      --bg-forest: #122019;
+      --bg-card: rgba(20, 38, 30, 0.85);
+      --border: rgba(212, 175, 55, 0.2);
+      --text-main: #e8e4d9;
+      --text-muted: #b5c0b8;
+      --gold: #d4af37;
+      --gold-light: #f0e0b5;
+      --leaf: #5a8f6a;
+      --radius: 20px;
+      --shadow: 0 12px 40px rgba(0,0,0,0.4);
+      --trans: 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 112.5%; scroll-behavior: smooth; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(ellipse at 15% 25%, #13241c 0%, #070e0b 100%);
+      color: var(--text-main);
+      line-height: 1.75;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    p, li, td, th, span { font-size: 1.05rem; }
+    strong { font-weight: 700; color: var(--text-main); }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      position: relative;
+    }
+    header::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at center, rgba(90,143,106,0.18) 0%, transparent 65%);
+      pointer-events: none;
+      animation: pulseBg 10s ease-in-out infinite alternate;
+    }
+
+    .logo-wrap {
+      width: 130px; height: 130px;
+      margin-bottom: 28px;
+      animation: float 6s ease-in-out infinite;
+      filter: drop-shadow(0 6px 16px rgba(212,175,55,0.35));
+    }
+    .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 20px; letter-spacing: 0.5px;
+    }
+    .subtitle {
+      font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+      color: var(--text-muted); max-width: 820px; margin-bottom: 36px;
+    }
+    .scroll-hint {
+      margin-top: 48px; opacity: 0.7; font-size: 0.95rem; letter-spacing: 2px; text-transform: uppercase;
+      animation: bounce 2.5s infinite;
+    }
+
+    /* Sections */
+    section { padding: 110px 0; position: relative; }
+    section:nth-child(even) { background: linear-gradient(180deg, rgba(18,32,25,0.6) 0%, transparent 100%); }
+
+    h2 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      text-align: center; margin-bottom: 32px;
+      color: var(--gold-light);
+    }
+    h2 i { font-size: 0.9em; vertical-align: middle; margin-right: 14px; opacity: 0.9; }
+
+    .section-desc {
+      text-align: center; max-width: 860px; margin: 0 auto 64px;
+      font-size: 1.15rem; color: var(--text-muted);
+    }
+
+    /* Cards & Grid */
+    .grid {
+      display: grid; gap: 28px;
+    }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px;
+      backdrop-filter: blur(12px); box-shadow: var(--shadow);
+      transition: var(--trans); position: relative; overflow: hidden;
+    }
+    .card:hover { transform: translateY(-6px); border-color: rgba(212,175,55,0.5); }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+      background: linear-gradient(90deg, var(--gold), var(--leaf)); opacity: 0.9;
+    }
+
+    .card-icon {
+      font-size: 2.2rem; color: var(--gold); margin-bottom: 18px; display: block;
+      transition: var(--trans);
+    }
+    .card:hover .card-icon { transform: scale(1.12) rotate(4deg); }
+    h3 { font-size: 1.7rem; margin-bottom: 14px; color: var(--text-main); }
+    ul { list-style: none; padding: 0; }
+    li {
+      padding: 10px 0; border-bottom: 1px dashed rgba(160,180,165,0.2);
+      display: flex; align-items: flex-start; gap: 12px; font-size: 1.05rem;
+    }
+    li:last-child { border-bottom: none; }
+    li i { color: var(--leaf); margin-top: 5px; font-size: 0.9rem; }
+
+    /* Philosophy Grid */
+    .phil-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .phil-item {
+      text-align: center; padding: 32px 20px; background: rgba(255,255,255,0.04);
+      border-radius: 16px; transition: var(--trans);
+    }
+    .phil-item:hover { background: rgba(255,255,255,0.08); transform: translateY(-4px); }
+    .phil-item i { font-size: 2rem; color: var(--gold-light); margin-bottom: 14px; display: block; }
+    .phil-item strong { font-size: 1.25rem; display: block; margin-bottom: 8px; }
+
+    /* Audience Grid */
+    .audience-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .aud-card {
+      display: flex; flex-direction: column; gap: 8px; padding: 26px;
+      background: rgba(30,48,38,0.6); border-radius: 16px; border-left: 4px solid var(--gold);
+    }
+    .aud-card strong { font-size: 1.15rem; color: var(--text-main); }
+
+    /* Streams Grid (7 items) */
+    .streams-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .stream-card:nth-child(7) {
+      grid-column: 1 / -1; max-width: 720px; margin: 0 auto; text-align: center;
+    }
+    @media (max-width: 768px) {
+      .stream-card:nth-child(7) { grid-column: auto; max-width: 100%; text-align: left; }
+    }
+
+    /* Steps */
+    .steps { display: flex; flex-direction: column; gap: 24px; max-width: 900px; margin: 0 auto; }
+    .step {
+      display: flex; gap: 24px; align-items: flex-start; padding: 24px;
+      background: linear-gradient(90deg, rgba(90,143,106,0.12) 0%, transparent 100%);
+      border-radius: 16px; border-left: 4px solid var(--gold);
+    }
+    .step-num {
+      font-family: 'Montserrat', sans-serif; font-size: 2.8rem; font-weight: 800;
+      color: var(--gold); line-height: 1; min-width: 60px;
+    }
+    .step h4 { font-size: 1.3rem; margin-bottom: 8px; color: var(--text-main); }
+    .step p { margin: 0; font-size: 1.1rem; color: var(--text-muted); }
+
+    /* Conclusion */
+    .conclusion {
+      text-align: center; padding: 140px 20px;
+      background: radial-gradient(circle at 50% 110%, #162a20 0%, #080e0b 65%);
+    }
+    .cta {
+      display: inline-block; margin-top: 36px; padding: 18px 48px;
+      background: linear-gradient(90deg, var(--gold), #b8942f);
+      color: #0b1712; font-weight: 700; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 1.5px;
+      border-radius: 60px; text-decoration: none; box-shadow: 0 6px 24px rgba(212,175,55,0.45);
+      transition: var(--trans);
+    }
+    .cta:hover { transform: translateY(-4px); box-shadow: 0 10px 36px rgba(212,175,55,0.6); }
+
+    /* Reveal Animation */
+    .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* Keyframes */
+    @keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
+    @keyframes pulseBg { 0% { opacity: 0.5; transform: scale(1); } 100% { opacity: 0.8; transform: scale(1.04); } }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    @media (max-width: 768px) {
+      html { font-size: 105%; }
+      h1 { margin-bottom: 12px; }
+      .subtitle { font-size: 1.1rem; }
+      section { padding: 80px 0; }
+      .step { flex-direction: column; gap: 12px; text-align: center; }
+      .step-num { margin: 0 auto 6px; }
+      .card, .phil-item, .aud-card { padding: 26px 20px; }
+      li { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <img src="http://zaloveclub.ru/images/semitrium1.svg" alt="Семитриум">
+  </div>
+  <h1 class="reveal">Денежный Семитриум</h1>
+  <p class="subtitle reveal">Диагностическо-трансформационная система осознанного управления денежной энергией. Верните себе авторство, ясность и свободу в отношениях с финансами.</p>
+  <div class="scroll-hint reveal">↓ Исследуйте карту</div>
+</header>
+
+<main>
+  <section id="mission">
+    <div class="container">
+      <h2 class="reveal"><i class="fa-solid fa-bullseye"></i>Миссия</h2>
+      <p class="section-desc reveal">
+        Вернуть деньгам естественный статус энергии жизни и помочь каждому человеку выстроить с ними отношения, основанные на доверии, ясности и уважении. Мы создаём пространство, где финансы перестают быть гонкой, табу или источником страха, а становятся частью экосистемы личного благополучия, устойчивого роста и осознанного вклада в мир.
+      </p>
+    </div>
+  </section>
+
+  <section id="philosophy">
+    <div class="container">
+      <h2 class="reveal"><i class="fa-solid fa-compass"></i>Философия</h2>
+      <div class="grid phil-grid">
+        <div class="phil-item reveal"><i class="fa-solid fa-language"></i><strong>Язык, а не цель</strong><span style="color:var(--text-muted)">Деньги отражают ценности, страхи и доверие к жизни.</span></div>
+        <div class="phil-item reveal"><i class="fa-solid fa-scale-balanced"></i><strong>Баланс > Максимум</strong><span style="color:var(--text-muted)">Изобилие — свобода циркуляции, а не цифра на счёте.</span></div>
+        <div class="phil-item reveal"><i class="fa-solid fa-water"></i><strong>Доверие, не контроль</strong><span style="color:var(--text-muted)">Устойчивость рождается из осознанного распределения.</span></div>
+        <div class="phil-item reveal"><i class="fa-solid fa-leaf"></i><strong>Сад не выживает</strong><span style="color:var(--text-muted)">Деньги требуют ухода: полива, защиты, питания и цветения.</span></div>
+        <div class="phil-item reveal"><i class="fa-solid fa-seedling"></i><strong>Ресурс уже есть</strong><span style="color:var(--text-muted)">Нужно лишь расчистить пути для естественного движения.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="importance">
+    <div class="container">
+      <h2 class="reveal"><i class="fa-solid fa-bolt"></i>Почему это важно сейчас</h2>
+      <p class="section-desc reveal">
+        Мы живём в эпоху финансовой тревожности. Традиционные подходы (таблицы, лимиты, жёсткий учёт) усиливают стресс, потому что работают с симптомами, а не с состоянием. Люди либо <strong>боятся денег</strong>, либо <strong>бегут за ними</strong>, либо застревают в цикле «заработал – потратил – снова в нуле».
+      </p>
+      <p class="section-desc reveal">
+        Этот проект закрывает разрыв между финансовой грамотностью и психологией. Он даёт не шаблоны, а зеркало: показывает, где энергия застревает, где утекает, и как это исправить без насилия над собой, через осознанность и возвращение авторства.
+      </p>
+    </div>
+  </section>
+
+  <section id="audience">
+    <div class="container">
+      <h2 class="reveal"><i class="fa-solid fa-users"></i>Зачем это каждому</h2>
+      <div class="grid audience-grid">
+        <div class="aud-card reveal"><strong>🌱 Новички / «вечно на нуле»</strong><span style="color:var(--text-muted)">Увидят скрытые блоки, перестанут саботировать доход, создадут опору без чувства вины.</span></div>
+        <div class="aud-card reveal"><strong>💼 Предприниматели / фрилансеры</strong><span style="color:var(--text-muted)">Баланс роста и устойчивости, защита от выгорания по схеме «всё в дело».</span></div>
+        <div class="aud-card reveal"><strong>🌟 Те, у кого «есть, но нет радости»</strong><span style="color:var(--text-muted)">Фокус на качество жизни, отдых, смыслы и долгосрочное наследие.</span></div>
+        <div class="aud-card reveal"><strong>👨‍👩‍👧 Пары и семьи</strong><span style="color:var(--text-muted)">Общий язык для финансовых разговоров без обвинений и напряжения.</span></div>
+        <div class="aud-card reveal"><strong>🍃 Искатели гармонии</strong><span style="color:var(--text-muted)">Превращение денег в инструмент экологичной, осознанной жизни.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="streams">
+    <div class="container">
+      <h2 class="reveal"><i class="fa-solid fa-diagram-project"></i>Ядро системы: 7 Потоков × 3</h2>
+      <p class="section-desc reveal">Матрица из 21 измерения финансовой жизни. Оценка от –1000 (блок) до +1000 (доверие). Каждый поток — направление энергии, каждый подпоток — её канал.</p>
+      
+      <div class="grid streams-grid">
+        <div class="card stream-card reveal">
+          <i class="fa-solid fa-cloud-showers-heavy card-icon"></i>
+          <h3>🌧️ ПРИЁМ</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Заслуженное: зарплата, гонорар, оплата услуг</li>
+            <li><i class="fa-solid fa-check"></i> Неожиданное: подарки, бонусы, кэшбэк</li>
+            <li><i class="fa-solid fa-check"></i> Пассивное: проценты, дивиденды, роялти</li>
+          </ul>
+        </div>
+        <div class="card stream-card reveal">
+          <i class="fa-solid fa-cube card-icon"></i>
+          <h3>🪨 ОПОРЫ</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Подушка: 3–6 месяцев на чёрный день</li>
+            <li><i class="fa-solid fa-check"></i> Целевой: авто, обучение, конкретный проект</li>
+            <li><i class="fa-solid fa-check"></i> Страховой: медицина, имущество, защита</li>
+          </ul>
+        </div>
+        <div class="card stream-card reveal">
+          <i class="fa-solid fa-utensils card-icon"></i>
+          <h3>🍽️ ПИТАНИЕ</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> База: еда, жильё, коммуналка, транспорт</li>
+            <li><i class="fa-solid fa-check"></i> Комфорт: связь, подписки, сервисы, удобство</li>
+            <li><i class="fa-solid fa-check"></i> Обязательства: налоги, кредиты, взносы</li>
+          </ul>
+        </div>
+        <div class="card stream-card reveal">
+          <i class="fa-solid fa-chart-line card-icon"></i>
+          <h3>🌳 РОСТ</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Активы: недвижимость, доли, бизнес</li>
+            <li><i class="fa-solid fa-check"></i> Знания: курсы, менторство, книги</li>
+            <li><i class="fa-solid fa-check"></i> Сеть: нетворкинг, коллаборации</li>
+          </ul>
+        </div>
+        <div class="card stream-card reveal">
+          <i class="fa-solid fa-dove card-icon"></i>
+          <h3>🦋 РАДОСТЬ</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Впечатления: путешествия, события, фестивали</li>
+            <li><i class="fa-solid fa-check"></i> Тело: спорт, СПА, одежда для удовольствия</li>
+            <li><i class="fa-solid fa-check"></i> Творчество: хобби, материалы, искусство</li>
+          </ul>
+        </div>
+        <div class="card stream-card reveal">
+          <i class="fa-solid fa-hands-holding-circle card-icon"></i>
+          <h3>🐝 ОТДАЧА</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Эгрегору: благотворительность, миссии</li>
+            <li><i class="fa-solid fa-check"></i> Близким: помощь семье, друзьям, наставникам</li>
+            <li><i class="fa-solid fa-check"></i> Миру: экология, волонтёрство, открытые знания</li>
+          </ul>
+        </div>
+        <div class="card stream-card reveal">
+          <i class="fa-solid fa-infinity card-icon"></i>
+          <h3>🌰 НАСЛЕДИЕ</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Детям: образование, старт, фонды</li>
+            <li><i class="fa-solid fa-check"></i> Проекту: развитие дела, бренда, экосистемы</li>
+            <li><i class="fa-solid fa-check"></i> Свободе: независимость, право выбора, время</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="howitworks">
+    <div class="container">
+      <h2 class="reveal"><i class="fa-solid fa-wand-magic-sparkles"></i>Как это работает</h2>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div><h4>Диагностика</h4><p>Проходите тест по 21 подпотоку, получаете баллы от –1000 до +1000 по трём ключевым вопросам.</p></div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <div><h4>Визуализация</h4><p>Ваша «Карта Сада» расцветает там, где поток открыт, и мягко подсвечивает зоны, требующие внимания.</p></div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <div><h4>Настройка</h4><p>Персональные рекомендации: микро-привычки, вопросы для рефлексии, практики доверия потоку.</p></div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">04</div>
+          <div><h4>Отслеживание</h4><p>Регулярные чекины показывают, как меняется ваш финансовый климат и как восстанавливается баланс.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="conclusion">
+    <div class="container reveal">
+      <h2 style="margin-bottom: 20px;">Деньги не приходят к тем, кто гонится.</h2>
+      <p style="font-size: 1.2rem; max-width: 860px; margin: 0 auto; color: var(--text-muted);">
+        Они приходят туда, где есть место, порядок и благодарность. Этот проект — не про то, как стать богаче. Он про то, как стать цельнее. Когда вы понимаете, куда течёт ваша энергия, вы перестаёте бояться её потерять — и начинаете доверять, что она вернётся, умножившись.
+      </p>
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 1.4rem; color: var(--gold-light); margin-top: 28px; font-weight: 500;">🌱 Ваш сад уже ждёт полива. Пора увидеть его карту.</p>
+      <a href="#" class="cta">Начать диагностику</a>
+    </div>
+  </section>
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  });
+</script>
+</body>
+</html>
+
