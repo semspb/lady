@@ -1,0 +1,28 @@
+<svg viewBox="0 0 300 300" width="180" height="180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#eddcb0"></stop>
+      <stop offset="100%" stop-color="#9a7030"></stop>
+    </linearGradient>
+    <linearGradient id="tB" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c8a96e"></stop>
+      <stop offset="100%" stop-color="#7a5420"></stop>
+    </linearGradient>
+    <filter id="softglow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 7 треугольников, образующих семиконечную звезду -->
+  <polygon points="156.00,32.57 238.07,72.09 156.00,137.53" fill="url(#tA)" fill-opacity="0.28" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.9" filter="url(#softglow)"></polygon>
+  <polygon points="245.55,81.48 265.82,170.28 163.49,146.92" fill="url(#tB)" fill-opacity="0.24" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.9" filter="url(#softglow)"></polygon>
+  <polygon points="263.15,181.98 206.36,253.19 160.82,158.63" fill="url(#tA)" fill-opacity="0.28" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.9" filter="url(#softglow)"></polygon>
+  <polygon points="195.54,258.40 104.46,258.40 150.00,163.84" fill="url(#tB)" fill-opacity="0.24" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.9" filter="url(#softglow)"></polygon>
+  <polygon points="93.64,253.19 36.85,181.98 139.18,158.63" fill="url(#tA)" fill-opacity="0.28" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.9" filter="url(#softglow)"></polygon>
+  <polygon points="34.18,170.28 54.45,81.48 136.51,146.92" fill="url(#tB)" fill-opacity="0.24" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.9" filter="url(#softglow)"></polygon>
+  <polygon points="61.93,72.09 144.00,32.57 144.00,137.53" fill="url(#tA)" fill-opacity="0.28" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.9" filter="url(#softglow)"></polygon>
+</svg>
