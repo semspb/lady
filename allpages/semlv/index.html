@@ -1,1 +1,911 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semitrium Daily Check-Up | Семитриум Любви</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary: #8B4513;
+            --secondary: #D2691E;
+            --accent: #FFD700;
+            --dark: #2C1810;
+            --light: #FFF8DC;
+            --shadow: #8B7355;
+            --negative: #DC143C;
+            --neutral: #DAA520;
+            --positive: #228B22;
+            --body: #FF6B6B;
+            --soul: #4ECDC4;
+            --spirit: #FFE66D;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: var(--accent);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        header .subtitle {
+            font-style: italic;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .date-display {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 968px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,215,0,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+
+        .beginning-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            border-left: 4px solid var(--secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .beginning-item:hover {
+            transform: translateX(5px);
+        }
+
+        .beginning-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .beginning-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .beginning-greek {
+            font-style: italic;
+            opacity: 0.7;
+            font-size: 0.9em;
+        }
+
+        .beginning-desc {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .level-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .level-tab {
+            flex: 1;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+            color: var(--light);
+        }
+
+        .level-tab.active[data-level="body"] {
+            background: var(--body);
+            box-shadow: 0 0 15px var(--body);
+        }
+
+        .level-tab.active[data-level="soul"] {
+            background: var(--soul);
+            box-shadow: 0 0 15px var(--soul);
+        }
+
+        .level-tab.active[data-level="spirit"] {
+            background: var(--spirit);
+            color: var(--dark);
+            box-shadow: 0 0 15px var(--spirit);
+        }
+
+        .level-content {
+            display: none;
+        }
+
+        .level-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, 
+                var(--negative) 0%, 
+                var(--neutral) 50%, 
+                var(--positive) 100%);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255,215,0,0.8);
+            border: 3px solid var(--dark);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255,215,0,0.8);
+            border: 3px solid var(--dark);
+        }
+
+        .value-display {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 10px;
+            color: var(--accent);
+        }
+
+        .value-display.negative { color: var(--negative); }
+        .value-display.neutral { color: var(--neutral); }
+        .value-display.positive { color: var(--positive); }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 10px 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(210,105,30,0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--light);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,215,0,0.2);
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .evening-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+        }
+
+        .textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--secondary);
+            background: rgba(255,255,255,0.05);
+            color: var(--light);
+            font-size: 1em;
+            resize: vertical;
+            margin-top: 10px;
+        }
+
+        .textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(255,215,0,0.3);
+        }
+
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .history-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            border-left: 3px solid var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+
+        .history-date {
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .history-summary {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .manialert {
+            background: rgba(220,20,60,0.2);
+            border: 2px solid var(--negative);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .manialert.show {
+            display: block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .manialert h3 {
+            color: var(--negative);
+            margin-bottom: 10px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        .autarkia-warning {
+            background: rgba(255,165,0,0.2);
+            border: 2px solid orange;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .autarkia-warning.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⟡ SEMITRIUM ⟡</h1>
+            <p class="subtitle">Ежедневный чек-ап энергии | 7 начал × 3 уровня</p>
+        </header>
+
+        <div class="date-display" id="currentDate"></div>
+
+        <div class="grid">
+            <!-- Morning Check-in -->
+            <div class="card">
+                <h2>🌅 Утренний скан</h2>
+                <div id="beginningsContainer"></div>
+                
+                <div class="manialert" id="maniaAlert">
+                    <h3>⚠️ Внимание: Мания активна</h3>
+                    <p>Обнаружена энергия в минусовой зоне. Рекомендуется сначала стабилизировать состояние через тело и дыхание, прежде чем переходить к активным действиям.</p>
+                </div>
+
+                <div class="autarkia-warning" id="autarkiaWarning">
+                    <h3>⚡ Приоритет: Автаркия</h3>
+                    <p>Ваша самодостаточность ниже нуля. Это фундамент! Сначала восстановите опору на себя, затем работайте с остальными сферами.</p>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="saveMorningCheck()">Сохранить утренний чек-ап</button>
+                    <button class="btn btn-secondary" onclick="calculateEnergy()">Рассчитать баланс</button>
+                </div>
+            </div>
+
+            <!-- Visualization & Stats -->
+            <div class="card">
+                <h2>📊 Визуализация энергии</h2>
+                <div class="chart-container">
+                    <canvas id="energyRadar"></canvas>
+                </div>
+                
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalEnergy">0</div>
+                        <div class="stat-label">Общая энергия</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="dominantBeginning">-</div>
+                        <div class="stat-label">Доминанта</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="energyBalance">0</div>
+                        <div class="stat-label">Баланс</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evening Reflection -->
+        <div class="card">
+            <h2>🌙 Вечерняя рефлексия</h2>
+            <div class="evening-section">
+                <h3>Δ Энергия за день</h3>
+                <div class="slider-container">
+                    <div class="slider-labels">
+                        <span>Сильный спад (-1000)</span>
+                        <span>Без изменений (0)</span>
+                        <span>Сильный рост (+1000)</span>
+                    </div>
+                    <input type="range" min="-1000" max="1000" value="0" class="slider" id="energyDelta">
+                    <div class="value-display" id="deltaValue">0</div>
+                </div>
+
+                <h3 style="margin-top: 25px; margin-bottom: 10px;">Где был самый большой прирост?</h3>
+                <textarea class="textarea" id="growthArea" placeholder="Опишите, в какой сфере сегодня был прорыв..."></textarea>
+
+                <h3 style="margin-top: 25px; margin-bottom: 10px;">Где «протекла» энергия?</h3>
+                <textarea class="textarea" id="energyLeak" placeholder="Где сегодня потеряли энергию? Мания, усталость, конфликты?"></textarea>
+
+                <h3 style="margin-top: 25px; margin-bottom: 10px;">Инсайт дня</h3>
+                <textarea class="textarea" id="dailyInsight" placeholder="Одно важное осознание для завтра..."></textarea>
+
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="saveEveningReflection()">Завершить день</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- History -->
+        <div class="card" style="margin-top: 30px;">
+            <h2>📚 История чек-апов</h2>
+            <div class="history-list" id="historyList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Data structure
+        const beginnings = [
+            { id: 'eros', name: 'Эрос', greek: 'Ἔρως', desc: 'Страсть, жизненная сила, желание действовать', icon: '🔥' },
+            { id: 'philia', name: 'Филия', greek: 'φιλία', desc: 'Дружба, поддержка, чувство общности', icon: '🤝' },
+            { id: 'storge', name: 'Стора', greek: 'στοργή', desc: 'Привязанность, уют, безопасность, заземление', icon: '🏡' },
+            { id: 'agape', name: 'Агапэ', greek: 'ἀγάπη', desc: 'Служение, отдавание без ожидания возврата', icon: '💝' },
+            { id: 'pragma', name: 'Прагма', greek: 'πρᾶγμα', desc: 'Разум, ясность плана, рациональный выбор', icon: '🧠' },
+            { id: 'mania', name: 'Мания', greek: 'μανία', desc: 'Тень: тревога, ревность, навязчивые мысли', icon: '⚠️', isShadow: true },
+            { id: 'autarkia', name: 'Автаркия', greek: 'αὐτάρκεια', desc: 'Целостность, внутренняя свобода, опора на себя', icon: '👑', isKey: true }
+        ];
+
+        const levels = [
+            { id: 'body', name: 'Тело', color: '#FF6B6B', desc: 'Плоть желает, комфорт согревает' },
+            { id: 'soul', name: 'Душа', color: '#4ECDC4', desc: 'Чувства трепещут, память хранит' },
+            { id: 'spirit', name: 'Дух', color: '#FFE66D', desc: 'Выбор осознан, смысл наполняет' }
+        ];
+
+        let currentData = {};
+        let energyChart = null;
+        let checkInTime = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDate();
+            renderBeginnings();
+            initChart();
+            loadHistory();
+            setupSliderListeners();
+            
+            // Load saved data if exists
+            const saved = localStorage.getItem('todayCheckIn');
+            if (saved) {
+                const today = new Date().toDateString();
+                const savedDate = JSON.parse(saved).date;
+                if (savedDate === today) {
+                    loadData(JSON.parse(saved));
+                }
+            }
+        });
+
+        function renderDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('ru-RU', options);
+        }
+
+        function renderBeginnings() {
+            const container = document.getElementById('beginningsContainer');
+            container.innerHTML = '';
+
+            beginnings.forEach(beginning => {
+                const div = document.createElement('div');
+                div.className = 'beginning-item';
+                div.innerHTML = `
+                    <div class="beginning-header">
+                        <div>
+                            <span class="beginning-name">${beginning.icon} ${beginning.name}</span>
+                            <span class="beginning-greek">${beginning.greek}</span>
+                        </div>
+                    </div>
+                    <div class="beginning-desc">${beginning.desc}</div>
+                    <div class="level-tabs">
+                        ${levels.map(level => `
+                            <button class="level-tab" data-level="${level.id}" 
+                                    onclick="switchLevel('${beginning.id}', '${level.id}')">
+                                ${level.name}
+                            </button>
+                        `).join('')}
+                    </div>
+                    ${levels.map(level => `
+                        <div class="level-content" id="${beginning.id}-${level.id}">
+                            <div class="slider-container">
+                                <div class="slider-labels">
+                                    <span>OFF (-1000)</span>
+                                    <span>Нейтрально (0)</span>
+                                    <span>ON (+1000)</span>
+                                </div>
+                                <input type="range" min="-1000" max="1000" value="0" 
+                                       class="slider" 
+                                       id="slider-${beginning.id}-${level.id}"
+                                       oninput="updateValue('${beginning.id}', '${level.id}', this.value)">
+                                <div class="value-display" id="value-${beginning.id}-${level.id}">0</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+                container.appendChild(div);
+
+                // Activate first level by default
+                switchLevel(beginning.id, 'body');
+            });
+        }
+
+        function switchLevel(beginningId, levelId) {
+            // Update tabs
+            const container = document.getElementById(`beginningsContainer`);
+            const tabs = container.querySelectorAll(`[onclick*="${beginningId}"]`);
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update content
+            levels.forEach(level => {
+                const content = document.getElementById(`${beginningId}-${level.id}`);
+                if (content) {
+                    content.classList.remove('active');
+                }
+            });
+            document.getElementById(`${beginningId}-${levelId}`).classList.add('active');
+        }
+
+        function updateValue(beginningId, levelId, value) {
+            const display = document.getElementById(`value-${beginningId}-${levelId}`);
+            display.textContent = value;
+            
+            // Update color based on value
+            display.classList.remove('negative', 'neutral', 'positive');
+            if (value < 0) display.classList.add('negative');
+            else if (value > 0) display.classList.add('positive');
+            else display.classList.add('neutral');
+
+            // Store in current data
+            if (!currentData[beginningId]) currentData[beginningId] = {};
+            currentData[beginningId][levelId] = parseInt(value);
+
+            // Check for alerts
+            checkAlerts();
+        }
+
+        function checkAlerts() {
+            // Check Mania
+            const maniaData = currentData['mania'] || {};
+            const maniaTotal = Object.values(maniaData).reduce((a, b) => a + b, 0);
+            const maniaAlert = document.getElementById('maniaAlert');
+            if (maniaTotal < -300) {
+                maniaAlert.classList.add('show');
+            } else {
+                maniaAlert.classList.remove('show');
+            }
+
+            // Check Autarkia
+            const autarkiaData = currentData['autarkia'] || {};
+            const autarkiaTotal = Object.values(autarkiaData).reduce((a, b) => a + b, 0);
+            const autarkiaWarning = document.getElementById('autarkiaWarning');
+            if (autarkiaTotal < 0) {
+                autarkiaWarning.classList.add('show');
+            } else {
+                autarkiaWarning.classList.remove('show');
+            }
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('energyRadar').getContext('2d');
+            energyChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: beginnings.map(b => b.name),
+                    datasets: [{
+                        label: 'Тело',
+                        data: beginnings.map(() => 0),
+                        backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                        borderColor: '#FF6B6B',
+                        pointBackgroundColor: '#FF6B6B',
+                    }, {
+                        label: 'Душа',
+                        data: beginnings.map(() => 0),
+                        backgroundColor: 'rgba(78, 205, 196, 0.2)',
+                        borderColor: '#4ECDC4',
+                        pointBackgroundColor: '#4ECDC4',
+                    }, {
+                        label: 'Дух',
+                        data: beginnings.map(() => 0),
+                        backgroundColor: 'rgba(255, 230, 109, 0.2)',
+                        borderColor: '#FFE66D',
+                        pointBackgroundColor: '#FFE66D',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            min: -1000,
+                            max: 1000,
+                            ticks: {
+                                stepSize: 500,
+                                color: '#FFF8DC',
+                                backdropColor: 'transparent'
+                            },
+                            grid: {
+                                color: 'rgba(255, 215, 0, 0.3)'
+                            },
+                            angleLines: {
+                                color: 'rgba(255, 215, 0, 0.3)'
+                            },
+                            pointLabels: {
+                                color: '#FFD700',
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#FFF8DC',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart() {
+            if (!energyChart) return;
+
+            const bodyData = beginnings.map(b => (currentData[b.id]?.body || 0));
+            const soulData = beginnings.map(b => (currentData[b.id]?.soul || 0));
+            const spiritData = beginnings.map(b => (currentData[b.id]?.spirit || 0));
+
+            energyChart.data.datasets[0].data = bodyData;
+            energyChart.data.datasets[1].data = soulData;
+            energyChart.data.datasets[2].data = spiritData;
+            energyChart.update();
+        }
+
+        function calculateEnergy() {
+            let totalEnergy = 0;
+            let maxEnergy = -Infinity;
+            let dominantBeginning = '-';
+            let positiveCount = 0;
+            let negativeCount = 0;
+
+            beginnings.forEach(beginning => {
+                const data = currentData[beginning.id] || {};
+                const total = Object.values(data).reduce((a, b) => a + b, 0);
+                totalEnergy += total;
+
+                if (total > maxEnergy) {
+                    maxEnergy = total;
+                    dominantBeginning = beginning.name;
+                }
+
+                if (total > 0) positiveCount++;
+                else if (total < 0) negativeCount++;
+            });
+
+            document.getElementById('totalEnergy').textContent = totalEnergy;
+            document.getElementById('dominantBeginning').textContent = dominantBeginning;
+            
+            const balance = positiveCount - negativeCount;
+            const balanceEl = document.getElementById('energyBalance');
+            balanceEl.textContent = balance > 0 ? `+${balance}` : balance;
+            balanceEl.style.color = balance >= 0 ? 'var(--positive)' : 'var(--negative)';
+
+            updateChart();
+        }
+
+        function saveMorningCheck() {
+            checkInTime = new Date();
+            const data = {
+                date: new Date().toDateString(),
+                timestamp: checkInTime.toISOString(),
+                values: currentData
+            };
+            localStorage.setItem('todayCheckIn', JSON.stringify(data));
+            alert('✅ Утренний чек-ап сохранен! Не забудьте вечером заполнить рефлексию.');
+            addToHistory(data);
+        }
+
+        function saveEveningReflection() {
+            const delta = document.getElementById('energyDelta').value;
+            const growth = document.getElementById('growthArea').value;
+            const leak = document.getElementById('energyLeak').value;
+            const insight = document.getElementById('dailyInsight').value;
+
+            const saved = localStorage.getItem('todayCheckIn');
+            if (!saved) {
+                alert('⚠️ Сначала сохраните утренний чек-ап!');
+                return;
+            }
+
+            const data = JSON.parse(saved);
+            data.evening = {
+                delta: parseInt(delta),
+                growth,
+                leak,
+                insight,
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem('todayCheckIn', JSON.stringify(data));
+            
+            // Save to history
+            const history = JSON.parse(localStorage.getItem('checkInHistory') || '[]');
+            history.unshift(data);
+            localStorage.setItem('checkInHistory', JSON.stringify(history.slice(0, 30))); // Keep last 30 days
+            
+            alert('🌙 День завершен! Отличная работа над собой.');
+            loadHistory();
+        }
+
+        function setupSliderListeners() {
+            document.getElementById('energyDelta').addEventListener('input', (e) => {
+                const val = e.target.value;
+                const display = document.getElementById('deltaValue');
+                display.textContent = val > 0 ? `+${val}` : val;
+                display.className = 'value-display ' + (val > 0 ? 'positive' : val < 0 ? 'negative' : 'neutral');
+            });
+        }
+
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('checkInHistory') || '[]');
+            const container = document.getElementById('historyList');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<p style="text-align: center; opacity: 0.6;">История пуста. Начните отслеживать свою энергию сегодня!</p>';
+                return;
+            }
+
+            container.innerHTML = history.map(item => {
+                const date = new Date(item.timestamp).toLocaleDateString('ru-RU');
+                const morning = item.values;
+                
+                // Calculate summary
+                let total = 0;
+                Object.values(morning).forEach(beginning => {
+                    Object.values(beginning).forEach(val => total += val);
+                });
+
+                const evening = item.evening ? `
+                    <div style="margin-top: 8px; font-size: 0.85em; opacity: 0.9;">
+                        <strong>Δ:</strong> ${item.evening.delta > 0 ? '+' : ''}${item.evening.delta} | 
+                        <strong>Инсайт:</strong> ${item.evening.insight ? item.evening.insight.substring(0, 50) + '...' : 'не заполнен'}
+                    </div>
+                ` : '<div style="margin-top: 8px; font-size: 0.85em; opacity: 0.6;">Вечерняя рефлексия не заполнена</div>';
+
+                return `
+                    <div class="history-item" onclick="loadDay('${item.timestamp}')">
+                        <div class="history-date">${date}</div>
+                        <div class="history-summary">
+                            Общая энергия: <strong style="color: ${total >= 0 ? 'var(--positive)' : 'var(--negative)'}">${total}</strong>
+                            ${evening}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadData(data) {
+            currentData = data.values || {};
+            
+            // Fill sliders
+            Object.keys(currentData).forEach(beginningId => {
+                Object.keys(currentData[beginningId]).forEach(levelId => {
+                    const value = currentData[beginningId][levelId];
+                    const slider = document.getElementById(`slider-${beginningId}-${levelId}`);
+                    if (slider) {
+                        slider.value = value;
+                        updateValue(beginningId, levelId, value);
+                    }
+                });
+            });
+
+            calculateEnergy();
+        }
+
+        function loadDay(timestamp) {
+            const history = JSON.parse(localStorage.getItem('checkInHistory') || '[]');
+            const day = history.find(item => item.timestamp === timestamp);
+            if (day) {
+                loadData(day);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function addToHistory(data) {
+            // Handled in saveEveningReflection
+        }
+    </script>
+</body>
+</html>
