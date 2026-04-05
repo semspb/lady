@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Сердце дня — интерактивная презентация проекта</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: radial-gradient(circle at 10% 30%, #fce9da, #f7d9c4);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        /* импорт шрифта */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+
+        /* основной контейнер слайдера */
+        .presentation-container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(255, 252, 245, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 3rem;
+            box-shadow: 0 30px 45px rgba(90, 55, 35, 0.2);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 235, 215, 0.9);
+        }
+
+        /* слайд-зона */
+        .slides-wrapper {
+            position: relative;
+            min-height: 550px;
+        }
+
+        .slide {
+            display: none;
+            padding: 2rem 2.5rem;
+            animation: fadeSlide 0.4s ease-out;
+            background: #fffef9;
+            border-radius: 2rem;
+            margin: 0.8rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* типографика */
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #c2410c, #e65c2e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #3b2a1f;
+            border-left: 6px solid #e64b2e;
+            padding-left: 1rem;
+            margin: 0.5rem 0 1.2rem 0;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #aa5e3a;
+            margin-top: 1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .subhead {
+            color: #b97f5a;
+            font-weight: 500;
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        .grid-2cols {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: #fff7ef;
+            border-radius: 1.8rem;
+            padding: 1.2rem;
+            flex: 1;
+            min-width: 180px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.03);
+            border: 1px solid #f3e3d5;
+        }
+
+        .badge-rank {
+            background: #fae5d8;
+            border-radius: 2rem;
+            padding: 0.3rem 1rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fefaf5;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.7rem 0.9rem;
+            text-align: left;
+            border-bottom: 1px solid #f2e2d2;
+        }
+
+        th {
+            background: #f7e8dd;
+            color: #5e3a24;
+        }
+
+        .rank-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.6rem;
+            margin: 1.5rem 0;
+        }
+
+        .rank-item {
+            background: #fdf3ea;
+            border-radius: 2rem;
+            padding: 0.6rem 1rem;
+            text-align: center;
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .button-nav {
+            background: #e9d9cd;
+            border: none;
+            font-size: 1.4rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            color: #593e2b;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .button-nav:hover {
+            background: #e64b2e;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem 1.8rem 2rem;
+            background: #fffbf5;
+            border-top: 1px solid #f5e2d2;
+        }
+
+        .slide-counter {
+            background: #eddaca;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .floating-heart-pres {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.8rem;
+            animation: floatLove 1s ease-out forwards;
+            z-index: 999;
+        }
+
+        @keyframes floatLove {
+            0% { opacity: 0.9; transform: translateY(0) scale(0.8);}
+            100% { opacity: 0; transform: translateY(-70px) scale(1.2);}
+        }
+
+        .icon-em {
+            font-size: 1.4rem;
+            display: inline-block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: #aa8264;
+        }
+
+        @media (max-width: 680px) {
+            .slide { padding: 1.2rem; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .grid-2cols { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+    <div class="slides-wrapper" id="slidesWrapper">
+        <!-- СЛАЙД 1: ТИТУЛ -->
+        <div class="slide active" data-index="0">
+            <div style="text-align: center; padding: 1rem 0 1.5rem;">
+                <span style="font-size: 5rem;">❤️</span>
+                <h1 style="margin-top: 0.2rem;">Сердце дня</h1>
+                <p style="font-size: 1.3rem; font-weight: 500; color:#b45f3a;">Love Power Tracker</p>
+                <div class="subhead" style="margin-top: 1rem;">Игровой дневник для развития любви и близости</div>
+                <div style="margin: 2rem auto; width: 80px; height: 4px; background: #e64b2e; border-radius: 4px;"></div>
+                <p style="color:#8b6246;">Веб-приложение · Ежедневная практика · Накопление «сердечек»</p>
+                <div style="margin-top: 2rem;"><span class="badge-rank">❤️ интерактивная презентация</span></div>
+            </div>
+        </div>
+
+        <!-- СЛАЙД 2: ПРОБЛЕМА -->
+        <div class="slide" data-index="1">
+            <h2>📉 Почему пары теряют искру?</h2>
+            <div class="grid-2cols">
+                <div class="card">🏠 <strong>Быт и рутина</strong><br>Убивают спонтанность и желание</div>
+                <div class="card">😶 <strong>Не хватает слов</strong><br>Трудно обсуждать чувства открыто</div>
+                <div class="card">📱 <strong>Нет обратной связи</strong><br>Сложно отслеживать прогресс в отношениях</div>
+                <div class="card">🎲 <strong>Скучно и однообразно</strong><br>Отсутствует игровой элемент</div>
+            </div>
+            <div style="background:#f9ede1; border-radius: 2rem; padding:1rem; margin-top:0.8rem; text-align:center; font-weight:600;">👉 Парам нужен простой, регулярный и увлекательный инструмент</div>
+        </div>
+
+        <!-- СЛАЙД 3: РЕШЕНИЕ -->
+        <div class="slide" data-index="2">
+            <h2>💡 Решение: дневник + игра</h2>
+            <div style="font-size:1.2rem; font-weight:500; margin-bottom:1rem;">✨ Превращаем ежедневную рефлексию в охоту за сердечками</div>
+            <div class="grid-2cols">
+                <div class="card">📋 <strong>7 вопросов</strong><br>Охват всех видов любви (Эрос, Филия, Стора, Агапэ, Прагма, Мания, Автаркия)</div>
+                <div class="card">❤️ <strong>Накопление</strong><br>Каждый ответ дарит сердечки. Мания — штраф</div>
+                <div class="card">🔥 <strong>Стрик (серии)</strong><br>Непрерывные дни → множитель x1.5, x2</div>
+                <div class="card">🏆 <strong>Ранги</strong><br>5 уровней: Искатель → Просветлённый</div>
+                <div class="card">📅 <strong>Календарь прогресса</strong><br>Визуальная история достижений</div>
+            </div>
+        </div>
+
+        <!-- СЛАЙД 4: ИГРОВАЯ МЕХАНИКА -->
+        <div class="slide" data-index="3">
+            <h2>⚙️ Как это работает? (механика)</h2>
+            <div style="background:#f1e6dc; border-radius: 2rem; padding:1rem; text-align:center; font-family: monospace; margin-bottom: 1rem;">
+                Вечер → 7 вопросов → сумма баллов (0-2) → × множитель стрика → +❤️ к общему счёту
+            </div>
+            <table>
+                <tr><th>Этап</th><th>Что даёт</th></tr>
+                <tr><td>1. Ответы</td><td>0 / 1 / 2 балла на каждый вопрос (максимум 12 в день)</td></tr>
+                <tr><td>2. Штраф (Мания)</td><td>Вопрос про ревность/контроль вычитает баллы</td></tr>
+                <tr><td>3. Стрик-бонус</td><td>7 дней → x1.5 , 14 дней → x2</td></tr>
+                <tr><td>4. Итог</td><td>Сердечки навсегда в копилку любовной силы</td></tr>
+            </table>
+            <div class="subhead">⭐ Максимум в день: 12❤️ + множитель → до 24❤️ в день при x2!</div>
+        </div>
+
+        <!-- СЛАЙД 5: РАНГИ -->
+        <div class="slide" data-index="4">
+            <h2>👑 Путь героя любви</h2>
+            <div class="rank-steps">
+                <div class="rank-item">🌱 Искатель<br>0–6❤️</div>
+                <div class="rank-item">🚶 Странник<br>7–20❤️</div>
+                <div class="rank-item">🔥 Хранитель<br>21–40❤️</div>
+                <div class="rank-item">⚡ Мастер<br>41–70❤️</div>
+                <div class="rank-item">👑 Просветлённый<br>71+❤️</div>
+            </div>
+            <div style="margin-top:1rem; background:#ffeade; border-radius:1.5rem; padding:1rem;">
+                📈 Прогресс-бар + следующее звание всегда на виду — мотивирует не сдаваться.
+            </div>
+        </div>
+
+        <!-- СЛАЙД 6: ЕЖЕДНЕВНЫЙ ЧЕК-ЛИСТ (7 вопросов) -->
+        <div class="slide" data-index="5">
+            <h2>📋 7 сфер любви — 7 вопросов</h2>
+            <div style="overflow-x: auto;">
+                <table style="font-size:0.85rem;">
+                    <thead><tr><th>Сфера</th><th>Уровень</th><th>Вопрос (пример)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Эрос</td><td>Тело</td><td>Я хотел(а) партнёра физически</td></tr>
+                        <tr><td>Филия</td><td>Душа</td><td>Мы говорили по душам или смеялись вместе</td></tr>
+                        <tr><td>Стора</td><td>Тело</td><td>Я чувствовал(а) уют и тепло от присутствия</td></tr>
+                        <tr><td>Агапэ</td><td>Душа</td><td>Я сделал(а) что-то приятное без просьбы</td></tr>
+                        <tr><td>Прагма</td><td>Дух</td><td>Я оценил(а) его/её вклад в быт или дела</td></tr>
+                        <tr><td style="color:#c2410c;">Мания ⚠️</td><td>Душа</td><td>Я ревновал(а) или хотел(а) контролировать (штраф)</td></tr>
+                        <tr><td>Автаркия</td><td>Дух</td><td>У меня было время на себя без чувства вины</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="subhead">✅ Варианты ответов: 0 ❌ нет / 1 🌙 немного / 2 ☀️ да!</div>
+        </div>
+
+        <!-- СЛАЙД 7: ИНТЕРФЕЙС И АНИМАЦИИ -->
+        <div class="slide" data-index="6">
+            <h2>📱 Интерфейс — тепло и игра</h2>
+            <div class="grid-2cols">
+                <div class="card">❤️ Шапка с общим счётом, рангом и стриком</div>
+                <div class="card">📊 Прогресс-бар до следующего звания</div>
+                <div class="card">✨ Парящие сердечки при клике на ответ</div>
+                <div class="card">📅 Календарь активности (цветные дни + баллы)</div>
+            </div>
+            <div style="background:#f9e7dc; border-radius: 1.5rem; padding:0.8rem; margin-top:0.8rem;">
+                🎨 Пастельная гамма, скруглённые карточки, адаптив под любые экраны.
+            </div>
+        </div>
+
+        <!-- СЛАЙД 8: ТЕХНИЧЕСКАЯ АРХИТЕКТУРА -->
+        <div class="slide" data-index="7">
+            <h2>⚙️ Под капотом</h2>
+            <div style="background:#e8dfd4; border-radius: 2rem; padding:1rem; font-family: monospace; margin-bottom:1rem;">
+                HTML/CSS/JS — чистый фронтенд → LocalStorage → всё на клиенте
+            </div>
+            <ul style="margin-left: 1.5rem; line-height: 1.5;">
+                <li>📁 Один HTML-файл = готовое приложение</li>
+                <li>💾 История сохраняется в браузере (никаких серверов)</li>
+                <li>🎮 Игровая логика: стрики, ранги, множители, штраф Мании</li>
+                <li>📱 Адаптивная вёрстка (мобильный и десктоп)</li>
+            </ul>
+        </div>
+
+        <!-- СЛАЙД 9: ПРЕИМУЩЕСТВА -->
+        <div class="slide" data-index="8">
+            <h2>🏆 Почему это работает?</h2>
+            <div class="grid-2cols">
+                <div class="card">🎮 Геймификация (ранги, стрики, ачивки)</div>
+                <div class="card">📊 Визуальный прогресс + календарь</div>
+                <div class="card">🧠 7 типов любви (психологическая база)</div>
+                <div class="card">⏱️ 2 минуты в день — лёгкий ритуал</div>
+                <div class="card">🔒 Полная приватность (данные только у пользователя)</div>
+                <div class="card">🎨 Эмоциональный дизайн с анимацией сердец</div>
+            </div>
+        </div>
+
+        <!-- СЛАЙД 10: ROADMAP -->
+        <div class="slide" data-index="9">
+            <h2>🗺️ Дорожная карта</h2>
+            <div style="display:flex; flex-direction:column; gap:0.8rem;">
+                <div class="card">✅ <strong>V1.0</strong> — базовый чек-лист, сердечки, стрик, ранги, календарь</div>
+                <div class="card">🔜 <strong>V1.1</strong> — звуки «динь» при получении сердечек</div>
+                <div class="card">🔜 <strong>V1.2</strong> — достижения и трофеи («Первая неделя», «Мастер Эроса»)</div>
+                <div class="card">🔜 <strong>V1.3</strong> — радарная диаграмма по сферам любви</div>
+                <div class="card">💡 <strong>V2.0</strong> — экспорт отчёта / PDF-диплом Просветлённого</div>
+                <div class="card">💡 <strong>V3.0</strong> — синхронизация для двоих (общий дневник пары)</div>
+            </div>
+        </div>
+
+        <!-- СЛАЙД 11: ЗАКЛЮЧЕНИЕ -->
+        <div class="slide" data-index="10">
+            <h2>💖 Маленький шаг каждый вечер → большая любовь</h2>
+            <div style="text-align:center; margin: 1.5rem 0;">
+                <span style="font-size: 3rem;">❤️</span>
+                <span style="font-size: 2rem;">+</span>
+                <span style="font-size: 3rem;">🎲</span>
+            </div>
+            <div style="background:#ffe3d4; border-radius: 2rem; padding: 1.2rem; margin:1rem 0;">
+                <p>✨ <strong>Прост</strong> — 7 вопросов, 2 минуты, понятные правила</p>
+                <p>🎮 <strong>Игровой</strong> — стрики, ранги, анимации держат интерес</p>
+                <p>🌱 <strong>Полезен</strong> — развивает осознанность в отношениях</p>
+            </div>
+            <div class="subhead" style="text-align:center;">Попробуйте демо-версию — начните копить любовную силу уже сегодня</div>
+        </div>
+
+        <!-- СЛАЙД 12: Q&A / СПАСИБО -->
+        <div class="slide" data-index="11">
+            <div style="text-align:center; padding: 2rem 1rem;">
+                <span style="font-size: 4rem;">❤️‍🔥</span>
+                <h2>Спасибо за внимание!</h2>
+                <p style="font-size: 1.2rem; margin: 1rem;">Вопросы? Идеи? Давайте усиливать любовь вместе ✨</p>
+                <div style="background:#f2e2d4; width: fit-content; margin: 1.5rem auto; padding: 0.8rem 2rem; border-radius: 3rem;">
+                    🌐 Демо: love-power-tracker.cc <span style="opacity:0.6;">(проект готов к запуску)</span>
+                </div>
+                <footer style="margin-top:2rem;">Сердце дня — геймифицированный ритуал для пар</footer>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-footer">
+        <button class="button-nav" id="prevSlideBtn">← Назад</button>
+        <span class="slide-counter" id="slideCounter">1 / 12</span>
+        <button class="button-nav" id="nextSlideBtn">Вперёд →</button>
+    </div>
+</div>
+<footer style="margin-top: 1rem;">✨ нажимайте на слайды или кнопки — интерактивная презентация проекта</footer>
+
+<script>
+    (function() {
+        const slides = document.querySelectorAll('.slide');
+        let currentIdx = 0;
+        const total = slides.length;
+        const prevBtn = document.getElementById('prevSlideBtn');
+        const nextBtn = document.getElementById('nextSlideBtn');
+        const counterSpan = document.getElementById('slideCounter');
+
+        function updateSlides() {
+            slides.forEach((slide, idx) => {
+                if(idx === currentIdx) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            counterSpan.innerText = `${currentIdx+1} / ${total}`;
+            // небольшая анимация сердечек при смене слайда
+            createFloatingHeartOnNav();
+        }
+
+        function createFloatingHeartOnNav() {
+            const container = document.querySelector('.presentation-container');
+            if(!container) return;
+            const rect = container.getBoundingClientRect();
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart-pres';
+            heart.innerHTML = '❤️';
+            heart.style.left = rect.left + rect.width/2 - 15 + 'px';
+            heart.style.top = rect.top + 20 + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 800);
+        }
+
+        function goNext() {
+            if(currentIdx < total - 1) {
+                currentIdx++;
+                updateSlides();
+            } else {
+                // лёгкая вибрация / фидбек: последний слайд
+                const btn = nextBtn;
+                btn.style.transform = 'scale(0.96)';
+                setTimeout(() => btn.style.transform = '', 150);
+                // дополнительно показываем сердечки
+                createFloatingHeartOnNav();
+            }
+        }
+
+        function goPrev() {
+            if(currentIdx > 0) {
+                currentIdx--;
+                updateSlides();
+            } else {
+                const btn = prevBtn;
+                btn.style.transform = 'scale(0.96)';
+                setTimeout(() => btn.style.transform = '', 150);
+                createFloatingHeartOnNav();
+            }
+        }
+
+        prevBtn.addEventListener('click', goPrev);
+        nextBtn.addEventListener('click', goNext);
+
+        // клавиатура: стрелки влево/вправо
+        window.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowLeft') {
+                goPrev();
+                e.preventDefault();
+            } else if(e.key === 'ArrowRight') {
+                goNext();
+                e.preventDefault();
+            }
+        });
+
+        // также клик по области слайда (по желанию)
+        slides.forEach((slide, idx) => {
+            slide.addEventListener('click', (e) => {
+                // не мешаем кнопкам внутри слайда
+                if(e.target.closest('.button-nav')) return;
+                if(e.target.closest('button')) return;
+                // если клик на карточке или тексте — следующий слайд для удобства
+                if(currentIdx < total - 1) {
+                    goNext();
+                } else {
+                    // если последний слайд, то можно "начать заново" или просто анимация
+                    createFloatingHeartOnNav();
+                }
+            });
+        });
+
+        // начальная инициализация
+        updateSlides();
+
+        // добавим интерактивных сердечек при наведении на кнопки
+        const allBtns = document.querySelectorAll('.button-nav');
+        allBtns.forEach(btn => {
+            btn.addEventListener('mouseenter', (e) => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart-pres';
+                heart.innerHTML = '💖';
+                heart.style.left = e.clientX - 12 + 'px';
+                heart.style.top = e.clientY - 20 + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 600);
+            });
+        });
+    })();
+</script>
+</body>
+</html>
