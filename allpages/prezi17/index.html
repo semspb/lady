@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Семитриум Любви · Живая диагностика</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <title>Семитриум Любви · Архитектура чувств</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,422 +14,466 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #F8F4FF;  /* светлый сиреневый фон */
+            background: #0A1128;
             scroll-behavior: smooth;
         }
 
-        /* Презентация — вертикальный скролл */
+        /* Презентация */
         .presentation {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Каждый слайд — минимум 100vh, с мягкими тенями и скруглениями */
+        /* Слайд */
         .slide {
             width: 100%;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 3rem 2rem;
             position: relative;
-            border-bottom: 1px solid rgba(139, 92, 246, 0.15);
-            background: #F8F4FF;
-            transition: all 0.3s;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            background: #0A1128;
         }
 
-        /* Чередование фонов: то светлый, то чуть насыщеннее для контраста */
+        /* Чередование фонов (лёгкое разнообразие) */
         .slide:nth-child(odd) {
-            background: linear-gradient(120deg, #F8F4FF 0%, #F1E8FF 100%);
+            background: radial-gradient(ellipse at 20% 30%, #0F1A3A, #0A1128);
         }
         .slide:nth-child(even) {
-            background: linear-gradient(120deg, #FDFAFF 0%, #F3EAFF 100%);
+            background: radial-gradient(ellipse at 80% 70%, #0C1535, #080E22);
         }
 
-        /* Акцентные слайды (цена, призыв) — нежный градиент с фиолетом */
+        /* Акцентные слайды */
         .slide-accent {
-            background: linear-gradient(135deg, #E9D5FF 0%, #DDC6FF 100%);
+            background: linear-gradient(135deg, #0A1128 0%, #0F1A3A 100%);
+            position: relative;
+        }
+        .slide-accent::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" opacity="0.05"><path fill="%23D4AF37" d="M400,100 L500,300 L700,350 L550,520 L600,750 L400,650 L200,750 L250,520 L100,350 L300,300 Z"/></svg>');
+            background-repeat: repeat;
+            background-size: 60px;
+            pointer-events: none;
         }
 
         .container {
             max-width: 1300px;
             width: 100%;
             margin: 0 auto;
-            text-align: center;
             position: relative;
             z-index: 2;
         }
 
+        /* Логотип */
+        .logo-area {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(10,17,40,0.7);
+            backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: 60px;
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .logo-area img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+        .logo-placeholder {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #D4AF37;
+            font-size: 0.8rem;
+        }
+
         /* Типографика */
         h1 {
-            font-size: clamp(3.5rem, 12vw, 7rem);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 6rem);
             font-weight: 800;
-            line-height: 1.1;
             letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #6D28D9, #A855F7);
+            background: linear-gradient(135deg, #D4AF37, #F5E6A3);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 2px 5px rgba(109,40,217,0.1);
+            margin-bottom: 0.5rem;
         }
         h2 {
-            font-size: clamp(2rem, 7vw, 4rem);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 700;
-            color: #4C1D95;
+            color: #D4AF37;
+            margin-bottom: 2rem;
         }
-        .big-message {
-            font-size: clamp(2rem, 8vw, 5rem);
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #F0F0F0;
+            margin-bottom: 1rem;
+        }
+        .big-number {
+            font-size: clamp(4rem, 15vw, 8rem);
             font-weight: 800;
-            line-height: 1.2;
-            color: #3B0764;
+            color: #D4AF37;
+            line-height: 1;
+            font-family: 'Playfair Display', serif;
         }
         .sub {
-            font-size: clamp(1.2rem, 4vw, 1.6rem);
-            color: #5B21B6;
-            font-weight: 500;
-            background: rgba(255,255,240,0.7);
-            backdrop-filter: blur(4px);
-            display: inline-block;
-            padding: 0.4rem 1.5rem;
-            border-radius: 60px;
-        }
-        .soft-text {
-            color: #4C1D95;
-            font-weight: 500;
+            font-size: 1.2rem;
+            color: #B0B8D0;
+            margin-top: 1rem;
         }
 
-        /* 7 символов — крупные, на белых "облаках" */
-        .seven-icons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+        /* Карточки */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.5rem;
-            margin: 3rem 0;
+            margin: 2rem 0;
         }
-        .icon-card {
-            background: white;
-            border-radius: 100px;
-            padding: 1rem 2rem;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 15px 35px rgba(109,40,217,0.15);
-            border: 1px solid rgba(139,92,246,0.3);
-            transition: transform 0.2s ease;
+        .card {
+            background: rgba(252,252,250,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 1.8rem;
+            border: 1px solid rgba(212,175,55,0.2);
+            transition: transform 0.3s, border-color 0.3s;
         }
-        .icon-card span {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            font-weight: 600;
-            color: #3B0764;
-        }
-        .icon-card:hover {
+        .card:hover {
             transform: translateY(-5px);
+            border-color: rgba(212,175,55,0.6);
+        }
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 0.5rem;
+        }
+        .card-text {
+            font-size: 0.95rem;
+            color: #C0C8E0;
+            line-height: 1.4;
         }
 
-        /* Три колонки — мягкие карточки */
-        .three-columns {
+        /* 4 колонки */
+        .four-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .pillar {
+            text-align: center;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+        }
+        .pillar-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #D4AF37;
+        }
+
+        /* Три уровня */
+        .three-levels {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
             gap: 2rem;
-            margin-top: 3rem;
+            justify-content: center;
+            margin: 2rem 0;
         }
-        .col {
+        .level {
             flex: 1;
             min-width: 200px;
-            background: white;
-            border-radius: 48px;
-            padding: 2rem 1rem;
-            box-shadow: 0 20px 35px -10px rgba(109,40,217,0.2);
-            transition: all 0.2s;
+            background: rgba(212,175,55,0.1);
+            border-radius: 32px;
+            padding: 2rem;
+            text-align: center;
+            border-left: 4px solid #D4AF37;
         }
-        .col-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+        .level-icon {
+            font-size: 3rem;
         }
-        .col-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #6D28D9;
-            margin-bottom: 1rem;
-        }
-        .col-desc {
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: #2E1065;
-        }
-
-        /* Список галочек */
-        .checklist {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.2rem;
-            text-align: left;
-            margin: 3rem 0;
-        }
-        .check-item {
-            background: white;
-            padding: 1rem 1.5rem;
-            border-radius: 60px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border-left: 6px solid #A855F7;
-            color: #2E1065;
-        }
-        .check-item:before {
-            content: "✓";
+        .level-title {
             font-size: 1.6rem;
-            font-weight: bold;
-            color: #7C3AED;
+            font-weight: 700;
+            color: #D4AF37;
         }
 
-        /* Блок цены — элегантный */
+        /* Шаги */
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 1.5rem;
+        }
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #D4AF37;
+        }
+
+        /* Цена */
         .price-block {
-            background: white;
-            border-radius: 70px;
-            padding: 2rem 3rem;
-            display: inline-block;
-            margin: 1.5rem auto;
-            box-shadow: 0 25px 40px rgba(109,40,217,0.2);
-            border: 1px solid rgba(139,92,246,0.4);
+            text-align: center;
+            background: rgba(212,175,55,0.15);
+            border-radius: 60px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 500px;
+            border: 1px solid rgba(212,175,55,0.4);
         }
         .old-price {
-            font-size: 2rem;
+            font-size: 1.8rem;
             text-decoration: line-through;
-            color: #9CA3AF;
-            font-weight: 600;
+            color: #8B92B0;
         }
         .new-price {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            color: #6D28D9;
-            letter-spacing: -0.02em;
-        }
-
-        /* QR-заглушка */
-        .qr-card {
-            background: white;
-            border-radius: 32px;
-            padding: 1rem;
-            display: inline-block;
-            margin-top: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .qr-placeholder {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(145deg, #A855F7, #6D28D9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            border-radius: 24px;
-            font-size: 0.9rem;
-            text-align: center;
-            flex-direction: column;
+            color: #D4AF37;
         }
 
         /* Кнопка */
-        .button-lavender {
-            background: #7C3AED;
-            color: white;
+        .button-gold {
+            background: #D4AF37;
+            color: #0A1128;
             padding: 1rem 2rem;
             border-radius: 60px;
             font-weight: 700;
             font-size: 1.2rem;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
             display: inline-block;
-            margin-top: 2rem;
-            box-shadow: 0 8px 20px rgba(124,58,237,0.3);
+            margin-top: 1rem;
         }
-        .button-lavender:hover {
-            background: #5B21B6;
+        .button-gold:hover {
             transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(212,175,55,0.5);
         }
 
-        /* Иллюстративные эмодзи / крупные иконки */
-        .big-icon {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-        }
-        .garden-grid {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin: 1.5rem 0;
-            font-size: 1.3rem;
-            background: rgba(255,255,245,0.8);
-            padding: 1rem;
-            border-radius: 80px;
-        }
-
+        /* Футер */
         footer {
             text-align: center;
             padding: 2rem;
-            color: #8B5CF6;
+            color: #5A6380;
             font-size: 0.8rem;
-            background: #F3E8FF;
-            width: 100%;
+            border-top: 1px solid rgba(212,175,55,0.2);
         }
 
-        /* анимация при скролле */
+        /* Анимация появления */
         .slide {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s ease;
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .slide.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        @media (max-width: 750px) {
-            .icon-card { padding: 0.6rem 1.2rem; gap: 0.5rem;}
-            .col-title { font-size: 1.4rem; }
-            .check-item { font-size: 0.9rem;}
+
+        @media (max-width: 768px) {
+            .slide { padding: 2rem 1rem; }
+            .card-grid { gap: 1rem; }
+            .three-levels { flex-direction: column; }
         }
     </style>
 </head>
 <body>
+
+<!-- Логотип (фиксированный, по ссылке) -->
+<div class="logo-area">
+    <img src="http://zaloveclub.ru/images/semitrium1.svg" 
+         alt="Семитриум Любви"
+         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=logo-placeholder>✦ СЕМИТРИУМ ✦</div>';">
+</div>
+
 <div class="presentation">
-
-    <!-- Слайд 1: Живая диагностика -->
+    <!-- Слайд 1: Титул -->
     <section class="slide">
-        <div class="container">
-            <h1>ЖИВАЯ<br>ДИАГНОСТИКА</h1>
-            <div class="sub" style="margin-top: 1.5rem; font-size: 1.8rem;">вашей любви</div>
-            <div class="soft-text" style="margin-top: 1rem; font-size: 1.3rem;">разбор без воды и без «половинок»</div>
-            <div class="big-icon" style="margin-top: 2rem;">💜✨</div>
+        <div class="container" style="text-align: center;">
+            <h1>СЕМИТРИУМ<br>ЛЮБВИ</h1>
+            <div style="font-size: 1.3rem; color: #B0B8D0; letter-spacing: 2px;">Архитектура Любви</div>
+            <div class="sub" style="font-style: italic;">От хаоса чувств к системе знаний</div>
+            <div style="margin-top: 2rem; font-size: 0.9rem; color: #D4AF37;">Диагностическая система на стыке античной философии и нейробиологии</div>
         </div>
     </section>
 
-    <!-- Слайд 2: Для тех, кто устал объяснять -->
+    <!-- Слайд 2: Почему мы теряемся -->
     <section class="slide">
         <div class="container">
-            <div class="big-message" style="color: #6D28D9;">ДЛЯ ТЕХ, КТО УСТАЛ ОБЪЯСНЯТЬ,<br>ЧТО ЧУВСТВУЕТ</div>
-            <div class="big-message" style="font-size: clamp(1.8rem, 5vw, 3rem); margin-top: 2rem; color: #4C1D95;">И ХОЧЕТ НАКОНЕЦ ЭТО СОБРАТЬ В СИСТЕМУ</div>
-        </div>
-    </section>
-
-    <!-- Слайд 3: 7 начал любви (крупные символы) -->
-    <section class="slide">
-        <div class="container">
-            <h2>7 начал любви</h2>
-            <div class="seven-icons">
-                <div class="icon-card">🔥 <span>Эрос</span></div>
-                <div class="icon-card">🤝 <span>Филия</span></div>
-                <div class="icon-card">🏠 <span>Сторге</span></div>
-                <div class="icon-card">☀️ <span>Агапэ</span></div>
-                <div class="icon-card">🎭 <span>Людус</span></div>
-                <div class="icon-card">📊 <span>Прагма</span></div>
-                <div class="icon-card">🧱 <span>Автаркия</span></div>
+            <h2>Почему мы теряемся в отношениях?</h2>
+            <div class="card-grid">
+                <div class="card"><div class="card-icon">📖</div><div class="card-title">Слепота смыслов</div><div class="card-text">Одно слово «любовь» для 7 разных процессов</div></div>
+                <div class="card"><div class="card-icon">🔁</div><div class="card-title">Ожидание 7 в 1</div><div class="card-text">Партнёр должен быть всем: друг, любовник, родитель</div></div>
+                <div class="card"><div class="card-icon">🧠</div><div class="card-title">Путаница систем</div><div class="card-text">Дофаминовая зависимость ≠ глубокой привязанности</div></div>
             </div>
-            <div class="sub" style="background: #E9D5FF;">один человек ≠ 7 ролей</div>
+            <div style="text-align: center; margin-top: 2rem; font-size: 1.2rem; color: #B76E79;">Неврозы · Разводы · Одиночество вдвоём</div>
         </div>
     </section>
 
-    <!-- Слайд 4: Тело — Душа — Дух (три уровня) -->
+    <!-- Слайд 3: Метод 7×3 -->
     <section class="slide">
-        <div class="container">
-            <h2>Три уровня фильтра</h2>
-            <div class="three-columns">
-                <div class="col"><div class="col-icon">🧬</div><div class="col-title">ТЕЛО</div><div class="col-desc">«ХОЧУ»</div></div>
-                <div class="col"><div class="col-icon">🧠</div><div class="col-title">ДУША</div><div class="col-desc">«БОЮСЬ / ЛЮБЛЮ»</div></div>
-                <div class="col"><div class="col-icon">✨</div><div class="col-title">ДУХ</div><div class="col-desc">«СМЫСЛ / НЕТ»</div></div>
+        <div class="container" style="text-align: center;">
+            <h2>Структурный анализ чувства</h2>
+            <div style="display: flex; justify-content: center; align-items: baseline; gap: 1rem; flex-wrap: wrap;">
+                <span class="big-number">7</span>
+                <span style="font-size: 3rem; color: #D4AF37;">×</span>
+                <span class="big-number">3</span>
             </div>
-            <div class="sub" style="margin-top: 2rem; font-weight: 700; font-size: 1.5rem;">Только все три = не невроз</div>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;">
+                <div><strong style="color: #D4AF37;">7 Греческих Начал</strong><br>Эрос, Филия, Сторге, Агапэ, Людус, Прагма, Автаркия</div>
+                <div><strong style="color: #D4AF37;">3 Уровня Природы</strong><br>Тело · Душа · Дух</div>
+            </div>
+            <div class="sub">21 параметр диагностики личности</div>
         </div>
     </section>
 
-    <!-- Слайд 5: Сад и садовник (метафора с забором) -->
+    <!-- Слайд 4: Фундамент мудрости -->
     <section class="slide">
         <div class="container">
-            <div style="background: rgba(255,255,250,0.7); border-radius: 64px; padding: 2rem;">
-                <div class="big-icon">🌳🧑‍🌾🚪</div>
-                <h2 style="color: #6D28D9;">Сад и садовник</h2>
-                <div class="garden-grid">
-                    <span>🔥 цветы</span> <span>🏠 домик</span> <span>🧱 забор</span> <span>🤝 дружба-пчёлы</span> <span>☀️ солнце</span>
-                </div>
-                <div class="big-message" style="font-size: clamp(1.4rem, 4vw, 2rem);">«Без своей территории любой сад — проходной двор»</div>
-                <div class="sub" style="margin-top: 1rem;">Автаркия = ваш дом, а не грядка</div>
+            <h2>Фундамент мудрости</h2>
+            <div class="four-col">
+                <div class="pillar"><div class="pillar-number">01</div><div class="card-title">Античность</div><div class="card-text">Платон, Аристотель — разные виды любви</div></div>
+                <div class="pillar"><div class="pillar-number">02</div><div class="card-title">Нейробиология</div><div class="card-text">Хелен Фишер — три системы мозга</div></div>
+                <div class="pillar"><div class="pillar-number">03</div><div class="card-title">Интегральный подход</div><div class="card-text">Тело + Психика + Дух</div></div>
+                <div class="pillar"><div class="pillar-number">04</div><div class="card-title">Алхимия смысла</div><div class="card-text">«Мы систематизировали вечное»</div></div>
             </div>
         </div>
     </section>
 
-    <!-- Слайд 6: Дыра изнутри / Целый + Целый -->
+    <!-- Слайд 5: Начала I — Энергия и связь -->
     <section class="slide">
         <div class="container">
-            <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
-                <span style="font-size: 6rem;">🕳️🧩</span>
-                <span style="font-size: 3rem; color: #A855F7;">❌</span>
-                <span style="font-size: 6rem;">🧑‍🤝‍🧑</span>
+            <h2>Начала I · Энергия и связь</h2>
+            <div class="card-grid">
+                <div class="card"><div class="card-icon">🔥</div><div class="card-title">Эрос</div><div class="card-text">Страсть. Дофамин. Искра, способная сжечь или согреть.</div></div>
+                <div class="card"><div class="card-icon">🤝</div><div class="card-title">Филия</div><div class="card-text">Дружба. Окситоцин. Равенство. Основа доверия.</div></div>
+                <div class="card"><div class="card-icon">🏠</div><div class="card-title">Сторге</div><div class="card-text">Родство. Привычка. Безопасность. Любовь «по праву рождения».</div></div>
+                <div class="card"><div class="card-icon">🎭</div><div class="card-title">Людус</div><div class="card-text">Игра. Флирт. Лёгкость. Источник радости, но не глубины.</div></div>
             </div>
-            <div class="old-price" style="font-size: 1.8rem; text-decoration: line-through; color: #A78BFA;">~~Найди вторую половинку~~</div>
-            <div class="big-message" style="color: #6D28D9; margin: 1rem 0;">ЦЕЛЫЙ + ЦЕЛЫЙ</div>
-            <div class="sub">(а не половинка + половинка)</div>
         </div>
     </section>
 
-    <!-- Слайд 7: Что внутри курса (7 пунктов) -->
+    <!-- Слайд 6: Начала II — Воля и свобода -->
     <section class="slide">
         <div class="container">
-            <h2 style="color: #6D28D9;">ЧТО ВНУТРИ</h2>
-            <div class="checklist">
-                <div class="check-item">Карта ваших 7 начал (какое горит, какое спит)</div>
-                <div class="check-item">Диагностика разрывов: где Тело против Духа</div>
-                <div class="check-item">Ваш уровень Автаркии (честно, без прикрас)</div>
-                <div class="check-item">Тест 7×3 — не «выбери цветочек», а реальная матрица</div>
-                <div class="check-item">Сценарий: почему вы выбираете одних и тех же людей</div>
-                <div class="check-item">Правило «забор и калитка» — границы без чувства вины</div>
-                <div class="check-item">Личный план: что закрывать внутри, а не искать снаружи</div>
+            <h2>Начала II · Воля и свобода</h2>
+            <div class="card-grid">
+                <div class="card"><div class="card-icon">📊</div><div class="card-title">Прагма</div><div class="card-text">Расчёт и партнёрство. Каркас устойчивости семьи.</div></div>
+                <div class="card"><div class="card-icon">☀️</div><div class="card-title">Агапэ</div><div class="card-text">Безусловность. Любовь-воля. Высшая эмпатия.</div></div>
+                <div class="card"><div class="card-icon">🧱</div><div class="card-title">Автаркия</div><div class="card-text">Самодостаточность. Ключ системы. Защищает Эрос от Мании, Агапэ от рабства.</div></div>
             </div>
-            <div class="sub" style="background: white;">никакой эзотерики. греки, нейробиология и здравый смысл</div>
         </div>
     </section>
 
-    <!-- Слайд 8: Цена (только здесь) -->
+    <!-- Слайд 7: Где живёт ваша любовь? Три уровня -->
+    <section class="slide">
+        <div class="container">
+            <h2>Где живёт ваша любовь?</h2>
+            <div class="three-levels">
+                <div class="level"><div class="level-icon">✨</div><div class="level-title">Дух</div><div>«Ради чего мы вместе?»<br>Смыслы, ценности, выбор</div></div>
+                <div class="level"><div class="level-icon">🧠</div><div class="level-title">Душа</div><div>«Что я чувствую?»<br>Эмоции, проекции, близость</div></div>
+                <div class="level"><div class="level-icon">💪</div><div class="level-title">Тело</div><div>«Чего я хочу?»<br>Влечение, тактильность, безопасность</div></div>
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem; font-size: 1.2rem; color: #D4AF37;">Конгруэнтность — когда все три говорят <strong>ДА</strong></div>
+        </div>
+    </section>
+
+    <!-- Слайд 8: Доказательная база -->
+    <section class="slide">
+        <div class="container">
+            <h2>Доказательная база</h2>
+            <div class="four-col">
+                <div class="pillar"><div class="pillar-number">01</div><div class="card-title">Типология Ли (1973)</div><div class="card-text">6 стилей любви, шкалы LAS</div></div>
+                <div class="pillar"><div class="pillar-number">02</div><div class="card-title">Теория привязанности</div><div class="card-text">Боулби, Эйнсворт — надёжная привязанность</div></div>
+                <div class="pillar"><div class="pillar-number">03</div><div class="card-title">Исследования Готтмана</div><div class="card-text">Дружба в браке → счастье</div></div>
+                <div class="pillar"><div class="pillar-number">04</div><div class="card-title">Нейробиология Фишер</div><div class="card-text">Влечение ≠ романтика ≠ привязанность</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Слайд 9: Как это работает (4 шага) -->
+    <section class="slide">
+        <div class="container">
+            <h2>Как это работает</h2>
+            <div class="steps">
+                <div class="step"><div class="step-number">1</div><div class="card-title">Диагностика</div><div class="card-text">21 вопрос, 3 уровня</div></div>
+                <div class="step"><div class="step-number">2</div><div class="card-title">Профиль</div><div class="card-text">Визуализация баланса сил</div></div>
+                <div class="step"><div class="step-number">3</div><div class="card-title">Инсайт</div><div class="card-text">Понимание причин конфликтов</div></div>
+                <div class="step"><div class="step-number">4</div><div class="card-title">Рост</div><div class="card-text">Развитие дефицитных начал</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Слайд 10: Метафора сада -->
     <section class="slide slide-accent">
-        <div class="container">
-            <div style="background: rgba(255,255,255,0.85); border-radius: 80px; padding: 2rem; backdrop-filter: blur(8px);">
-                <div style="font-size: 2rem; font-weight: 800; color: #4C1D95;">СЕМИТРИУМ ЛЮБВИ</div>
-                <div class="price-block">
-                    <div class="old-price">34 900 руб</div>
-                    <div class="new-price">16 500 руб</div>
-                </div>
-                <div class="sub" style="background: #E9D5FF;">доступ ко всем модулям + тест + карта + чат</div>
-                <div class="big-message" style="font-size: 1.6rem; margin-top: 1.5rem; color: #5B21B6;">🔥 Для тех, кто устал объяснять — вход открыт 48 часов 🔥</div>
-            </div>
+        <div class="container" style="text-align: center;">
+            <div style="font-size: 4rem;">🌳🌹🚪</div>
+            <h2 style="color: #F5E6A3;">Метафора сада</h2>
+            <div style="font-size: 1.5rem; color: #E0C880; margin: 1rem 0;">Ваша личность — это экосистема</div>
+            <div class="sub" style="font-size: 1.2rem; font-style: italic;">«Цветы без забора вытопчут. Забор без цветов — тюрьма.»</div>
+            <div style="margin-top: 1rem; color: #B0B8D0;">Границы (Автаркия) · Корни (Сторге) · Цветы (Эрос)</div>
         </div>
     </section>
 
-    <!-- Слайд 9: Калитка открыта + QR -->
+    <!-- Слайд 11: Трансформация культуры отношений -->
+    <section class="slide">
+        <div class="container">
+            <h2>Трансформация культуры отношений</h2>
+            <div class="four-col">
+                <div class="pillar"><div class="pillar-number">🔬</div><div class="card-title">Научность</div><div class="card-text">Без эзотерики</div></div>
+                <div class="pillar"><div class="pillar-number">🎯</div><div class="card-title">Развитие</div><div class="card-text">Любовь — навык</div></div>
+                <div class="pillar"><div class="pillar-number">🕊️</div><div class="card-title">Свобода</div><div class="card-text">Приоритет Автаркии</div></div>
+                <div class="pillar"><div class="pillar-number">⚖️</div><div class="card-title">Баланс</div><div class="card-text">Гармония 7 начал</div></div>
+            </div>
+            <div class="sub" style="text-align: center;">От невротической зависимости к осознанной целостности</div>
+        </div>
+    </section>
+
+    <!-- Слайд 12: Финальный призыв + цена -->
     <section class="slide slide-accent">
-        <div class="container">
-            <div style="font-size: 5rem;">🚪🌿💜</div>
-            <div class="big-message" style="color: #4C1D95;">КАЛИТКА ОТКРЫТА</div>
-            <div class="qr-card">
-                <div class="qr-placeholder">
-                    ⬛ QR-код ⬛<br>
-                    семитриум.любви/сад
-                </div>
+        <div class="container" style="text-align: center;">
+            <h2>Узнайте свои 7 начал</h2>
+            <div style="font-size: 1.2rem; color: #C0C8E0; margin-bottom: 1rem;">Перестаньте блуждать в темноте чувств.<br>Получите карту своего сердца.</div>
+            
+            <div class="price-block">
+                <div class="old-price">34 900 ₽</div>
+                <div class="new-price">16 500 ₽</div>
+                <div style="font-size: 0.9rem; margin-top: 0.5rem;">доступ ко всем модулям + тест + карта + чат</div>
             </div>
-            <div class="sub" style="margin-top: 1rem; background: white;">семитриум.любви/сад</div>
-            <div class="soft-text" style="font-size: 1rem;">вход без очереди. и без чувства вины.</div>
-            <button class="button-lavender" onclick="alert('✨ Переход на курс: семитриум.любви/сад. Специальная цена 16 500₽ действует 48 часов ✨')">ЗАБРАТЬ ДОСТУП</button>
+            
+            <button class="button-gold" onclick="alert('Семитриум Любви — переход на курс. Специальная цена 16 500₽')">ЗАБРАТЬ ДОСТУП</button>
+            <div class="sub" style="margin-top: 2rem;">Семитриум Любви © 2026</div>
         </div>
     </section>
 
-    <footer>© Семитриум Любви — Живая диагностика. Трансформация культуры отношений.</footer>
+    <footer>Архитектура чувств · Диагностическая система на стыке античной философии и нейробиологии</footer>
 </div>
 
 <script>
@@ -439,13 +483,11 @@
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-            } else {
-                // можно оставить видимыми, но для красоты не убираем класс
             }
         });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
     slides.forEach(slide => observer.observe(slide));
-    // сразу активируем первый
+    // первый сразу видим
     if(slides[0]) slides[0].classList.add('visible');
 </script>
 </body>
