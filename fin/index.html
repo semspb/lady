@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Денежный Семитриум</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-dark: #2D5016;
+            --green-mid: #4A7C29;
+            --green-light: #6BAF3B;
+            --green-pale: #E8F5E0;
+            --gold: #C5A028;
+            --gold-light: #F0E0A0;
+            --white: #FFFFFF;
+            --cream: #FAFAF5;
+            --gray: #8A8A7A;
+            --text-dark: #1A1A14;
+            --text-body: #3A3A30;
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--text-body);
+            background: var(--cream);
+            line-height: 1.7;
+            max-width: 480px;
+            margin: 0 auto;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text-dark);
+            line-height: 1.25;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 250, 245, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(45, 80, 22, 0.08);
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .nav-inner {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-cta {
+            background: var(--green-dark);
+            color: var(--white);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-cta:hover { background: var(--green-mid); }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 60px;
+            background: linear-gradient(170deg, #f0f7e6 0%, #e6f0d6 40%, #d9e8c5 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -15%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(197, 160, 40, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 18s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -8%;
+            left: -15%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(74, 124, 41, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 14s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(15px, -10px); }
+        }
+
+        .hero-content { position: relative; z-index: 2; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.7);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--green-dark);
+            margin-bottom: 24px;
+            border: 1px solid rgba(45, 80, 22, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--green-dark);
+            letter-spacing: -0.01em;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 32px;
+            line-height: 1.65;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            min-height: 52px;
+        }
+
+        .btn-primary {
+            background: var(--green-dark);
+            color: var(--white);
+            box-shadow: 0 4px 16px rgba(45, 80, 22, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-mid);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.6);
+            color: var(--green-dark);
+            border: 1.5px solid rgba(45, 80, 22, 0.15);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .hero-scroll svg {
+            width: 24px;
+            height: 24px;
+            color: var(--green-dark);
+            opacity: 0.4;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 56px 16px;
+        }
+
+        .section + .section {
+            border-top: 1px solid rgba(45, 80, 22, 0.06);
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--green-mid);
+            margin-bottom: 12px;
+        }
+
+        .section-header {
+            margin-bottom: 36px;
+        }
+
+        .section-header h2 {
+            font-size: 1.7rem;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            font-size: 0.92rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* PROBLEM CARDS */
+        .problem-card {
+            background: var(--white);
+            padding: 24px 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 12px rgba(45, 80, 22, 0.06);
+            border: 1px solid rgba(45, 80, 22, 0.05);
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .problem-card:active {
+            transform: scale(0.98);
+        }
+
+        .problem-card .icon {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+
+        .problem-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.98rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .problem-card p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.55;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, var(--green-pale), #f0f7e6);
+            padding: 20px;
+            border-radius: var(--radius);
+            border-left: 3px solid var(--green-mid);
+            font-size: 0.88rem;
+            line-height: 1.65;
+            color: var(--green-dark);
+            margin-top: 8px;
+        }
+
+        /* FLOW CARDS */
+        .flow-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 12px rgba(45, 80, 22, 0.06);
+            text-align: center;
+            margin-bottom: 12px;
+            border: 1px solid rgba(45, 80, 22, 0.05);
+            transition: all 0.3s;
+        }
+
+        .flow-card:active {
+            transform: scale(0.98);
+        }
+
+        .flow-card .emoji { font-size: 2rem; margin-bottom: 8px; display: block; }
+
+        .flow-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 4px;
+        }
+
+        .flow-card .sub {
+            font-size: 0.78rem;
+            color: var(--gray);
+            line-height: 1.4;
+        }
+
+        /* FEATURES */
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px;
+            background: var(--green-pale);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .feature-item .check {
+            width: 26px;
+            height: 26px;
+            min-width: 26px;
+            background: var(--green-mid);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            margin-top: 1px;
+        }
+
+        .feature-item p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* STEPS */
+        .step {
+            background: var(--white);
+            padding: 24px 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 12px rgba(45, 80, 22, 0.06);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .step:active { transform: scale(0.98); }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            background: var(--green-dark);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .step h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .step p {
+            font-size: 0.83rem;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        /* AUDIENCE */
+        .audience-card {
+            background: var(--white);
+            padding: 24px 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 12px rgba(45, 80, 22, 0.06);
+            margin-bottom: 12px;
+        }
+
+        .audience-card:active { transform: scale(0.98); }
+
+        .audience-card .avatar { font-size: 1.8rem; margin-bottom: 10px; }
+
+        .audience-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .audience-card .pain {
+            font-size: 0.8rem;
+            color: #c0392b;
+            font-style: italic;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0e8;
+        }
+
+        .audience-card .gain {
+            font-size: 0.88rem;
+            color: var(--green-dark);
+            line-height: 1.55;
+        }
+
+        /* COMPARISON - Mobile optimized */
+        .comp-row {
+            background: var(--white);
+            padding: 16px;
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+            box-shadow: 0 2px 8px rgba(45, 80, 22, 0.04);
+        }
+
+        .comp-row h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .comp-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            padding: 4px 0;
+        }
+
+        .comp-tag .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            min-width: 6px;
+        }
+
+        .comp-tag.bad .dot { background: #e74c3c; }
+        .comp-tag.mid .dot { background: #f39c12; }
+        .comp-tag.good .dot { background: var(--green-mid); }
+        .comp-tag.bad { color: #999; }
+        .comp-tag.mid { color: #888; }
+        .comp-tag.good { color: var(--green-dark); font-weight: 600; }
+
+        .utp-box {
+            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            color: var(--white);
+            padding: 24px 20px;
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .utp-box em {
+            color: var(--gold-light);
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        /* METRICS */
+        .metric-card {
+            background: var(--white);
+            padding: 22px 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 12px rgba(45, 80, 22, 0.06);
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .metric-card .metric-icon { font-size: 1.8rem; margin-bottom: 8px; }
+        .metric-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .metric-card .value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--green-mid);
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .metric-card .desc {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        /* ROADMAP */
+        .roadmap {
+            position: relative;
+            padding-left: 48px;
+        }
+
+        .roadmap::before {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--green-light), var(--gold));
+            border-radius: 2px;
+        }
+
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 28px;
+        }
+
+        .roadmap-item:last-child { margin-bottom: 0; }
+
+        .roadmap-dot {
+            position: absolute;
+            left: -40px;
+            top: 4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--green-mid);
+            border: 3px solid var(--white);
+            box-shadow: 0 0 0 2px var(--green-light);
+        }
+
+        .roadmap-item.current .roadmap-dot {
+            background: var(--gold);
+            box-shadow: 0 0 0 2px var(--gold);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 0 2px rgba(197, 160, 40, 0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(197, 160, 40, 0.15); }
+        }
+
+        .roadmap-item .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .badge-done { background: var(--green-pale); color: var(--green-dark); }
+        .badge-current { background: rgba(197, 160, 40, 0.15); color: var(--gold); }
+
+        .roadmap-item h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .roadmap-item p {
+            font-size: 0.82rem;
+            color: var(--gray);
+            line-height: 1.55;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(160deg, var(--green-dark) 0%, #1a3d0a 100%);
+            padding: 56px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -30%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(197, 160, 40, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-section h2 {
+            color: var(--white);
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.92rem;
+            margin: 0 auto 28px;
+            line-height: 1.65;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-checks {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.85);
+            font-size: 0.88rem;
+        }
+
+        .cta-check .icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-light);
+            font-size: 0.75rem;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--text-dark);
+            font-weight: 700;
+            padding: 16px 40px;
+            font-size: 1rem;
+            box-shadow: 0 4px 16px rgba(197, 160, 40, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #111;
+            color: rgba(255,255,255,0.4);
+            padding: 32px 16px;
+            text-align: center;
+            font-size: 0.78rem;
+        }
+
+        .footer a {
+            color: var(--gold-light);
+            text-decoration: none;
+        }
+
+        /* REVEAL ANIMATION */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <a href="#hero" class="nav-logo">🌿 Семитриум</a>
+        <a href="https://genoffon.com/" class="nav-cta" target="_blank">Начать →</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <div class="hero-badge">📋 Презентация для стейкхолдеров</div>
+        <h1>Когда деньги становятся <em>энергией жизни</em></h1>
+        <p class="hero-subtitle">Диагностико-трансформационная система осознанного управления финансами через баланс, доверие и естественный поток</p>
+        <div class="hero-buttons">
+            <a href="https://genoffon.com/" class="btn btn-primary" target="_blank">🌱 Узнать подробнее</a>
+            <a href="#solution" class="btn btn-secondary">Смотреть решение ↓</a>
+        </div>
+    </div>
+    <div class="hero-scroll">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+    </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section" id="problem">
+    <div class="section-header reveal">
+        <div class="section-label">⚡ Почему сейчас</div>
+        <h2>Финансовая тревожность — новый норм</h2>
+        <p>Люди нуждаются не в ещё одном трекере, а в зеркале: <strong>где я сам блокирую свой поток?</strong></p>
+    </div>
+
+    <div class="problem-card reveal">
+        <div class="icon">😰</div>
+        <h4>78% испытывают стресс</h4>
+        <p>Большинство чувствуют тревогу при мысли о деньгах, даже если объективно всё в порядке</p>
+    </div>
+
+    <div class="problem-card reveal">
+        <div class="icon">📊</div>
+        <h4>Таблицы не работают</h4>
+        <p>Жёсткий учёт и лимиты усиливают чувство вины, а не решают проблему отношения к деньгам</p>
+    </div>
+
+    <div class="problem-card reveal">
+        <div class="icon">🔄</div>
+        <h4>Цикл «заработал — потратил»</h4>
+        <p>Люди живут в бесконечном цикле дефицита, чувствуя бессилие и вину</p>
+    </div>
+
+    <div class="problem-card reveal">
+        <div class="icon">🧩</div>
+        <h4>Разрыв «знаю ≠ делаю»</h4>
+        <p>Финансовая грамотность есть, но она не работает без проработки внутренних блоков</p>
+    </div>
+
+    <div class="insight-box reveal">
+        💡 <strong>Инсайт:</strong> Люди нуждаются в системе, которая покажет, <em>где энергия застревает</em>, и даст мягкий путь к восстановлению потока — без насилия над собой.
+    </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="section" id="solution">
+    <div class="section-header reveal">
+        <div class="section-label">🌱 Решение</div>
+        <h2>7 потоков × 3 подпотока = 21 измерение</h2>
+        <p>Матрица, которая превращает хаос в понятную экосистему</p>
+    </div>
+
+    <div class="flow-card reveal">
+        <span class="emoji">🌧️</span>
+        <h4>Приём</h4>
+        <p class="sub">Заслуженное • Неожиданное • Пассивное</p>
+    </div>
+
+    <div class="flow-card reveal">
+        <span class="emoji">🪨</span>
+        <h4>Опоры</h4>
+        <p class="sub">Подушка • Целевой • Страховой</p>
+    </div>
+
+    <div class="flow-card reveal">
+        <span class="emoji">🍽️</span>
+        <h4>Питание</h4>
+        <p class="sub">База • Комфорт • Обязательства</p>
+    </div>
+
+    <div class="flow-card reveal">
+        <span class="emoji">🌳</span>
+        <h4>Рост</h4>
+        <p class="sub">Активы • Знания • Сеть</p>
+    </div>
+
+    <div class="flow-card reveal">
+        <span class="emoji">🦋</span>
+        <h4>Радость</h4>
+        <p class="sub">Впечатления • Тело • Творчество</p>
+    </div>
+
+    <div class="flow-card reveal">
+        <span class="emoji">🐝</span>
+        <h4>Отдача</h4>
+        <p class="sub">Эгрегору • Близким • Миру</p>
+    </div>
+
+    <div class="flow-card reveal">
+        <span class="emoji">🌰</span>
+        <h4>Наследие</h4>
+        <p class="sub">Детям • Проекту • Свободе</p>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <div class="feature-item reveal">
+            <div class="check">✓</div>
+            <p><strong>Шкала –1000…+1000</strong> — не «да/нет», а глубина состояния</p>
+        </div>
+        <div class="feature-item reveal">
+            <div class="check">✓</div>
+            <p><strong>«Карта Сада»</strong> — персональная визуализация экосистемы</p>
+        </div>
+        <div class="feature-item reveal">
+            <div class="check">✓</div>
+            <p><strong>Микро-привычки</strong> 5–15 мин/день вместо жёстких правил</p>
+        </div>
+        <div class="feature-item reveal">
+            <div class="check">✓</div>
+            <p><strong>Фокус на отношении</strong>, а не только на цифрах</p>
+        </div>
+    </div>
+</section>
+
+<!-- STEPS -->
+<section class="section" id="steps">
+    <div class="section-header reveal">
+        <div class="section-label">🔄 Как работает</div>
+        <h2>4 шага к гармонии</h2>
+    </div>
+
+    <div class="step reveal">
+        <div class="step-number">1</div>
+        <div>
+            <h4>📝 Диагностика</h4>
+            <p>Тест по 21 подпотоку за 15 минут. Баллы от –1000 до +1000 и карта блоков</p>
+        </div>
+    </div>
+
+    <div class="step reveal">
+        <div class="step-number">2</div>
+        <div>
+            <h4>🗺️ Визуализация</h4>
+            <p>«Карта Сада» расцветает там, где поток открыт, подсвечивает зоны роста</p>
+        </div>
+    </div>
+
+    <div class="step reveal">
+        <div class="step-number">3</div>
+        <div>
+            <h4>🌱 Настройка</h4>
+            <p>Персональные микро-привычки и рефлексивные вопросы</p>
+        </div>
+    </div>
+
+    <div class="step reveal">
+        <div class="step-number">4</div>
+        <div>
+            <h4>📈 Отслеживание</h4>
+            <p>Еженедельные чекины + 21 день сопровождения</p>
+        </div>
+    </div>
+</section>
+
+<!-- AUDIENCE -->
+<section class="section" id="audience">
+    <div class="section-header reveal">
+        <div class="section-label">👥 Для кого</div>
+        <h2>Один продукт — много сценариев</h2>
+    </div>
+
+    <div class="audience-card reveal">
+        <div class="avatar">🔹</div>
+        <h4>Новички</h4>
+        <p class="pain">«Вечно на нуле, не понимаю, куда уходит»</p>
+        <p class="gain">Ясность + первая опора без чувства вины</p>
+    </div>
+
+    <div class="audience-card reveal">
+        <div class="avatar">🔹</div>
+        <h4>Предприниматели</h4>
+        <p class="pain">«Всё в дело, личное страдает»</p>
+        <p class="gain">Баланс рост/устойчивость, защита от выгорания</p>
+    </div>
+
+    <div class="audience-card reveal">
+        <div class="avatar">🔹</div>
+        <h4>«Есть, но нет радости»</h4>
+        <p class="pain">«Коплю, но не живу»</p>
+        <p class="gain">Легализация удовольствий, смыслы важнее суммы</p>
+    </div>
+
+    <div class="audience-card reveal">
+        <div class="avatar">🔹</div>
+        <h4>Пары и семьи</h4>
+        <p class="pain">«Конфликты из-за денег»</p>
+        <p class="gain">Общий язык, прозрачность, карта совместного роста</p>
+    </div>
+
+    <div class="audience-card reveal">
+        <div class="avatar">🔹</div>
+        <h4>Осознанные практики</h4>
+        <p class="pain">«Деньги = грязная тема»</p>
+        <p class="gain">Интеграция финансов в миссию, эко-подход</p>
+    </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section" id="comparison">
+    <div class="section-header reveal">
+        <div class="section-label">🎯 Дифференциация</div>
+        <h2>Чем мы отличаемся</h2>
+    </div>
+
+    <div class="comp-row reveal">
+        <h4>Фокус</h4>
+        <div class="comp-tag bad"><span class="dot"></span> Традиционные курсы: Цифры, правила</div>
+        <div class="comp-tag mid"><span class="dot"></span> Приложения: Учёт, автоматизация</div>
+        <div class="comp-tag good"><span class="dot"></span> 🌿 Семитриум: Отношение, энергия, баланс</div>
+    </div>
+
+    <div class="comp-row reveal">
+        <h4>Подход</h4>
+        <div class="comp-tag bad"><span class="dot"></span> «Делай как я»</div>
+        <div class="comp-tag mid"><span class="dot"></span> «Следи за тратами»</div>
+        <div class="comp-tag good"><span class="dot"></span> 🌿 «Посмотри, что чувствует твой поток»</div>
+    </div>
+
+    <div class="comp-row reveal">
+        <h4>Метрика</h4>
+        <div class="comp-tag bad"><span class="dot"></span> «Сэкономил X рублей»</div>
+        <div class="comp-tag mid"><span class="dot"></span> «Потратил меньше плана»</div>
+        <div class="comp-tag good"><span class="dot"></span> 🌿 «Сдвинул баланс на +200 пунктов»</div>
+    </div>
+
+    <div class="comp-row reveal">
+        <h4>Эмоция</h4>
+        <div class="comp-tag bad"><span class="dot"></span> Вина / давление</div>
+        <div class="comp-tag mid"><span class="dot"></span> Контроль / тревога</div>
+        <div class="comp-tag good"><span class="dot"></span> 🌿 Доверие / ясность / свобода</div>
+    </div>
+
+    <div class="comp-row reveal">
+        <h4>Метафора</h4>
+        <div class="comp-tag bad"><span class="dot"></span> Машина, стройка</div>
+        <div class="comp-tag mid"><span class="dot"></span> Калькулятор, дашборд</div>
+        <div class="comp-tag good"><span class="dot"></span> 🌿 Сад — живая экосистема</div>
+    </div>
+
+    <div class="utp-box reveal" style="margin-top: 16px;">
+        💡 Единственная система, которая работает не с <em>кошельком</em>, а с <em>внутренним состоянием</em> человека в отношениях с деньгами.
+    </div>
+</section>
+
+<!-- METRICS -->
+<section class="section" id="metrics">
+    <div class="section-header reveal">
+        <div class="section-label">📊 Результаты</div>
+        <h2>Что мы измеряем</h2>
+    </div>
+
+    <div class="metric-card reveal">
+        <div class="metric-icon">🧠</div>
+        <h4>Финансовая тревожность</h4>
+        <div class="value">–40%</div>
+        <div class="desc">Снижение за 7 недель</div>
+    </div>
+
+    <div class="metric-card reveal">
+        <div class="metric-icon">🗺️</div>
+        <h4>Заполненная Карта Сада</h4>
+        <div class="value">>85%</div>
+        <div class="desc">Пользователей</div>
+    </div>
+
+    <div class="metric-card reveal">
+        <div class="metric-icon">📈</div>
+        <h4>Новый канал роста</h4>
+        <div class="value">60%</div>
+        <div class="desc">Участников запустят ≥1</div>
+    </div>
+
+    <div class="metric-card reveal">
+        <div class="metric-icon">❤️</div>
+        <h4>Удержание</h4>
+        <div class="value">>50%</div>
+        <div class="desc">Активность через 30 дней</div>
+    </div>
+
+    <div class="metric-card reveal">
+        <div class="metric-icon">⭐</div>
+        <h4>NPS</h4>
+        <div class="value">>70</div>
+        <div class="desc">Готовность рекомендовать</div>
+    </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="section" id="roadmap">
+    <div class="section-header reveal">
+        <div class="section-label">🗓️ Дорожная карта</div>
+        <h2>План запуска</h2>
+    </div>
+
+    <div class="roadmap reveal">
+        <div class="roadmap-item">
+            <div class="roadmap-dot"></div>
+            <span class="badge badge-done">✅ Готово</span>
+            <h4>Утверждение концепции</h4>
+            <p>Матрица 7×3, философия, миссия — зафиксированы</p>
+        </div>
+
+        <div class="roadmap-item current">
+            <div class="roadmap-dot"></div>
+            <span class="badge badge-current">⚙️ В работе</span>
+            <h4>Подготовка контента (недели 1–3)</h4>
+            <p>Видеоуроки (7 модулей), рабочие тетради, шаблоны, аудио-практики</p>
+        </div>
+
+        <div class="roadmap-item">
+            <div class="roadmap-dot"></div>
+            <h4>Техническая сборка (недели 2–4)</h4>
+            <p>Платформа, интеграция теста + визуализации, чекины</p>
+        </div>
+
+        <div class="roadmap-item">
+            <div class="roadmap-dot"></div>
+            <h4>Пилотная группа (неделя 5)</h4>
+            <p>15–20 участников, сбор фидбека, корректировка</p>
+        </div>
+
+        <div class="roadmap-item">
+            <div class="roadmap-dot"></div>
+            <h4>Публичный запуск (неделя 8)</h4>
+            <p>Открытый набор, маркетинг, масштабирование</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+    <h2 class="reveal">Готовы вырастить свой сад?</h2>
+    <div class="cta-checks reveal">
+        <div class="cta-check">
+            <div class="icon">✓</div>
+            Концепция и матрица 7×3
+        </div>
+        <div class="cta-check">
+            <div class="icon">✓</div>
+            Пилотная группа готова
+        </div>
+        <div class="cta-check">
+            <div class="icon">✓</div>
+            Команда и сроки зафиксированы
+        </div>
+    </div>
+    <p class="reveal">Семитриум — не про то, чтобы иметь больше. Это про то, чтобы <em>чувствовать себя свободнее</em>.</p>
+    <a href="https://genoffon.com/" class="btn btn-gold reveal" target="_blank">🌿 Перейти на сайт проекта</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p>© 2025 Денежный Семитриум · <a href="https://genoffon.com/" target="_blank">genoffon.com</a></p>
+</footer>
+
+<script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
+
