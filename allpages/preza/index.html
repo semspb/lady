@@ -133,15 +133,6 @@
             width: 100%;
         }
 
-        .slide-number {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--cyan);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 1rem;
-        }
-
         .slide-title {
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 900;
@@ -250,14 +241,6 @@
             border-radius: 4px;
         }
 
-        .nav-counter {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            min-width: 50px;
-            text-align: center;
-        }
-
         /* Progress bar */
         .progress-bar {
             position: fixed;
@@ -328,7 +311,6 @@
         .hero-unified p {
             font-size: 1rem;
             font-weight: 600;
-            color: var(--text);
         }
 
         /* Slide 2 - Energy */
@@ -710,77 +692,138 @@
             color: var(--text);
         }
 
-        /* Slide 9 - CTA */
-        .cta-loop {
+        /* Slide 9 - 3 Directions */
+        .directions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin: 2.5rem 0;
+        }
+
+        .direction-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .direction-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .direction-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .direction-card:hover::before {
+            opacity: 1;
+        }
+
+        .direction-card.love-card::before {
+            background: linear-gradient(90deg, #f43f5e, #7c3aed);
+        }
+        .direction-card.love-card {
+            border-color: rgba(244, 63, 94, 0.1);
+        }
+        .direction-card.love-card:hover {
+            border-color: rgba(244, 63, 94, 0.3);
+            box-shadow: 0 20px 50px rgba(244, 63, 94, 0.1);
+        }
+
+        .direction-card.money-card::before {
+            background: linear-gradient(90deg, #f59e0b, #10b981);
+        }
+        .direction-card.money-card {
+            border-color: rgba(245, 158, 11, 0.1);
+        }
+        .direction-card.money-card:hover {
+            border-color: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.1);
+        }
+
+        .direction-card.energy-card::before {
+            background: linear-gradient(90deg, #7c3aed, #06b6d4);
+        }
+        .direction-card.energy-card {
+            border-color: rgba(124, 58, 237, 0.1);
+        }
+        .direction-card.energy-card:hover {
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0 20px 50px rgba(124, 58, 237, 0.1);
+        }
+
+        .direction-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .direction-name {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .direction-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .direction-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .cta-loop-item {
-            display: flex;
-            align-items: center;
             gap: 0.5rem;
-            padding: 1rem 1.5rem;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .cta-loop-item.energy-item {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-
-        .cta-loop-item.relations-item {
-            background: rgba(244, 63, 94, 0.1);
-            border: 1px solid rgba(244, 63, 94, 0.2);
-        }
-
-        .cta-loop-item.capital-item {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-
-        .cta-loop-arrow {
-            color: var(--text-muted);
-            font-size: 1.5rem;
-        }
-
-        .cta-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .cta-action-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 600;
             cursor: pointer;
+            margin-bottom: 0.5rem;
             transition: all 0.3s ease;
         }
 
-        .cta-action-item:hover {
+        .direction-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .direction-btn:hover {
+            background: rgba(124, 58, 237, 0.15);
             border-color: rgba(124, 58, 237, 0.3);
-            transform: translateX(5px);
         }
 
-        .cta-action-icon {
-            font-size: 1.5rem;
+        .love-card .direction-btn:hover {
+            background: rgba(244, 63, 94, 0.15);
+            border-color: rgba(244, 63, 94, 0.3);
         }
 
-        .cta-action-text {
-            font-size: 0.95rem;
-            font-weight: 600;
+        .money-card .direction-btn:hover {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .energy-card .direction-btn:hover {
+            background: rgba(124, 58, 237, 0.15);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .direction-btn-icon {
+            font-size: 1.1rem;
         }
 
         .cta-final {
@@ -789,7 +832,7 @@
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(6, 182, 212, 0.08));
             border: 1px solid rgba(124, 58, 237, 0.2);
             border-radius: 20px;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
 
         .cta-final h3 {
@@ -859,6 +902,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .directions-grid {
+                grid-template-columns: 1fr;
+            }
+
             .exchange-grid {
                 grid-template-columns: 1fr;
             }
@@ -868,14 +915,6 @@
             }
 
             .energy-arrow {
-                transform: rotate(90deg);
-            }
-
-            .cta-loop {
-                flex-direction: column;
-            }
-
-            .cta-loop-arrow {
                 transform: rotate(90deg);
             }
 
@@ -893,44 +932,6 @@
                 margin-bottom: 5rem;
             }
         }
-
-        /* Keyboard hint */
-        .keyboard-hint {
-            position: fixed;
-            top: 1.5rem;
-            right: 1.5rem;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-
-        .keyboard-hint:hover {
-            opacity: 1;
-        }
-
-        .key {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            .keyboard-hint {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
@@ -940,20 +941,11 @@
 
     <div class="progress-bar" id="progressBar"></div>
 
-    <div class="keyboard-hint">
-        <span class="key">←</span>
-        <span class="key">→</span>
-        навигация
-    </div>
-
     <div class="presentation" id="presentation">
 
         <!-- SLIDE 1 -->
         <div class="slide active" data-slide="0">
             <div class="slide-content">
-                <div class="reveal">
-                    <span class="slide-number">Слайд 01 / 09</span>
-                </div>
                 <div class="reveal">
                     <span class="hero-icon">💎</span>
                     <h1 class="slide-title">
@@ -996,9 +988,6 @@
         <!-- SLIDE 2 -->
         <div class="slide" data-slide="1">
             <div class="slide-content">
-                <div class="reveal">
-                    <span class="slide-number">Слайд 02 / 09</span>
-                </div>
                 <div class="reveal">
                     <h1 class="slide-title">
                         <span class="gradient-text">Энергия.</span><br>
@@ -1043,9 +1032,6 @@
         <div class="slide" data-slide="2">
             <div class="slide-content">
                 <div class="reveal">
-                    <span class="slide-number">Слайд 03 / 09 — Энергия №1</span>
-                </div>
-                <div class="reveal">
                     <div class="energy-level-header">
                         <div class="energy-level-badge physical">🔋</div>
                         <div>
@@ -1082,9 +1068,6 @@
         <!-- SLIDE 4 -->
         <div class="slide" data-slide="3">
             <div class="slide-content">
-                <div class="reveal">
-                    <span class="slide-number">Слайд 04 / 09 — Энергия №2</span>
-                </div>
                 <div class="reveal">
                     <div class="energy-level-header">
                         <div class="energy-level-badge mental">🧠</div>
@@ -1133,9 +1116,6 @@
         <div class="slide" data-slide="4">
             <div class="slide-content">
                 <div class="reveal">
-                    <span class="slide-number">Слайд 05 / 09 — Энергия №3</span>
-                </div>
-                <div class="reveal">
                     <div class="energy-level-header">
                         <div class="energy-level-badge egregore">🌐</div>
                         <div>
@@ -1182,9 +1162,6 @@
         <!-- SLIDE 6 -->
         <div class="slide" data-slide="5">
             <div class="slide-content">
-                <div class="reveal">
-                    <span class="slide-number">Слайд 06 / 09 — Система</span>
-                </div>
                 <div class="reveal">
                     <h1 class="slide-title">
                         Система <span class="gradient-text">трёх энергий</span>
@@ -1233,9 +1210,6 @@
         <!-- SLIDE 7 -->
         <div class="slide" data-slide="6">
             <div class="slide-content">
-                <div class="reveal">
-                    <span class="slide-number">Слайд 07 / 09 — Закон обмена</span>
-                </div>
                 <div class="reveal">
                     <h1 class="slide-title">
                         Закон <span class="gradient-text">обмена</span> в действии
@@ -1306,9 +1280,6 @@
         <div class="slide" data-slide="7">
             <div class="slide-content">
                 <div class="reveal">
-                    <span class="slide-number">Слайд 08 / 09 — Навигатор</span>
-                </div>
-                <div class="reveal">
                     <h1 class="slide-title">
                         Ваш <span class="gradient-text">энергетический</span> навигатор
                     </h1>
@@ -1351,50 +1322,64 @@
             </div>
         </div>
 
-        <!-- SLIDE 9 -->
+        <!-- SLIDE 9 - 3 Directions -->
         <div class="slide" data-slide="8">
             <div class="slide-content">
                 <div class="reveal">
-                    <span class="slide-number">Слайд 09 / 09 — Финал</span>
-                </div>
-                <div class="reveal">
                     <h1 class="slide-title">
-                        <span class="gradient-text">3 направления</span> роста
+                        3 направления <span class="gradient-text">роста</span>
                     </h1>
                 </div>
                 <div class="reveal">
-                    <div class="cta-loop">
-                        <div class="cta-loop-item energy-item">
-                            <span>⚡ Энергия</span>
-                        </div>
-                        <span class="cta-loop-arrow">→</span>
-                        <div class="cta-loop-item relations-item">
-                            <span>❤️ Отношения</span>
-                        </div>
-                        <span class="cta-loop-arrow">→</span>
-                        <div class="cta-loop-item capital-item">
-                            <span>💰 Капитал</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="reveal">
-                    <p class="slide-body" style="text-align: center;">
-                        Это не три разные гонки. Это <span class="highlight">один контур</span>: рост в одной области автоматически усиливает остальные. <span class="accent">Источник уже у вас.</span> Осталось научиться им управлять.
+                    <p class="slide-body">
+                        Это не три разные гонки. Это <span class="highlight">один контур</span>: рост в одной области автоматически усиливает остальные. Выберите направление и начните действовать.
                     </p>
                 </div>
                 <div class="reveal">
-                    <div class="cta-actions">
-                        <div class="cta-action-item" onclick="alert('Запуск теста...')">
-                            <span class="cta-action-icon">📱</span>
-                            <span class="cta-action-text">Пройти 3-минутный тест на уровень энергии</span>
+                    <div class="directions-grid">
+                        <!-- Любовь -->
+                        <div class="direction-card love-card">
+                            <div class="direction-icon">❤️</div>
+                            <div class="direction-name" style="color: #f43f5e;">Любовь</div>
+                            <div class="direction-desc">Отношения, близость, связь с собой и другими</div>
+                            <button class="direction-btn" onclick="alert('Тест: Уровень энергии в отношениях')">
+                                <span class="direction-btn-icon">📋</span>
+                                Пройти тест
+                            </button>
+                            <button class="direction-btn" onclick="alert('Чек-ап отношений запущен')">
+                                <span class="direction-btn-icon">⚡</span>
+                                Чек-ап
+                            </button>
                         </div>
-                        <div class="cta-action-item" onclick="alert('Генерация плана...')">
-                            <span class="cta-action-icon">📅</span>
-                            <span class="cta-action-text">Получить персональный план восстановления</span>
+
+                        <!-- Деньги -->
+                        <div class="direction-card money-card">
+                            <div class="direction-icon">💰</div>
+                            <div class="direction-name" style="color: #f59e0b;">Деньги</div>
+                            <div class="direction-desc">Финансы, ресурс, материальный поток</div>
+                            <button class="direction-btn" onclick="alert('Тест: Финансовый уровень энергии')">
+                                <span class="direction-btn-icon">📋</span>
+                                Пройти тест
+                            </button>
+                            <button class="direction-btn" onclick="alert('Чек-ап финансов запущен')">
+                                <span class="direction-btn-icon">⚡</span>
+                                Чек-ап
+                            </button>
                         </div>
-                        <div class="cta-action-item" onclick="alert('Подключение к сообществу...')">
-                            <span class="cta-action-icon">🤝</span>
-                            <span class="cta-action-text">Вступить в систему поддержки</span>
+
+                        <!-- Энергия -->
+                        <div class="direction-card energy-card">
+                            <div class="direction-icon">⚡</div>
+                            <div class="direction-name" style="color: #7c3aed;">Энергия</div>
+                            <div class="direction-desc">Тело, здоровье, жизненная сила, тонус</div>
+                            <button class="direction-btn" onclick="alert('Тест: Уровень физической энергии')">
+                                <span class="direction-btn-icon">📋</span>
+                                Пройти тест
+                            </button>
+                            <button class="direction-btn" onclick="alert('Чек-ап энергии запущен')">
+                                <span class="direction-btn-icon">⚡</span>
+                                Чек-ап
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1414,7 +1399,6 @@
     <div class="nav-controls">
         <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>←</button>
         <div class="nav-dots" id="navDots"></div>
-        <span class="nav-counter" id="navCounter">1 / 9</span>
         <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
     </div>
 
@@ -1435,9 +1419,6 @@
         }
 
         function updateUI() {
-            // Update counter
-            document.getElementById('navCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
-
             // Update buttons
             document.getElementById('prevBtn').disabled = currentSlide === 0;
             document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
