@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Энергия — Деньги, Любовь, Здоровье</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0f;
+            --bg-card: #14141f;
+            --text: #f0f0f5;
+            --text-muted: #8888a0;
+            --purple: #7c3aed;
+            --cyan: #06b6d4;
+            --pink: #f43f5e;
+            --green: #10b981;
+            --orange: #f59e0b;
+            --gradient-1: linear-gradient(135deg, #7c3aed, #06b6d4);
+            --gradient-2: linear-gradient(135deg, #f43f5e, #7c3aed);
+            --gradient-3: linear-gradient(135deg, #06b6d4, #10b981);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            height: 100dvh;
+            width: 100vw;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-orb-1 {
+            width: 700px;
+            height: 700px;
+            background: var(--purple);
+            top: -300px;
+            right: -200px;
+            animation: floatOrb1 20s ease-in-out infinite;
+        }
+
+        .bg-orb-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--cyan);
+            bottom: -200px;
+            left: -100px;
+            animation: floatOrb2 25s ease-in-out infinite;
+        }
+
+        .bg-orb-3 {
+            width: 400px;
+            height: 400px;
+            background: var(--pink);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: floatOrb3 18s ease-in-out infinite;
+        }
+
+        @keyframes floatOrb1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-80px, 100px); }
+        }
+
+        @keyframes floatOrb2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(100px, -60px); }
+        }
+
+        @keyframes floatOrb3 {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .slide.exit-left {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        .slide-content {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .slide-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1.5px;
+        }
+
+        .gradient-text {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-text-pink {
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-body {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 750px;
+            margin-bottom: 2rem;
+        }
+
+        .slide-body p {
+            margin-bottom: 1rem;
+        }
+
+        .highlight {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .accent {
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 100;
+            background: rgba(20, 20, 31, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0.75rem 1.25rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-btn:hover {
+            background: var(--purple);
+            border-color: var(--purple);
+            transform: scale(1.05);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+            transform: none;
+        }
+
+        .nav-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-dot.active {
+            background: var(--purple);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            z-index: 101;
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Slide-specific styles */
+
+        /* Slide 1 - Hero */
+        .hero-icon {
+            font-size: clamp(3rem, 8vw, 4rem);
+            margin-bottom: 1.25rem;
+            display: block;
+        }
+
+        .hero-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .hero-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .hero-card:active {
+            transform: scale(0.98);
+        }
+
+        .hero-card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .hero-unified {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 16px;
+        }
+
+        .hero-unified p {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Slide 2 - Energy */
+        .energy-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .energy-step {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .energy-step-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .energy-step-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .energy-step-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .energy-arrow {
+            font-size: 1.5rem;
+            color: var(--purple);
+        }
+
+        .energy-quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--purple);
+            border-radius: 0 16px 16px 0;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Slide 3-5 Energy levels */
+        .energy-level-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .energy-level-badge {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .energy-level-badge.physical { background: rgba(16, 185, 129, 0.15); }
+        .energy-level-badge.mental { background: rgba(124, 58, 237, 0.15); }
+        .energy-level-badge.egregore { background: rgba(6, 182, 212, 0.15); }
+
+        .energy-level-title {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .energy-level-name {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .energy-cycle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .cycle-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .cycle-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .key-insight {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.08), rgba(124, 58, 237, 0.05));
+            border: 1px solid rgba(244, 63, 94, 0.15);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .key-insight-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .key-insight p {
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Slide 6 - System */
+        .system-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            margin: 2rem 0;
+        }
+
+        .system-level {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .system-level:hover {
+            transform: scale(1.02);
+        }
+
+        .system-level-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .system-level-text h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .system-level-text p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .system-level.egregore-level {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(16, 185, 129, 0.05));
+            border: 1px solid rgba(6, 182, 212, 0.15);
+        }
+
+        .system-level.egregore-level .system-level-icon {
+            background: rgba(6, 182, 212, 0.15);
+        }
+
+        .system-level.mental-level {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(124, 58, 237, 0.05));
+            border: 1px solid rgba(124, 58, 237, 0.15);
+        }
+
+        .system-level.mental-level .system-level-icon {
+            background: rgba(124, 58, 237, 0.15);
+        }
+
+        .system-level.body-level {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .system-level.body-level .system-level-icon {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .system-connector {
+            width: 2px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .system-warning {
+            background: rgba(244, 63, 94, 0.08);
+            border: 1px solid rgba(244, 63, 94, 0.15);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .system-warning p {
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Slide 7 - Exchange */
+        .exchange-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .exchange-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .exchange-card:hover {
+            border-color: rgba(124, 58, 237, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .exchange-card:active {
+            transform: scale(0.98);
+        }
+
+        .exchange-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .exchange-icon {
+            font-size: 1.5rem;
+        }
+
+        .exchange-title {
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .exchange-formula {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .exchange-input {
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        .exchange-output {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .exchange-arrow-icon {
+            color: var(--text-muted);
+        }
+
+        .exchange-bottom-quote {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(244, 63, 94, 0.05));
+            border: 1px solid rgba(124, 58, 237, 0.15);
+            border-radius: 16px;
+            margin-top: 1rem;
+        }
+
+        .exchange-bottom-quote p {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Slide 8 - Navigator */
+        .navigator-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin: 2rem 0;
+        }
+
+        .navigator-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .navigator-step:hover {
+            border-color: rgba(124, 58, 237, 0.2);
+            transform: translateX(5px);
+        }
+
+        .navigator-step:active {
+            transform: scale(0.98);
+        }
+
+        .navigator-step-num {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .navigator-step:nth-child(1) .navigator-step-num {
+            background: rgba(124, 58, 237, 0.15);
+            color: var(--purple);
+        }
+
+        .navigator-step:nth-child(2) .navigator-step-num {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--cyan);
+        }
+
+        .navigator-step:nth-child(3) .navigator-step-num {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--green);
+        }
+
+        .navigator-step-content h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .navigator-step-content p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .navigator-result {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 16px;
+            margin-top: 1rem;
+        }
+
+        .navigator-result p {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Slide 9 - 3 Directions */
+        .directions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin: 2.5rem 0;
+        }
+
+        .direction-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .direction-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .direction-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .direction-card:active {
+            transform: scale(0.98);
+        }
+
+        .direction-card:hover::before {
+            opacity: 1;
+        }
+
+        .direction-card.love-card::before {
+            background: linear-gradient(90deg, #f43f5e, #7c3aed);
+        }
+        .direction-card.love-card {
+            border-color: rgba(244, 63, 94, 0.1);
+        }
+        .direction-card.love-card:hover {
+            border-color: rgba(244, 63, 94, 0.3);
+            box-shadow: 0 20px 50px rgba(244, 63, 94, 0.1);
+        }
+
+        .direction-card.money-card::before {
+            background: linear-gradient(90deg, #f59e0b, #10b981);
+        }
+        .direction-card.money-card {
+            border-color: rgba(245, 158, 11, 0.1);
+        }
+        .direction-card.money-card:hover {
+            border-color: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.1);
+        }
+
+        .direction-card.energy-card::before {
+            background: linear-gradient(90deg, #7c3aed, #06b6d4);
+        }
+        .direction-card.energy-card {
+            border-color: rgba(124, 58, 237, 0.1);
+        }
+        .direction-card.energy-card:hover {
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0 20px 50px rgba(124, 58, 237, 0.1);
+        }
+
+        .direction-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .direction-name {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .direction-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .direction-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .direction-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .direction-btn:hover {
+            background: rgba(124, 58, 237, 0.15);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .direction-btn:active {
+            transform: scale(0.96);
+        }
+
+        .love-card .direction-btn:hover {
+            background: rgba(244, 63, 94, 0.15);
+            border-color: rgba(244, 63, 94, 0.3);
+        }
+
+        .money-card .direction-btn:hover {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .energy-card .direction-btn:hover {
+            background: rgba(124, 58, 237, 0.15);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .direction-btn-icon {
+            font-size: 1.1rem;
+        }
+
+        .cta-final {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(6, 182, 212, 0.08));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 20px;
+            margin-top: 1rem;
+        }
+
+        .cta-final h3 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-final p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.5rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(124, 58, 237, 0.3);
+        }
+
+        .cta-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* Slide reveal animations */
+        .slide.active .reveal {
+            animation: slideReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .slide.active .reveal:nth-child(1) { animation-delay: 0.1s; }
+        .slide.active .reveal:nth-child(2) { animation-delay: 0.2s; }
+        .slide.active .reveal:nth-child(3) { animation-delay: 0.3s; }
+        .slide.active .reveal:nth-child(4) { animation-delay: 0.4s; }
+        .slide.active .reveal:nth-child(5) { animation-delay: 0.5s; }
+        .slide.active .reveal:nth-child(6) { animation-delay: 0.6s; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes slideReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =================== */
+        /* MOBILE ADAPTATION   */
+        /* =================== */
+
+        /* Tablets and below */
+        @media (max-width: 1024px) {
+            .slide {
+                padding: 1.5rem;
+            }
+
+            .hero-cards {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+            }
+
+            .hero-card {
+                padding: 1.25rem 0.75rem;
+            }
+
+            .directions-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+
+            .direction-card {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        /* Small tablets and large phones */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1.25rem 1rem;
+                align-items: flex-start;
+                padding-top: 2.5rem;
+                padding-bottom: 5.5rem;
+            }
+
+            .slide-content {
+                margin-bottom: 1rem;
+            }
+
+            .hero-icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+
+            .slide-title {
+                font-size: 1.75rem;
+                margin-bottom: 1rem;
+                letter-spacing: -1px;
+            }
+
+            .slide-body {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.6;
+            }
+
+            /* Hero cards stack */
+            .hero-cards {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+                margin-top: 1.5rem;
+            }
+
+            .hero-card {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                text-align: left;
+                padding: 1rem 1.25rem;
+            }
+
+            .hero-card-icon {
+                font-size: 1.75rem;
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+
+            .hero-card h4 {
+                font-size: 0.95rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .hero-card p {
+                font-size: 0.8rem;
+            }
+
+            /* Energy flow vertical */
+            .energy-flow {
+                flex-direction: column;
+                gap: 0.75rem;
+                margin: 1.5rem 0;
+            }
+
+            .energy-step {
+                min-width: unset;
+                width: 100%;
+                padding: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                text-align: left;
+            }
+
+            .energy-step-icon {
+                font-size: 1.5rem;
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+
+            .energy-arrow {
+                transform: rotate(90deg);
+                font-size: 1.2rem;
+                margin: -0.25rem 0;
+            }
+
+            /* Energy level header */
+            .energy-level-header {
+                margin-bottom: 1.5rem;
+                gap: 0.75rem;
+            }
+
+            .energy-level-badge {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .energy-level-title {
+                font-size: 0.85rem;
+                letter-spacing: 1px;
+            }
+
+            .energy-level-name {
+                font-size: 1.5rem;
+            }
+
+            /* Energy cycle horizontal scroll */
+            .energy-cycle {
+                margin: 1.5rem 0;
+                gap: 0.5rem;
+            }
+
+            .cycle-item {
+                padding: 0.75rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .cycle-arrow {
+                font-size: 1rem;
+            }
+
+            /* Key insight */
+            .key-insight {
+                padding: 1rem;
+                margin-top: 1.25rem;
+                gap: 0.75rem;
+            }
+
+            .key-insight-icon {
+                font-size: 1.25rem;
+            }
+
+            .key-insight p {
+                font-size: 0.85rem;
+            }
+
+            /* System diagram */
+            .system-diagram {
+                margin: 1.5rem 0;
+            }
+
+            .system-level {
+                padding: 0.85rem 1rem;
+                gap: 0.75rem;
+            }
+
+            .system-level-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1.25rem;
+            }
+
+            .system-level-text h4 {
+                font-size: 0.95rem;
+            }
+
+            .system-level-text p {
+                font-size: 0.78rem;
+            }
+
+            .system-connector {
+                height: 16px;
+            }
+
+            .system-warning {
+                padding: 1rem;
+                margin-top: 1.25rem;
+            }
+
+            .system-warning p {
+                font-size: 0.85rem;
+            }
+
+            /* Exchange grid */
+            .exchange-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+                margin: 1.5rem 0;
+            }
+
+            .exchange-card {
+                padding: 1.25rem;
+            }
+
+            .exchange-bottom-quote {
+                padding: 1.25rem;
+                margin-top: 0.75rem;
+            }
+
+            .exchange-bottom-quote p {
+                font-size: 1rem;
+            }
+
+            /* Navigator */
+            .navigator-steps {
+                margin: 1.5rem 0;
+                gap: 1rem;
+            }
+
+            .navigator-step {
+                padding: 1.25rem;
+                gap: 1rem;
+            }
+
+            .navigator-step-num {
+                width: 44px;
+                height: 44px;
+                font-size: 1.25rem;
+            }
+
+            .navigator-step-content h4 {
+                font-size: 1rem;
+            }
+
+            .navigator-step-content p {
+                font-size: 0.85rem;
+            }
+
+            .navigator-result {
+                padding: 1.25rem;
+                margin-top: 0.75rem;
+            }
+
+            .navigator-result p {
+                font-size: 0.95rem;
+            }
+
+            /* Directions grid */
+            .directions-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 1.75rem 0;
+            }
+
+            .direction-card {
+                padding: 1.5rem;
+            }
+
+            .direction-icon {
+                font-size: 2.25rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .direction-name {
+                font-size: 1.1rem;
+            }
+
+            .direction-desc {
+                font-size: 0.8rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .direction-btn {
+                padding: 0.7rem;
+                font-size: 0.82rem;
+            }
+
+            /* CTA final */
+            .cta-final {
+                padding: 1.5rem;
+                margin-top: 0.75rem;
+            }
+
+            .cta-final h3 {
+                font-size: 1.5rem;
+            }
+
+            .cta-final p {
+                font-size: 0.9rem;
+            }
+
+            .cta-btn {
+                padding: 0.85rem 2rem;
+                font-size: 1rem;
+                margin-top: 1.25rem;
+            }
+
+            /* Energy quote */
+            .energy-quote {
+                padding: 1.25rem;
+                margin-top: 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            /* Hero unified */
+            .hero-unified {
+                padding: 0.85rem;
+                margin-top: 1.5rem;
+            }
+
+            .hero-unified p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 400px) {
+            .slide {
+                padding: 1rem 0.75rem;
+                padding-top: 2rem;
+                padding-bottom: 5.5rem;
+            }
+
+            .slide-title {
+                font-size: 1.5rem;
+            }
+
+            .slide-body {
+                font-size: 0.9rem;
+            }
+
+            .hero-card {
+                padding: 0.85rem 1rem;
+            }
+
+            .hero-card h4 {
+                font-size: 0.9rem;
+            }
+
+            .hero-card p {
+                font-size: 0.75rem;
+            }
+
+            .energy-step {
+                padding: 0.85rem;
+            }
+
+            .energy-step-label {
+                font-size: 0.82rem;
+            }
+
+            .energy-step-desc {
+                font-size: 0.7rem;
+            }
+
+            .cycle-item {
+                padding: 0.65rem 0.85rem;
+                font-size: 0.75rem;
+            }
+
+            .system-level {
+                padding: 0.75rem;
+            }
+
+            .system-level-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+
+            .system-level-text h4 {
+                font-size: 0.88rem;
+            }
+
+            .system-level-text p {
+                font-size: 0.72rem;
+            }
+
+            .exchange-card {
+                padding: 1rem;
+            }
+
+            .exchange-title {
+                font-size: 1rem;
+            }
+
+            .exchange-formula {
+                font-size: 0.82rem;
+            }
+
+            .navigator-step {
+                padding: 1rem;
+                gap: 0.85rem;
+            }
+
+            .navigator-step-num {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+
+            .navigator-step-content h4 {
+                font-size: 0.92rem;
+                margin-bottom: 0.35rem;
+            }
+
+            .navigator-step-content p {
+                font-size: 0.8rem;
+            }
+
+            .direction-card {
+                padding: 1.25rem;
+            }
+
+            .cta-final {
+                padding: 1.25rem;
+            }
+
+            .cta-final h3 {
+                font-size: 1.3rem;
+            }
+
+            .cta-btn {
+                padding: 0.8rem 1.75rem;
+                font-size: 0.95rem;
+            }
+
+            .nav-controls {
+                padding: 0.6rem 1rem;
+                bottom: 1rem;
+                gap: 0.5rem;
+            }
+
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .nav-dot {
+                width: 6px;
+                height: 6px;
+            }
+
+            .nav-dot.active {
+                width: 20px;
+            }
+        }
+
+        /* Very small phones */
+        @media (max-width: 340px) {
+            .slide {
+                padding: 0.75rem 0.6rem;
+                padding-top: 1.5rem;
+                padding-bottom: 5rem;
+            }
+
+            .slide-title {
+                font-size: 1.35rem;
+                letter-spacing: -0.5px;
+            }
+
+            .slide-body {
+                font-size: 0.85rem;
+                line-height: 1.55;
+            }
+
+            .hero-icon {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Landscape mode on phones */
+        @media (max-width: 800px) and (orientation: landscape) {
+            .slide {
+                padding: 1rem;
+                padding-bottom: 4.5rem;
+                align-items: center;
+            }
+
+            .slide-content {
+                margin-bottom: 0;
+            }
+
+            .slide-title {
+                font-size: 1.35rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .slide-body {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero-cards {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            .hero-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 0.75rem;
+            }
+
+            .hero-card-icon {
+                font-size: 1.5rem;
+                margin-bottom: 0.35rem;
+            }
+
+            .hero-card h4 {
+                font-size: 0.8rem;
+                margin-bottom: 0.15rem;
+            }
+
+            .hero-card p {
+                font-size: 0.7rem;
+            }
+
+            .energy-flow {
+                flex-direction: row;
+            }
+
+            .energy-arrow {
+                transform: none;
+            }
+
+            .energy-step {
+                flex-direction: column;
+                text-align: center;
+                padding: 0.75rem;
+                min-width: 100px;
+            }
+
+            .energy-step-icon {
+                margin-bottom: 0.35rem;
+            }
+
+            .directions-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+                margin: 1.25rem 0;
+            }
+
+            .direction-card {
+                padding: 1rem 0.75rem;
+            }
+
+            .direction-icon {
+                font-size: 1.75rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .direction-name {
+                font-size: 0.95rem;
+            }
+
+            .direction-desc {
+                font-size: 0.7rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .direction-btn {
+                padding: 0.55rem;
+                font-size: 0.72rem;
+            }
+
+            .exchange-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+                margin: 1rem 0;
+            }
+
+            .exchange-card {
+                padding: 1rem;
+            }
+
+            .navigator-steps {
+                margin: 1rem 0;
+                gap: 0.75rem;
+            }
+
+            .navigator-step {
+                padding: 0.85rem;
+                gap: 0.75rem;
+            }
+
+            .cta-final {
+                padding: 1rem;
+                margin-top: 0.5rem;
+            }
+
+            .cta-btn {
+                padding: 0.65rem 1.5rem;
+                font-size: 0.9rem;
+                margin-top: 0.75rem;
+            }
+
+            .nav-controls {
+                bottom: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- SLIDE 1 -->
+        <div class="slide active" data-slide="0">
+            <div class="slide-content">
+                <div class="reveal">
+                    <span class="hero-icon">💎</span>
+                    <h1 class="slide-title">
+                        Что такое <span class="gradient-text">деньги, любовь,</span><br>
+                        <span class="gradient-text-pink">здоровье?</span>
+                    </h1>
+                </div>
+                <div class="reveal">
+                    <p class="slide-body">
+                        Мы привыкли жить так, будто деньги, любовь и здоровье — это <span class="highlight">отдельные задачи</span>. Решаем их по очереди, удивляемся, почему одна сфера тянет другую вниз. Но на глубинном уровне это <span class="accent">одно и то же</span>.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <div class="hero-cards">
+                        <div class="hero-card">
+                            <div class="hero-card-icon">💰</div>
+                            <div>
+                                <h4>Деньги</h4>
+                                <p>Финансовый ресурс и возможности</p>
+                            </div>
+                        </div>
+                        <div class="hero-card">
+                            <div class="hero-card-icon">❤️</div>
+                            <div>
+                                <h4>Любовь</h4>
+                                <p>Отношения, близость, связь</p>
+                            </div>
+                        </div>
+                        <div class="hero-card">
+                            <div class="hero-card-icon">🏃</div>
+                            <div>
+                                <h4>Здоровье</h4>
+                                <p>Тело, энергия, жизненная сила</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="hero-unified">
+                        <p>Всё вокруг работает по единому закону. Это не абстракция.<br>Это <span class="gradient-text">валюта</span>, которой вы уже расплачиваетесь каждый день.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2 -->
+        <div class="slide" data-slide="1">
+            <div class="slide-content">
+                <div class="reveal">
+                    <h1 class="slide-title">
+                        <span class="gradient-text">Энергия.</span><br>
+                        Источник и закон появления
+                    </h1>
+                </div>
+                <div class="reveal">
+                    <p class="slide-body">
+                        Ни один результат не появляется из воздуха. <span class="highlight">Сначала — энергия. Потом — действие. Потом — форма.</span> Деньги, близость, здоровье — это застывшая энергия, которая прошла через ваш выбор и усилие.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <div class="energy-flow">
+                        <div class="energy-step">
+                            <div class="energy-step-icon">⚡</div>
+                            <div>
+                                <div class="energy-step-label">Энергия</div>
+                                <div class="energy-step-desc">Потенциал</div>
+                            </div>
+                        </div>
+                        <span class="energy-arrow">→</span>
+                        <div class="energy-step">
+                            <div class="energy-step-icon">🎯</div>
+                            <div>
+                                <div class="energy-step-label">Действие</div>
+                                <div class="energy-step-desc">Вектор</div>
+                            </div>
+                        </div>
+                        <span class="energy-arrow">→</span>
+                        <div class="energy-step">
+                            <div class="energy-step-icon">💎</div>
+                            <div>
+                                <div class="energy-step-label">Результат</div>
+                                <div class="energy-step-desc">Форма</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="energy-quote">
+                        Бесплатного не существует. Есть <span class="highlight">отложенный обмен</span>: то, что вы вложили вчера, возвращается сегодня с процентами. Или не возвращается, если поток был перекрыт.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 -->
+        <div class="slide" data-slide="2">
+            <div class="slide-content">
+                <div class="reveal">
+                    <div class="energy-level-header">
+                        <div class="energy-level-badge physical">🔋</div>
+                        <div>
+                            <div class="energy-level-title">Физическая энергия</div>
+                            <div class="energy-level-name gradient-text" style="background: linear-gradient(135deg, #10b981, #06b6d4); -webkit-background-clip: text; background-clip: text;">Тело</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <p class="slide-body">
+                        <span class="highlight">Фундамент.</span> Ваше тело — биологический аккумулятор. Нет физического ресурса — нет терпения, нет фокуса, нет воли. Всё начинается здесь: режим сна, движение, питание, управление стрессом.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <div class="energy-cycle">
+                        <div class="cycle-item" style="border: 1px solid rgba(16, 185, 129, 0.2);">🏋️ Нагрузка</div>
+                        <span class="cycle-arrow">→</span>
+                        <div class="cycle-item" style="border: 1px solid rgba(245, 158, 11, 0.2);">😮‍💨 Утомление</div>
+                        <span class="cycle-arrow">→</span>
+                        <div class="cycle-item" style="border: 1px solid rgba(124, 58, 237, 0.2);">😴 Восстановление</div>
+                        <span class="cycle-arrow">→</span>
+                        <div class="cycle-item" style="border: 1px solid rgba(16, 185, 129, 0.2);">📈 Прирост</div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="key-insight">
+                        <span class="key-insight-icon">💡</span>
+                        <p>Это не про «спорт». Это про <span class="highlight">базовую работоспособность</span> вашей системы. Без ресурса тела всё остальное работает в аварийном режиме.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4 -->
+        <div class="slide" data-slide="3">
+            <div class="slide-content">
+                <div class="reveal">
+                    <div class="energy-level-header">
+                        <div class="energy-level-badge mental">🧠</div>
+                        <div>
+                            <div class="energy-level-title">Психическая энергия</div>
+                            <div class="energy-level-name gradient-text">Ум / Воля</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <p class="slide-body">
+                        Это <span class="highlight">«руль»</span>. Психика не создаёт энергию — она направляет. Куда уйдёт ресурс тела: в тревогу или в фокус? В распыление или в результат?
+                    </p>
+                </div>
+                <div class="reveal">
+                    <div class="energy-flow">
+                        <div class="energy-step">
+                            <div class="energy-step-icon">🎯</div>
+                            <div>
+                                <div class="energy-step-label">Фокус</div>
+                                <div class="energy-step-desc">Куда идёт энергия?</div>
+                            </div>
+                        </div>
+                        <span class="energy-arrow">→</span>
+                        <div class="energy-step">
+                            <div class="energy-step-icon">⚖️</div>
+                            <div>
+                                <div class="energy-step-label">Решения</div>
+                                <div class="energy-step-desc">Качество выбора</div>
+                            </div>
+                        </div>
+                        <span class="energy-arrow">→</span>
+                        <div class="energy-step">
+                            <div class="energy-step-icon">✅</div>
+                            <div>
+                                <div class="energy-step-label">Результат</div>
+                                <div class="energy-step-desc">Завершённость</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="key-insight">
+                        <span class="key-insight-icon">🎯</span>
+                        <p>Одна задача, закрытая на 100%, даёт <span class="highlight">больше энергии</span>, чем десять начатых и брошенных. Качество решений умножает или обнуляет ваш базовый заряд.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5 -->
+        <div class="slide" data-slide="4">
+            <div class="slide-content">
+                <div class="reveal">
+                    <div class="energy-level-header">
+                        <div class="energy-level-badge egregore">🌐</div>
+                        <div>
+                            <div class="energy-level-title">Коллективная энергия</div>
+                            <div class="energy-level-name" style="background: linear-gradient(135deg, #06b6d4, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Эгрегор</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <p class="slide-body">
+                        <span class="highlight">Масштабный рычаг.</span> Когда люди объединены общей целью, ритмами и доверием, возникает коллективный импульс. Это не эзотерика. Это <span class="accent">сетевой эффект</span>.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <div class="energy-flow">
+                        <div class="energy-step">
+                            <div class="energy-step-icon">🤝</div>
+                            <div>
+                                <div class="energy-step-label">Вклад</div>
+                                <div class="energy-step-desc">Участие</div>
+                            </div>
+                        </div>
+                        <span class="energy-arrow">→</span>
+                        <div class="energy-step">
+                            <div class="energy-step-icon">💪</div>
+                            <div>
+                                <div class="energy-step-label">Поддержка</div>
+                                <div class="energy-step-desc">Связи</div>
+                            </div>
+                        </div>
+                        <span class="energy-arrow">→</span>
+                        <div class="energy-step">
+                            <div class="energy-step-icon">🚀</div>
+                            <div>
+                                <div class="energy-step-label">Рычаг</div>
+                                <div class="energy-step-desc">Масштаб</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="key-insight">
+                        <span class="key-insight-icon">🌐</span>
+                        <p>Семья, команда, профессиональное сообщество, клуб — <span class="highlight">вкладываешь участие и лояльность — получаешь поддержку, доступ к ресурсам и ускоренный рост.</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6 -->
+        <div class="slide" data-slide="5">
+            <div class="slide-content">
+                <div class="reveal">
+                    <h1 class="slide-title">
+                        Система <span class="gradient-text">трёх энергий</span>
+                    </h1>
+                </div>
+                <div class="reveal">
+                    <p class="slide-body">
+                        Три уровня — один контур. Чем выше уровень, тем больше влияние, но тем критичнее зависимость от основания.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <div class="system-diagram">
+                        <div class="system-level egregore-level">
+                            <div class="system-level-icon">🌐</div>
+                            <div class="system-level-text">
+                                <h4 style="color: var(--cyan);">Эгрегор — Рычаг</h4>
+                                <p>Коллективный импульс, сеть, масштаб</p>
+                            </div>
+                        </div>
+                        <div class="system-connector"></div>
+                        <div class="system-level mental-level">
+                            <div class="system-level-icon">🧠</div>
+                            <div class="system-level-text">
+                                <h4 style="color: var(--purple);">Психика — Управление</h4>
+                                <p>Фокус, решения, направление энергии</p>
+                            </div>
+                        </div>
+                        <div class="system-connector"></div>
+                        <div class="system-level body-level">
+                            <div class="system-level-icon">🔋</div>
+                            <div class="system-level-text">
+                                <h4 style="color: var(--green);">Тело — Ресурс</h4>
+                                <p>Физическая энергия, здоровье, база</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="system-warning">
+                        <p>⚠️ <span class="highlight">Баланс</span> — это не «всё по чуть-чуть». Это одновременная калибровка всех трёх каналов.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7 -->
+        <div class="slide" data-slide="6">
+            <div class="slide-content">
+                <div class="reveal">
+                    <h1 class="slide-title">
+                        Закон <span class="gradient-text">обмена</span> в действии
+                    </h1>
+                </div>
+                <div class="reveal">
+                    <p class="slide-body">
+                        Природа не терпит пустоты. Поток возникает там, где есть <span class="highlight">отдача</span>. Застой — где только ожидание.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <div class="exchange-grid">
+                        <div class="exchange-card">
+                            <div class="exchange-card-header">
+                                <span class="exchange-icon">💰</span>
+                                <span class="exchange-title">Деньги</span>
+                            </div>
+                            <div class="exchange-formula">
+                                <span class="exchange-input">Ценность</span>
+                                <span class="exchange-arrow-icon">→</span>
+                                <span class="exchange-output">Доход</span>
+                            </div>
+                        </div>
+                        <div class="exchange-card">
+                            <div class="exchange-card-header">
+                                <span class="exchange-icon">❤️</span>
+                                <span class="exchange-title">Любовь</span>
+                            </div>
+                            <div class="exchange-formula">
+                                <span class="exchange-input">Забота и время</span>
+                                <span class="exchange-arrow-icon">→</span>
+                                <span class="exchange-output">Близость</span>
+                            </div>
+                        </div>
+                        <div class="exchange-card">
+                            <div class="exchange-card-header">
+                                <span class="exchange-icon">🏃</span>
+                                <span class="exchange-title">Здоровье</span>
+                            </div>
+                            <div class="exchange-formula">
+                                <span class="exchange-input">Режим</span>
+                                <span class="exchange-arrow-icon">→</span>
+                                <span class="exchange-output">Энергия и ясность</span>
+                            </div>
+                        </div>
+                        <div class="exchange-card">
+                            <div class="exchange-card-header">
+                                <span class="exchange-icon">🤝</span>
+                                <span class="exchange-title">Сообщество</span>
+                            </div>
+                            <div class="exchange-formula">
+                                <span class="exchange-input">Вклад</span>
+                                <span class="exchange-arrow-icon">→</span>
+                                <span class="exchange-output">Возможности</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="exchange-bottom-quote">
+                        <p>Вы не получаете то, чего хотите. Вы получаете то, во что стабильно вкладываете.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8 -->
+        <div class="slide" data-slide="7">
+            <div class="slide-content">
+                <div class="reveal">
+                    <h1 class="slide-title">
+                        Ваш <span class="gradient-text">энергетический</span> навигатор
+                    </h1>
+                </div>
+                <div class="reveal">
+                    <p class="slide-body">
+                        Как перейти от теории к устойчивому результату? <span class="highlight">Три шага системы</span> от интуитивного выживания к системному управлению ресурсом.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <div class="navigator-steps">
+                        <div class="navigator-step">
+                            <div class="navigator-step-num">1</div>
+                            <div class="navigator-step-content">
+                                <h4>🔍 Диагностика</h4>
+                                <p>Тест: где просадка, где избыток? Определяем слабое звено в контуре энергии.</p>
+                            </div>
+                        </div>
+                        <div class="navigator-step">
+                            <div class="navigator-step-num">2</div>
+                            <div class="navigator-step-content">
+                                <h4>⚙️ Стабилизация</h4>
+                                <p>Ежедневные чекапы: утренний баланс / вечерний баланс. Системное восстановление ресурса.</p>
+                            </div>
+                        </div>
+                        <div class="navigator-step">
+                            <div class="navigator-step-num">3</div>
+                            <div class="navigator-step-content">
+                                <h4>🚀 Интеграция</h4>
+                                <p>Подключение к ресурсным сообществам без выгорания. Масштабирование через эгрегор.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="navigator-result">
+                        <p>✅ Перестать сливать ресурс впустую → начать накапливать и масштабировать</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9 - 3 Directions -->
+        <div class="slide" data-slide="8">
+            <div class="slide-content">
+                <div class="reveal">
+                    <h1 class="slide-title">
+                        3 направления <span class="gradient-text">роста</span>
+                    </h1>
+                </div>
+                <div class="reveal">
+                    <p class="slide-body">
+                        Это не три разные гонки. Это <span class="highlight">один контур</span>: рост в одной области автоматически усиливает остальные. Выберите направление и начните действовать.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <div class="directions-grid">
+                        <!-- Любовь -->
+                        <div class="direction-card love-card">
+                            <div class="direction-icon">❤️</div>
+                            <div class="direction-name" style="color: #f43f5e;">Любовь</div>
+                            <div class="direction-desc">Отношения, близость, связь с собой и другими</div>
+                            <button class="direction-btn" onclick="alert('Тест: Уровень энергии в отношениях')">
+                                <span class="direction-btn-icon">📋</span>
+                                Пройти тест
+                            </button>
+                            <button class="direction-btn" onclick="alert('Чек-ап отношений запущен')">
+                                <span class="direction-btn-icon">⚡</span>
+                                Чек-ап
+                            </button>
+                        </div>
+
+                        <!-- Деньги -->
+                        <div class="direction-card money-card">
+                            <div class="direction-icon">💰</div>
+                            <div class="direction-name" style="color: #f59e0b;">Деньги</div>
+                            <div class="direction-desc">Финансы, ресурс, материальный поток</div>
+                            <button class="direction-btn" onclick="alert('Тест: Финансовый уровень энергии')">
+                                <span class="direction-btn-icon">📋</span>
+                                Пройти тест
+                            </button>
+                            <button class="direction-btn" onclick="alert('Чек-ап финансов запущен')">
+                                <span class="direction-btn-icon">⚡</span>
+                                Чек-ап
+                            </button>
+                        </div>
+
+                        <!-- Энергия -->
+                        <div class="direction-card energy-card">
+                            <div class="direction-icon">⚡</div>
+                            <div class="direction-name" style="color: #7c3aed;">Энергия</div>
+                            <div class="direction-desc">Тело, здоровье, жизненная сила, тонус</div>
+                            <button class="direction-btn" onclick="alert('Тест: Уровень физической энергии')">
+                                <span class="direction-btn-icon">📋</span>
+                                Пройти тест
+                            </button>
+                            <button class="direction-btn" onclick="alert('Чек-ап энергии запущен')">
+                                <span class="direction-btn-icon">⚡</span>
+                                Чек-ап
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="cta-final">
+                        <h3 class="gradient-text">Энергия — это всё.</h3>
+                        <p>Действуйте.</p>
+                        <button class="cta-btn" onclick="alert('Добро пожаловать! 🚀')">🚀 Начать сейчас</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>←</button>
+        <div class="nav-dots" id="navDots"></div>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+        let isTransitioning = false;
+
+        // Create nav dots
+        const navDots = document.getElementById('navDots');
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('nav-dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            navDots.appendChild(dot);
+        }
+
+        function updateUI() {
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+
+            const progress = ((currentSlide) / (totalSlides - 1)) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function changeSlide(direction) {
+            const newIndex = currentSlide + direction;
+            if (newIndex < 0 || newIndex >= totalSlides || isTransitioning) return;
+            goToSlide(newIndex, direction > 0 ? 'next' : 'prev');
+        }
+
+        function goToSlide(index, direction) {
+            if (index === currentSlide || isTransitioning) return;
+
+            isTransitioning = true;
+            const dir = direction || (index > currentSlide ? 'next' : 'prev');
+
+            slides[currentSlide].classList.remove('active');
+            slides[currentSlide].classList.add(dir === 'next' ? 'exit-left' : '');
+
+            if (dir === 'prev') {
+                slides[index].style.transform = 'translateX(-60px)';
+            } else {
+                slides[index].style.transform = 'translateX(60px)';
+            }
+
+            const reveals = slides[index].querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+            });
+
+            currentSlide = index;
+            void slides[index].offsetHeight;
+
+            slides[currentSlide].classList.add('active');
+            slides[currentSlide].classList.remove('exit-left');
+            slides[currentSlide].style.transform = '';
+
+            setTimeout(() => {
+                reveals.forEach((el, i) => {
+                    setTimeout(() => {
+                        el.style.animation = 'none';
+                        void el.offsetHeight;
+                        el.style.animation = `slideReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+                        el.style.animationDelay = `${0.1 + i * 0.1}s`;
+                    }, 50);
+                });
+            }, 100);
+
+            updateUI();
+
+            setTimeout(() => {
+                isTransitioning = false;
+                slides.forEach(s => s.classList.remove('exit-left'));
+            }, 700);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                changeSlide(-1);
+            }
+        });
+
+        // Touch/swipe navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+
+            // Only trigger if horizontal swipe is dominant
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                changeSlide(diffX > 0 ? 1 : -1);
+            }
+        }, { passive: true });
+
+        // Mouse wheel navigation
+        let wheelTimeout;
+        document.addEventListener('wheel', (e) => {
+            if (wheelTimeout) return;
+
+            wheelTimeout = setTimeout(() => {
+                wheelTimeout = null;
+            }, 800);
+
+            if (e.deltaY > 0) {
+                changeSlide(1);
+            } else {
+                changeSlide(-1);
+            }
+        }, { passive: true });
+
+        // Initialize reveals for first slide
+        const initReveals = slides[0].querySelectorAll('.reveal');
+        initReveals.forEach((el, i) => {
+            setTimeout(() => {
+                el.style.animation = `slideReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+                el.style.animationDelay = `${0.1 + i * 0.1}s`;
+            }, 300);
+        });
+
+        updateUI();
+    </script>
+</body>
+</html>
+
