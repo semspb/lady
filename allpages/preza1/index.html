@@ -24,11 +24,9 @@
             --orange: #f59e0b;
             --gradient-1: linear-gradient(135deg, #7c3aed, #06b6d4);
             --gradient-2: linear-gradient(135deg, #f43f5e, #7c3aed);
-            --gradient-3: linear-gradient(135deg, #06b6d4, #10b981);
         }
 
         html {
-            scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
         }
 
@@ -42,6 +40,7 @@
             width: 100vw;
             position: relative;
             -webkit-tap-highlight-color: transparent;
+            touch-action: pan-y;
         }
 
         .bg-orb {
@@ -54,29 +53,23 @@
         }
 
         .bg-orb-1 {
-            width: 700px;
-            height: 700px;
+            width: 700px; height: 700px;
             background: var(--purple);
-            top: -300px;
-            right: -200px;
+            top: -300px; right: -200px;
             animation: floatOrb1 20s ease-in-out infinite;
         }
 
         .bg-orb-2 {
-            width: 500px;
-            height: 500px;
+            width: 500px; height: 500px;
             background: var(--cyan);
-            bottom: -200px;
-            left: -100px;
+            bottom: -200px; left: -100px;
             animation: floatOrb2 25s ease-in-out infinite;
         }
 
         .bg-orb-3 {
-            width: 400px;
-            height: 400px;
+            width: 400px; height: 400px;
             background: var(--pink);
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             animation: floatOrb3 18s ease-in-out infinite;
         }
@@ -96,6 +89,15 @@
             50% { transform: translate(-50%, -50%) scale(1.2); }
         }
 
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            z-index: 200;
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
         .presentation {
             width: 100vw;
             height: 100vh;
@@ -106,8 +108,7 @@
 
         .slide {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             width: 100%;
             height: 100%;
             display: flex;
@@ -115,12 +116,11 @@
             justify-content: center;
             padding: 2rem;
             opacity: 0;
-            transform: translateX(60px);
-            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(80px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain;
         }
 
         .slide.active {
@@ -131,12 +131,18 @@
 
         .slide.exit-left {
             opacity: 0;
-            transform: translateX(-60px);
+            transform: translateX(-80px);
         }
 
         .slide-content {
             max-width: 1000px;
             width: 100%;
+        }
+
+        .hero-icon {
+            font-size: clamp(3rem, 8vw, 4rem);
+            margin-bottom: 1.25rem;
+            display: block;
         }
 
         .slide-title {
@@ -169,19 +175,10 @@
             margin-bottom: 2rem;
         }
 
-        .slide-body p {
-            margin-bottom: 1rem;
-        }
+        .slide-body p { margin-bottom: 1rem; }
 
-        .highlight {
-            color: var(--text);
-            font-weight: 600;
-        }
-
-        .accent {
-            color: var(--cyan);
-            font-weight: 600;
-        }
+        .highlight { color: var(--text); font-weight: 600; }
+        .accent { color: var(--cyan); font-weight: 600; }
 
         /* Navigation */
         .nav-controls {
@@ -192,90 +189,76 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            z-index: 100;
-            background: rgba(20, 20, 31, 0.85);
+            z-index: 150;
+            background: rgba(20, 20, 31, 0.9);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             padding: 0.75rem 1.25rem;
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .nav-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.04);
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
             color: var(--text);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             flex-shrink: 0;
-            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            z-index: 10;
         }
 
-        .nav-btn:hover {
+        .nav-btn:not(:disabled):hover {
             background: var(--purple);
             border-color: var(--purple);
             transform: scale(1.05);
         }
 
-        .nav-btn:active {
-            transform: scale(0.95);
+        .nav-btn:not(:disabled):active {
+            transform: scale(0.92);
+            background: rgba(124, 58, 237, 0.8);
         }
 
         .nav-btn:disabled {
-            opacity: 0.3;
+            opacity: 0.25;
             cursor: default;
-            transform: none;
+            border-color: rgba(255, 255, 255, 0.05);
         }
 
         .nav-dots {
             display: flex;
             gap: 5px;
+            align-items: center;
         }
 
         .nav-dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             cursor: pointer;
             transition: all 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
+            border: none;
+            padding: 0;
         }
 
         .nav-dot.active {
             background: var(--purple);
-            width: 24px;
+            width: 22px;
             border-radius: 4px;
         }
 
-        /* Progress bar */
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: var(--gradient-1);
-            z-index: 101;
-            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* Slide-specific styles */
-
-        /* Slide 1 - Hero */
-        .hero-icon {
-            font-size: clamp(3rem, 8vw, 4rem);
-            margin-bottom: 1.25rem;
-            display: block;
-        }
-
+        /* Hero cards */
         .hero-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -295,10 +278,6 @@
         .hero-card:hover {
             transform: translateY(-5px);
             border-color: rgba(124, 58, 237, 0.3);
-        }
-
-        .hero-card:active {
-            transform: scale(0.98);
         }
 
         .hero-card-icon {
@@ -332,7 +311,7 @@
             font-weight: 600;
         }
 
-        /* Slide 2 - Energy */
+        /* Energy flow */
         .energy-flow {
             display: flex;
             align-items: center;
@@ -384,7 +363,7 @@
             font-size: 0.95rem;
         }
 
-        /* Slide 3-5 Energy levels */
+        /* Energy levels */
         .energy-level-header {
             display: flex;
             align-items: center;
@@ -393,8 +372,7 @@
         }
 
         .energy-level-badge {
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             border-radius: 16px;
             display: flex;
             align-items: center;
@@ -467,7 +445,7 @@
             line-height: 1.6;
         }
 
-        /* Slide 6 - System */
+        /* System */
         .system-diagram {
             display: flex;
             flex-direction: column;
@@ -487,13 +465,10 @@
             max-width: 600px;
         }
 
-        .system-level:hover {
-            transform: scale(1.02);
-        }
+        .system-level:hover { transform: scale(1.02); }
 
         .system-level-icon {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -502,42 +477,26 @@
             flex-shrink: 0;
         }
 
-        .system-level-text h4 {
-            font-size: 1.1rem;
-            font-weight: 800;
-        }
-
-        .system-level-text p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
+        .system-level-text h4 { font-size: 1.1rem; font-weight: 800; }
+        .system-level-text p { font-size: 0.85rem; color: var(--text-muted); }
 
         .system-level.egregore-level {
             background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(16, 185, 129, 0.05));
             border: 1px solid rgba(6, 182, 212, 0.15);
         }
-
-        .system-level.egregore-level .system-level-icon {
-            background: rgba(6, 182, 212, 0.15);
-        }
+        .system-level.egregore-level .system-level-icon { background: rgba(6, 182, 212, 0.15); }
 
         .system-level.mental-level {
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(124, 58, 237, 0.05));
             border: 1px solid rgba(124, 58, 237, 0.15);
         }
-
-        .system-level.mental-level .system-level-icon {
-            background: rgba(124, 58, 237, 0.15);
-        }
+        .system-level.mental-level .system-level-icon { background: rgba(124, 58, 237, 0.15); }
 
         .system-level.body-level {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
             border: 1px solid rgba(16, 185, 129, 0.15);
         }
-
-        .system-level.body-level .system-level-icon {
-            background: rgba(16, 185, 129, 0.15);
-        }
+        .system-level.body-level .system-level-icon { background: rgba(16, 185, 129, 0.15); }
 
         .system-connector {
             width: 2px;
@@ -560,7 +519,7 @@
             line-height: 1.6;
         }
 
-        /* Slide 7 - Exchange */
+        /* Exchange */
         .exchange-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -581,10 +540,6 @@
             transform: translateY(-3px);
         }
 
-        .exchange-card:active {
-            transform: scale(0.98);
-        }
-
         .exchange-card-header {
             display: flex;
             align-items: center;
@@ -592,14 +547,8 @@
             margin-bottom: 0.75rem;
         }
 
-        .exchange-icon {
-            font-size: 1.5rem;
-        }
-
-        .exchange-title {
-            font-weight: 800;
-            font-size: 1.1rem;
-        }
+        .exchange-icon { font-size: 1.5rem; }
+        .exchange-title { font-weight: 800; font-size: 1.1rem; }
 
         .exchange-formula {
             display: flex;
@@ -608,19 +557,9 @@
             font-size: 0.9rem;
         }
 
-        .exchange-input {
-            color: var(--cyan);
-            font-weight: 600;
-        }
-
-        .exchange-output {
-            color: var(--green);
-            font-weight: 600;
-        }
-
-        .exchange-arrow-icon {
-            color: var(--text-muted);
-        }
+        .exchange-input { color: var(--cyan); font-weight: 600; }
+        .exchange-output { color: var(--green); font-weight: 600; }
+        .exchange-arrow-icon { color: var(--text-muted); }
 
         .exchange-bottom-quote {
             text-align: center;
@@ -637,7 +576,7 @@
             color: var(--text);
         }
 
-        /* Slide 8 - Navigator */
+        /* Navigator */
         .navigator-steps {
             display: flex;
             flex-direction: column;
@@ -661,13 +600,8 @@
             transform: translateX(5px);
         }
 
-        .navigator-step:active {
-            transform: scale(0.98);
-        }
-
         .navigator-step-num {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -681,12 +615,10 @@
             background: rgba(124, 58, 237, 0.15);
             color: var(--purple);
         }
-
         .navigator-step:nth-child(2) .navigator-step-num {
             background: rgba(6, 182, 212, 0.15);
             color: var(--cyan);
         }
-
         .navigator-step:nth-child(3) .navigator-step-num {
             background: rgba(16, 185, 129, 0.15);
             color: var(--green);
@@ -741,75 +673,39 @@
         .direction-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 3px;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        .direction-card:hover {
-            transform: translateY(-5px);
-        }
+        .direction-card:hover { transform: translateY(-5px); }
+        .direction-card:hover::before { opacity: 1; }
 
-        .direction-card:active {
-            transform: scale(0.98);
-        }
-
-        .direction-card:hover::before {
-            opacity: 1;
-        }
-
-        .direction-card.love-card::before {
-            background: linear-gradient(90deg, #f43f5e, #7c3aed);
-        }
-        .direction-card.love-card {
-            border-color: rgba(244, 63, 94, 0.1);
-        }
+        .direction-card.love-card::before { background: linear-gradient(90deg, #f43f5e, #7c3aed); }
+        .direction-card.love-card { border-color: rgba(244, 63, 94, 0.1); }
         .direction-card.love-card:hover {
             border-color: rgba(244, 63, 94, 0.3);
             box-shadow: 0 20px 50px rgba(244, 63, 94, 0.1);
         }
 
-        .direction-card.money-card::before {
-            background: linear-gradient(90deg, #f59e0b, #10b981);
-        }
-        .direction-card.money-card {
-            border-color: rgba(245, 158, 11, 0.1);
-        }
+        .direction-card.money-card::before { background: linear-gradient(90deg, #f59e0b, #10b981); }
+        .direction-card.money-card { border-color: rgba(245, 158, 11, 0.1); }
         .direction-card.money-card:hover {
             border-color: rgba(245, 158, 11, 0.3);
             box-shadow: 0 20px 50px rgba(245, 158, 11, 0.1);
         }
 
-        .direction-card.energy-card::before {
-            background: linear-gradient(90deg, #7c3aed, #06b6d4);
-        }
-        .direction-card.energy-card {
-            border-color: rgba(124, 58, 237, 0.1);
-        }
+        .direction-card.energy-card::before { background: linear-gradient(90deg, #7c3aed, #06b6d4); }
+        .direction-card.energy-card { border-color: rgba(124, 58, 237, 0.1); }
         .direction-card.energy-card:hover {
             border-color: rgba(124, 58, 237, 0.3);
             box-shadow: 0 20px 50px rgba(124, 58, 237, 0.1);
         }
 
-        .direction-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .direction-name {
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .direction-desc {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
+        .direction-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .direction-name { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .direction-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem; }
 
         .direction-btn {
             display: flex;
@@ -827,40 +723,19 @@
             cursor: pointer;
             margin-bottom: 0.5rem;
             transition: all 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            z-index: 1;
         }
 
-        .direction-btn:last-child {
-            margin-bottom: 0;
-        }
+        .direction-btn:last-child { margin-bottom: 0; }
+        .direction-btn:hover { background: rgba(124, 58, 237, 0.15); border-color: rgba(124, 58, 237, 0.3); }
+        .direction-btn:active { transform: scale(0.96); }
 
-        .direction-btn:hover {
-            background: rgba(124, 58, 237, 0.15);
-            border-color: rgba(124, 58, 237, 0.3);
-        }
+        .love-card .direction-btn:hover { background: rgba(244, 63, 94, 0.15); border-color: rgba(244, 63, 94, 0.3); }
+        .money-card .direction-btn:hover { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); }
+        .energy-card .direction-btn:hover { background: rgba(124, 58, 237, 0.15); border-color: rgba(124, 58, 237, 0.3); }
 
-        .direction-btn:active {
-            transform: scale(0.96);
-        }
-
-        .love-card .direction-btn:hover {
-            background: rgba(244, 63, 94, 0.15);
-            border-color: rgba(244, 63, 94, 0.3);
-        }
-
-        .money-card .direction-btn:hover {
-            background: rgba(245, 158, 11, 0.15);
-            border-color: rgba(245, 158, 11, 0.3);
-        }
-
-        .energy-card .direction-btn:hover {
-            background: rgba(124, 58, 237, 0.15);
-            border-color: rgba(124, 58, 237, 0.3);
-        }
-
-        .direction-btn-icon {
-            font-size: 1.1rem;
-        }
+        .direction-btn-icon { font-size: 1.1rem; }
 
         .cta-final {
             text-align: center;
@@ -878,10 +753,7 @@
             margin-bottom: 0.5rem;
         }
 
-        .cta-final p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
+        .cta-final p { color: var(--text-muted); font-size: 1rem; }
 
         .cta-btn {
             display: inline-flex;
@@ -897,7 +769,6 @@
             cursor: pointer;
             margin-top: 1.5rem;
             transition: all 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .cta-btn:hover {
@@ -905,94 +776,54 @@
             box-shadow: 0 20px 50px rgba(124, 58, 237, 0.3);
         }
 
-        .cta-btn:active {
-            transform: scale(0.96);
-        }
+        .cta-btn:active { transform: scale(0.96); }
 
-        /* Slide reveal animations */
+        /* Reveal animations */
         .slide.active .reveal {
             animation: slideReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .slide.active .reveal:nth-child(1) { animation-delay: 0.1s; }
-        .slide.active .reveal:nth-child(2) { animation-delay: 0.2s; }
-        .slide.active .reveal:nth-child(3) { animation-delay: 0.3s; }
-        .slide.active .reveal:nth-child(4) { animation-delay: 0.4s; }
-        .slide.active .reveal:nth-child(5) { animation-delay: 0.5s; }
-        .slide.active .reveal:nth-child(6) { animation-delay: 0.6s; }
+        .slide.active .reveal:nth-child(1) { animation-delay: 0.05s; }
+        .slide.active .reveal:nth-child(2) { animation-delay: 0.12s; }
+        .slide.active .reveal:nth-child(3) { animation-delay: 0.19s; }
+        .slide.active .reveal:nth-child(4) { animation-delay: 0.26s; }
+        .slide.active .reveal:nth-child(5) { animation-delay: 0.33s; }
+        .slide.active .reveal:nth-child(6) { animation-delay: 0.4s; }
 
         .reveal {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(25px);
         }
 
         @keyframes slideReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* =================== */
         /* MOBILE ADAPTATION   */
         /* =================== */
 
-        /* Tablets and below */
         @media (max-width: 1024px) {
-            .slide {
-                padding: 1.5rem;
-            }
-
-            .hero-cards {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 0.75rem;
-            }
-
-            .hero-card {
-                padding: 1.25rem 0.75rem;
-            }
-
-            .directions-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1rem;
-            }
-
-            .direction-card {
-                padding: 1.5rem 1rem;
-            }
+            .slide { padding: 1.5rem; }
+            .hero-cards { gap: 0.75rem; }
+            .hero-card { padding: 1.25rem 0.75rem; }
+            .directions-grid { gap: 1rem; }
+            .direction-card { padding: 1.5rem 1rem; }
         }
 
-        /* Small tablets and large phones */
         @media (max-width: 768px) {
             .slide {
                 padding: 1.25rem 1rem;
                 align-items: flex-start;
                 padding-top: 2.5rem;
-                padding-bottom: 5.5rem;
+                padding-bottom: 6rem;
             }
 
-            .slide-content {
-                margin-bottom: 1rem;
-            }
+            .slide-content { margin-bottom: 1rem; }
+            .hero-icon { font-size: 3rem; margin-bottom: 1rem; }
+            .slide-title { font-size: 1.75rem; margin-bottom: 1rem; letter-spacing: -1px; }
+            .slide-body { font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; }
 
-            .hero-icon {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-            }
-
-            .slide-title {
-                font-size: 1.75rem;
-                margin-bottom: 1rem;
-                letter-spacing: -1px;
-            }
-
-            .slide-body {
-                font-size: 0.95rem;
-                margin-bottom: 1.5rem;
-                line-height: 1.6;
-            }
-
-            /* Hero cards stack */
             .hero-cards {
                 grid-template-columns: 1fr;
                 gap: 0.75rem;
@@ -1007,22 +838,10 @@
                 padding: 1rem 1.25rem;
             }
 
-            .hero-card-icon {
-                font-size: 1.75rem;
-                margin-bottom: 0;
-                flex-shrink: 0;
-            }
+            .hero-card-icon { font-size: 1.75rem; margin-bottom: 0; flex-shrink: 0; }
+            .hero-card h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+            .hero-card p { font-size: 0.8rem; }
 
-            .hero-card h4 {
-                font-size: 0.95rem;
-                margin-bottom: 0.25rem;
-            }
-
-            .hero-card p {
-                font-size: 0.8rem;
-            }
-
-            /* Energy flow vertical */
             .energy-flow {
                 flex-direction: column;
                 gap: 0.75rem;
@@ -1039,406 +858,128 @@
                 text-align: left;
             }
 
-            .energy-step-icon {
-                font-size: 1.5rem;
-                margin-bottom: 0;
-                flex-shrink: 0;
-            }
+            .energy-step-icon { font-size: 1.5rem; margin-bottom: 0; flex-shrink: 0; }
+            .energy-arrow { transform: rotate(90deg); font-size: 1.2rem; margin: -0.25rem 0; }
 
-            .energy-arrow {
-                transform: rotate(90deg);
-                font-size: 1.2rem;
-                margin: -0.25rem 0;
-            }
+            .energy-level-header { margin-bottom: 1.5rem; gap: 0.75rem; }
+            .energy-level-badge { width: 50px; height: 50px; font-size: 1.5rem; }
+            .energy-level-title { font-size: 0.85rem; letter-spacing: 1px; }
+            .energy-level-name { font-size: 1.5rem; }
 
-            /* Energy level header */
-            .energy-level-header {
-                margin-bottom: 1.5rem;
-                gap: 0.75rem;
-            }
+            .energy-cycle { margin: 1.5rem 0; gap: 0.5rem; }
+            .cycle-item { padding: 0.75rem 1rem; font-size: 0.8rem; }
+            .cycle-arrow { font-size: 1rem; }
 
-            .energy-level-badge {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
+            .key-insight { padding: 1rem; margin-top: 1.25rem; gap: 0.75rem; }
+            .key-insight-icon { font-size: 1.25rem; }
+            .key-insight p { font-size: 0.85rem; }
 
-            .energy-level-title {
-                font-size: 0.85rem;
-                letter-spacing: 1px;
-            }
+            .system-diagram { margin: 1.5rem 0; }
+            .system-level { padding: 0.85rem 1rem; gap: 0.75rem; }
+            .system-level-icon { width: 42px; height: 42px; font-size: 1.25rem; }
+            .system-level-text h4 { font-size: 0.95rem; }
+            .system-level-text p { font-size: 0.78rem; }
+            .system-connector { height: 16px; }
+            .system-warning { padding: 1rem; margin-top: 1.25rem; }
+            .system-warning p { font-size: 0.85rem; }
 
-            .energy-level-name {
-                font-size: 1.5rem;
-            }
-
-            /* Energy cycle horizontal scroll */
-            .energy-cycle {
-                margin: 1.5rem 0;
-                gap: 0.5rem;
-            }
-
-            .cycle-item {
-                padding: 0.75rem 1rem;
-                font-size: 0.8rem;
-            }
-
-            .cycle-arrow {
-                font-size: 1rem;
-            }
-
-            /* Key insight */
-            .key-insight {
-                padding: 1rem;
-                margin-top: 1.25rem;
-                gap: 0.75rem;
-            }
-
-            .key-insight-icon {
-                font-size: 1.25rem;
-            }
-
-            .key-insight p {
-                font-size: 0.85rem;
-            }
-
-            /* System diagram */
-            .system-diagram {
-                margin: 1.5rem 0;
-            }
-
-            .system-level {
-                padding: 0.85rem 1rem;
-                gap: 0.75rem;
-            }
-
-            .system-level-icon {
-                width: 42px;
-                height: 42px;
-                font-size: 1.25rem;
-            }
-
-            .system-level-text h4 {
-                font-size: 0.95rem;
-            }
-
-            .system-level-text p {
-                font-size: 0.78rem;
-            }
-
-            .system-connector {
-                height: 16px;
-            }
-
-            .system-warning {
-                padding: 1rem;
-                margin-top: 1.25rem;
-            }
-
-            .system-warning p {
-                font-size: 0.85rem;
-            }
-
-            /* Exchange grid */
             .exchange-grid {
                 grid-template-columns: 1fr;
                 gap: 0.75rem;
                 margin: 1.5rem 0;
             }
 
-            .exchange-card {
-                padding: 1.25rem;
-            }
+            .exchange-card { padding: 1.25rem; }
+            .exchange-bottom-quote { padding: 1.25rem; margin-top: 0.75rem; }
+            .exchange-bottom-quote p { font-size: 1rem; }
 
-            .exchange-bottom-quote {
-                padding: 1.25rem;
-                margin-top: 0.75rem;
-            }
+            .navigator-steps { margin: 1.5rem 0; gap: 1rem; }
+            .navigator-step { padding: 1.25rem; gap: 1rem; }
+            .navigator-step-num { width: 44px; height: 44px; font-size: 1.25rem; }
+            .navigator-step-content h4 { font-size: 1rem; }
+            .navigator-step-content p { font-size: 0.85rem; }
+            .navigator-result { padding: 1.25rem; margin-top: 0.75rem; }
+            .navigator-result p { font-size: 0.95rem; }
 
-            .exchange-bottom-quote p {
-                font-size: 1rem;
-            }
-
-            /* Navigator */
-            .navigator-steps {
-                margin: 1.5rem 0;
-                gap: 1rem;
-            }
-
-            .navigator-step {
-                padding: 1.25rem;
-                gap: 1rem;
-            }
-
-            .navigator-step-num {
-                width: 44px;
-                height: 44px;
-                font-size: 1.25rem;
-            }
-
-            .navigator-step-content h4 {
-                font-size: 1rem;
-            }
-
-            .navigator-step-content p {
-                font-size: 0.85rem;
-            }
-
-            .navigator-result {
-                padding: 1.25rem;
-                margin-top: 0.75rem;
-            }
-
-            .navigator-result p {
-                font-size: 0.95rem;
-            }
-
-            /* Directions grid */
             .directions-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
                 margin: 1.75rem 0;
             }
 
-            .direction-card {
-                padding: 1.5rem;
-            }
+            .direction-card { padding: 1.5rem; }
+            .direction-icon { font-size: 2.25rem; margin-bottom: 0.75rem; }
+            .direction-name { font-size: 1.1rem; }
+            .direction-desc { font-size: 0.8rem; margin-bottom: 1.25rem; }
+            .direction-btn { padding: 0.7rem; font-size: 0.82rem; }
 
-            .direction-icon {
-                font-size: 2.25rem;
-                margin-bottom: 0.75rem;
-            }
+            .cta-final { padding: 1.5rem; margin-top: 0.75rem; }
+            .cta-final h3 { font-size: 1.5rem; }
+            .cta-final p { font-size: 0.9rem; }
+            .cta-btn { padding: 0.85rem 2rem; font-size: 1rem; margin-top: 1.25rem; }
 
-            .direction-name {
-                font-size: 1.1rem;
-            }
-
-            .direction-desc {
-                font-size: 0.8rem;
-                margin-bottom: 1.25rem;
-            }
-
-            .direction-btn {
-                padding: 0.7rem;
-                font-size: 0.82rem;
-            }
-
-            /* CTA final */
-            .cta-final {
-                padding: 1.5rem;
-                margin-top: 0.75rem;
-            }
-
-            .cta-final h3 {
-                font-size: 1.5rem;
-            }
-
-            .cta-final p {
-                font-size: 0.9rem;
-            }
-
-            .cta-btn {
-                padding: 0.85rem 2rem;
-                font-size: 1rem;
-                margin-top: 1.25rem;
-            }
-
-            /* Energy quote */
-            .energy-quote {
-                padding: 1.25rem;
-                margin-top: 1.25rem;
-                font-size: 0.9rem;
-            }
-
-            /* Hero unified */
-            .hero-unified {
-                padding: 0.85rem;
-                margin-top: 1.5rem;
-            }
-
-            .hero-unified p {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Small phones */
-        @media (max-width: 400px) {
-            .slide {
-                padding: 1rem 0.75rem;
-                padding-top: 2rem;
-                padding-bottom: 5.5rem;
-            }
-
-            .slide-title {
-                font-size: 1.5rem;
-            }
-
-            .slide-body {
-                font-size: 0.9rem;
-            }
-
-            .hero-card {
-                padding: 0.85rem 1rem;
-            }
-
-            .hero-card h4 {
-                font-size: 0.9rem;
-            }
-
-            .hero-card p {
-                font-size: 0.75rem;
-            }
-
-            .energy-step {
-                padding: 0.85rem;
-            }
-
-            .energy-step-label {
-                font-size: 0.82rem;
-            }
-
-            .energy-step-desc {
-                font-size: 0.7rem;
-            }
-
-            .cycle-item {
-                padding: 0.65rem 0.85rem;
-                font-size: 0.75rem;
-            }
-
-            .system-level {
-                padding: 0.75rem;
-            }
-
-            .system-level-icon {
-                width: 38px;
-                height: 38px;
-                font-size: 1.1rem;
-            }
-
-            .system-level-text h4 {
-                font-size: 0.88rem;
-            }
-
-            .system-level-text p {
-                font-size: 0.72rem;
-            }
-
-            .exchange-card {
-                padding: 1rem;
-            }
-
-            .exchange-title {
-                font-size: 1rem;
-            }
-
-            .exchange-formula {
-                font-size: 0.82rem;
-            }
-
-            .navigator-step {
-                padding: 1rem;
-                gap: 0.85rem;
-            }
-
-            .navigator-step-num {
-                width: 40px;
-                height: 40px;
-                font-size: 1.1rem;
-            }
-
-            .navigator-step-content h4 {
-                font-size: 0.92rem;
-                margin-bottom: 0.35rem;
-            }
-
-            .navigator-step-content p {
-                font-size: 0.8rem;
-            }
-
-            .direction-card {
-                padding: 1.25rem;
-            }
-
-            .cta-final {
-                padding: 1.25rem;
-            }
-
-            .cta-final h3 {
-                font-size: 1.3rem;
-            }
-
-            .cta-btn {
-                padding: 0.8rem 1.75rem;
-                font-size: 0.95rem;
-            }
+            .energy-quote { padding: 1.25rem; margin-top: 1.25rem; font-size: 0.9rem; }
+            .hero-unified { padding: 0.85rem; margin-top: 1.5rem; }
+            .hero-unified p { font-size: 0.9rem; }
 
             .nav-controls {
-                padding: 0.6rem 1rem;
                 bottom: 1rem;
-                gap: 0.5rem;
+                padding: 0.65rem 1rem;
+                gap: 0.6rem;
             }
 
             .nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
+                width: 46px;
+                height: 46px;
+                font-size: 1.2rem;
             }
 
-            .nav-dot {
-                width: 6px;
-                height: 6px;
-            }
-
-            .nav-dot.active {
-                width: 20px;
-            }
+            .nav-dot { width: 6px; height: 6px; }
+            .nav-dot.active { width: 20px; }
         }
 
-        /* Very small phones */
+        @media (max-width: 400px) {
+            .slide { padding: 1rem 0.75rem; padding-top: 2rem; padding-bottom: 5.5rem; }
+            .slide-title { font-size: 1.5rem; }
+            .slide-body { font-size: 0.9rem; }
+            .hero-card { padding: 0.85rem 1rem; }
+            .hero-card h4 { font-size: 0.9rem; }
+            .hero-card p { font-size: 0.75rem; }
+            .energy-step { padding: 0.85rem; }
+            .energy-step-label { font-size: 0.82rem; }
+            .energy-step-desc { font-size: 0.7rem; }
+            .cycle-item { padding: 0.65rem 0.85rem; font-size: 0.75rem; }
+            .system-level { padding: 0.75rem; }
+            .system-level-icon { width: 38px; height: 38px; font-size: 1.1rem; }
+            .system-level-text h4 { font-size: 0.88rem; }
+            .system-level-text p { font-size: 0.72rem; }
+            .exchange-card { padding: 1rem; }
+            .exchange-title { font-size: 1rem; }
+            .exchange-formula { font-size: 0.82rem; }
+            .navigator-step { padding: 1rem; gap: 0.85rem; }
+            .navigator-step-num { width: 40px; height: 40px; font-size: 1.1rem; }
+            .navigator-step-content h4 { font-size: 0.92rem; margin-bottom: 0.35rem; }
+            .navigator-step-content p { font-size: 0.8rem; }
+            .direction-card { padding: 1.25rem; }
+            .cta-final { padding: 1.25rem; }
+            .cta-final h3 { font-size: 1.3rem; }
+            .cta-btn { padding: 0.8rem 1.75rem; font-size: 0.95rem; }
+            .nav-controls { padding: 0.6rem 0.85rem; bottom: 0.75rem; gap: 0.5rem; }
+            .nav-btn { width: 42px; height: 42px; font-size: 1.1rem; }
+        }
+
         @media (max-width: 340px) {
-            .slide {
-                padding: 0.75rem 0.6rem;
-                padding-top: 1.5rem;
-                padding-bottom: 5rem;
-            }
-
-            .slide-title {
-                font-size: 1.35rem;
-                letter-spacing: -0.5px;
-            }
-
-            .slide-body {
-                font-size: 0.85rem;
-                line-height: 1.55;
-            }
-
-            .hero-icon {
-                font-size: 2.5rem;
-            }
+            .slide { padding: 0.75rem 0.6rem; padding-top: 1.5rem; padding-bottom: 5rem; }
+            .slide-title { font-size: 1.35rem; letter-spacing: -0.5px; }
+            .slide-body { font-size: 0.85rem; line-height: 1.55; }
+            .hero-icon { font-size: 2.5rem; }
         }
 
-        /* Landscape mode on phones */
         @media (max-width: 800px) and (orientation: landscape) {
-            .slide {
-                padding: 1rem;
-                padding-bottom: 4.5rem;
-                align-items: center;
-            }
-
-            .slide-content {
-                margin-bottom: 0;
-            }
-
-            .slide-title {
-                font-size: 1.35rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .slide-body {
-                font-size: 0.85rem;
-                margin-bottom: 1rem;
-            }
+            .slide { padding: 1rem; padding-bottom: 4.5rem; align-items: center; }
+            .slide-content { margin-bottom: 0; }
+            .slide-title { font-size: 1.35rem; margin-bottom: 0.75rem; }
+            .slide-body { font-size: 0.85rem; margin-bottom: 1rem; }
 
             .hero-cards {
                 grid-template-columns: repeat(3, 1fr);
@@ -1452,38 +993,19 @@
                 padding: 0.75rem;
             }
 
-            .hero-card-icon {
-                font-size: 1.5rem;
-                margin-bottom: 0.35rem;
-            }
+            .hero-card-icon { font-size: 1.5rem; margin-bottom: 0.35rem; }
+            .hero-card h4 { font-size: 0.8rem; margin-bottom: 0.15rem; }
+            .hero-card p { font-size: 0.7rem; }
 
-            .hero-card h4 {
-                font-size: 0.8rem;
-                margin-bottom: 0.15rem;
-            }
-
-            .hero-card p {
-                font-size: 0.7rem;
-            }
-
-            .energy-flow {
-                flex-direction: row;
-            }
-
-            .energy-arrow {
-                transform: none;
-            }
-
+            .energy-flow { flex-direction: row; }
+            .energy-arrow { transform: none; }
             .energy-step {
                 flex-direction: column;
                 text-align: center;
                 padding: 0.75rem;
                 min-width: 100px;
             }
-
-            .energy-step-icon {
-                margin-bottom: 0.35rem;
-            }
+            .energy-step-icon { margin-bottom: 0.35rem; }
 
             .directions-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -1491,28 +1013,11 @@
                 margin: 1.25rem 0;
             }
 
-            .direction-card {
-                padding: 1rem 0.75rem;
-            }
-
-            .direction-icon {
-                font-size: 1.75rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .direction-name {
-                font-size: 0.95rem;
-            }
-
-            .direction-desc {
-                font-size: 0.7rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .direction-btn {
-                padding: 0.55rem;
-                font-size: 0.72rem;
-            }
+            .direction-card { padding: 1rem 0.75rem; }
+            .direction-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
+            .direction-name { font-size: 0.95rem; }
+            .direction-desc { font-size: 0.7rem; margin-bottom: 0.75rem; }
+            .direction-btn { padding: 0.55rem; font-size: 0.72rem; }
 
             .exchange-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1520,34 +1025,12 @@
                 margin: 1rem 0;
             }
 
-            .exchange-card {
-                padding: 1rem;
-            }
-
-            .navigator-steps {
-                margin: 1rem 0;
-                gap: 0.75rem;
-            }
-
-            .navigator-step {
-                padding: 0.85rem;
-                gap: 0.75rem;
-            }
-
-            .cta-final {
-                padding: 1rem;
-                margin-top: 0.5rem;
-            }
-
-            .cta-btn {
-                padding: 0.65rem 1.5rem;
-                font-size: 0.9rem;
-                margin-top: 0.75rem;
-            }
-
-            .nav-controls {
-                bottom: 0.75rem;
-            }
+            .exchange-card { padding: 1rem; }
+            .navigator-steps { margin: 1rem 0; gap: 0.75rem; }
+            .navigator-step { padding: 0.85rem; gap: 0.75rem; }
+            .cta-final { padding: 1rem; margin-top: 0.5rem; }
+            .cta-btn { padding: 0.65rem 1.5rem; font-size: 0.9rem; margin-top: 0.75rem; }
+            .nav-controls { bottom: 0.75rem; }
         }
     </style>
 </head>
@@ -1963,7 +1446,7 @@
             </div>
         </div>
 
-        <!-- SLIDE 9 - 3 Directions -->
+        <!-- SLIDE 9 -->
         <div class="slide" data-slide="8">
             <div class="slide-content">
                 <div class="reveal">
@@ -1978,46 +1461,41 @@
                 </div>
                 <div class="reveal">
                     <div class="directions-grid">
-                        <!-- Любовь -->
                         <div class="direction-card love-card">
                             <div class="direction-icon">❤️</div>
                             <div class="direction-name" style="color: #f43f5e;">Любовь</div>
                             <div class="direction-desc">Отношения, близость, связь с собой и другими</div>
-                            <button class="direction-btn" onclick="alert('Тест: Уровень энергии в отношениях')">
+                            <button class="direction-btn" onclick="showMsg('Тест: Уровень энергии в отношениях')">
                                 <span class="direction-btn-icon">📋</span>
                                 Пройти тест
                             </button>
-                            <button class="direction-btn" onclick="alert('Чек-ап отношений запущен')">
+                            <button class="direction-btn" onclick="showMsg('Чек-ап отношений запущен')">
                                 <span class="direction-btn-icon">⚡</span>
                                 Чек-ап
                             </button>
                         </div>
-
-                        <!-- Деньги -->
                         <div class="direction-card money-card">
                             <div class="direction-icon">💰</div>
                             <div class="direction-name" style="color: #f59e0b;">Деньги</div>
                             <div class="direction-desc">Финансы, ресурс, материальный поток</div>
-                            <button class="direction-btn" onclick="alert('Тест: Финансовый уровень энергии')">
+                            <button class="direction-btn" onclick="showMsg('Тест: Финансовый уровень энергии')">
                                 <span class="direction-btn-icon">📋</span>
                                 Пройти тест
                             </button>
-                            <button class="direction-btn" onclick="alert('Чек-ап финансов запущен')">
+                            <button class="direction-btn" onclick="showMsg('Чек-ап финансов запущен')">
                                 <span class="direction-btn-icon">⚡</span>
                                 Чек-ап
                             </button>
                         </div>
-
-                        <!-- Энергия -->
                         <div class="direction-card energy-card">
                             <div class="direction-icon">⚡</div>
                             <div class="direction-name" style="color: #7c3aed;">Энергия</div>
                             <div class="direction-desc">Тело, здоровье, жизненная сила, тонус</div>
-                            <button class="direction-btn" onclick="alert('Тест: Уровень физической энергии')">
+                            <button class="direction-btn" onclick="showMsg('Тест: Уровень физической энергии')">
                                 <span class="direction-btn-icon">📋</span>
                                 Пройти тест
                             </button>
-                            <button class="direction-btn" onclick="alert('Чек-ап энергии запущен')">
+                            <button class="direction-btn" onclick="showMsg('Чек-ап энергии запущен')">
                                 <span class="direction-btn-icon">⚡</span>
                                 Чек-ап
                             </button>
@@ -2028,162 +1506,211 @@
                     <div class="cta-final">
                         <h3 class="gradient-text">Энергия — это всё.</h3>
                         <p>Действуйте.</p>
-                        <button class="cta-btn" onclick="alert('Добро пожаловать! 🚀')">🚀 Начать сейчас</button>
+                        <button class="cta-btn" onclick="showMsg('Добро пожаловать! 🚀')">🚀 Начать сейчас</button>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- Navigation Controls -->
-    <div class="nav-controls">
-        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>←</button>
+    <!-- Navigation -->
+    <div class="nav-controls" id="navControls">
+        <button class="nav-btn" id="prevBtn" onclick="goPrev()">←</button>
         <div class="nav-dots" id="navDots"></div>
-        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+        <button class="nav-btn" id="nextBtn" onclick="goNext()">→</button>
     </div>
 
     <script>
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-        let currentSlide = 0;
-        let isTransitioning = false;
+        var slides = document.querySelectorAll('.slide');
+        var totalSlides = slides.length;
+        var currentSlide = 0;
+        var isAnimating = false;
+        var animTimeout = null;
 
-        // Create nav dots
-        const navDots = document.getElementById('navDots');
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('nav-dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            navDots.appendChild(dot);
+        // Create dots
+        var navDotsEl = document.getElementById('navDots');
+        for (var i = 0; i < totalSlides; i++) {
+            (function(idx) {
+                var dot = document.createElement('button');
+                dot.className = 'nav-dot' + (idx === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', 'Слайд ' + (idx + 1));
+                dot.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    goTo(idx);
+                });
+                navDotsEl.appendChild(dot);
+            })(i);
         }
 
         function updateUI() {
-            document.getElementById('prevBtn').disabled = currentSlide === 0;
-            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            var prevBtn = document.getElementById('prevBtn');
+            var nextBtn = document.getElementById('nextBtn');
 
-            const dots = document.querySelectorAll('.nav-dot');
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
-            });
+            prevBtn.disabled = (currentSlide === 0);
+            nextBtn.disabled = (currentSlide === totalSlides - 1);
 
-            const progress = ((currentSlide) / (totalSlides - 1)) * 100;
+            var dots = document.querySelectorAll('.nav-dot');
+            for (var i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].classList.add('active');
+                } else {
+                    dots[i].classList.remove('active');
+                }
+            }
+
+            var progress = (currentSlide / (totalSlides - 1)) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
         }
 
-        function changeSlide(direction) {
-            const newIndex = currentSlide + direction;
-            if (newIndex < 0 || newIndex >= totalSlides || isTransitioning) return;
-            goToSlide(newIndex, direction > 0 ? 'next' : 'prev');
-        }
+        function goTo(index) {
+            if (isAnimating) return;
+            if (index === currentSlide) return;
+            if (index < 0 || index >= totalSlides) return;
 
-        function goToSlide(index, direction) {
-            if (index === currentSlide || isTransitioning) return;
+            isAnimating = true;
 
-            isTransitioning = true;
-            const dir = direction || (index > currentSlide ? 'next' : 'prev');
+            var direction = index > currentSlide ? 'next' : 'prev';
+            var currentEl = slides[currentSlide];
+            var nextEl = slides[index];
 
-            slides[currentSlide].classList.remove('active');
-            slides[currentSlide].classList.add(dir === 'next' ? 'exit-left' : '');
-
-            if (dir === 'prev') {
-                slides[index].style.transform = 'translateX(-60px)';
-            } else {
-                slides[index].style.transform = 'translateX(60px)';
+            // Reset reveals on target slide
+            var reveals = nextEl.querySelectorAll('.reveal');
+            for (var r = 0; r < reveals.length; r++) {
+                reveals[r].style.animation = 'none';
+                reveals[r].style.opacity = '0';
+                reveals[r].style.transform = 'translateY(25px)';
             }
 
-            const reveals = slides[index].querySelectorAll('.reveal');
-            reveals.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-            });
+            // Remove classes from current
+            currentEl.classList.remove('active');
+
+            if (direction === 'next') {
+                currentEl.classList.add('exit-left');
+                nextEl.style.transform = 'translateX(80px)';
+            } else {
+                currentEl.style.transform = 'translateX(80px)';
+                currentEl.style.opacity = '0';
+                nextEl.style.transform = 'translateX(-80px)';
+            }
+
+            // Force reflow
+            void nextEl.offsetHeight;
 
             currentSlide = index;
-            void slides[index].offsetHeight;
 
-            slides[currentSlide].classList.add('active');
-            slides[currentSlide].classList.remove('exit-left');
-            slides[currentSlide].style.transform = '';
+            // Activate new slide
+            nextEl.classList.add('active');
+            nextEl.classList.remove('exit-left');
+            nextEl.style.transform = '';
+            nextEl.style.opacity = '';
 
-            setTimeout(() => {
-                reveals.forEach((el, i) => {
-                    setTimeout(() => {
-                        el.style.animation = 'none';
+            // Trigger reveals
+            for (var r = 0; r < reveals.length; r++) {
+                (function(el, delay) {
+                    setTimeout(function() {
+                        el.style.animation = '';
                         void el.offsetHeight;
-                        el.style.animation = `slideReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
-                        el.style.animationDelay = `${0.1 + i * 0.1}s`;
-                    }, 50);
-                });
-            }, 100);
+                        el.style.animation = 'slideReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                    }, 50 + delay * 70);
+                })(reveals[r], r);
+            }
 
             updateUI();
 
-            setTimeout(() => {
-                isTransitioning = false;
-                slides.forEach(s => s.classList.remove('exit-left'));
+            if (animTimeout) clearTimeout(animTimeout);
+            animTimeout = setTimeout(function() {
+                isAnimating = false;
+                // Clean up exit classes
+                for (var s = 0; s < slides.length; s++) {
+                    slides[s].classList.remove('exit-left');
+                    slides[s].style.transform = '';
+                    slides[s].style.opacity = '';
+                }
             }, 700);
         }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
+        function goNext() {
+            if (currentSlide < totalSlides - 1) {
+                goTo(currentSlide + 1);
+            }
+        }
+
+        function goPrev() {
+            if (currentSlide > 0) {
+                goTo(currentSlide - 1);
+            }
+        }
+
+        function showMsg(msg) {
+            alert(msg);
+        }
+
+        // Keyboard
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
                 e.preventDefault();
-                changeSlide(1);
+                goNext();
             } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
                 e.preventDefault();
-                changeSlide(-1);
+                goPrev();
             }
         });
 
-        // Touch/swipe navigation
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let touchStartY = 0;
+        // Touch swipe
+        var touchStartX = 0;
+        var touchStartY = 0;
+        var touchStartTime = 0;
 
-        document.addEventListener('touchstart', (e) => {
+        document.addEventListener('touchstart', function(e) {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
+            touchStartTime = Date.now();
         }, { passive: true });
 
-        document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            const touchEndY = e.changedTouches[0].screenY;
-            const diffX = touchStartX - touchEndX;
-            const diffY = touchStartY - touchEndY;
+        document.addEventListener('touchend', function(e) {
+            var endX = e.changedTouches[0].screenX;
+            var endY = e.changedTouches[0].screenY;
+            var diffX = touchStartX - endX;
+            var diffY = touchStartY - endY;
+            var elapsed = Date.now() - touchStartTime;
 
-            // Only trigger if horizontal swipe is dominant
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                changeSlide(diffX > 0 ? 1 : -1);
+            // Only swipe if horizontal movement dominates and is fast enough
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50 && elapsed < 500) {
+                if (diffX > 0) {
+                    goNext();
+                } else {
+                    goPrev();
+                }
             }
         }, { passive: true });
 
-        // Mouse wheel navigation
-        let wheelTimeout;
-        document.addEventListener('wheel', (e) => {
-            if (wheelTimeout) return;
+        // Mouse wheel
+        var wheelCooldown = false;
+        document.addEventListener('wheel', function(e) {
+            if (wheelCooldown) return;
+            wheelCooldown = true;
+            setTimeout(function() { wheelCooldown = false; }, 800);
 
-            wheelTimeout = setTimeout(() => {
-                wheelTimeout = null;
-            }, 800);
-
-            if (e.deltaY > 0) {
-                changeSlide(1);
-            } else {
-                changeSlide(-1);
+            if (e.deltaY > 30) {
+                goNext();
+            } else if (e.deltaY < -30) {
+                goPrev();
             }
         }, { passive: true });
 
-        // Initialize reveals for first slide
-        const initReveals = slides[0].querySelectorAll('.reveal');
-        initReveals.forEach((el, i) => {
-            setTimeout(() => {
-                el.style.animation = `slideReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
-                el.style.animationDelay = `${0.1 + i * 0.1}s`;
-            }, 300);
-        });
-
+        // Init
         updateUI();
+
+        // Animate first slide reveals
+        var firstReveals = slides[0].querySelectorAll('.reveal');
+        for (var i = 0; i < firstReveals.length; i++) {
+            (function(el, idx) {
+                setTimeout(function() {
+                    el.style.animation = 'slideReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                }, 100 + idx * 70);
+            })(firstReveals[i], i);
+        }
     </script>
 </body>
 </html>
