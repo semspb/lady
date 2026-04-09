@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Семитриум Любви | Презентация</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-purple: #2E0249;
+            --accent-gold: #D4AF37;
+            --text-light: #F3E5F5;
+            --glass-bg: rgba(46, 2, 73, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f0518;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #2E0249 0%, #1a0b2e 40%, #000000 100%);
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .orb-1 { width: 600px; height: 600px; background: #5b2c94; top: -100px; left: -100px; animation-delay: 0s; }
+        .orb-2 { width: 500px; height: 500px; background: #9d4edd; bottom: -100px; right: -100px; animation-delay: -5s; }
+        .orb-3 { width: 300px; height: 300px; background: #ff9e00; top: 40%; left: 60%; opacity: 0.12; animation-delay: -10s; }
+        .orb-4 { width: 200px; height: 200px; background: #ec4899; top: 20%; right: 30%; opacity: 0.15; animation-delay: -15s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .slide-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(40px) scale(0.96);
+            transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+            z-index: 10;
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: all 0.7s ease-out;
+        }
+
+        .active .reveal-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-150 { transition-delay: 0.15s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-250 { transition-delay: 0.25s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-350 { transition-delay: 0.35s; }
+        .delay-400 { transition-delay: 0.4s; }
+        .delay-500 { transition-delay: 0.5s; }
+        .delay-600 { transition-delay: 0.6s; }
+
+        .gold-accent { color: var(--accent-gold); }
+        
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: scale(1.1);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #5b2c94, #D4AF37);
+            transition: width 0.6s ease;
+            z-index: 50;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #D4AF37, #b5952f);
+            color: #1a0b2e;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 18px 48px;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.35);
+        }
+
+        .cta-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .logo-svg {
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));
+        }
+
+        .logo-svg-animated {
+            animation: gentleFloat 4s ease-in-out infinite;
+        }
+
+        .garden-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            transition: transform 0.6s ease;
+        }
+
+        .garden-image:hover {
+            transform: scale(1.05);
+        }
+
+        .garden-quote {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .garden-quote::before {
+            content: '"';
+            position: absolute;
+            left: -0.5rem;
+            top: -0.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            color: var(--accent-gold);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .level-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .level-line {
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            margin: 0 1rem;
+        }
+
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 15px;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+
+            .slide-content {
+                padding: 10px 0;
+            }
+
+            h1 {
+                font-size: 2.5rem !important;
+                line-height: 1.15;
+            }
+
+            h2 {
+                font-size: 1.8rem !important;
+                line-height: 1.2;
+            }
+
+            h3 {
+                font-size: 1.3rem !important;
+            }
+
+            .glass-card {
+                padding: 1.25rem;
+                border-radius: 14px;
+            }
+
+            .nav-btn {
+                width: 44px;
+                height: 44px;
+            }
+
+            .cta-btn {
+                padding: 16px 36px;
+                font-size: 1rem;
+            }
+
+            .logo-svg {
+                width: 80px;
+                height: 80px;
+            }
+
+            .grid-cols-2, .grid-cols-3, .grid-cols-4 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem !important;
+            }
+
+            h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .glass-card {
+                padding: 1rem;
+            }
+
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Garden specific styles */
+        .garden-hero {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 220px;
+        }
+
+        .garden-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .garden-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15, 5, 24, 0.9), rgba(15, 5, 24, 0.3), transparent);
+        }
+
+        .garden-hero-text {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+            z-index: 2;
+        }
+
+        .garden-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .garden-grid-item {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            height: 140px;
+        }
+
+        .garden-grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .garden-grid-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .garden-grid-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15, 5, 24, 0.8), transparent);
+        }
+
+        .garden-grid-item .overlay-text {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            z-index: 2;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .garden-grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .garden-grid-item {
+                height: 160px;
+            }
+            .garden-hero {
+                height: 180px;
+            }
+        }
+
+        .petal {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(ellipse, #f472b6, transparent);
+            border-radius: 50% 50% 50% 0;
+            opacity: 0;
+            animation: petalFall 8s linear infinite;
+        }
+
+        @keyframes petalFall {
+            0% { opacity: 0; transform: translateY(-20px) rotate(0deg) translateX(0); }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { opacity: 0; transform: translateY(400px) rotate(360deg) translateX(50px); }
+        }
+
+        .petal:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 7s; }
+        .petal:nth-child(2) { left: 25%; animation-delay: 2s; animation-duration: 9s; }
+        .petal:nth-child(3) { left: 40%; animation-delay: 4s; animation-duration: 8s; }
+        .petal:nth-child(4) { left: 60%; animation-delay: 1s; animation-duration: 10s; }
+        .petal:nth-child(5) { left: 80%; animation-delay: 3s; animation-duration: 7.5s; }
+        .petal:nth-child(6) { left: 95%; animation-delay: 5s; animation-duration: 8.5s; }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 50;
+            font-size: 0.75rem;
+            opacity: 0.4;
+            letter-spacing: 0.1em;
+        }
+
+        .top-label {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 50;
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            opacity: 0.5;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .top-label {
+                font-size: 0.6rem;
+                top: 12px;
+                left: 12px;
+            }
+            .slide-counter {
+                font-size: 0.65rem;
+                bottom: 14px;
+                left: 14px;
+            }
+        }
+
+        /* Swipe hint */
+        .swipe-hint {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            opacity: 0.3;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            animation: fadeInScale 1s ease 1s forwards;
+            opacity: 0;
+        }
+
+        .swipe-hint svg {
+            animation: gentleFloat 2s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .swipe-hint {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
+    <!-- Falling Petals (visible on garden slide) -->
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar" style="width: 7.1%"></div>
+
+    <!-- Top Label -->
+    <div class="top-label">
+        <span style="display: inline-block; vertical-align: middle; margin-right: 8px;">
+            <svg width="18" height="18" viewBox="0 0 300 300" class="logo-svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#dc2626"/>
+                        <stop offset="25%" stop-color="#a855f7"/>
+                        <stop offset="50%" stop-color="#fbbf24"/>
+                        <stop offset="75%" stop-color="#ec4899"/>
+                        <stop offset="100%" stop-color="#dc2626"/>
+                    </linearGradient>
+                    <filter id="softGlow">
+                        <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <polygon points="156.00,32.57 238.07,72.09 156.00,137.53" fill="url(#logoGrad)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+                <polygon points="245.55,81.48 265.82,170.28 163.49,146.92" fill="url(#logoGrad)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+                <polygon points="263.15,181.98 206.36,253.19 160.82,158.63" fill="url(#logoGrad)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+                <polygon points="195.54,258.40 104.46,258.40 150.00,163.84" fill="url(#logoGrad)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+                <polygon points="93.64,253.19 36.85,181.98 139.18,158.63" fill="url(#logoGrad)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+                <polygon points="34.18,170.28 54.45,81.48 136.51,146.92" fill="url(#logoGrad)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+                <polygon points="61.93,72.09 144.00,32.57 144.00,137.53" fill="url(#logoGrad)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+            </svg>
+        </span>
+        Семитриум · Презентация
+    </div>
+
+    <!-- Slide Counter -->
+    <div class="slide-counter" id="slideCounter">01 / 14</div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-6 right-6 z-50 flex gap-3">
+        <button class="nav-btn" onclick="prevSlide()" aria-label="Предыдущий слайд">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="nav-btn" onclick="nextSlide()" aria-label="Следующий слайд">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+    </div>
+
+    <!-- Swipe hint -->
+    <div class="swipe-hint">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span style="margin-left: 6px;">листайте</span>
+    </div>
+
+    <!-- SLIDES CONTAINER -->
+    <div class="slide-container">
+
+        <!-- SLIDE 1: TITLE -->
+        <div class="slide active text-center">
+            <div class="slide-content">
+                <div class="reveal-text mb-8">
+                    <svg class="logo-svg logo-svg-animated" width="120" height="120" viewBox="0 0 300 300">
+                        <defs>
+                            <linearGradient id="logoGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#dc2626"/>
+                                <stop offset="25%" stop-color="#a855f7"/>
+                                <stop offset="50%" stop-color="#fbbf24"/>
+                                <stop offset="75%" stop-color="#ec4899"/>
+                                <stop offset="100%" stop-color="#dc2626"/>
+                            </linearGradient>
+                            <filter id="softGlow1">
+                                <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <polygon points="156.00,32.57 238.07,72.09 156.00,137.53" fill="url(#logoGrad1)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow1)"/>
+                        <polygon points="245.55,81.48 265.82,170.28 163.49,146.92" fill="url(#logoGrad1)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow1)"/>
+                        <polygon points="263.15,181.98 206.36,253.19 160.82,158.63" fill="url(#logoGrad1)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow1)"/>
+                        <polygon points="195.54,258.40 104.46,258.40 150.00,163.84" fill="url(#logoGrad1)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow1)"/>
+                        <polygon points="93.64,253.19 36.85,181.98 139.18,158.63" fill="url(#logoGrad1)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow1)"/>
+                        <polygon points="34.18,170.28 54.45,81.48 136.51,146.92" fill="url(#logoGrad1)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow1)"/>
+                        <polygon points="61.93,72.09 144.00,32.57 144.00,137.53" fill="url(#logoGrad1)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow1)"/>
+                    </svg>
+                </div>
+                <h1 class="reveal-text delay-100 text-6xl md:text-8xl lg:text-9xl font-light serif tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white via-purple-100 to-purple-300" style="font-size: clamp(2.5rem, 8vw, 6rem);">
+                    СЕМИТРИУМ ЛЮБВИ
+                </h1>
+                <h2 class="reveal-text delay-200 text-xl md:text-2xl lg:text-3xl font-light tracking-[0.15em] uppercase text-[#D4AF37] mb-10">
+                    Архитектура Любви
+                </h2>
+                <p class="reveal-text delay-300 text-base md:text-lg text-purple-100/70 max-w-xl mx-auto font-light leading-relaxed" style="font-size: clamp(1rem, 3vw, 1.2rem);">
+                    От хаоса чувств к системе знаний.<br>
+                    Диагностическая система на стыке античной философии и нейробиологии.
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: PROBLEM -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div>
+                        <h2 class="reveal-text serif mb-6 leading-tight" style="font-size: clamp(1.8rem, 5vw, 3.2rem);">
+                            Почему мы <span class="italic text-[#D4AF37]">теряемся</span> в отношениях?
+                        </h2>
+                        <p class="reveal-text delay-100 font-light text-purple-100/80 mb-6 leading-relaxed" style="font-size: clamp(1rem, 2.5vw, 1.2rem);">
+                            Современный человек страдает от смысловой слепоты. Мы используем одно слово «Любовь» для семи различных биохимических и духовных процессов.
+                        </p>
+                        <ul class="space-y-4 reveal-text delay-200">
+                            <li class="flex items-start">
+                                <span class="text-[#D4AF37] mr-4 text-xl">✦</span>
+                                <span class="text-purple-100/70 leading-relaxed" style="font-size: clamp(0.95rem, 2vw, 1.05rem);">Ожидание, что один партнер закроет все потребности — и друг, и любовник, и родитель</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-[#D4AF37] mr-4 text-xl">✦</span>
+                                <span class="text-purple-100/70 leading-relaxed" style="font-size: clamp(0.95rem, 2vw, 1.05rem);">Путаница между дофаминовой зависимостью и глубокой привязанностью</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-[#D4AF37] mr-4 text-xl">✦</span>
+                                <span class="text-purple-100/70 leading-relaxed" style="font-size: clamp(0.95rem, 2vw, 1.05rem);">Отсутствие языка для описания своих истинных потребностей</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="reveal-text delay-300 glass-card p-6 md:p-8 flex flex-col justify-center items-center text-center">
+                        <div class="text-5xl mb-4 opacity-60">🌫️</div>
+                        <h3 class="serif mb-3" style="font-size: clamp(1.3rem, 3vw, 1.8rem);">Результат хаоса</h3>
+                        <p class="text-xs uppercase tracking-widest text-purple-300/60" style="font-size: clamp(0.8rem, 2vw, 0.95rem);">Неврозы · Разводы · Одиночество вдвоём</p>
+                        <img src="https://picsum.photos/400/250?random=10" alt="Туман в отношениях" class="mt-5 w-full rounded-xl opacity-40" style="height: 120px; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: SOLUTION MATRIX -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="text-center mb-8">
+                    <h2 class="reveal-text serif mb-2" style="font-size: clamp(1.8rem, 5vw, 3rem);">Метод Семитриум</h2>
+                    <p class="reveal-text delay-100 text-purple-200/60 uppercase tracking-widest" style="font-size: clamp(0.75rem, 2vw, 0.9rem);">Структурный анализ чувства</p>
+                </div>
+                
+                <div class="reveal-text delay-200 glass-card p-6 md:p-10 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-48 md:w-64 h-48 md:h-64 bg-purple-600/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 relative z-10">
+                        <div class="text-center p-5 md:p-6 border border-white/5 rounded-xl hover:bg-white/5 transition-colors">
+                            <div class="text-3xl md:text-4xl mb-3 text-rose-300">7</div>
+                            <h3 class="serif mb-2" style="font-size: clamp(1.2rem, 3vw, 1.6rem);">Греческих Начал</h3>
+                            <p class="text-xs text-purple-200/50 uppercase tracking-wider">Архетипы</p>
+                            <p class="text-sm mt-3 text-gray-300 leading-relaxed" style="font-size: clamp(0.85rem, 2vw, 0.95rem);">Эрос, Филия, Сторге, Агапэ, Людус, Прагма, Автаркия</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-center">
+                            <div class="text-3xl md:text-4xl text-[#D4AF37]">×</div>
+                        </div>
+
+                        <div class="text-center p-5 md:p-6 border border-white/5 rounded-xl hover:bg-white/5 transition-colors">
+                            <div class="text-3xl md:text-4xl mb-3 text-blue-300">3</div>
+                            <h3 class="serif mb-2" style="font-size: clamp(1.2rem, 3vw, 1.6rem);">Уровня Природы</h3>
+                            <p class="text-xs text-purple-200/50 uppercase tracking-wider">Измерения</p>
+                            <p class="text-sm mt-3 text-gray-300 leading-relaxed" style="font-size: clamp(0.85rem, 2vw, 0.95rem);">Тело (Инстинкты) · Душа (Эмоции) · Дух (Смыслы)</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 text-center border-t border-white/10 pt-5">
+                        <p class="font-light leading-relaxed" style="font-size: clamp(1rem, 2.5vw, 1.25rem);">
+                            <span class="text-[#D4AF37]">21 Параметр</span> диагностики личности
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: PHILOSOPHY & SCIENCE -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+                    <div class="reveal-text">
+                        <h2 class="serif mb-6 leading-tight" style="font-size: clamp(1.8rem, 5vw, 3.2rem);">Фундамент <br><span class="text-[#D4AF37] italic">Мудрости</span></h2>
+                        <div class="space-y-6">
+                            <div class="border-l border-[#D4AF37]/30 pl-5">
+                                <h3 class="serif mb-1 text-purple-200" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Античность</h3>
+                                <p class="text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">Платон и Аристотель понимали: любовь к Богу и любовь к возлюбленному — разные процессы. Мы вернули эту точность.</p>
+                            </div>
+                            <div class="border-l border-[#D4AF37]/30 pl-5">
+                                <h3 class="serif mb-1 text-purple-200" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Нейробиология</h3>
+                                <p class="text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">Исследования Хелен Фишер подтверждают: за страсть, романтику и привязанность отвечают разные сети мозга.</p>
+                            </div>
+                            <div class="border-l border-[#D4AF37]/30 pl-5">
+                                <h3 class="serif mb-1 text-purple-200" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Интегральный подход</h3>
+                                <p class="text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">Синтез тела, психики и духа позволяет избежать упрощений и даёт полную картину.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reveal-text delay-200 flex items-center justify-center">
+                        <div class="glass-card p-8 md:p-10 text-center max-w-md w-full">
+                            <svg class="w-14 h-14 mx-auto mb-5 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                            <h3 class="serif mb-3" style="font-size: clamp(1.3rem, 3vw, 1.8rem);">Алхимия Смысла</h3>
+                            <p class="text-gray-300 font-light italic leading-relaxed" style="font-size: clamp(0.95rem, 2vw, 1.05rem);">«Мы не изобрели новое. Мы систематизировали вечное.»</p>
+                            <img src="https://picsum.photos/400/200?random=11" alt="Алхимия" class="mt-4 w-full rounded-xl opacity-30" style="height: 100px; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: THE 7 TYPES (PART 1) -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="reveal-text serif mb-6 md:mb-8 text-center" style="font-size: clamp(1.6rem, 4vw, 2.8rem);">Начала I: <span class="text-[#D4AF37]">Энергия и Связь</span></h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+                    <!-- Eros -->
+                    <div class="reveal-text delay-100 glass-card hover:bg-rose-900/20 group p-4 md:p-5">
+                        <div class="h-8 w-8 md:h-10 md:w-10 mb-3 text-rose-400 group-hover:scale-110 transition-transform">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        </div>
+                        <h3 class="serif mb-1" style="font-size: clamp(1.1rem, 2.5vw, 1.5rem);">Эрос</h3>
+                        <p class="text-xs text-rose-300 uppercase tracking-widest mb-2">Страсть</p>
+                        <p class="text-xs md:text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.75rem, 1.5vw, 0.9rem);">Дофамин. Влечение. Идеализация. Искра, способная сжечь или согреть.</p>
+                    </div>
+                    <!-- Philia -->
+                    <div class="reveal-text delay-200 glass-card hover:bg-green-900/20 group p-4 md:p-5">
+                        <div class="h-8 w-8 md:h-10 md:w-10 mb-3 text-green-400 group-hover:scale-110 transition-transform">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                        </div>
+                        <h3 class="serif mb-1" style="font-size: clamp(1.1rem, 2.5vw, 1.5rem);">Филия</h3>
+                        <p class="text-xs text-green-300 uppercase tracking-widest mb-2">Дружба</p>
+                        <p class="text-xs md:text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.75rem, 1.5vw, 0.9rem);">Окситоцин. Равенство. Интеллектуальная близость. Основа доверия.</p>
+                    </div>
+                    <!-- Storge -->
+                    <div class="reveal-text delay-300 glass-card hover:bg-yellow-900/20 group p-4 md:p-5">
+                        <div class="h-8 w-8 md:h-10 md:w-10 mb-3 text-yellow-600 group-hover:scale-110 transition-transform">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <h3 class="serif mb-1" style="font-size: clamp(1.1rem, 2.5vw, 1.5rem);">Сторге</h3>
+                        <p class="text-xs text-yellow-600 uppercase tracking-widest mb-2">Родство</p>
+                        <p class="text-xs md:text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.75rem, 1.5vw, 0.9rem);">Привычка. Безопасность. Принятие. Любовь «по праву рождения».</p>
+                    </div>
+                    <!-- Ludus -->
+                    <div class="reveal-text delay-400 glass-card hover:bg-orange-900/20 group p-4 md:p-5">
+                        <div class="h-8 w-8 md:h-10 md:w-10 mb-3 text-orange-400 group-hover:scale-110 transition-transform">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                        </div>
+                        <h3 class="serif mb-1" style="font-size: clamp(1.1rem, 2.5vw, 1.5rem);">Людус</h3>
+                        <p class="text-xs text-orange-300 uppercase tracking-widest mb-2">Игра</p>
+                        <p class="text-xs md:text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.75rem, 1.5vw, 0.9rem);">Флирт. Лёгкость. Отсутствие драмы. Источник радости, но не глубины.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: THE 7 TYPES (PART 2) -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="reveal-text serif mb-6 md:mb-8 text-center" style="font-size: clamp(1.6rem, 4vw, 2.8rem);">Начала II: <span class="text-[#D4AF37]">Воля и Свобода</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-7">
+                    <!-- Pragma -->
+                    <div class="reveal-text delay-100 glass-card border-t-2 border-blue-500/50 p-5 md:p-7">
+                        <h3 class="serif mb-2 text-blue-200" style="font-size: clamp(1.3rem, 3vw, 1.8rem);">Прагма</h3>
+                        <p class="text-xs text-blue-400 uppercase tracking-widest mb-3">Расчёт и Партнёрство</p>
+                        <p class="text-sm text-gray-300 mb-4 leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">Совпадение целей, ресурсов и планов. Каркас устойчивости семьи.</p>
+                        <div class="text-xs text-gray-500 bg-black/20 p-3 rounded-lg" style="font-size: clamp(0.8rem, 1.5vw, 0.85rem);">Без Прагмы союз хрупок перед бытом.</div>
+                        <img src="https://picsum.photos/400/150?random=12" alt="Прагма" class="mt-3 w-full rounded-lg opacity-30" style="height: 70px; object-fit: cover;">
+                    </div>
+
+                    <!-- Agape -->
+                    <div class="reveal-text delay-200 glass-card border-t-2 border-white/50 p-5 md:p-7">
+                        <h3 class="serif mb-2 text-white" style="font-size: clamp(1.3rem, 3vw, 1.8rem);">Агапэ</h3>
+                        <p class="text-xs text-gray-300 uppercase tracking-widest mb-3">Безусловность</p>
+                        <p class="text-sm text-gray-300 mb-4 leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">Любовь-воля. Способность отдавать, не требуя взамен. Высшая эмпатия.</p>
+                        <div class="text-xs text-gray-500 bg-black/20 p-3 rounded-lg" style="font-size: clamp(0.8rem, 1.5vw, 0.85rem);">Без баланса становится жертвенностью.</div>
+                        <img src="https://picsum.photos/400/150?random=13" alt="Агапе" class="mt-3 w-full rounded-lg opacity-30" style="height: 70px; object-fit: cover;">
+                    </div>
+
+                    <!-- Autarkia -->
+                    <div class="reveal-text delay-300 glass-card border border-[#D4AF37] bg-[#D4AF37]/5 relative overflow-hidden p-5 md:p-7">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-[#D4AF37] blur-2xl opacity-20"></div>
+                        <h3 class="serif mb-2 text-[#D4AF37]" style="font-size: clamp(1.3rem, 3vw, 1.8rem);">Автаркия</h3>
+                        <p class="text-xs text-[#D4AF37] uppercase tracking-widest mb-3">Самодостаточность</p>
+                        <p class="text-sm text-gray-200 mb-4 font-medium leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">Ключ ко всей системе. Любовь из избытка, а не из нужды.</p>
+                        <div class="text-xs text-[#D4AF37]/80 bg-[#D4AF37]/10 p-3 rounded-lg border border-[#D4AF37]/20" style="font-size: clamp(0.8rem, 1.5vw, 0.85rem);">Защищает Эрос от Мании, а Агапэ от рабства.</div>
+                        <img src="https://picsum.photos/400/150?random=14" alt="Автаркия" class="mt-3 w-full rounded-lg opacity-30" style="height: 70px; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: THREE LEVELS -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="text-center mb-8 md:mb-12">
+                    <h2 class="reveal-text serif mb-2" style="font-size: clamp(1.6rem, 4vw, 2.8rem);">Где живёт ваша любовь?</h2>
+                    <p class="reveal-text delay-100 text-sm text-purple-200/50 uppercase tracking-widest" style="font-size: clamp(0.7rem, 1.5vw, 0.85rem);">Диагностика дисбалансов</p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto space-y-4 md:space-y-5">
+                    <!-- Spirit -->
+                    <div class="reveal-text delay-200 level-row group">
+                        <div class="w-24 md:w-32 text-right pr-3 md:pr-4 text-purple-300 font-serif italic" style="font-size: clamp(1.2rem, 3vw, 1.6rem);">Дух</div>
+                        <div class="level-line"></div>
+                        <div class="glass-card flex-1 py-4 px-5 md:px-6 border-l-2 border-purple-500 group-hover:bg-purple-900/20 transition-colors">
+                            <p class="text-sm text-gray-200 leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">«Ради чего мы вместе?» Экзистенциальный выбор, общие ценности, смыслы.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soul -->
+                    <div class="reveal-text delay-300 level-row group">
+                        <div class="w-24 md:w-32 text-right pr-3 md:pr-4 text-orange-300 font-serif italic" style="font-size: clamp(1.2rem, 3vw, 1.6rem);">Душа</div>
+                        <div class="level-line"></div>
+                        <div class="glass-card flex-1 py-4 px-5 md:px-6 border-l-2 border-orange-500 group-hover:bg-orange-900/20 transition-colors">
+                            <p class="text-sm text-gray-200 leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">«Что я чувствую?» Эмоциональный комфорт, проекции, психологическая близость.</p>
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="reveal-text delay-400 level-row group">
+                        <div class="w-24 md:w-32 text-right pr-3 md:pr-4 text-rose-300 font-serif italic" style="font-size: clamp(1.2rem, 3vw, 1.6rem);">Тело</div>
+                        <div class="level-line"></div>
+                        <div class="glass-card flex-1 py-4 px-5 md:px-6 border-l-2 border-rose-500 group-hover:bg-rose-900/20 transition-colors">
+                            <p class="text-sm text-gray-200 leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">«Чего я хочу?» Биологическое влечение, тактильность, базовая безопасность.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8 md:mt-12 reveal-text delay-500">
+                    <p class="text-sm md:text-base text-[#D4AF37] italic" style="font-size: clamp(0.9rem, 2vw, 1.1rem);">Конгруэнтность — когда Тело, Душа и Дух говорят «Да» одному человеку.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: EVIDENCE -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="reveal-text serif mb-8 md:mb-10 text-center" style="font-size: clamp(1.6rem, 4vw, 2.8rem);">Доказательная База</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                    <div class="reveal-text delay-100 glass-card p-5 md:p-6 flex items-start gap-4">
+                        <div class="text-xl md:text-2xl text-blue-400 font-serif font-bold">01</div>
+                        <div>
+                            <h3 class="font-bold text-gray-200 mb-1" style="font-size: clamp(1rem, 2vw, 1.2rem);">Типология Ли (1973)</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.85rem, 1.8vw, 0.95rem);">Академически признанная модель 6 стилей любви. Валидированные шкалы LAS.</p>
+                        </div>
+                    </div>
+                    <div class="reveal-text delay-200 glass-card p-5 md:p-6 flex items-start gap-4">
+                        <div class="text-xl md:text-2xl text-green-400 font-serif font-bold">02</div>
+                        <div>
+                            <h3 class="font-bold text-gray-200 mb-1" style="font-size: clamp(1rem, 2vw, 1.2rem);">Теория Привязанности</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.85rem, 1.8vw, 0.95rem);">Боулби и Эйнсворт. Надёжная привязанность как фундамент ментального здоровья.</p>
+                        </div>
+                    </div>
+                    <div class="reveal-text delay-300 glass-card p-5 md:p-6 flex items-start gap-4">
+                        <div class="text-xl md:text-2xl text-rose-400 font-serif font-bold">03</div>
+                        <div>
+                            <h3 class="font-bold text-gray-200 mb-1" style="font-size: clamp(1rem, 2vw, 1.2rem);">Исследования Готтмана</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.85rem, 1.8vw, 0.95rem);">Дружба (Филия) внутри брака — главный предиктор удовлетворённости.</p>
+                        </div>
+                    </div>
+                    <div class="reveal-text delay-400 glass-card p-5 md:p-6 flex items-start gap-4">
+                        <div class="text-xl md:text-2xl text-purple-400 font-serif font-bold">04</div>
+                        <div>
+                            <h3 class="font-bold text-gray-200 mb-1" style="font-size: clamp(1rem, 2vw, 1.2rem);">Нейробиология</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed" style="font-size: clamp(0.85rem, 1.8vw, 0.95rem);">Разделение систем мозга: Влечение, Романтика, Привязанность (Фишер).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: USER JOURNEY -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="reveal-text serif mb-10 md:mb-14 text-center" style="font-size: clamp(1.6rem, 4vw, 2.8rem);">Как это работает</h2>
+                <div class="flex flex-col md:flex-row justify-between items-center relative max-w-5xl mx-auto px-2 md:px-4 gap-6 md:gap-0">
+                    <!-- Line -->
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent -z-10"></div>
+                    
+                    <!-- Steps -->
+                    <div class="reveal-text delay-100 text-center group">
+                        <div class="w-14 h-14 md:w-16 md:h-16 mx-auto bg-[#1a0b2e] border border-[#D4AF37] rounded-full flex items-center justify-center text-lg md:text-xl mb-3 md:mb-4 shadow-[0_0_15px_rgba(212,175,55,0.2)] group-hover:scale-110 transition-transform">1</div>
+                        <h3 class="serif text-[#D4AF37] mb-1 md:mb-2" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Диагностика</h3>
+                        <p class="text-xs text-gray-400" style="font-size: clamp(0.75rem, 1.5vw, 0.85rem);">21 вопрос. Анализ 3 уровней.</p>
+                    </div>
+
+                    <div class="reveal-text delay-200 text-center group">
+                        <div class="w-14 h-14 md:w-16 md:h-16 mx-auto bg-[#1a0b2e] border border-purple-500 rounded-full flex items-center justify-center text-lg md:text-xl mb-3 md:mb-4 shadow-[0_0_15px_rgba(168,85,247,0.2)] group-hover:scale-110 transition-transform">2</div>
+                        <h3 class="serif text-purple-300 mb-1 md:mb-2" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Профиль</h3>
+                        <p class="text-xs text-gray-400" style="font-size: clamp(0.75rem, 1.5vw, 0.85rem);">Визуализация баланса сил.</p>
+                    </div>
+
+                    <div class="reveal-text delay-300 text-center group">
+                        <div class="w-14 h-14 md:w-16 md:h-16 mx-auto bg-[#1a0b2e] border border-blue-500 rounded-full flex items-center justify-center text-lg md:text-xl mb-3 md:mb-4 shadow-[0_0_15px_rgba(59,130,246,0.2)] group-hover:scale-110 transition-transform">3</div>
+                        <h3 class="serif text-blue-300 mb-1 md:mb-2" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Инсайт</h3>
+                        <p class="text-xs text-gray-400" style="font-size: clamp(0.75rem, 1.5vw, 0.85rem);">Понимание причин конфликтов.</p>
+                    </div>
+
+                    <div class="reveal-text delay-400 text-center group">
+                        <div class="w-14 h-14 md:w-16 md:h-16 mx-auto bg-[#1a0b2e] border border-green-500 rounded-full flex items-center justify-center text-lg md:text-xl mb-3 md:mb-4 shadow-[0_0_15px_rgba(34,197,94,0.2)] group-hover:scale-110 transition-transform">4</div>
+                        <h3 class="serif text-green-300 mb-1 md:mb-2" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Рост</h3>
+                        <p class="text-xs text-gray-400" style="font-size: clamp(0.75rem, 1.5vw, 0.85rem);">Развитие дефицитных начал.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: METAPHOR - GARDEN EXPANDED -->
+        <div class="slide">
+            <div class="slide-content" style="padding-bottom: 40px;">
+                <h2 class="reveal-text serif mb-2 text-center text-green-100" style="font-size: clamp(1.8rem, 5vw, 3rem);">Метафора Сада</h2>
+                <p class="reveal-text delay-100 text-center text-green-200/50 mb-6 md:mb-8" style="font-size: clamp(0.75rem, 1.5vw, 0.9rem); letter-spacing: 0.15em; text-transform: uppercase;">Ваша личность — это экосистема</p>
+                
+                <!-- Hero Image -->
+                <div class="reveal-text delay-150 garden-hero mb-5">
+                    <img src="https://picsum.photos/1200/500?random=20" alt="Сад">
+                    <div class="garden-hero-text">
+                        <p class="serif italic text-white" style="font-size: clamp(1rem, 2.5vw, 1.3rem);">«Каждый человек — это сад, в который можно войти или остаться за порогом.»</p>
+                    </div>
+                </div>
+
+                <!-- Emotional Text Block -->
+                <div class="reveal-text delay-200 glass-card mb-5 p-5 md:p-7 bg-gradient-to-r from-green-900/20 to-purple-900/20 border-green-800/20">
+                    <p class="leading-relaxed text-gray-200" style="font-size: clamp(0.95rem, 2vw, 1.1rem);">
+                        Представьте: вы стоите перед входом в чужой сад. Одни сады встречают вас <span class="text-[#D4AF37] font-semibold">буйным цветением</span> — это Эрос, страсть, которая ослепляет. Другие — <span class="text-green-300 font-semibold">тенистыми аллеями дружбы</span> — Филия, где можно просто быть собой.
+                    </p>
+                </div>
+
+                <!-- Two Column Images -->
+                <div class="garden-grid-2 mb-5">
+                    <div class="reveal-text delay-250 garden-grid-item">
+                        <img src="https://picsum.photos/600/300?random=21" alt="Розы">
+                        <span class="overlay-text serif">Эрос — Розы страсти</span>
+                    </div>
+                    <div class="reveal-text delay-300 garden-grid-item">
+                        <img src="https://picsum.photos/600/300?random=22" alt="Деревья дружбы">
+                        <span class="overlay-text serif">Филия — Корни дружбы</span>
+                    </div>
+                </div>
+
+                <!-- More Emotional Content -->
+                <div class="reveal-text delay-350 glass-card mb-5 p-5 md:p-7 bg-gradient-to-r from-yellow-900/15 to-orange-900/15 border-yellow-800/20">
+                    <p class="leading-relaxed text-gray-200 mb-3" style="font-size: clamp(0.95rem, 2vw, 1.1rem);">
+                        Но сад без <span class="text-[#D4AF37] font-semibold">забора</span> — Автаркии — будет вытоптан. А забор без цветов — тюрьма одиночества. <span class="italic text-green-200">Баланс</span> — вот что делает сад живым.
+                    </p>
+                    <div class="garden-quote">
+                        <p class="serif italic text-green-100/90 leading-relaxed" style="font-size: clamp(1rem, 2.5vw, 1.2rem);">
+                            Цветы без забора вытопчут. Забор без цветов — тюрьма. Мудрый садовник знает: каждый цветок — это начало любви. Каждый камень забора — граница, которая защищает, а не isolирует.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bottom Images -->
+                <div class="garden-grid-2">
+                    <div class="reveal-text delay-400 garden-grid-item">
+                        <img src="https://picsum.photos/600/300?random=23" alt="Забор сада">
+                        <span class="overlay-text serif">Автаркия — Забор свободы</span>
+                    </div>
+                    <div class="reveal-text delay-450 garden-grid-item">
+                        <img src="https://picsum.photos/600/300?random=24" alt="Плодовый сад">
+                        <span class="overlay-text serif">Прагма — Плоды труда</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: GARDEN DEEPER -->
+        <div class="slide">
+            <div class="slide-content" style="padding-bottom: 40px;">
+                <h2 class="reveal-text serif mb-2 text-center text-emerald-100" style="font-size: clamp(1.6rem, 4vw, 2.5rem);">Что происходит в вашем саду?</h2>
+                <p class="reveal-text delay-100 text-center text-emerald-200/50 mb-6" style="font-size: clamp(0.75rem, 1.5vw, 0.9rem); letter-spacing: 0.15em; text-transform: uppercase;">Четыре сезона души</p>
+
+                <!-- Seasons Grid -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="reveal-text delay-150 glass-card p-4 border border-rose-500/20 bg-gradient-to-br from-rose-900/20 to-transparent">
+                        <div class="text-2xl mb-2">🌸</div>
+                        <h3 class="serif text-rose-200 mb-1" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Весна Эроса</h3>
+                        <p class="text-gray-400 leading-relaxed" style="font-size: clamp(0.8rem, 1.5vw, 0.9rem);">Первое цветение. Бабочки в животе. Мир кажется полным красок. Но весна не длится вечно — и это нормально.</p>
+                    </div>
+                    <div class="reveal-text delay-200 glass-card p-4 border border-green-500/20 bg-gradient-to-br from-green-900/20 to-transparent">
+                        <div class="text-2xl mb-2">🌿</div>
+                        <h3 class="serif text-green-200 mb-1" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Лето Филии</h3>
+                        <p class="text-gray-400 leading-relaxed" style="font-size: clamp(0.8rem, 1.5vw, 0.9rem);">Глубокие корни дружбы. Тень надёжного дерева. Когда страсть утихает, начинается настоящее.</p>
+                    </div>
+                    <div class="reveal-text delay-250 glass-card p-4 border border-yellow-500/20 bg-gradient-to-br from-yellow-900/20 to-transparent">
+                        <div class="text-2xl mb-2">🍂</div>
+                        <h3 class="serif text-yellow-200 mb-1" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Осень Прагмы</h3>
+                        <p class="text-gray-400 leading-relaxed" style="font-size: clamp(0.8rem, 1.5vw, 0.9rem);">Урожай совместных лет. Подведение итогов. Что мы вырастили вместе? Плоды или сорняки?</p>
+                    </div>
+                    <div class="reveal-text delay-300 glass-card p-4 border border-purple-500/20 bg-gradient-to-br from-purple-900/20 to-transparent">
+                        <div class="text-2xl mb-2">❄️</div>
+                        <h3 class="serif text-purple-200 mb-1" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">Зима Автаркии</h3>
+                        <p class="text-gray-400 leading-relaxed" style="font-size: clamp(0.8rem, 1.5vw, 0.9rem);">Тишина и самодостаточность. Не холод одиночества, а покой силы. Весна вернётся.</p>
+                    </div>
+                </div>
+
+                <!-- Image + Quote -->
+                <div class="glass-card p-5 md:p-7 mb-5">
+                    <div class="flex flex-col md:flex-row gap-5 items-center">
+                        <img src="https://picsum.photos/400/300?random=25" alt="Сад зимой" class="w-full md:w-48 h-32 md:h-40 rounded-xl object-cover flex-shrink-0">
+                        <div>
+                            <h3 class="serif text-emerald-100 mb-3" style="font-size: clamp(1.2rem, 3vw, 1.5rem);">Сад не умирает — он отдыхает</h3>
+                            <p class="text-gray-300 leading-relaxed" style="font-size: clamp(0.9rem, 2vw, 1rem);">
+                                Многие пары думают, что любовь ушла, когда наступила зима. Но мудрый садовник знает: именно зимой закладывается сила будущей весны. <span class="text-[#D4AF37]">Автаркия</span> — это не конец. Это подготовка к новому расцвету.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-text delay-350 text-center">
+                    <p class="serif italic text-[#D4AF37]" style="font-size: clamp(1rem, 2.5vw, 1.3rem);">
+                        «Любовь — это не то, что находят. Это то, что выращивают.»
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: MISSION -->
+        <div class="slide text-center">
+            <div class="slide-content">
+                <div class="reveal-text mb-6 inline-block p-4 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5">
+                    <svg class="w-10 h-10 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <h2 class="reveal-text delay-100 serif mb-6 leading-tight" style="font-size: clamp(1.8rem, 5vw, 3.5rem);">
+                    Трансформация <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-purple-400 italic">Культуры Отношений</span>
+                </h2>
+                <p class="reveal-text delay-200 text-lg text-gray-300 max-w-2xl mx-auto font-light leading-relaxed mb-10" style="font-size: clamp(1rem, 2.5vw, 1.25rem);">
+                    От невротической зависимости к осознанной целостности.
+                </p>
+                
+                <div class="reveal-text delay-300 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
+                    <div class="p-4 md:p-5 border border-white/5 rounded-xl bg-white/5">
+                        <h4 class="text-[#D4AF37] text-sm uppercase tracking-wider mb-1" style="font-size: clamp(0.8rem, 1.5vw, 0.9rem);">Научность</h4>
+                        <p class="text-xs text-gray-400" style="font-size: clamp(0.75rem, 1.5vw, 0.85rem);">Без эзотерики</p>
+                    </div>
+                    <div class="p-4 md:p-5 border border-white/5 rounded-xl bg-white/5">
+                        <h4 class="text-[#D4AF37] text-sm uppercase tracking-wider mb-1" style="font-size: clamp(0.8rem, 1.5vw, 0.9rem);">Развитие</h4>
+                        <p class="text-xs text-gray-400" style="font-size: clamp(0.75rem, 1.5vw, 0.85rem);">Любовь — навык</p>
+                    </div>
+                    <div class="p-4 md:p-5 border border-white/5 rounded-xl bg-white/5">
+                        <h4 class="text-[#D4AF37] text-sm uppercase tracking-wider mb-1" style="font-size: clamp(0.8rem, 1.5vw, 0.9rem);">Свобода</h4>
+                        <p class="text-xs text-gray-400" style="font-size: clamp(0.75rem, 1.5vw, 0.85rem);">Приоритет Автаркии</p>
+                    </div>
+                    <div class="p-4 md:p-5 border border-white/5 rounded-xl bg-white/5">
+                        <h4 class="text-[#D4AF37] text-sm uppercase tracking-wider mb-1" style="font-size: clamp(0.8rem, 1.5vw, 0.9rem);">Баланс</h4>
+                        <p class="text-xs text-gray-400" style="font-size: clamp(0.75rem, 1.5vw, 0.85rem);">Гармония 7 начал</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: TESTIMONIAL -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="text-center mb-8">
+                    <h2 class="reveal-text serif mb-3" style="font-size: clamp(1.6rem, 4vw, 2.5rem);">Что говорят те, кто прошёл тест</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+                    <div class="reveal-text delay-100 glass-card p-5">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-purple-500 flex items-center justify-center text-sm font-bold mr-3">А</div>
+                            <div>
+                                <div class="font-semibold text-sm" style="font-size: clamp(0.85rem, 1.5vw, 0.95rem);">Анна, 34</div>
+                                <div class="text-xs text-gray-500">Москва</div>
+                            </div>
+                        </div>
+                        <div class="text-yellow-400 text-sm mb-2">★★★★★</div>
+                        <p class="text-gray-300 leading-relaxed italic" style="font-size: clamp(0.85rem, 1.5vw, 0.95rem);">
+                            «Я наконец поняла, почему мои отношения не работали. Мой Эрос был на 90%, а Филия — на 20%. Всё встало на свои места.»
+                        </p>
+                    </div>
+
+                    <div class="reveal-text delay-200 glass-card p-5">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-green-500 flex items-center justify-center text-sm font-bold mr-3">Д</div>
+                            <div>
+                                <div class="font-semibold text-sm" style="font-size: clamp(0.85rem, 1.5vw, 0.95rem);">Дмитрий, 41</div>
+                                <div class="text-xs text-gray-500">Санкт-Петербург</div>
+                            </div>
+                        </div>
+                        <div class="text-yellow-400 text-sm mb-2">★★★★★</div>
+                        <p class="text-gray-300 leading-relaxed italic" style="font-size: clamp(0.85rem, 1.5vw, 0.95rem);">
+                            «Прошли тест с женой. Оказалось, мы любим друг друга на разных языках. Теперь мы учимся говорить на одном.»
+                        </p>
+                    </div>
+
+                    <div class="reveal-text delay-300 glass-card p-5">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-sm font-bold mr-3">М</div>
+                            <div>
+                                <div class="font-semibold text-sm" style="font-size: clamp(0.85rem, 1.5vw, 0.95rem);">Мария, 28</div>
+                                <div class="text-xs text-gray-500">Казань</div>
+                            </div>
+                        </div>
+                        <div class="text-yellow-400 text-sm mb-2">★★★★★</div>
+                        <p class="text-gray-300 leading-relaxed italic" style="font-size: clamp(0.85rem, 1.5vw, 0.95rem);">
+                            «Метафора сада — это лучшее, что я слышала о любви. Теперь я знаю, какие цветы в моём саду засохли и что нужно полить.»
+                        </p>
+                    </div>
+                </div>
+
+                <div class="reveal-text delay-400 text-center">
+                    <img src="https://picsum.photos/800/200?random=30" alt="Отзывы" class="w-full rounded-xl opacity-30 mb-5" style="height: 120px; object-fit: cover; max-width: 600px; margin: 0 auto 20px;">
+                    <p class="serif italic text-purple-200/70" style="font-size: clamp(1rem, 2.5vw, 1.2rem);">
+                        «Семитриум не говорит, что правильно, а что нет. Он даёт карту — а путь вы выбираете сами.»
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: FINAL CTA -->
+        <div class="slide text-center">
+            <div class="slide-content">
+                <div class="reveal-text mb-6">
+                    <svg class="logo-svg logo-svg-animated" width="80" height="80" viewBox="0 0 300 300">
+                        <defs>
+                            <linearGradient id="logoGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#dc2626"/>
+                                <stop offset="25%" stop-color="#a855f7"/>
+                                <stop offset="50%" stop-color="#fbbf24"/>
+                                <stop offset="75%" stop-color="#ec4899"/>
+                                <stop offset="100%" stop-color="#dc2626"/>
+                            </linearGradient>
+                            <filter id="softGlow2">
+                                <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <polygon points="156.00,32.57 238.07,72.09 156.00,137.53" fill="url(#logoGrad2)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow2)"/>
+                        <polygon points="245.55,81.48 265.82,170.28 163.49,146.92" fill="url(#logoGrad2)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow2)"/>
+                        <polygon points="263.15,181.98 206.36,253.19 160.82,158.63" fill="url(#logoGrad2)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow2)"/>
+                        <polygon points="195.54,258.40 104.46,258.40 150.00,163.84" fill="url(#logoGrad2)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow2)"/>
+                        <polygon points="93.64,253.19 36.85,181.98 139.18,158.63" fill="url(#logoGrad2)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow2)"/>
+                        <polygon points="34.18,170.28 54.45,81.48 136.51,146.92" fill="url(#logoGrad2)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow2)"/>
+                        <polygon points="61.93,72.09 144.00,32.57 144.00,137.53" fill="url(#logoGrad2)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow2)"/>
+                    </svg>
+                </div>
+
+                <h2 class="reveal-text delay-100 serif mb-4 leading-tight" style="font-size: clamp(1.8rem, 6vw, 3.5rem);">
+                    Узнайте свои <span class="text-[#D4AF37]">7 начал</span>
+                </h2>
+                <p class="reveal-text delay-150 text-lg text-gray-400 mb-8 max-w-xl mx-auto font-light leading-relaxed" style="font-size: clamp(1rem, 2.5vw, 1.25rem);">
+                    Перестаньте блуждать в темноте чувств. Получите карту своего сердца.
+                </p>
+                
+                <div class="reveal-text delay-200 flex flex-col items-center gap-6">
+                    <a href="http://zaloveclub.ru/lovetest8" target="_blank" rel="noopener noreferrer" class="cta-btn">
+                        Пройти тест
+                    </a>
+                    <p class="text-xs text-gray-500" style="font-size: clamp(0.7rem, 1.5vw, 0.85rem);">
+                        21 вопрос · 5 минут · Бесплатно
+                    </p>
+                </div>
+                
+                <div class="reveal-text delay-300 mt-10 text-gray-600 text-xs uppercase tracking-[0.2em]" style="font-size: clamp(0.65rem, 1.2vw, 0.8rem);">
+                    Семитриум Любви © 2026
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const slideCounter = document.getElementById('slideCounter');
+        const totalSlides = slides.length;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // Update counter
+            const num = String(currentSlide + 1).padStart(2, '0');
+            const total = String(totalSlides).padStart(2, '0');
+            slideCounter.textContent = `${num} / ${total}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+            const minSwipe = 50;
+
+            // Only handle horizontal swipes that are more significant than vertical
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > minSwipe) {
+                if (diffX > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        // Mouse wheel support
+        let wheelTimeout;
+        document.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            clearTimeout(wheelTimeout);
+            wheelTimeout = setTimeout(() => {
+                if (e.deltaY > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }, 100);
+        }, { passive: false });
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
+
