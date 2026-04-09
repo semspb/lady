@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <!-- Анимированный градиент -->
+    <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ff00">
+        <animate attributeName="stop-color" values="#00ff00;#00cc00;#33ff33;#00ff00" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#00cc00">
+        <animate attributeName="stop-color" values="#00cc00;#33ff33;#00ff00;#00cc00" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#33ff33">
+        <animate attributeName="stop-color" values="#33ff33;#00ff00;#00cc00;#33ff33" dur="3s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <!-- Фильтр для свечения -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 7 треугольников, образующих семиугольную звезду -->
+  <polygon points="156.00,32.57 238.07,72.09 156.00,137.53" fill="url(#greenGradient)" fill-opacity="0.28" stroke="#00ff00" stroke-width="1" stroke-opacity="0.9" filter="url(#glow)">
+    <animate attributeName="fill-opacity" values="0.28;0.5;0.28" dur="2s" repeatCount="indefinite"/>
+  </polygon>
+  
+  <polygon points="245.55,81.48 265.82,170.28 163.49,146.92" fill="url(#greenGradient)" fill-opacity="0.24" stroke="#00cc00" stroke-width="1" stroke-opacity="0.9" filter="url(#glow)">
+    <animate attributeName="fill-opacity" values="0.24;0.5;0.24" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+  </polygon>
+  
+  <polygon points="263.15,181.98 206.36,253.19 160.82,158.63" fill="url(#greenGradient)" fill-opacity="0.28" stroke="#33ff33" stroke-width="1" stroke-opacity="0.9" filter="url(#glow)">
+    <animate attributeName="fill-opacity" values="0.28;0.5;0.28" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+  </polygon>
+  
+  <polygon points="195.54,258.40 104.46,258.40 150.00,163.84" fill="url(#greenGradient)" fill-opacity="0.24" stroke="#00ff00" stroke-width="1" stroke-opacity="0.9" filter="url(#glow)">
+    <animate attributeName="fill-opacity" values="0.24;0.5;0.24" dur="2s" begin="0.9s" repeatCount="indefinite"/>
+  </polygon>
+  
+  <polygon points="93.64,253.19 36.85,181.98 139.18,158.63" fill="url(#greenGradient)" fill-opacity="0.28" stroke="#00cc00" stroke-width="1" stroke-opacity="0.9" filter="url(#glow)">
+    <animate attributeName="fill-opacity" values="0.28;0.5;0.28" dur="2s" begin="1.2s" repeatCount="indefinite"/>
+  </polygon>
+  
+  <polygon points="34.18,170.28 54.45,81.48 136.51,146.92" fill="url(#greenGradient)" fill-opacity="0.24" stroke="#33ff33" stroke-width="1" stroke-opacity="0.9" filter="url(#glow)">
+    <animate attributeName="fill-opacity" values="0.24;0.5;0.24" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+  </polygon>
+  
+  <polygon points="61.93,72.09 144.00,32.57 144.00,137.53" fill="url(#greenGradient)" fill-opacity="0.28" stroke="#00ff00" stroke-width="1" stroke-opacity="0.9" filter="url(#glow)">
+    <animate attributeName="fill-opacity" values="0.28;0.5;0.28" dur="2s" begin="1.8s" repeatCount="indefinite"/>
+  </polygon>
+</svg>
