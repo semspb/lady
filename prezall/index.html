@@ -6,7 +6,7 @@
     <title>Энергия жизни: любовь, деньги, здоровье | Презентация</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,45 +16,42 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fc 0%, #eef2f9 100%);
+            background: linear-gradient(125deg, #e9eef5 0%, #dfe7f0 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 32px 24px;
+        }
+
+        .presentation-container {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(2px);
+            border-radius: 56px;
+            box-shadow: 0 30px 50px -20px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.6);
             padding: 24px;
         }
 
-        /* основной контейнер презентации */
-        .presentation-container {
-            max-width: 1200px;
-            width: 100%;
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(2px);
-            border-radius: 48px;
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.05);
-            padding: 20px;
-        }
-
-        /* слайд-шоу */
         .slides-wrapper {
             position: relative;
-            min-height: 550px;
             background: #ffffff;
-            border-radius: 36px;
+            border-radius: 44px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.1);
+            transition: height 0.3s ease-out;
         }
 
         .slide {
-            padding: 48px 48px 64px 48px;
+            padding: 52px 56px 64px 56px;
             opacity: 0;
-            transform: translateX(20px);
-            transition: opacity 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transform: translateX(24px);
+            transition: opacity 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
             background: white;
             pointer-events: none;
             overflow-y: auto;
@@ -68,322 +65,334 @@
             position: relative;
         }
 
-        /* кастомный скролл */
+        /* скролл */
         .slide::-webkit-scrollbar {
             width: 6px;
         }
         .slide::-webkit-scrollbar-track {
-            background: #e9eef3;
-            border-radius: 8px;
+            background: #edf2f7;
+            border-radius: 10px;
         }
         .slide::-webkit-scrollbar-thumb {
             background: #b9c4d1;
-            border-radius: 8px;
+            border-radius: 10px;
         }
 
-        /* типографика */
-        h1, h2, h3 {
-            font-weight: 600;
+        /* типографика - расширенная */
+        .badge-slide {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: #3b6ea0;
+            margin-bottom: 1rem;
+            display: inline-block;
+            background: #eef3fc;
+            padding: 5px 14px;
+            border-radius: 40px;
+        }
+
+        h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
             letter-spacing: -0.02em;
-        }
-
-        .slide h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #1F2B3D, #2C3E50);
+            background: linear-gradient(130deg, #1A2C3E, #2C4C6C);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            display: inline-block;
+            margin-bottom: 1.2rem;
+            line-height: 1.2;
         }
 
-        .badge-slide {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            color: #4b6a9b;
-            margin-bottom: 1rem;
-            display: inline-block;
-            border-left: 3px solid #3b82f6;
-            padding-left: 12px;
+        /* полная ширина для гридов */
+        .full-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 28px;
+            margin: 36px 0;
+            width: 100%;
         }
 
-        .energy-grid {
-            display: flex;
-            gap: 24px;
-            margin: 32px 0;
-            flex-wrap: wrap;
-        }
-        .energy-card {
-            background: #f8fafd;
-            border-radius: 28px;
-            padding: 24px;
-            flex: 1;
+        .icon-card {
+            background: #F9FBFE;
+            border-radius: 32px;
+            padding: 28px 20px;
             transition: all 0.2s;
             border: 1px solid #eef2f8;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
-        .energy-card h3 {
-            font-size: 1.5rem;
+        .icon-card h3 {
+            font-size: 1.7rem;
             margin-bottom: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .energy-card p {
-            color: #2c3e4e;
-            line-height: 1.45;
+        .icon-card p {
+            color: #2c3e50;
+            line-height: 1.5;
+            font-size: 1rem;
+        }
+
+        .wide-block {
+            background: #F0F6FE;
+            border-radius: 36px;
+            padding: 32px 36px;
+            margin: 32px 0;
+            width: 100%;
         }
 
         .comparison-table {
-            background: #f1f5f9;
-            border-radius: 28px;
+            background: #F1F5F9;
+            border-radius: 32px;
             padding: 8px;
-            margin-top: 20px;
+            width: 100%;
+            margin: 28px 0;
         }
         .comparison-row {
             display: flex;
             justify-content: space-between;
-            padding: 18px 24px;
+            align-items: center;
+            padding: 20px 28px;
             border-bottom: 1px solid #e2e8f0;
             font-weight: 500;
+            flex-wrap: wrap;
         }
         .comparison-row:last-child {
             border: none;
         }
-        .energy-label {
-            font-weight: 700;
-            width: 140px;
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin: 36px 0;
+            width: 100%;
         }
-        .energy-power {
-            font-family: monospace;
-            letter-spacing: 1px;
+        .step-block {
+            background: #FEFCF5;
+            border-radius: 28px;
+            padding: 28px 20px;
+            border-left: 6px solid #f5b042;
         }
 
-        .steps {
-            display: flex;
-            gap: 20px;
-            margin: 32px 0;
-            flex-wrap: wrap;
+        .quote {
+            font-size: 1.1rem;
+            font-style: normal;
+            font-weight: 500;
+            border-left: 5px solid #3b82f6;
+            padding: 12px 24px;
+            background: #F8FAFE;
+            border-radius: 28px;
+            margin: 28px 0;
+            color: #1f3a4b;
         }
-        .step {
-            background: #fef9e8;
-            border-radius: 24px;
-            padding: 20px;
-            flex: 1;
-            border-left: 5px solid #f5b042;
+
+        hr {
+            margin: 28px 0;
+            border: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #dce5f0, transparent);
         }
 
         .nav-buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 24px;
-            gap: 16px;
-            padding: 0 8px;
+            margin-top: 28px;
+            gap: 20px;
         }
+
         button {
             background: white;
             border: 1px solid #cbd5e1;
-            padding: 12px 28px;
+            padding: 14px 32px;
             border-radius: 60px;
             font-weight: 600;
-            font-family: 'Inter', sans-serif;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(4px);
-            color: #1e293b;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(2px);
         }
         button:hover {
             background: #f1f5f9;
-            border-color: #94a3b8;
             transform: scale(0.97);
         }
-        button:active {
-            transform: scale(0.96);
-        }
         .btn-primary {
-            background: #1e293b;
-            border-color: #1e293b;
+            background: #1e2f3f;
+            border-color: #1e2f3f;
             color: white;
         }
         .btn-primary:hover {
-            background: #0f172a;
+            background: #0f202e;
         }
 
         .progress-dots {
             display: flex;
             justify-content: center;
             gap: 12px;
-            margin-top: 20px;
-            margin-bottom: 8px;
+            margin-top: 24px;
         }
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 9px;
+            height: 9px;
             background: #cbd5e1;
-            border-radius: 10px;
-            transition: all 0.2s;
+            border-radius: 20px;
+            transition: 0.2s;
             cursor: pointer;
         }
         .dot.active {
-            width: 28px;
+            width: 32px;
             background: #3b82f6;
         }
-
         .footer-note {
             text-align: center;
             margin-top: 20px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #5b6e8c;
         }
 
-        @media (max-width: 750px) {
+        @media (max-width: 780px) {
             .slide {
                 padding: 32px 24px 48px;
             }
-            .energy-grid, .steps {
-                flex-direction: column;
-            }
             h2 {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
             }
-        }
-        .quote {
-            font-style: italic;
-            border-left: 4px solid #3b82f6;
-            padding-left: 20px;
-            margin: 24px 0;
-            color: #2c3e50;
-            font-weight: 500;
-        }
-        hr {
-            margin: 20px 0;
-            border: 0;
-            height: 1px;
-            background: linear-gradient(to right, #e2e8f0, transparent);
+            .comparison-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
         }
     </style>
 </head>
 <body>
 <div class="presentation-container">
     <div class="slides-wrapper" id="slidesWrapper">
-        <!-- Слайд 1 -->
+        <!-- СЛАЙД 1: любовь, деньги, здоровье, стул (полная ширина) -->
         <div class="slide active" data-index="0">
-            <div class="badge-slide">ГЛАВНАЯ ИДЕЯ</div>
+            <div class="badge-slide">⚡ ОСНОВА ВСЕГО</div>
             <h2>Что такое: любовь, деньги,<br> здоровье и тот стул?</h2>
-            <div class="energy-grid" style="margin-top: 32px;">
-                <div class="energy-card"><h3>❤️ Любовь</h3><p>Энергия связи, принятия и отдачи. Невидимая, но самая мощная движущая сила.</p></div>
-                <div class="energy-card"><h3>💰 Деньги</h3><p>Энергия обмена и ценности. Результат вложенных усилий и пользы для других.</p></div>
-                <div class="energy-card"><h3>🏃 Здоровье</h3><p>Энергия жизни, ресурс тела и ума. Основа для любых свершений.</p></div>
+            <div class="full-grid">
+                <div class="icon-card"><h3>❤️ Любовь</h3><p>Энергия связи, принятия и глубокой отдачи. Невидимая, но движущая сила.</p></div>
+                <div class="icon-card"><h3>💰 Деньги</h3><p>Энергия обмена и ценности. Результат пользы, созданной для других.</p></div>
+                <div class="icon-card"><h3>🏃 Здоровье</h3><p>Энергия жизни, ресурс тела и ума. Без неё всё остальное зыбко.</p></div>
             </div>
-            <div class="quote">«И стул, на котором вы сидите — это чья-то затраченная энергия, ставшая материей. Всё начинается с неё».</div>
+            <div class="wide-block">
+                <p style="font-size: 1.1rem; display: flex; gap: 12px; align-items: center;"><span style="font-size: 2rem;">🪑</span> <strong>И стул, на котором вы сидите</strong> — это чья-то энергия (древесина, сборка, логистика), застывшая в материи. Всё начинается с затраты.</p>
+            </div>
         </div>
 
-        <!-- Слайд 2: Энергия. Чтоб появился стул -->
+        <!-- СЛАЙД 2: сначала энергия -->
         <div class="slide" data-index="1">
-            <div class="badge-slide">ЗАКОН ПЕРВООЧЕРЕДНОСТИ</div>
-            <h2>Сначала энергия — потом результат</h2>
-            <p style="font-size: 1.2rem; margin-top: 20px; max-width: 85%;">Чтобы появился стул, кто-то потратил <strong>свою энергию</strong> (время, силу, мышление). Так же и с любовью, деньгами, здоровьем.</p>
-            <div style="background: #eef2ff; border-radius: 36px; padding: 28px; margin: 32px 0;">
-                <p style="font-weight: 700; font-size: 1.3rem;">⚡ Формула:</p>
-                <p style="font-size: 1.1rem;">Энергия → Действие → Материя / Жизненные блага</p>
-                <p style="margin-top: 12px; color: #2d4a6e;">Сначала вкладываешь, только потом получаешь. Ничего не возникает из пустоты.</p>
+            <div class="badge-slide">🔁 ЗАКОН ПЕРВООЧЕРЕДНОСТИ</div>
+            <h2>Сначала энергия → потом результат</h2>
+            <div class="wide-block" style="background: #EFF6FF;">
+                <p style="font-size: 1.3rem; font-weight: 600;">⚡ Формула реальности:</p>
+                <p style="font-size: 1.2rem; margin-top: 12px;">Энергия → Действие → Материя / Блага (деньги, любовь, здоровье)</p>
+                <p style="margin-top: 20px;">Чтобы появился стул, кто-то потратил свою физическую и ментальную энергию. Так же любовь требует вложений, деньги — усилий, здоровье — заботы.</p>
             </div>
         </div>
 
-        <!-- Слайд 3: Физическая энергия -->
+        <!-- СЛАЙД 3: физическая энергия -->
         <div class="slide" data-index="2">
-            <div class="badge-slide">ЭНЕРГИЯ №1</div>
+            <div class="badge-slide">🏋️ ЭНЕРГИЯ №1</div>
             <h2>Физическая энергия</h2>
-            <div class="energy-grid">
-                <div class="energy-card"><h3>🏋️ Как работает</h3><p>Парадокс: сначала тратишь (упражнения, бег, зарядка), потом получаешь прилив бодрости и силы.</p></div>
-                <div class="energy-card"><h3>📈 Пример</h3><p>10 приседаний → усталость, но через 20 минут — ясность ума и энергия. Регулярность создает запас.</p></div>
+            <div class="full-grid">
+                <div class="icon-card"><h3>💪 Принцип</h3><p>Сначала тратишь (спорт, зарядка, бег), затем получаешь прилив бодрости и силы.</p></div>
+                <div class="icon-card"><h3>📈 Пример</h3><p>10–20 минут упражнений → усталость, но через полчаса ясность ума и тонус на весь день.</p></div>
+                <div class="icon-card"><h3>🔁 Регулярность</h3><p>Физическая энергия растёт только через преодоление лени. Это аккумулятор тела.</p></div>
             </div>
-            <div class="quote">«Физическая энергия — фундамент. Без неё психическая и эгрегориальная даются тяжело».</div>
+            <div class="quote">🏆 «Физическая энергия — фундамент. Без неё психическая и эгрегориальная работают хуже».</div>
         </div>
 
-        <!-- Слайд 4: Психическая энергия -->
+        <!-- СЛАЙД 4: психическая -->
         <div class="slide" data-index="3">
-            <div class="badge-slide">ЭНЕРГИЯ №2</div>
+            <div class="badge-slide">🧠 ЭНЕРГИЯ №2</div>
             <h2>Психическая (ментальная) энергия</h2>
-            <p>Более сильная, чем физическая. Управляет волей, вниманием, мотивацией. Люди с особенностями психики (например, СДВГ, аутистический спектр) могут достигать гениальных результатов именно благодаря гиперконцентрации этой энергии.</p>
-            <div style="margin: 24px 0; background: #F4F0FA; border-radius: 24px; padding: 20px;">
-                <p><strong>🧠 Как тренировать психическую энергию:</strong></p>
-                <ul style="margin-left: 24px; margin-top: 12px; line-height: 1.5;">
-                    <li>Концентрация на одной задаче без отвлечений</li>
-                    <li>Преодоление страха и внутреннего дискомфорта</li>
-                    <li>Медитация, осознанное дыхание, работа с вниманием</li>
-                </ul>
+            <p style="font-size: 1.05rem; margin-bottom: 20px;">Более сильная, чем физическая. Управляет волей, фокусом, мотивацией. Люди с особенностями (СДВГ, аутистический спектр) достигают гениальных результатов за счёт гиперконцентрации психической энергии.</p>
+            <div class="full-grid">
+                <div class="icon-card"><h3>🎯 Тренировка</h3><p>Концентрация на задаче, чтение без отвлечений, преодоление страха.</p></div>
+                <div class="icon-card"><h3>🧘 Практики</h3><p>Медитация, осознанное дыхание, работа с вниманием — прокачка психики.</p></div>
+                <div class="icon-card"><h3>⚡ Сила воли</h3><p>Позволяет делать то, что физически невозможно без внутреннего стержня.</p></div>
             </div>
         </div>
 
-        <!-- Слайд 5: Эгрегор (самая сильная) -->
+        <!-- СЛАЙД 5: Эгрегор -->
         <div class="slide" data-index="4">
-            <div class="badge-slide">ЭНЕРГИЯ №3 — ВЕРШИНА</div>
-            <h2>Эгрегор. Коллективный разум</h2>
-            <p><strong>Определение:</strong> энергоинформационная структура, созданная общими мыслями, целями и ритуалами группы людей. Эгрегоры управляют людьми, но ими можно питаться.</p>
-            <div class="energy-grid">
-                <div class="energy-card"><h3>🔄 Принцип</h3><p>Сначала отдай энергию эгрегору (участие, помощь, ритуалы), затем он подпитывает тебя в сотни раз сильнее.</p></div>
-                <div class="energy-card"><h3>🌍 Примеры</h3><p>Семья, работа, религия, фан-клуб, страна, профессиональное сообщество.</p></div>
+            <div class="badge-slide">🌐 ЭНЕРГИЯ №3 — ВЕРШИНА</div>
+            <h2>Эгрегор. Коллективная сила</h2>
+            <div class="wide-block">
+                <p><strong>📖 Определение:</strong> Энергоинформационная структура, созданная общими мыслями, целями и ритуалами группы людей. Эгрегоры управляют нами, но ими можно питаться.</p>
             </div>
-            <div class="quote">«Эгрегор — самый мощный источник. Если ты с ним в резонансе, ты неуязвим».</div>
+            <div class="full-grid">
+                <div class="icon-card"><h3>🔄 Принцип обмена</h3><p>Сначала отдай эгрегору (внимание, помощь, участие) → затем он подпитывает тебя мощнее.</p></div>
+                <div class="icon-card"><h3>🏛️ Примеры</h3><p>Семья, компания, религия, фан-сообщество, спортивная команда, страна.</p></div>
+                <div class="icon-card"><h3>⚡ Результат</h3><p>В эгрегоре сила в сотни раз превышает личную. Доступ к ресурсу в любой момент.</p></div>
+            </div>
         </div>
 
-        <!-- Слайд 6: Сравнение трех энергий -->
+        <!-- СЛАЙД 6: сравнение энергий -->
         <div class="slide" data-index="5">
-            <div class="badge-slide">ИЕРАРХИЯ СИЛЫ</div>
-            <h2>Физическая vs Психическая vs Эгрегор</h2>
+            <div class="badge-slide">📊 ИЕРАРХИЯ</div>
+            <h2>Сравнение трёх энергий</h2>
             <div class="comparison-table">
-                <div class="comparison-row"><span class="energy-label">🏋️ Физическая</span><span>⚡ малая</span><span class="energy-power">— основа, но быстро иссякает</span></div>
-                <div class="comparison-row"><span class="energy-label">🧠 Психическая</span><span>⚡⚡ крупнее</span><span class="energy-power">— воля и фокус, сильнее мышц</span></div>
-                <div class="comparison-row"><span class="energy-label">🌌 Эгрегор</span><span>⚡⚡⚡ огромная</span><span class="energy-power">— толпа, синхрон, сотни людей</span></div>
+                <div class="comparison-row"><span><span style="font-size:1.4rem;">🏋️</span> Физическая</span><span>⚡ малая</span><span style="color:#2c5a7a;">основа, быстро восстанавливается</span></div>
+                <div class="comparison-row"><span><span style="font-size:1.4rem;">🧠</span> Психическая</span><span>⚡⚡ крупнее</span><span style="color:#2c5a7a;">сильнее мышц, управляет реальностью</span></div>
+                <div class="comparison-row"><span><span style="font-size:1.4rem;">🌌</span> Эгрегор</span><span>⚡⚡⚡ огромная</span><span style="color:#2c5a7a;">коллективный разум, тысячи людей</span></div>
             </div>
-            <p style="margin-top: 24px; text-align: center;">Самая маленькая — физическая, крупнее — психическая, самая огромная — эгрегориальная.</p>
+            <div class="quote">Самая маленькая — физическая, крупнее — психическая, самая огромная — эгрегориальная энергия.</div>
         </div>
 
-        <!-- Слайд 7: Закон обмена -->
+        <!-- СЛАЙД 7: закон обмена -->
         <div class="slide" data-index="6">
-            <div class="badge-slide">ГЛАВНЫЙ ЗАКОН ВСЕЛЕННОЙ</div>
-            <h2>Закон обмена: отдай, чтобы получить</h2>
-            <div class="steps">
-                <div class="step"><strong>💸 Деньги</strong><br>Дал ценность клиенту → получил доход.</div>
-                <div class="step"><strong>💖 Любовь</strong><br>Проявил заботу, тепло → получил принятие.</div>
-                <div class="step"><strong>🏋️ Здоровье</strong><br>Вложился в сон, питание, спорт → получил энергию.</div>
-                <div class="step"><strong>🤝 Эгрегор</strong><br>Помог коллегам → команда выручит в трудный час.</div>
+            <div class="badge-slide">🔄 ЗАКОН ОБМЕНА</div>
+            <h2>Сначала отдай — потом получишь</h2>
+            <div class="steps-grid">
+                <div class="step-block"><strong>💎 Деньги</strong><br>Дал ценность клиенту → получил доход.</div>
+                <div class="step-block"><strong>💖 Любовь</strong><br>Проявил заботу, тепло → получил принятие.</div>
+                <div class="step-block"><strong>🏋️ Здоровье</strong><br>Вложился в сон, спорт, еду → получил энергию.</div>
+                <div class="step-block"><strong>🤝 Эгрегор</strong><br>Помог коллегам, вложился в семью → команда поддержит.</div>
             </div>
-            <p style="font-weight: 500;">Природа не терпит пустоты. Отток создаёт приток. Начни отдавать осознанно.</p>
+            <div class="wide-block" style="background:#FEF2E8;">
+                <p style="font-weight: 600;">Природа не терпит пустоты. Отток создаёт приток. Начни отдавать осознанно.</p>
+            </div>
         </div>
 
-        <!-- Слайд 8: Наш проект — 3 шага -->
+        <!-- СЛАЙД 8: проект + чекапы + прокачка эгрегора -->
         <div class="slide" data-index="7">
-            <div class="badge-slide">ПРОЕКТ</div>
+            <div class="badge-slide">🚀 НАШ ПРОЕКТ</div>
             <h2>Система управления энергией</h2>
-            <div class="steps">
-                <div class="step"><strong>1️⃣ Определение уровня энергии</strong><br>Измерь, где ты сейчас: физика, психика, связь с эгрегорами.</div>
-                <div class="step"><strong>2️⃣ Ежедневные чекапы</strong><br>Короткая диагностика утром и вечером, чтобы держать баланс.</div>
-                <div class="step"><strong>3️⃣ Прокачка эгрегорной энергии</strong><br>Подключайся к сильным эгрегорам и получай ресурс в любой момент.</div>
+            <div class="steps-grid">
+                <div class="step-block"><strong>1️⃣ Определение уровня</strong><br>Тест: физика, психика, связь с эгрегорами.</div>
+                <div class="step-block"><strong>2️⃣ Ежедневные чекапы</strong><br>Короткая диагностика утром/вечером, чтобы держать баланс.</div>
+                <div class="step-block"><strong>3️⃣ Прокачка эгрегора</strong><br>Подключаемся к мощным эгрегорам — подзарядка в любой момент без выгорания.</div>
             </div>
-            <div class="quote">«Перестать тратить энергию впустую и начать её накапливать — наша цель».</div>
+            <div class="quote">«Перестать тратить энергию впустую и начать накапливать — наша главная задача».</div>
         </div>
 
-        <!-- Слайд 9: Направления: Энергия, Любовь, Деньги -->
+        <!-- СЛАЙД 9: направления энергия, любовь, деньги -->
         <div class="slide" data-index="8">
-            <div class="badge-slide">ВАШИ ГЛАВНЫЕ СФЕРЫ</div>
-            <h2>Наши направления роста</h2>
-            <div class="energy-grid">
-                <div class="energy-card"><h3>⚡ 1. Энергия</h3><p>Тест уровня → чекап → развитие и увеличение жизненного тонуса.</p></div>
-                <div class="energy-card"><h3>❤️ 2. Любовь</h3><p>Осознанный обмен, наполнение через эгрегоры (семья, пара, дружба).</p></div>
-                <div class="energy-card"><h3>💰 3. Деньги</h3><p>Энергия обмена: сначала ценность для мира, потом финансовый поток.</p></div>
+            <div class="badge-slide">🎯 3 НАПРАВЛЕНИЯ РОСТА</div>
+            <h2>Энергия · Любовь · Деньги</h2>
+            <div class="full-grid">
+                <div class="icon-card"><h3>⚡ 1. Энергия</h3><p>Тест → чекап → развитие и увеличение жизненного тонуса.</p></div>
+                <div class="icon-card"><h3>❤️ 2. Любовь</h3><p>Осознанный обмен, наполнение через эгрегоры (семья, пара, близкие).</p></div>
+                <div class="icon-card"><h3>💰 3. Деньги</h3><p>Энергия обмена: создаёте ценность → получаете финансовый поток.</p></div>
             </div>
             <hr>
-            <p style="font-weight: 600; text-align: center;">📌 Последовательность: <strong>ТЕСТ → ЧЕКАП → РАЗВИТИЕ → РОСТ ВО ВСЕХ СФЕРАХ</strong></p>
+            <p style="font-weight: 700; text-align: center; font-size: 1.1rem;">📌 ПОСЛЕДОВАТЕЛЬНОСТЬ: ТЕСТ → ЧЕКАП → РАЗВИТИЕ → РЕЗУЛЬТАТ</p>
         </div>
     </div>
 
     <div class="nav-buttons">
-        <button id="prevBtn" class="btn-outline">← Назад</button>
+        <button id="prevBtn">← Назад</button>
         <button id="nextBtn" class="btn-primary">Далее →</button>
     </div>
     <div class="progress-dots" id="dotsContainer"></div>
-    <div class="footer-note">Энергия — основа всего. Начните с измерения своего уровня.</div>
+    <div class="footer-note">✨ Энергия — это всё. Начните с теста вашего уровня.</div>
 </div>
 
 <script>
@@ -392,86 +401,49 @@
     const nextBtn = document.getElementById('nextBtn');
     const dotsContainer = document.getElementById('dotsContainer');
     let currentIndex = 0;
-    const totalSlides = slides.length;
+    const total = slides.length;
 
-    function updateSlides() {
+    function update() {
         slides.forEach((slide, idx) => {
-            if (idx === currentIndex) {
-                slide.classList.add('active');
-            } else {
-                slide.classList.remove('active');
-            }
+            slide.classList.toggle('active', idx === currentIndex);
         });
         updateDots();
-        // disable/enable кнопки по желанию (визуально)
         prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex === totalSlides - 1;
-        // меняем стиль для disabled
+        nextBtn.disabled = currentIndex === total - 1;
         prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
-        nextBtn.style.opacity = currentIndex === totalSlides - 1 ? '0.5' : '1';
-        prevBtn.style.cursor = currentIndex === 0 ? 'not-allowed' : 'pointer';
-        nextBtn.style.cursor = currentIndex === totalSlides - 1 ? 'not-allowed' : 'pointer';
+        nextBtn.style.opacity = currentIndex === total - 1 ? '0.5' : '1';
+        adjustHeight();
     }
 
     function updateDots() {
         dotsContainer.innerHTML = '';
-        for (let i = 0; i < totalSlides; i++) {
+        for (let i = 0; i < total; i++) {
             const dot = document.createElement('div');
             dot.classList.add('dot');
             if (i === currentIndex) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                currentIndex = i;
-                updateSlides();
-            });
+            dot.addEventListener('click', () => { currentIndex = i; update(); });
             dotsContainer.appendChild(dot);
         }
     }
 
-    function nextSlide() {
-        if (currentIndex < totalSlides - 1) {
-            currentIndex++;
-            updateSlides();
-        }
-    }
-
-    function prevSlide() {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateSlides();
-        }
-    }
-
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
-
-    // клавиатура
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') nextSlide();
-        if (e.key === 'ArrowLeft') prevSlide();
-    });
-
-    // начальная инициализация
-    updateSlides();
-
-    // для адаптации высоты контейнера под содержимое active слайда (чтобы не было скачков при смене)
-    function adjustWrapperHeight() {
-        const activeSlide = document.querySelector('.slide.active');
-        if (activeSlide) {
-            const wrapper = document.querySelector('.slides-wrapper');
+    function adjustHeight() {
+        const active = document.querySelector('.slide.active');
+        const wrapper = document.querySelector('.slides-wrapper');
+        if (active) {
             wrapper.style.transition = 'height 0.3s ease';
-            wrapper.style.height = activeSlide.scrollHeight + 'px';
+            wrapper.style.height = active.scrollHeight + 'px';
         }
     }
-    // следим за изменениями контента и при загрузке
-    window.addEventListener('resize', () => setTimeout(adjustWrapperHeight, 50));
-    // observer на изменение активного слайда
-    const observer = new MutationObserver(() => adjustWrapperHeight());
-    observer.observe(document.querySelector('.slides-wrapper'), { attributes: true, childList: true, subtree: true });
-    setTimeout(adjustWrapperHeight, 100);
-    slides.forEach(slide => {
-        slide.addEventListener('transitionend', adjustWrapperHeight);
+
+    nextBtn.addEventListener('click', () => { if (currentIndex < total-1) { currentIndex++; update(); } });
+    prevBtn.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; update(); } });
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextBtn.click();
+        if (e.key === 'ArrowLeft') prevBtn.click();
     });
-    adjustWrapperHeight();
+    window.addEventListener('resize', () => adjustHeight());
+    setTimeout(adjustHeight, 20);
+    update();
 </script>
 </body>
 </html>
