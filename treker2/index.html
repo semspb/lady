@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GEN Cycle</title>
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/300.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/400.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/500.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/600.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/700.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f1117;
+            --bg-secondary: #181a24;
+            --bg-card: #1e2030;
+            --bg-card-hover: #252840;
+            --text-primary: #e8e9f0;
+            --text-secondary: #8b8fa3;
+            --text-muted: #5c6078;
+            --accent-morning: #f59e0b;
+            --accent-morning-glow: rgba(245, 158, 11, 0.12);
+            --accent-day: #10b981;
+            --accent-day-glow: rgba(16, 185, 129, 0.12);
+            --accent-evening: #8b5cf6;
+            --accent-evening-glow: rgba(139, 92, 246, 0.12);
+            --accent-gen: #f59e0b;
+            --accent-fire: #ef4444;
+            --border-color: rgba(255,255,255,0.06);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100dvh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* === HEADER === */
+        .app-header {
+            padding: 12px 16px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 17, 23, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 8px;
+        }
+
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .stat-badge.gen-badge { color: var(--accent-gen); }
+        .stat-badge.streak-badge { color: var(--accent-fire); }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .new-day-btn {
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.72rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .new-day-btn:active {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .cycle-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            position: sticky;
+            top: 52px;
+            z-index: 99;
+        }
+
+        .cycle-tab {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .cycle-tab.active {
+            color: var(--text-primary);
+        }
+
+        .cycle-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            right: 20%;
+            height: 3px;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .cycle-tab.tab-morning.active::after { background: var(--accent-morning); }
+        .cycle-tab.tab-day.active::after { background: var(--accent-day); }
+        .cycle-tab.tab-evening.active::after { background: var(--accent-evening); }
+
+        .cycle-tab .tab-icon {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+
+        /* === MAIN CONTENT === */
+        .main-content {
+            flex: 1;
+            padding: 0 16px 100px;
+            overflow-y: auto;
+        }
+
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === MOTIVATION CARD === */
+        .motivation-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid var(--border-color);
+            line-height: 1.6;
+        }
+
+        .motivation-card.morning-card {
+            border-color: rgba(245, 158, 11, 0.2);
+            background: linear-gradient(135deg, rgba(245,158,11,0.06), var(--bg-card));
+        }
+
+        .motivation-card.day-card {
+            border-color: rgba(16, 185, 129, 0.2);
+            background: linear-gradient(135deg, rgba(16,185,129,0.06), var(--bg-card));
+        }
+
+        .motivation-card.evening-card {
+            border-color: rgba(139, 92, 246, 0.2);
+            background: linear-gradient(135deg, rgba(139,92,246,0.06), var(--bg-card));
+        }
+
+        .motivation-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .motivation-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        .motivation-text strong {
+            color: var(--text-primary);
+        }
+
+        .motivation-text em {
+            color: var(--accent-morning);
+            font-style: normal;
+        }
+
+        /* === SECTION === */
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 20px 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* === INPUT GROUP === */
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .text-input, .text-area-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-family: inherit;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .text-input:focus, .text-area-input:focus {
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .text-area-input {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .text-input::placeholder, .text-area-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* === BREATHING PRACTICE === */
+        .breathing-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .breathing-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breathing-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .breathing-options {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .breath-option {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .breath-option.selected {
+            border-color: var(--accent-morning);
+            background: var(--accent-morning-glow);
+        }
+
+        .breath-option .b-count {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .breath-option.selected .b-count {
+            color: var(--accent-morning);
+        }
+
+        .breath-option .b-label {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .breath-option.selected .b-label {
+            color: var(--accent-morning);
+        }
+
+        .breath-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .breath-check.done {
+            opacity: 0.5;
+        }
+
+        .breath-check.done .breath-check-label {
+            text-decoration: line-through;
+        }
+
+        .custom-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 7px;
+            border: 2px solid var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .breath-check.done .custom-check {
+            border-color: var(--accent-morning);
+            background: var(--accent-morning);
+        }
+
+        .custom-check svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: var(--transition);
+        }
+
+        .breath-check.done .custom-check svg {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .breath-check-label {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        /* === ANCHOR === */
+        .anchor-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            border: 1px dashed var(--border-color);
+            margin-bottom: 12px;
+        }
+
+        .anchor-text {
+            flex: 1;
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 1.5px;
+        }
+
+        .anchor-text.is-default {
+            color: var(--text-muted);
+        }
+
+        .anchor-text.is-custom {
+            color: var(--accent-morning);
+        }
+
+        .anchor-edit {
+            background: none;
+            border: none;
+            color: var(--accent-morning);
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* === GOAL INPUT INLINE === */
+        .goal-input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .goal-input-row input {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .goal-input-row input:focus {
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .goal-input-row input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .goal-add-btn {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .goal-add-btn.morning {
+            background: var(--accent-morning);
+            color: #000;
+        }
+
+        .goal-add-btn.day {
+            background: var(--accent-day);
+            color: #fff;
+        }
+
+        .goal-add-btn.evening {
+            background: var(--accent-evening);
+            color: #fff;
+        }
+
+        .goal-add-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* === GOAL LIST === */
+        .goal-list {
+            list-style: none;
+            margin-bottom: 12px;
+        }
+
+        .goal-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            margin-bottom: 6px;
+            border: 1px solid var(--border-color);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .goal-item.completed {
+            opacity: 0.5;
+        }
+
+        .goal-item.completed .goal-item-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .goal-item.cancelled {
+            opacity: 0.3;
+        }
+
+        .goal-item.cancelled .goal-item-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .goal-item-text {
+            flex: 1;
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .goal-item-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .goal-btn {
+            padding: 5px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.68rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .goal-btn:active {
+            background: var(--bg-card-hover);
+        }
+
+        .goal-btn.done-btn {
+            border-color: var(--accent-day);
+            color: var(--accent-day);
+        }
+
+        .goal-btn.cancel-btn {
+            border-color: var(--accent-fire);
+            color: var(--accent-fire);
+        }
+
+        .goal-btn.delete-btn {
+            border-color: var(--text-muted);
+            color: var(--text-muted);
+        }
+
+        /* === COMPLETE BUTTON === */
+        .complete-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .complete-btn.morning-btn {
+            background: linear-gradient(135deg, var(--accent-morning), #d97706);
+            color: #000;
+        }
+
+        .complete-btn.day-btn {
+            background: linear-gradient(135deg, var(--accent-day), #059669);
+            color: #fff;
+        }
+
+        .complete-btn.evening-btn {
+            background: linear-gradient(135deg, var(--accent-evening), #7c3aed);
+            color: #fff;
+        }
+
+        .complete-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .complete-btn:not(:disabled):active {
+            transform: scale(0.97);
+        }
+
+        .complete-btn.done-state {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            cursor: default;
+        }
+
+        /* === WALKING TIMER === */
+        .timer-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+
+        .timer-display {
+            text-align: center;
+        }
+
+        .timer-time {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 2px;
+            color: var(--accent-day);
+        }
+
+        .timer-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .timer-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .timer-btn.primary {
+            background: var(--accent-day);
+            color: #fff;
+            border-color: var(--accent-day);
+        }
+
+        .timer-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* === BOTTOM NAV === */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: rgba(15, 17, 23, 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 6px 0 calc(6px + var(--safe-bottom));
+            z-index: 200;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            font-family: inherit;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-item.active {
+            color: var(--text-primary);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 3px;
+            border-radius: 2px;
+            background: var(--accent-gen);
+        }
+
+        .nav-icon { font-size: 1.2rem; }
+        .nav-label { font-size: 0.62rem; font-weight: 500; }
+
+        /* === FAB === */
+        .fab {
+            position: fixed;
+            bottom: calc(68px + var(--safe-bottom));
+            right: 16px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gen), #d97706);
+            color: #000;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 150;
+            transition: var(--transition);
+        }
+
+        .fab.show { display: flex; }
+        .fab:active { transform: scale(0.9); }
+
+        /* === MODAL === */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(6px);
+            z-index: 300;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            animation: modalBgIn 0.25s ease;
+        }
+
+        @keyframes modalBgIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 430px;
+            background: var(--bg-secondary);
+            border-radius: 24px 24px 0 0;
+            padding: 16px 16px calc(16px + var(--safe-bottom));
+            animation: modalSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-handle {
+            width: 32px;
+            height: 4px;
+            background: var(--text-muted);
+            border-radius: 2px;
+            margin: 0 auto 14px;
+            opacity: 0.5;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .form-group { margin-bottom: 12px; }
+
+        .form-group label {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.88rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-input:focus { border-color: rgba(255,255,255,0.15); }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: var(--transition);
+        }
+
+        .modal-btn.primary {
+            background: linear-gradient(135deg, var(--accent-gen), #d97706);
+            color: #000;
+        }
+
+        .modal-btn.secondary {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .modal-btn:active { transform: scale(0.98); }
+
+        /* === HISTORY === */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stat-card .stat-name {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .stat-card.gen-card .stat-value { color: var(--accent-gen); }
+        .stat-card.streak-card .stat-value { color: var(--accent-fire); }
+        .stat-card.days-card .stat-value { color: var(--accent-day); }
+        .stat-card.level-card .stat-value { color: var(--accent-evening); }
+
+        .history-day {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            margin-bottom: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .history-date {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            min-width: 50px;
+        }
+
+        .history-dots {
+            display: flex;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .history-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .history-dot.filled-m { background: var(--accent-morning); border-color: var(--accent-morning); }
+        .history-dot.filled-d { background: var(--accent-day); border-color: var(--accent-day); }
+        .history-dot.filled-e { background: var(--accent-evening); border-color: var(--accent-evening); }
+
+        .history-gens {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--accent-gen);
+            min-width: 32px;
+            text-align: right;
+        }
+
+        /* === INSIGHTS === */
+        .insight-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .insight-date {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .insight-text {
+            font-size: 0.88rem;
+            line-height: 1.55;
+            color: var(--text-primary);
+        }
+
+        /* === EMPTY STATE === */
+        .empty-state {
+            text-align: center;
+            padding: 32px 16px;
+            color: var(--text-muted);
+        }
+
+        .empty-state .empty-icon { font-size: 2.2rem; margin-bottom: 10px; opacity: 0.4; }
+        .empty-state .empty-text { font-size: 0.85rem; line-height: 1.5; }
+
+        /* === TOAST === */
+        .toast {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            z-index: 350;
+            opacity: 0;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* === GEN ANIM === */
+        .gen-anim {
+            position: fixed;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 400;
+            pointer-events: none;
+            display: none;
+            text-align: center;
+        }
+
+        .gen-anim.show {
+            display: block;
+            animation: genPop 0.8s ease forwards;
+        }
+
+        @keyframes genPop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+            40% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -70%) scale(0.8); }
+        }
+
+        .gen-anim .gen-t {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gen-anim .gen-sub {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* === CONFIRM DIALOG === */
+        .confirm-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 400;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirm-overlay.show { display: flex; }
+
+        .confirm-box {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            max-width: 300px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .confirm-text {
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .confirm-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .confirm-actions button {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .confirm-actions button.danger {
+            background: var(--accent-fire);
+            color: #fff;
+            border-color: var(--accent-fire);
+        }
+
+        /* === PROGRESS BAR TOP === */
+        .daily-progress-bar {
+            display: flex;
+            gap: 4px;
+            padding: 0 16px 10px;
+        }
+
+        .progress-seg {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--bg-card);
+            transition: var(--transition);
+        }
+
+        .progress-seg.m-active { background: var(--accent-morning); }
+        .progress-seg.d-active { background: var(--accent-day); }
+        .progress-seg.e-active { background: var(--accent-evening); }
+
+        /* === INSIGHT INPUT ROW === */
+        .insight-input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .insight-input-row input {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .insight-input-row input:focus {
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .insight-add-btn {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: none;
+            background: var(--accent-evening);
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .insight-add-btn:active { transform: scale(0.95); }
+
+        /* === GOALS PAGE === */
+        .goals-section {
+            margin-bottom: 16px;
+        }
+
+        .goals-section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (min-width: 431px) {
+            .app-container { border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); }
+        }
+
+        ::-webkit-scrollbar { width: 2px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="header-stats">
+                    <div class="stat-badge gen-badge">⚡ <span id="totalGens">0</span></div>
+                    <div class="stat-badge streak-badge">🔥 <span id="streakDays">0</span></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="new-day-btn" onclick="showNewDayConfirm()">Начать новый день</button>
+            </div>
+        </header>
+
+        <!-- PROGRESS BAR -->
+        <div class="daily-progress-bar">
+            <div class="progress-seg" id="progMorning"></div>
+            <div class="progress-seg" id="progDay"></div>
+            <div class="progress-seg" id="progEvening"></div>
+        </div>
+
+        <!-- CYCLE TABS -->
+        <div class="cycle-tabs" id="cycleTabs">
+            <button class="cycle-tab tab-morning active" data-cycle="morning">
+                <span class="tab-icon">🌅</span>Утро
+            </button>
+            <button class="cycle-tab tab-day" data-cycle="day">
+                <span class="tab-icon">☀️</span>День
+            </button>
+            <button class="cycle-tab tab-evening" data-cycle="evening">
+                <span class="tab-icon">🌙</span>Вечер
+            </button>
+        </div>
+
+        <!-- BOTTOM NAV -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-page="main">
+                <span class="nav-icon">🌅</span>
+                <span class="nav-label">Цикл</span>
+            </button>
+            <button class="nav-item" data-page="goals">
+                <span class="nav-icon">🎯</span>
+                <span class="nav-label">Цели</span>
+            </button>
+            <button class="nav-item" data-page="insights">
+                <span class="nav-icon">💡</span>
+                <span class="nav-label">Инсайты</span>
+            </button>
+            <button class="nav-item" data-page="history">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">История</span>
+            </button>
+        </nav>
+
+        <!-- FAB for goals page -->
+        <button class="fab" id="fabBtn" onclick="openGoalModal()">+</button>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- ===== MAIN / CYCLE PAGE ===== -->
+            <div class="page-content active" id="pageMain">
+                <!-- MORNING -->
+                <div id="cycleMorning" class="cycle-panel">
+                    <div class="motivation-card morning-card">
+                        <div class="motivation-title">🌅 Утренний ритуал настройки</div>
+                        <div class="motivation-text">
+                            <strong>Первые минуты после пробуждения — самые важные.</strong><br><br>
+                            В этот момент ваш мозг находится в <em>тета-ритме</em> — состоянии максимальной нейропластичности. 
+                            Вы находитесь в «квантовой суперпозиции» — ещё не схлопнули варианты будущего в одну реальность. 
+                            <strong>Вы можете выбрать любое будущее.</strong><br><br>
+                            Не включая телефон и не заходя в соцсети, вы остаётесь в поле открытых возможностей, а не в режиме реакции на чужие сценарии.<br><br>
+                            <em>Этот ритуал задаёт тон всему дню. 3 минуты сейчас = час осознанности потом.</em>
+                        </div>
+                    </div>
+
+                    <!-- BREATHING -->
+                    <div class="section-label">🫁 Дыхательная практика</div>
+                    <div class="breathing-card">
+                        <div class="breathing-title">Осознанное дыхание</div>
+                        <div class="breathing-desc">
+                            Сядьте удобно. Закройте глаза. Делайте глубокий вдох через нос (4 сек), 
+                            задержите на мгновение, медленный выдох через рот (6 сек).<br><br>
+                            <strong style="color:var(--accent-morning)">3 цикла</strong> — быстрый сброс. 
+                            Переключает нервную систему с тревоги на покой за ~30 секунд. 
+                            Активирует блуждающий нерв.<br><br>
+                            <strong style="color:var(--accent-morning)">7 циклов</strong> — когерентное состояние. 
+                            Синхронизирует дыхание, сердцебиение и мозговые волны. 
+                            Снижает кортизол, повышает ясность. Идеально для глубокой настройки.
+                        </div>
+                        <div class="breathing-options" id="breathOptions">
+                            <div class="breath-option selected" data-cycles="3">
+                                <span class="b-count">3</span>
+                                <span class="b-label">Быстрый сброс</span>
+                            </div>
+                            <div class="breath-option" data-cycles="7">
+                                <span class="b-count">7</span>
+                                <span class="b-label">Когерентность</span>
+                            </div>
+                        </div>
+                        <div class="breath-check" id="breathCheck" onclick="toggleBreathDone()">
+                            <div class="custom-check">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                            <span class="breath-check-label">Практика выполнена</span>
+                        </div>
+                    </div>
+
+                    <!-- ANCHOR -->
+                    <div class="section-label">🔗 Якорь-триггер</div>
+                    <div class="anchor-card">
+                        <span class="anchor-text is-default" id="anchorText">Я ВКЛЮЧЁН</span>
+                        <button class="anchor-edit" onclick="editAnchor()">✏️ Изменить</button>
+                    </div>
+                    <div class="breath-check" id="anchorCheck" onclick="toggleAnchorDone()">
+                        <div class="custom-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span class="breath-check-label">Якорь активирован — произнесено вслух с эмоцией</span>
+                    </div>
+
+                    <!-- GOALS -->
+                    <div class="section-label">🎯 Цель на день</div>
+                    <div class="goal-input-row">
+                        <input type="text" id="dailyGoalInput" placeholder="Что я хочу создать сегодня?">
+                        <button class="goal-add-btn morning" onclick="addDailyGoal()">+</button>
+                    </div>
+                    <ul class="goal-list" id="dailyGoalsList"></ul>
+
+                    <div class="section-label">📅 Цели на неделю</div>
+                    <div class="goal-input-row">
+                        <input type="text" id="weeklyGoalInput" placeholder="Что важно сделать за неделю?">
+                        <button class="goal-add-btn morning" onclick="addWeeklyGoal()">+</button>
+                    </div>
+                    <ul class="goal-list" id="weeklyGoalsList"></ul>
+
+                    <div class="section-label">🗓 Цели на месяц</div>
+                    <div class="goal-input-row">
+                        <input type="text" id="monthlyGoalInput" placeholder="Ключевая цель месяца">
+                        <button class="goal-add-btn morning" onclick="addMonthlyGoal()">+</button>
+                    </div>
+                    <ul class="goal-list" id="monthlyGoalsList"></ul>
+
+                    <button class="complete-btn morning-btn" id="morningCompleteBtn" onclick="completeCycle('morning')">
+                        <span>✓</span> Утро завершено — +1 GEN
+                    </button>
+                </div>
+
+                <!-- DAY -->
+                <div id="cycleDay" class="cycle-panel" style="display:none;">
+                    <div class="motivation-card day-card">
+                        <div class="motivation-title">☀️ День — время тела</div>
+                        <div class="motivation-text">
+                            <strong>Тело — ваш главный инструмент.</strong> Без движения энергия застаивается, 
+                            мысли крутятся по кругу, а творческий потенциал блокируется.<br><br>
+                            <strong style="color:var(--accent-day)">30–40 минут осознанной ходьбы</strong> — 
+                            это не тренировка. Это медитация в движении.<br><br>
+                            Идите по улице, парку, торговому центру — не важно. 
+                            <em>Важно — помните утренний настрой.</em><br><br>
+                            Чувствуйте стопы. Дышите ровно. Если ум уносит — мягко возвращайте к телу. 
+                            Используйте якорь: <strong>«Я ВКЛЮЧЁН»</strong> + 1 глубокий выдох.<br><br>
+                            В этот момент активируется дефолт-система мозга — <em>именно здесь рождаются инсайты</em>. 
+                            Многие лучшие идеи приходят именно во время ходьбы.
+                        </div>
+                    </div>
+
+                    <div class="section-label">🚶 Ходьба</div>
+                    <div class="breathing-card">
+                        <div class="breathing-title">Осознанная прогулка 30–40 мин</div>
+                        <div class="breathing-desc">
+                            Найдите время просто пройтись. Без наушников, без подкастов. 
+                            Только вы, ваши шаги и дыхание. Вспоминайте утренний настрой. 
+                            Если выпали эмоционально — якорь + выдох.
+                        </div>
+                        <div class="breath-check" id="walkCheck" onclick="toggleWalkDone()">
+                            <div class="custom-check">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                            <span class="breath-check-label">Прогулка 30–40 минут выполнена</span>
+                        </div>
+                    </div>
+
+                    <div class="section-label">⏱ Таймер (опционально)</div>
+                    <div class="timer-card">
+                        <div class="timer-display">
+                            <div class="timer-time" id="timerTime">00:00</div>
+                            <div class="timer-label">Время ходьбы</div>
+                            <div class="timer-controls">
+                                <button class="timer-btn primary" id="timerStartBtn" onclick="toggleTimer()">Старт</button>
+                                <button class="timer-btn" onclick="resetTimer()">Сброс</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="breath-check" id="mindfulCheck" onclick="toggleMindfulDone()">
+                        <div class="custom-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span class="breath-check-label">Сохранял осознанность и использовал якорь</span>
+                    </div>
+
+                    <button class="complete-btn day-btn" id="dayCompleteBtn" onclick="completeCycle('day')">
+                        <span>✓</span> День завершён — +1 GEN
+                    </button>
+                </div>
+
+                <!-- EVENING -->
+                <div id="cycleEvening" class="cycle-panel" style="display:none;">
+                    <div class="motivation-card evening-card">
+                        <div class="motivation-title">🌙 Вечер — благодарность и завершение</div>
+                        <div class="motivation-text">
+                            <strong>Завершение дня — это не отчёт. Это интеграция.</strong><br><br>
+                            Поблагодарите всех, кто встретился на вашем пути. 
+                            Поблагодарите «эгрегор» — поле смыслов, в котором вы учитесь. 
+                            Поблагодарите себя за то, что были здесь.<br><br>
+                            <em>Если не достигли цели — это не страшно.</em> 
+                            Не ругайте себя. Скажите: <strong>«Сегодня не тот день для цели. Будет другой.»</strong><br><br>
+                            Запишите инсайты. Перед сном мозг переходит в альфа/тета-состояние — 
+                            <em>именно сейчас рождаются лучшие идеи</em>.<br><br>
+                            <strong style="color:var(--accent-evening)">Завершите день с благодарностью.</strong> 
+                            Это снижает тревожность, повышает окситоцин и готовит нервную систему к восстановлению.
+                        </div>
+                    </div>
+
+                    <div class="section-label">🙏 Благодарность</div>
+                    <div class="input-group">
+                        <textarea class="text-area-input" id="gratitudeInput" placeholder="Сегодня я благодарен за...&#10;Людей, ситуации, даже препятствия — всё было уроком."></textarea>
+                    </div>
+                    <div class="breath-check" id="gratitudeCheck" onclick="toggleGratitudeDone()">
+                        <div class="custom-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span class="breath-check-label">Благодарность прочувствована</span>
+                    </div>
+
+                    <div class="section-label">📝 Рефлексия</div>
+                    <div class="breathing-card">
+                        <div class="breathing-desc" style="margin-bottom:8px;">
+                            Отметьте, что удалось. Если что-то не вышло — примите без осуждения. 
+                            Каждый день — калибровка, не экзамен.
+                        </div>
+                        <div class="breath-check" id="reflectionCheck" onclick="toggleReflectionDone()">
+                            <div class="custom-check">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                            <span class="breath-check-label">Рефлексия без суда выполнена</span>
+                        </div>
+                    </div>
+
+                    <div class="section-label">💡 Инсайт дня</div>
+                    <div class="input-group">
+                        <textarea class="text-area-input" id="insightInput" placeholder="Что понял сегодня?&#10;Какие идеи, мысли, озарения?"></textarea>
+                    </div>
+                    <div class="breath-check" id="insightCheck" onclick="toggleInsightCheck()">
+                        <div class="custom-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span class="breath-check-label">Инсайт записан</span>
+                    </div>
+
+                    <button class="complete-btn evening-btn" id="eveningCompleteBtn" onclick="completeCycle('evening')">
+                        <span>✓</span> Завершить день с благодарностью — +1 GEN
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===== GOALS PAGE ===== -->
+            <div class="page-content" id="pageGoals">
+                <div class="section-label" style="margin-top:16px;">📅 Цели на неделю</div>
+                <div id="goalsPageWeekly"></div>
+                <div class="empty-state" id="goalsWeeklyEmpty">
+                    <div class="empty-icon">📅</div>
+                    <div class="empty-text">Нет активных целей на неделю.<br>Добавьте в утреннем разделе.</div>
+                </div>
+
+                <div class="section-label" style="margin-top:20px;">🗓 Цели на месяц</div>
+                <div id="goalsPageMonthly"></div>
+                <div class="empty-state" id="goalsMonthlyEmpty">
+                    <div class="empty-icon">🗓</div>
+                    <div class="empty-text">Нет активных целей на месяц.<br>Добавьте в утреннем разделе.</div>
+                </div>
+
+                <div class="section-label" style="margin-top:20px;">🎯 Долгосрочные цели</div>
+                <div class="goal-input-row">
+                    <input type="text" id="longTermGoalInput" placeholder="Квартал, год, 5 лет, жизнь...">
+                    <button class="goal-add-btn evening" onclick="addLongTermGoal()">+</button>
+                </div>
+                <div id="goalsPageLongTerm"></div>
+                <div class="empty-state" id="goalsLongTermEmpty">
+                    <div class="empty-icon">🚀</div>
+                    <div class="empty-text">Добавьте долгосрочную цель.</div>
+                </div>
+            </div>
+
+            <!-- ===== INSIGHTS PAGE ===== -->
+            <div class="page-content" id="pageInsights">
+                <div style="margin-top:16px;">
+                    <div class="insight-input-row">
+                        <input type="text" id="newInsightInput" placeholder="Новый инсайт, идея, мысль...">
+                        <button class="insight-add-btn" onclick="addInsight()">+</button>
+                    </div>
+                </div>
+                <div id="insightsList"></div>
+                <div class="empty-state" id="insightsEmpty">
+                    <div class="empty-icon">💡</div>
+                    <div class="empty-text">Здесь появятся ваши инсайты.<br>Записывайте вечером или в любой момент.</div>
+                </div>
+            </div>
+
+            <!-- ===== HISTORY PAGE ===== -->
+            <div class="page-content" id="pageHistory">
+                <div style="margin-top:16px;">
+                    <div class="stats-grid">
+                        <div class="stat-card gen-card">
+                            <div class="stat-value" id="statTotalGens">0</div>
+                            <div class="stat-name">Всего GEN</div>
+                        </div>
+                        <div class="stat-card streak-card">
+                            <div class="stat-value" id="statStreak">0</div>
+                            <div class="stat-name">🔥 Серия дней</div>
+                        </div>
+                        <div class="stat-card days-card">
+                            <div class="stat-value" id="statTotalDays">0</div>
+                            <div class="stat-name">Дней в приложении</div>
+                        </div>
+                        <div class="stat-card level-card">
+                            <div class="stat-value" id="statLevel">1</div>
+                            <div class="stat-name">Уровень</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-label" style="margin-top:8px;">📅 Последние 14 дней</div>
+                <div id="historyList"></div>
+                <div class="empty-state" id="historyEmpty">
+                    <div class="empty-icon">📊</div>
+                    <div class="empty-text">Пока нет данных.<br>Начните свой первый цикл!</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- GOAL MODAL -->
+        <div class="modal-overlay" id="goalModal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-title">Новая долгосрочная цель</div>
+                <div class="form-group">
+                    <label>Название цели</label>
+                    <input type="text" class="form-input" id="modalGoalTitle" placeholder="Что вы хотите достичь?">
+                </div>
+                <div class="form-group">
+                    <label>Почему это важно? (эмоциональный якорь)</label>
+                    <textarea class="form-input" id="modalGoalWhy" placeholder="Как вы будете себя чувствовать, когда достигнете?" style="min-height:70px;"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Дедлайн</label>
+                        <input type="date" class="form-input" id="modalGoalDeadline">
+                    </div>
+                    <div class="form-group">
+                        <label>Масштаб</label>
+                        <select class="form-input" id="modalGoalScale">
+                            <option value="quarter">Квартал</option>
+                            <option value="year" selected>Год</option>
+                            <option value="five">5 лет</option>
+                            <option value="life">Жизнь</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="modal-btn primary" onclick="createLongGoal()">Создать цель</button>
+                <button class="modal-btn secondary" onclick="closeGoalModal()">Отмена</button>
+            </div>
+        </div>
+
+        <!-- CONFIRM -->
+        <div class="confirm-overlay" id="confirmOverlay">
+            <div class="confirm-box">
+                <div class="confirm-text" id="confirmText">Начать новый день? Текущий цикл будет завершён.</div>
+                <div class="confirm-actions">
+                    <button onclick="closeConfirm()">Отмена</button>
+                    <button class="danger" id="confirmDangerBtn" onclick="executeNewDay()">Начать</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GEN ANIM -->
+        <div class="gen-anim" id="genAnim">
+            <div class="gen-t">+1 GEN</div>
+            <div class="gen-sub">⚡ Энергия получена</div>
+        </div>
+
+        <!-- TOAST -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script>
+        // ===== STATE =====
+        const STORAGE_KEY = 'gen_cycle_v2';
+
+        function todayStr() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function formatDate(ds) {
+            if (!ds) return '';
+            return new Date(ds).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+        }
+
+        function uid() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        }
+
+        function loadState() {
+            try {
+                const r = localStorage.getItem(STORAGE_KEY);
+                if (r) return JSON.parse(r);
+            } catch(e) {}
+            return {
+                firstDate: todayStr(),
+                totalGens: 0,
+                anchor: 'Я ВКЛЮЧЁН',
+                dailyLogs: {},
+                insights: [],
+                longTermGoals: []
+            };
+        }
+
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        let state = loadState();
+
+        // ===== STREAK =====
+        function calcStreak() {
+            const logs = state.dailyLogs;
+            let streak = 0;
+            let d = new Date();
+
+            const todayLog = logs[todayStr()];
+            const todayComplete = todayLog && todayLog.morning && todayLog.day && todayLog.evening;
+
+            if (!todayComplete) {
+                d.setDate(d.getDate() - 1);
+            }
+
+            while (true) {
+                const ds = d.toISOString().split('T')[0];
+                const log = logs[ds];
+                if (log && log.morning && log.day && log.evening) {
+                    streak++;
+                    d.setDate(d.getDate() - 1);
+                } else break;
+            }
+            return streak;
+        }
+
+        // ===== LEVEL =====
+        function getLevel(gens) {
+            if (gens >= 300) return { l: 5, name: 'Мастер' };
+            if (gens >= 150) return { l: 4, name: 'Хранитель' };
+            if (gens >= 60) return { l: 3, name: 'Навигатор' };
+            if (gens >= 30) return { l: 2, name: 'Практик' };
+            return { l: 1, name: 'Новичок' };
+        }
+
+        // ===== TOAST =====
+        function showToast(msg) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 2200);
+        }
+
+        // ===== GEN ANIMATION =====
+        function showGenAnim() {
+            const el = document.getElementById('genAnim');
+            el.classList.remove('show');
+            void el.offsetWidth;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 900);
+        }
+
+        // ===== CYCLE TABS =====
+        const cycleTabs = document.querySelectorAll('.cycle-tab');
+        const panels = {
+            morning: document.getElementById('cycleMorning'),
+            day: document.getElementById('cycleDay'),
+            evening: document.getElementById('cycleEvening')
+        };
+
+        cycleTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                cycleTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                Object.values(panels).forEach(p => p.style.display = 'none');
+                panels[tab.dataset.cycle].style.display = 'block';
+            });
+        });
+
+        // ===== BOTTOM NAV =====
+        const navItems = document.querySelectorAll('.nav-item');
+        const pages = {
+            main: document.getElementById('pageMain'),
+            goals: document.getElementById('pageGoals'),
+            insights: document.getElementById('pageInsights'),
+            history: document.getElementById('pageHistory')
+        };
+        const fab = document.getElementById('fabBtn');
+        const cycleTabsContainer = document.getElementById('cycleTabs');
+
+        navItems.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navItems.forEach(n => n.classList.remove('active'));
+                btn.classList.add('active');
+                Object.values(pages).forEach(p => p.classList.remove('active'));
+                pages[btn.dataset.page].classList.add('active');
+
+                fab.classList.toggle('show', btn.dataset.page === 'goals');
+                cycleTabsContainer.style.display = btn.dataset.page === 'main' ? 'flex' : 'none';
+            });
+        });
+
+        // ===== BREATHING =====
+        document.querySelectorAll('.breath-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.breath-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+            });
+        });
+
+        // ===== ANCHOR =====
+        function editAnchor() {
+            const cur = state.anchor || 'Я ВКЛЮЧЁН';
+            const newA = prompt('Ваш якорь-триггер:', cur);
+            if (newA && newA.trim()) {
+                state.anchor = newA.trim();
+                saveState();
+                updateUI();
+                showToast('Якорь обновлён! 🔗');
+            }
+        }
+
+        // ===== DAILY GOALS =====
+        function getDayGoals(type) {
+            const ds = todayStr();
+            if (!state.dailyLogs[ds]) state.dailyLogs[ds] = {};
+            if (!state.dailyLogs[ds][type + 'Goals']) state.dailyLogs[ds][type + 'Goals'] = [];
+            return state.dailyLogs[ds][type + 'Goals'];
+        }
+
+        function addDailyGoal() {
+            const input = document.getElementById('dailyGoalInput');
+            const text = input.value.trim();
+            if (!text) return;
+            getDayGoals('daily').push({ id: uid(), text, completed: false, cancelled: false });
+            input.value = '';
+            saveState();
+            renderDayGoals();
+            showToast('Цель добавлена! 🎯');
+        }
+
+        function addWeeklyGoal() {
+            const input = document.getElementById('weeklyGoalInput');
+            const text = input.value.trim();
+            if (!text) return;
+            getDayGoals('weekly').push({ id: uid(), text, completed: false, cancelled: false });
+            input.value = '';
+            saveState();
+            renderDayGoals();
+            showToast('Недельная цель добавлена! 📅');
+        }
+
+        function addMonthlyGoal() {
+            const input = document.getElementById('monthlyGoalInput');
+            const text = input.value.trim();
+            if (!text) return;
+            getDayGoals('monthly').push({ id: uid(), text, completed: false, cancelled: false });
+            input.value = '';
+            saveState();
+            renderDayGoals();
+            showToast('Месячная цель добавлена! 🗓');
+        }
+
+        function toggleGoalStatus(type, goalId) {
+            const goals = getDayGoals(type);
+            const goal = goals.find(g => g.id === goalId);
+            if (goal) {
+                goal.completed = !goal.completed;
+                if (goal.completed) goal.cancelled = false;
+                saveState();
+                renderDayGoals();
+                renderGoalsPage();
+            }
+        }
+
+        function cancelGoal(type, goalId) {
+            const goals = getDayGoals(type);
+            const goal = goals.find(g => g.id === goalId);
+            if (goal) {
+                goal.cancelled = !goal.cancelled;
+                if (goal.cancelled) goal.completed = false;
+                saveState();
+                renderDayGoals();
+                renderGoalsPage();
+            }
+        }
+
+        function deleteGoal(type, goalId) {
+            const goals = getDayGoals(type);
+            const idx = goals.findIndex(g => g.id === goalId);
+            if (idx >= 0) {
+                goals.splice(idx, 1);
+                saveState();
+                renderDayGoals();
+                renderGoalsPage();
+            }
+        }
+
+        function renderDayGoals() {
+            // Daily
+            const dailyGoals = getDayGoals('daily');
+            const dailyList = document.getElementById('dailyGoalsList');
+            dailyList.innerHTML = dailyGoals.map(g => `
+                <li class="goal-item ${g.completed ? 'completed' : ''} ${g.cancelled ? 'cancelled' : ''}">
+                    <span class="goal-item-text">${g.text}</span>
+                    <div class="goal-item-actions">
+                        ${!g.completed && !g.cancelled ? `
+                            <button class="goal-btn done-btn" onclick="toggleGoalStatus('daily','${g.id}')">✓</button>
+                        ` : ''}
+                        <button class="goal-btn delete-btn" onclick="deleteGoal('daily','${g.id}')">✕</button>
+                    </div>
+                </li>
+            `).join('');
+
+            // Weekly
+            const weeklyGoals = getDayGoals('weekly');
+            const weeklyList = document.getElementById('weeklyGoalsList');
+            weeklyList.innerHTML = weeklyGoals.map(g => `
+                <li class="goal-item ${g.completed ? 'completed' : ''} ${g.cancelled ? 'cancelled' : ''}">
+                    <span class="goal-item-text">${g.text}</span>
+                    <div class="goal-item-actions">
+                        ${!g.completed && !g.cancelled ? `
+                            <button class="goal-btn done-btn" onclick="toggleGoalStatus('weekly','${g.id}')">Выполнена</button>
+                            <button class="goal-btn cancel-btn" onclick="cancelGoal('weekly','${g.id}')">Отменить</button>
+                        ` : ''}
+                        <button class="goal-btn delete-btn" onclick="deleteGoal('weekly','${g.id}')">✕</button>
+                    </div>
+                </li>
+            `).join('');
+
+            // Monthly
+            const monthlyGoals = getDayGoals('monthly');
+            const monthlyList = document.getElementById('monthlyGoalsList');
+            monthlyList.innerHTML = monthlyGoals.map(g => `
+                <li class="goal-item ${g.completed ? 'completed' : ''} ${g.cancelled ? 'cancelled' : ''}">
+                    <span class="goal-item-text">${g.text}</span>
+                    <div class="goal-item-actions">
+                        ${!g.completed && !g.cancelled ? `
+                            <button class="goal-btn done-btn" onclick="toggleGoalStatus('monthly','${g.id}')">Выполнена</button>
+                            <button class="goal-btn cancel-btn" onclick="cancelGoal('monthly','${g.id}')">Отменить</button>
+                        ` : ''}
+                        <button class="goal-btn delete-btn" onclick="deleteGoal('monthly','${g.id}')">✕</button>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        // ===== CYCLE CHECKS =====
+        const checkMap = {
+            morning: {
+                breath: 'breathDone',
+                anchor: 'anchorDone'
+            },
+            day: {
+                walk: 'walkDone',
+                mindful: 'mindfulDone'
+            },
+            evening: {
+                gratitude: 'gratitudeDone',
+                reflection: 'reflectionDone',
+                insight: 'insightDone'
+            }
+        };
+
+        function getDayLog() {
+            const ds = todayStr();
+            if (!state.dailyLogs[ds]) state.dailyLogs[ds] = {};
+            if (!state.dailyLogs[ds].tasks) state.dailyLogs[ds].tasks = {};
+            return state.dailyLogs[ds];
+        }
+
+        function toggleTask(cycle, key) {
+            const log = getDayLog();
+            const taskKey = `${cycle}_${key}`;
+            log.tasks[taskKey] = !log.tasks[taskKey];
+            saveState();
+            updateCheckVisuals();
+        }
+
+        function toggleBreathDone() { toggleTask('morning', 'breath'); }
+        function toggleAnchorDone() { toggleTask('morning', 'anchor'); }
+        function toggleWalkDone() { toggleTask('day', 'walk'); }
+        function toggleMindfulDone() { toggleTask('day', 'mindful'); }
+        function toggleGratitudeDone() { toggleTask('evening', 'gratitude'); }
+        function toggleReflectionDone() { toggleTask('evening', 'reflection'); }
+        function toggleInsightCheck() { toggleTask('evening', 'insight'); }
+
+        function updateCheckVisuals() {
+            const log = getDayLog();
+            const t = log.tasks || {};
+
+            const setCheck = (id, key) => {
+                const el = document.getElementById(id);
+                if (t[`morning_${key}`] || t[`day_${key}`] || t[`evening_${key}`]) {
+                    el.classList.add('done');
+                } else {
+                    el.classList.remove('done');
+                }
+            };
+
+            setCheck('breathCheck', 'breath');
+            setCheck('anchorCheck', 'anchor');
+            setCheck('walkCheck', 'walk');
+            setCheck('mindfulCheck', 'mindful');
+            setCheck('gratitudeCheck', 'gratitude');
+            setCheck('reflectionCheck', 'reflection');
+            setCheck('insightCheck', 'insight');
+        }
+
+        // ===== COMPLETE CYCLE =====
+        function completeCycle(cycle) {
+            const log = getDayLog();
+            if (log[cycle]) return;
+
+            // Check required
+            let required = [];
+            if (cycle === 'morning') {
+                required = [
+                    t['morning_breath'],
+                    t['morning_anchor']
+                ];
+            } else if (cycle === 'day') {
+                required = [
+                    t['day_walk'],
+                    t['day_mindful']
+                ];
+            } else {
+                required = [
+                    t['evening_gratitude'],
+                    t['evening_reflection'],
+                    t['evening_insight']
+                ];
+            }
+
+            const t = log.tasks || {};
+            const missing = required.filter(Boolean).length !== required.length;
+
+            if (missing) {
+                const need = required.filter(r => !r).length;
+                showToast(`Отметьте ещё ${need} пункт(ов)`);
+                return;
+            }
+
+            // Save inputs
+            if (cycle === 'evening') {
+                const insightText = document.getElementById('insightInput').value.trim();
+                if (insightText) {
+                    state.insights.push({
+                        id: uid(),
+                        text: insightText,
+                        date: todayStr(),
+                        timestamp: new Date().toISOString()
+                    });
+                }
+                log.gratitude = document.getElementById('gratitudeInput').value.trim();
+            }
+
+            log[cycle] = true;
+            log[cycle + 'At'] = new Date().toISOString();
+            state.totalGens += 1;
+            saveState();
+
+            showGenAnim();
+            showToast(`+1 GEN получен! ⚡`);
+            updateUI();
+        }
+
+        // ===== TIMER =====
+        let timerInterval = null;
+        let timerSec = 0;
+        let timerOn = false;
+
+        function toggleTimer() {
+            if (timerOn) {
+                clearInterval(timerInterval);
+                timerOn = false;
+                document.getElementById('timerStartBtn').textContent = 'Старт';
+                document.getElementById('timerStartBtn').classList.add('primary');
+            } else {
+                timerOn = true;
+                document.getElementById('timerStartBtn').textContent = 'Пауза';
+                document.getElementById('timerStartBtn').classList.remove('primary');
+                timerInterval = setInterval(() => {
+                    timerSec++;
+                    const m = Math.floor(timerSec / 60).toString().padStart(2, '0');
+                    const s = (timerSec % 60).toString().padStart(2, '0');
+                    document.getElementById('timerTime').textContent = `${m}:${s}`;
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerOn = false;
+            timerSec = 0;
+            document.getElementById('timerTime').textContent = '00:00';
+            document.getElementById('timerStartBtn').textContent = 'Старт';
+            document.getElementById('timerStartBtn').classList.add('primary');
+        }
+
+        // ===== INSIGHTS =====
+        function addInsight() {
+            const input = document.getElementById('newInsightInput');
+            const text = input.value.trim();
+            if (!text) return;
+            state.insights.push({
+                id: uid(),
+                text,
+                date: todayStr(),
+                timestamp: new Date().toISOString()
+            });
+            input.value = '';
+            saveState();
+            renderInsights();
+            showToast('Инсайт записан! 💡');
+        }
+
+        function deleteInsight(id) {
+            state.insights = state.insights.filter(i => i.id !== id);
+            saveState();
+            renderInsights();
+        }
+
+        function renderInsights() {
+            const container = document.getElementById('insightsList');
+            const empty = document.getElementById('insightsEmpty');
+            const sorted = [...state.insights].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            if (sorted.length === 0) {
+                container.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            container.innerHTML = sorted.map(i => `
+                <div class="insight-card">
+                    <div class="insight-date">
+                        <span>${formatDate(i.date)}</span>
+                        <button class="goal-btn delete-btn" onclick="deleteInsight('${i.id}')">✕</button>
+                    </div>
+                    <div class="insight-text">${i.text}</div>
+                </div>
+            `).join('');
+        }
+
+        // ===== LONG TERM GOALS =====
+        function openGoalModal() {
+            document.getElementById('goalModal').classList.add('show');
+            const d = new Date();
+            d.setMonth(d.getMonth() + 3);
+            document.getElementById('modalGoalDeadline').value = d.toISOString().split('T')[0];
+        }
+
+        function closeGoalModal() {
+            document.getElementById('goalModal').classList.remove('show');
+        }
+
+        function createLongGoal() {
+            const title = document.getElementById('modalGoalTitle').value.trim();
+            const why = document.getElementById('modalGoalWhy').value.trim();
+            const deadline = document.getElementById('modalGoalDeadline').value;
+            const scale = document.getElementById('modalGoalScale').value;
+            if (!title) { showToast('Введите название цели'); return; }
+
+            state.longTermGoals.push({
+                id: uid(),
+                title,
+                why,
+                deadline,
+                scale,
+                created: todayStr(),
+                completed: null,
+                status: 'active'
+            });
+
+            saveState();
+            closeGoalModal();
+            document.getElementById('modalGoalTitle').value = '';
+            document.getElementById('modalGoalWhy').value = '';
+            showToast('Цель создана! 🎯');
+            renderGoalsPage();
+        }
+
+        function completeLongGoal(id) {
+            const g = state.longTermGoals.find(x => x.id === id);
+            if (g) {
+                g.completed = todayStr();
+                g.status = 'done';
+                saveState();
+                showToast('Цель достигнута! 🎉');
+                renderGoalsPage();
+            }
+        }
+
+        function deleteLongGoal(id) {
+            if (confirm('Удалить цель?')) {
+                state.longTermGoals = state.longTermGoals.filter(x => x.id !== id);
+                saveState();
+                renderGoalsPage();
+            }
+        }
+
+        // ===== GOALS PAGE =====
+        function renderGoalsPage() {
+            const scaleLabels = { quarter: 'Квартал', year: 'Год', five: '5 лет', life: 'Жизнь' };
+
+            // Weekly from today
+            const weeklyGoals = getDayGoals('weekly');
+            const weeklyContainer = document.getElementById('goalsPageWeekly');
+            const weeklyEmpty = document.getElementById('goalsWeeklyEmpty');
+
+            if (weeklyGoals.length === 0) {
+                weeklyContainer.innerHTML = '';
+                weeklyEmpty.style.display = 'block';
+            } else {
+                weeklyEmpty.style.display = 'none';
+                weeklyContainer.innerHTML = weeklyGoals.map(g => `
+                    <div class="goal-item ${g.completed ? 'completed' : ''} ${g.cancelled ? 'cancelled' : ''}">
+                        <span class="goal-item-text">${g.text}</span>
+                        <div class="goal-item-actions">
+                            ${!g.completed && !g.cancelled ? `
+                                <button class="goal-btn done-btn" onclick="toggleGoalStatus('weekly','${g.id}')">Выполнена</button>
+                                <button class="goal-btn cancel-btn" onclick="cancelGoal('weekly','${g.id}')">Отменить</button>
+                            ` : ''}
+                            <button class="goal-btn delete-btn" onclick="deleteGoal('weekly','${g.id}')">✕</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Monthly
+            const monthlyGoals = getDayGoals('monthly');
+            const monthlyContainer = document.getElementById('goalsPageMonthly');
+            const monthlyEmpty = document.getElementById('goalsMonthlyEmpty');
+
+            if (monthlyGoals.length === 0) {
+                monthlyContainer.innerHTML = '';
+                monthlyEmpty.style.display = 'block';
+            } else {
+                monthlyEmpty.style.display = 'none';
+                monthlyContainer.innerHTML = monthlyGoals.map(g => `
+                    <div class="goal-item ${g.completed ? 'completed' : ''} ${g.cancelled ? 'cancelled' : ''}">
+                        <span class="goal-item-text">${g.text}</span>
+                        <div class="goal-item-actions">
+                            ${!g.completed && !g.cancelled ? `
+                                <button class="goal-btn done-btn" onclick="toggleGoalStatus('monthly','${g.id}')">Выполнена</button>
+                                <button class="goal-btn cancel-btn" onclick="cancelGoal('monthly','${g.id}')">Отменить</button>
+                            ` : ''}
+                            <button class="goal-btn delete-btn" onclick="deleteGoal('monthly','${g.id}')">✕</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Long term
+            const ltGoals = state.longTermGoals;
+            const ltContainer = document.getElementById('goalsPageLongTerm');
+            const ltEmpty = document.getElementById('goalsLongTermEmpty');
+
+            if (ltGoals.length === 0) {
+                ltContainer.innerHTML = '';
+                ltEmpty.style.display = 'block';
+            } else {
+                ltEmpty.style.display = 'none';
+                ltContainer.innerHTML = ltGoals.map(g => {
+                    let statusClass = 'active';
+                    let statusText = 'Активна';
+                    if (g.status === 'done') { statusClass = 'done'; statusText = '✓ Выполнена'; }
+
+                    return `
+                        <div class="goal-item ${g.status === 'done' ? 'completed' : ''}">
+                            <div style="flex:1;">
+                                <div class="goal-item-text">${g.title}</div>
+                                <div style="font-size:0.7rem;color:var(--text-muted);margin-top:2px;">
+                                    ${scaleLabels[g.scale] || ''} ${g.deadline ? '• До ' + formatDate(g.deadline) : ''}
+                                </div>
+                            </div>
+                            <div class="goal-item-actions">
+                                ${g.status === 'active' ? `<button class="goal-btn done-btn" onclick="completeLongGoal('${g.id}')">✓</button>` : ''}
+                                <button class="goal-btn delete-btn" onclick="deleteLongGoal('${g.id}')">✕</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // ===== HISTORY =====
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            const empty = document.getElementById('historyEmpty');
+            const logs = state.dailyLogs;
+            const dates = Object.keys(logs).sort().reverse().slice(0, 14);
+
+            if (dates.length === 0) {
+                container.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            container.innerHTML = dates.map(ds => {
+                const log = logs[ds];
+                const m = !!log.morning;
+                const d = !!log.day;
+                const e = !!log.evening;
+                const gens = [m, d, e].filter(Boolean).length;
+                return `
+                    <div class="history-day">
+                        <div class="history-date">${formatDate(ds)}</div>
+                        <div class="history-dots">
+                            <div class="history-dot ${m ? 'filled-m' : ''}"></div>
+                            <div class="history-dot ${d ? 'filled-d' : ''}"></div>
+                            <div class="history-dot ${e ? 'filled-e' : ''}"></div>
+                        </div>
+                        <div class="history-gens">${gens}/3</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ===== NEW DAY =====
+        function showNewDayConfirm() {
+            document.getElementById('confirmOverlay').classList.add('show');
+        }
+
+        function closeConfirm() {
+            document.getElementById('confirmOverlay').classList.remove('show');
+        }
+
+        function executeNewDay() {
+            closeConfirm();
+            // Reset today
+            const ds = todayStr();
+            state.dailyLogs[ds] = {};
+            saveState();
+            resetTimer();
+            updateUI();
+            showToast('Новый день начат! 🌅');
+        }
+
+        // ===== UI UPDATE =====
+        function updateUI() {
+            const ds = todayStr();
+            const log = state.dailyLogs[ds] || {};
+
+            // Header
+            document.getElementById('totalGens').textContent = state.totalGens;
+            document.getElementById('streakDays').textContent = calcStreak();
+
+            // Progress bar
+            document.getElementById('progMorning').className = 'progress-seg' + (log.morning ? ' m-active' : '');
+            document.getElementById('progDay').className = 'progress-seg' + (log.day ? ' d-active' : '');
+            document.getElementById('progEvening').className = 'progress-seg' + (log.evening ? ' e-active' : '');
+
+            // Anchor
+            const anchorEl = document.getElementById('anchorText');
+            anchorEl.textContent = state.anchor || 'Я ВКЛЮЧЁН';
+            anchorEl.classList.toggle('is-default', !state.anchor || state.anchor === 'Я ВКЛЮЧЁН');
+            anchorEl.classList.toggle('is-custom', state.anchor && state.anchor !== 'Я ВКЛЮЧЁН');
+
+            // Complete buttons
+            ['morning', 'day', 'evening'].forEach(cycle => {
+                const btn = document.getElementById(cycle + 'CompleteBtn');
+                if (log[cycle]) {
+                    btn.classList.add('done-state');
+                    btn.disabled = true;
+                    btn.innerHTML = '<span>✓</span> Выполнено';
+                } else {
+                    btn.classList.remove('done-state');
+                    btn.disabled = false;
+                    const labels = {
+                        morning: 'Утро завершено — +1 GEN',
+                        day: 'День завершён — +1 GEN',
+                        evening: 'Завершить день с благодарностью — +1 GEN'
+                    };
+                    btn.innerHTML = `<span>✓</span> ${labels[cycle]}`;
+                }
+            });
+
+            // Stats
+            document.getElementById('statTotalGens').textContent = state.totalGens;
+            document.getElementById('statStreak').textContent = calcStreak();
+
+            const firstDate = new Date(state.firstDate);
+            const now = new Date();
+            const totalDays = Math.max(1, Math.floor((now - firstDate) / 86400000) + 1);
+            document.getElementById('statTotalDays').textContent = totalDays;
+            document.getElementById('statLevel').textContent = getLevel(state.totalGens).l;
+
+            // Check visuals
+            updateCheckVisuals();
+
+            // Lists
+            renderDayGoals();
+            renderGoalsPage();
+            renderInsights();
+            renderHistory();
+        }
+
+        // ===== MODAL CLOSE ON OVERLAY =====
+        document.getElementById('goalModal').addEventListener('click', function(e) {
+            if (e.target === this) closeGoalModal();
+        });
+
+        // ===== INIT =====
+        updateUI();
+    </script>
+</body>
+</html>
+
