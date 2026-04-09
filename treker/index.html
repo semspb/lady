@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>GEN Cycle</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/300.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/400.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/500.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/600.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.16/700.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f1117;
+            --bg-secondary: #181a24;
+            --bg-card: #1e2030;
+            --bg-card-hover: #252840;
+            --text-primary: #e8e9f0;
+            --text-secondary: #8b8fa3;
+            --text-muted: #5c6078;
+            --accent-morning: #f59e0b;
+            --accent-morning-glow: rgba(245, 158, 11, 0.15);
+            --accent-day: #10b981;
+            --accent-day-glow: rgba(16, 185, 129, 0.15);
+            --accent-evening: #8b5cf6;
+            --accent-evening-glow: rgba(139, 92, 246, 0.15);
+            --accent-gen: #f59e0b;
+            --accent-fire: #ef4444;
+            --border-color: rgba(255,255,255,0.06);
+            --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100%;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* === APP CONTAINER === */
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* === HEADER === */
+        .app-header {
+            padding: 16px 20px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 17, 23, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 16px;
+        }
+
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-badge .stat-icon {
+            font-size: 1rem;
+        }
+
+        .stat-badge.gen-badge {
+            color: var(--accent-gen);
+        }
+
+        .stat-badge.streak-badge {
+            color: var(--accent-fire);
+        }
+
+        .header-date {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* === MAIN CONTENT === */
+        .main-content {
+            flex: 1;
+            padding: 0 16px 100px;
+            overflow-y: auto;
+        }
+
+        /* === PROGRESS RING === */
+        .daily-progress {
+            display: flex;
+            justify-content: center;
+            padding: 24px 0;
+        }
+
+        .progress-ring-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .progress-ring-bg {
+            fill: none;
+            stroke: var(--bg-card);
+            stroke-width: 8;
+        }
+
+        .progress-ring-segment {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .progress-ring-segment.morning {
+            stroke: var(--accent-morning);
+        }
+
+        .progress-ring-segment.day {
+            stroke: var(--accent-day);
+        }
+
+        .progress-ring-segment.evening {
+            stroke: var(--accent-evening);
+        }
+
+        .progress-ring-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-ring-label .gen-count {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .progress-ring-label .gen-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .progress-ring-label .day-status {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* === SECTION TITLE === */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 24px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title .title-icon {
+            font-size: 1.3rem;
+        }
+
+        /* === CHECKLIST CARD === */
+        .cycle-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .cycle-card.active-morning {
+            border-color: var(--accent-morning);
+            box-shadow: 0 0 30px var(--accent-morning-glow);
+        }
+
+        .cycle-card.active-day {
+            border-color: var(--accent-day);
+            box-shadow: 0 0 30px var(--accent-day-glow);
+        }
+
+        .cycle-card.active-evening {
+            border-color: var(--accent-evening);
+            box-shadow: 0 0 30px var(--accent-evening-glow);
+        }
+
+        .cycle-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .cycle-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cycle-card-gen {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-gen);
+        }
+
+        .cycle-card-gen.earned {
+            background: rgba(245, 158, 11, 0.3);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .checklist-item:active {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .checklist-item.checked {
+            opacity: 0.5;
+        }
+
+        .checklist-item.checked .check-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .custom-checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 7px;
+            border: 2px solid var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .checklist-item.checked .custom-checkbox {
+            border-color: var(--accent-gen);
+            background: var(--accent-gen);
+        }
+
+        .custom-checkbox svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: var(--transition);
+        }
+
+        .checklist-item.checked .custom-checkbox svg {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .check-text {
+            font-size: 0.88rem;
+            font-weight: 400;
+            line-height: 1.3;
+            color: var(--text-primary);
+        }
+
+        .check-subtext {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* === TEXT INPUT === */
+        .input-group {
+            margin-top: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .text-input {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-family: inherit;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: var(--transition);
+            resize: none;
+        }
+
+        .text-input:focus {
+            border-color: rgba(255,255,255,0.15);
+            background: rgba(30, 32, 48, 0.8);
+        }
+
+        textarea.text-input {
+            min-height: 70px;
+        }
+
+        /* === BREATHING SELECTOR === */
+        .breath-selector {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .breath-option {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border-color);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .breath-option.selected {
+            border-color: var(--accent-morning);
+            background: var(--accent-morning-glow);
+            color: var(--accent-morning);
+        }
+
+        .breath-option .breath-count {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .breath-option .breath-desc {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+        }
+
+        /* === ANCHOR INPUT === */
+        .anchor-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            margin-top: 8px;
+            border: 1px dashed var(--border-color);
+        }
+
+        .anchor-text {
+            flex: 1;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .anchor-text.default-anchor {
+            color: var(--text-muted);
+        }
+
+        .anchor-text.has-anchor {
+            color: var(--accent-morning);
+        }
+
+        /* === COMPLETE BUTTON === */
+        .complete-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .complete-btn.morning-btn {
+            background: linear-gradient(135deg, var(--accent-morning), #d97706);
+            color: #000;
+        }
+
+        .complete-btn.day-btn {
+            background: linear-gradient(135deg, var(--accent-day), #059669);
+            color: #fff;
+        }
+
+        .complete-btn.evening-btn {
+            background: linear-gradient(135deg, var(--accent-evening), #7c3aed);
+            color: #fff;
+        }
+
+        .complete-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .complete-btn:not(:disabled):active {
+            transform: scale(0.97);
+        }
+
+        .complete-btn.completed {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: default;
+        }
+
+        /* === BOTTOM NAV === */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: rgba(15, 17, 23, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 calc(8px + var(--safe-bottom));
+            z-index: 200;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            font-family: inherit;
+            position: relative;
+        }
+
+        .nav-item.active {
+            color: var(--text-primary);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+            background: var(--accent-gen);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .nav-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+        }
+
+        /* === PAGE CONTENT === */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === GOALS PAGE === */
+        .goal-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .goal-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .goal-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .goal-status {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .goal-status.active {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-day);
+        }
+
+        .goal-status.done {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-gen);
+        }
+
+        .goal-status.expired {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-fire);
+        }
+
+        .goal-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .goal-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .goal-progress-bar {
+            height: 4px;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .goal-progress-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: var(--accent-day);
+            transition: width 0.5s ease;
+        }
+
+        .goal-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .goal-action-btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .goal-action-btn:active {
+            background: var(--bg-card-hover);
+        }
+
+        .goal-action-btn.primary {
+            background: var(--accent-day);
+            color: #fff;
+            border-color: var(--accent-day);
+        }
+
+        /* === FAB === */
+        .fab {
+            position: fixed;
+            bottom: calc(72px + var(--safe-bottom));
+            right: 16px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gen), #d97706);
+            color: #000;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 150;
+            transition: var(--transition);
+        }
+
+        .fab:active {
+            transform: scale(0.9);
+        }
+
+        /* === MODAL === */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 300;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            animation: modalBgIn 0.3s ease;
+        }
+
+        @keyframes modalBgIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 430px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            padding: 20px 20px calc(20px + var(--safe-bottom));
+            animation: modalSlideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-handle {
+            width: 36px;
+            height: 4px;
+            background: var(--text-muted);
+            border-radius: 2px;
+            margin: 0 auto 16px;
+            opacity: 0.5;
+        }
+
+        .modal-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: var(--transition);
+        }
+
+        .modal-btn.primary {
+            background: linear-gradient(135deg, var(--accent-gen), #d97706);
+            color: #000;
+        }
+
+        .modal-btn.secondary {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .modal-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* === HISTORY PAGE === */
+        .history-day {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .history-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            min-width: 48px;
+        }
+
+        .history-dots {
+            display: flex;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .history-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .history-dot.filled-morning {
+            background: var(--accent-morning);
+            border-color: var(--accent-morning);
+        }
+
+        .history-dot.filled-day {
+            background: var(--accent-day);
+            border-color: var(--accent-day);
+        }
+
+        .history-dot.filled-evening {
+            background: var(--accent-evening);
+            border-color: var(--accent-evening);
+        }
+
+        .history-gens {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-gen);
+            min-width: 40px;
+            text-align: right;
+        }
+
+        /* === INSIGHTS PAGE === */
+        .insight-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .insight-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .insight-text {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+
+        .insight-tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .insight-tag {
+            font-size: 0.68rem;
+            padding: 2px 8px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            color: var(--text-secondary);
+        }
+
+        /* === EMPTY STATE === */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state .empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-state .empty-text {
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        /* === GEN ANIMATION === */
+        .gen-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 400;
+            pointer-events: none;
+            display: none;
+        }
+
+        .gen-animation.show {
+            display: block;
+            animation: genPop 0.8s ease forwards;
+        }
+
+        @keyframes genPop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+            40% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -60%) scale(0.8); }
+        }
+
+        .gen-animation .gen-text {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* === TOAST === */
+        .toast {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 350;
+            opacity: 0;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* === WALKING TIMER === */
+        .timer-display {
+            text-align: center;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            margin-top: 12px;
+        }
+
+        .timer-time {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 2px;
+            color: var(--accent-day);
+        }
+
+        .timer-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .timer-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .timer-btn.primary {
+            background: var(--accent-day);
+            color: #fff;
+            border-color: var(--accent-day);
+        }
+
+        .timer-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* === LEVEL BADGE === */
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--accent-gen);
+            margin-left: 8px;
+        }
+
+        /* === STATS GRID === */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stat-card .stat-name {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .stat-card.gen-card .stat-value {
+            color: var(--accent-gen);
+        }
+
+        .stat-card.streak-card .stat-value {
+            color: var(--accent-fire);
+        }
+
+        .stat-card.days-card .stat-value {
+            color: var(--accent-day);
+        }
+
+        .stat-card.level-card .stat-value {
+            color: var(--accent-evening);
+        }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
+        }
+
+        /* === NO ANCHOR === */
+        .anchor-edit-btn {
+            background: none;
+            border: none;
+            color: var(--accent-morning);
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+        }
+
+        /* === RESPONSIVE === */
+        @media (min-width: 431px) {
+            .app-container {
+                border-left: 1px solid var(--border-color);
+                border-right: 1px solid var(--border-color);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="header-stats">
+                <div class="stat-badge gen-badge">
+                    <span class="stat-icon">⚡</span>
+                    <span id="totalGens">0</span> GEN
+                </div>
+                <div class="stat-badge streak-badge">
+                    <span class="stat-icon">🔥</span>
+                    <span id="streakDays">0</span> дн.
+                </div>
+            </div>
+            <div class="header-date" id="headerDate"></div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- ===== TODAY PAGE ===== -->
+            <div class="page-content active" id="pageToday">
+                <div class="daily-progress">
+                    <div class="progress-ring-container">
+                        <svg class="progress-ring" viewBox="0 0 180 180">
+                            <circle class="progress-ring-bg" cx="90" cy="90" r="78"/>
+                            <circle class="progress-ring-segment morning" cx="90" cy="90" r="78"
+                                stroke-dasharray="163.36 326.73"
+                                stroke-dashoffset="163.36"
+                                id="ringMorning"/>
+                            <circle class="progress-ring-segment day" cx="90" cy="90" r="78"
+                                stroke-dasharray="163.36 326.73"
+                                stroke-dashoffset="163.36"
+                                id="ringDay"/>
+                            <circle class="progress-ring-segment evening" cx="90" cy="90" r="78"
+                                stroke-dasharray="163.36 326.73"
+                                stroke-dashoffset="163.36"
+                                id="ringEvening"/>
+                        </svg>
+                        <div class="progress-ring-label">
+                            <div class="gen-count" id="todayGenCount">0</div>
+                            <div class="gen-label">GEN сегодня</div>
+                            <div class="day-status" id="dayStatus">Начните утро</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MORNING -->
+                <div class="section-title">
+                    <span class="title-icon">🌅</span>
+                    Утро
+                </div>
+                <div class="cycle-card" id="morningCard">
+                    <div class="cycle-card-header">
+                        <div class="cycle-card-title">Пробуждение и настрой</div>
+                        <div class="cycle-card-gen" id="morningGen">+1 GEN</div>
+                    </div>
+
+                    <div class="checklist-item" data-cycle="morning" data-task="wakeup">
+                        <div class="custom-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="check-text">Проснуться без телефона</div>
+                            <div class="check-subtext">Не смотреть соцсети, не включать экран</div>
+                        </div>
+                    </div>
+
+                    <div class="checklist-item" data-cycle="morning" data-task="breathing">
+                        <div class="custom-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="check-text">Осознанное дыхание</div>
+                            <div class="check-subtext">3 или 7 циклов вдох-выдох</div>
+                        </div>
+                    </div>
+
+                    <div class="breath-selector" id="breathSelector">
+                        <div class="breath-option selected" data-cycles="3">
+                            <span class="breath-count">3</span>
+                            <span class="breath-desc">Быстрый сброс</span>
+                        </div>
+                        <div class="breath-option" data-cycles="7">
+                            <span class="breath-count">7</span>
+                            <span class="breath-desc">Когерентность</span>
+                        </div>
+                    </div>
+
+                    <div class="checklist-item" data-cycle="morning" data-task="goal">
+                        <div class="custom-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="check-text">Цель на день</div>
+                            <div class="check-subtext">Соедините с эмоцией и телом</div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Цель на день</label>
+                        <input type="text" class="text-input" id="dailyGoal" placeholder="Что я хочу создать сегодня?">
+                    </div>
+
+                    <div class="checklist-item" data-cycle="morning" data-task="anchor">
+                        <div class="custom-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="check-text">Якорь активирован</div>
+                            <div class="check-subtext">«Я ВКЛЮЧЕН» или ваше слово</div>
+                        </div>
+                    </div>
+
+                    <div class="anchor-display">
+                        <span class="anchor-text default-anchor" id="anchorText">Я ВКЛЮЧЁН</span>
+                        <button class="anchor-edit-btn" onclick="editAnchor()">✏️</button>
+                    </div>
+
+                    <button class="complete-btn morning-btn" id="morningComplete" onclick="completeCycle('morning')">
+                        <span>✓</span> Завершить утро
+                    </button>
+                </div>
+
+                <!-- DAY -->
+                <div class="section-title">
+                    <span class="title-icon">☀️</span>
+                    День
+                </div>
+                <div class="cycle-card" id="dayCard">
+                    <div class="cycle-card-header">
+                        <div class="cycle-card-title">Тело и движение</div>
+                        <div class="cycle-card-gen" id="dayGen">+1 GEN</div>
+                    </div>
+
+                    <div class="checklist-item" data-cycle="day" data-task="walk">
+                        <div class="custom-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="check-text">30–40 минут ходьбы</div>
+                            <div class="check-subtext">Улица, парк, ТЦ — помните утренний настрой</div>
+                        </div>
+                    </div>
+
+                    <div class="checklist-item" data-cycle="day" data-task="mindful">
+                        <div class="custom-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="check-text">Осознанность</div>
+                            <div class="check-subtext">Дышите. Чувствуйте стопы. Вспоминайте якорь.</div>
+                        </div>
+                    </div>
+
+                    <div class="timer-display" id="timerDisplay" style="display:none;">
+                        <div class="timer-time" id="timerTime">00:00</div>
+                        <div class="timer-label">Время ходьбы</div>
+                        <div class="timer-controls">
+                            <button class="timer-btn primary" id="timerStartBtn" onclick="toggleTimer()">Старт</button>
+                            <button class="timer-btn" onclick="resetTimer()">Сброс</button>
+                        </div>
+                    </div>
+
+                    <button class="complete-btn day-btn" id="dayComplete" onclick="completeCycle('day')" style="margin-top: 12px;">
+                        <span>✓</span> Завершить день
+                    </button>
+                </div>
+
+                <!-- EVENING -->
+                <div class="section-title">
+                    <span class="title-icon">🌙</span>
+                    Вечер
+                </div>
+                <div class="cycle-card" id="eveningCard">
+                    <div class="cycle-card-header">
+                        <div class="cycle-card-title">Благодарность и завершение</div>
+                        <div class="cycle-card-gen" id="eveningGen">+1 GEN</div>
+                    </div>
+
+                    <div class="checklist-item" data-cycle="evening" data-task="gratitude">
+                        <div class="custom-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="check-text">Благодарность</div>
+                            <div class="check-subtext">Всем, кто встретился. Эгрегору. Себе.</div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Благодарность</label>
+                        <textarea class="text-input" id="gratitudeText" placeholder="Сегодня я благодарен за..."></textarea>
+                    </div>
+
+                    <div class="checklist-item" data-cycle="evening" data-task="reflection">
+                        <div class="custom-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="check-text">Рефлексия</div>
+                            <div class="check-subtext">Что удалось. Не ругать себя. «Сегодня не тот день — будет другой»</div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Инсайты и мысли</label>
+                        <textarea class="text-input" id="insightText" placeholder="Запишите идеи, мысли, озарения..."></textarea>
+                    </div>
+
+                    <div class="checklist-item" data-cycle="evening" data-task="insight">
+                        <div class="custom-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="check-text">Инсайт записан</div>
+                            <div class="check-subtext">Минимум 1 мысль или идея</div>
+                        </div>
+                    </div>
+
+                    <button class="complete-btn evening-btn" id="eveningComplete" onclick="completeCycle('evening')">
+                        <span>✓</span> Завершить день с благодарностью
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===== GOALS PAGE ===== -->
+            <div class="page-content" id="pageGoals">
+                <div class="section-title">
+                    <span class="title-icon">🎯</span>
+                    Мои цели
+                </div>
+                <div id="goalsList"></div>
+                <div class="empty-state" id="goalsEmpty">
+                    <div class="empty-icon">🎯</div>
+                    <div class="empty-text">У вас пока нет целей.<br>Нажмите + чтобы создать первую.</div>
+                </div>
+            </div>
+
+            <!-- ===== HISTORY PAGE ===== -->
+            <div class="page-content" id="pageHistory">
+                <div class="section-title">
+                    <span class="title-icon">📊</span>
+                    Статистика
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card gen-card">
+                        <div class="stat-value" id="statTotalGens">0</div>
+                        <div class="stat-name">Всего GEN</div>
+                    </div>
+                    <div class="stat-card streak-card">
+                        <div class="stat-value" id="statStreak">0</div>
+                        <div class="stat-name">🔥 Серия дней</div>
+                    </div>
+                    <div class="stat-card days-card">
+                        <div class="stat-value" id="statTotalDays">0</div>
+                        <div class="stat-name">Дней в приложении</div>
+                    </div>
+                    <div class="stat-card level-card">
+                        <div class="stat-value" id="statLevel">1</div>
+                        <div class="stat-name">Уровень</div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <span class="title-icon">📅</span>
+                    Последние 14 дней
+                </div>
+                <div id="historyList"></div>
+            </div>
+
+            <!-- ===== INSIGHTS PAGE ===== -->
+            <div class="page-content" id="pageInsights">
+                <div class="section-title">
+                    <span class="title-icon">💡</span>
+                    Журнал инсайтов
+                </div>
+                <div id="insightsList"></div>
+                <div class="empty-state" id="insightsEmpty">
+                    <div class="empty-icon">💡</div>
+                    <div class="empty-text">Здесь появятся ваши вечерние инсайты.<br>Записывайте мысли перед сном.</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- BOTTOM NAV -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-page="pageToday">
+                <span class="nav-icon">🌅</span>
+                <span class="nav-label">Сегодня</span>
+            </button>
+            <button class="nav-item" data-page="pageGoals">
+                <span class="nav-icon">🎯</span>
+                <span class="nav-label">Цели</span>
+            </button>
+            <button class="nav-item" data-page="pageHistory">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">История</span>
+            </button>
+            <button class="nav-item" data-page="pageInsights">
+                <span class="nav-icon">💡</span>
+                <span class="nav-label">Инсайты</span>
+            </button>
+        </nav>
+
+        <!-- FAB -->
+        <button class="fab" id="fabBtn" onclick="openGoalModal()">+</button>
+
+        <!-- GOAL MODAL -->
+        <div class="modal-overlay" id="goalModal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-title">Новая цель</div>
+
+                <div class="form-group">
+                    <label>Название цели</label>
+                    <input type="text" class="form-input" id="goalTitle" placeholder="Что вы хотите достичь?">
+                </div>
+
+                <div class="form-group">
+                    <label>Почему это важно? (эмоциональный якорь)</label>
+                    <textarea class="form-input" id="goalWhy" placeholder="Как вы будете себя чувствовать, когда достигнете? Где это отзовётся в теле?" style="min-height:80px;"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Дедлайн</label>
+                        <input type="date" class="form-input" id="goalDeadline">
+                    </div>
+                    <div class="form-group">
+                        <label>Масштаб</label>
+                        <select class="form-input" id="goalScale">
+                            <option value="day">День</option>
+                            <option value="week">Неделя</option>
+                            <option value="month" selected>Месяц</option>
+                            <option value="quarter">Квартал</option>
+                            <option value="year">Год</option>
+                            <option value="five">5 лет</option>
+                            <option value="life">Жизнь</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="modal-btn primary" onclick="createGoal()">Создать цель</button>
+                <button class="modal-btn secondary" onclick="closeGoalModal()">Отмена</button>
+            </div>
+        </div>
+
+        <!-- GEN ANIMATION -->
+        <div class="gen-animation" id="genAnimation">
+            <div class="gen-text">+1 GEN</div>
+        </div>
+
+        <!-- TOAST -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script>
+        // ===== STATE =====
+        const STORAGE_KEY = 'gen_cycle_data';
+        const CYCLES = ['morning', 'day', 'evening'];
+
+        function getTodayStr() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+        }
+
+        function loadState() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) {
+                return {
+                    firstDate: getTodayStr(),
+                    totalGens: 0,
+                    anchor: 'Я ВКЛЮЧЁН',
+                    dailyLogs: {},
+                    goals: [],
+                    insights: []
+                };
+            }
+            return JSON.parse(raw);
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        let state = loadState();
+
+        // ===== CALCULATE STREAK =====
+        function calculateStreak() {
+            const logs = state.dailyLogs;
+            const dates = Object.keys(logs).sort().reverse();
+
+            if (dates.length === 0) return 0;
+
+            let streak = 0;
+            let checkDate = new Date();
+
+            // Check if today is complete, otherwise start from yesterday
+            const todayStr = getTodayStr();
+            const todayLog = logs[todayStr];
+            const todayComplete = todayLog && todayLog.morning && todayLog.day && todayLog.evening;
+
+            if (!todayComplete) {
+                // Start checking from yesterday
+                checkDate.setDate(checkDate.getDate() - 1);
+            }
+
+            while (true) {
+                const dateStr = checkDate.toISOString().split('T')[0];
+                const log = logs[dateStr];
+                if (log && log.morning && log.day && log.evening) {
+                    streak++;
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+
+            return streak;
+        }
+
+        // ===== LEVEL SYSTEM =====
+        function getLevel(totalGens) {
+            if (totalGens >= 300) return { level: 5, name: 'Мастер' };
+            if (totalGens >= 150) return { level: 4, name: 'Хранитель' };
+            if (totalGens >= 60) return { level: 3, name: 'Навигатор' };
+            if (totalGens >= 30) return { level: 2, name: 'Практик' };
+            return { level: 1, name: 'Новичок' };
+        }
+
+        // ===== UI UPDATE =====
+        function updateUI() {
+            const todayStr = getTodayStr();
+            const todayLog = state.dailyLogs[todayStr] || { morning: false, day: false, evening: false };
+
+            // Header
+            document.getElementById('totalGens').textContent = state.totalGens;
+            const streak = calculateStreak();
+            document.getElementById('streakDays').textContent = streak;
+
+            const now = new Date();
+            document.getElementById('headerDate').textContent = now.toLocaleDateString('ru-RU', {
+                weekday: 'short', day: 'numeric', month: 'short'
+            });
+
+            // Progress ring
+            const segments = 3;
+            const circumference = 2 * Math.PI * 78;
+            const segLen = circumference / segments;
+
+            ['morning', 'day', 'evening'].forEach((cycle, idx) => {
+                const ring = document.getElementById(`ring${cycle.charAt(0).toUpperCase() + cycle.slice(1)}`);
+                const offset = todayLog[cycle] ? 0 : segLen;
+                ring.setAttribute('stroke-dasharray', `${segLen} ${circumference - segLen}`);
+                ring.setAttribute('stroke-dashoffset', offset);
+            });
+
+            // Today gen count
+            const todayGens = [todayLog.morning, todayLog.day, todayLog.evening].filter(Boolean).length;
+            document.getElementById('todayGenCount').textContent = todayGens;
+
+            const statusMessages = ['Начните утро', 'Утро завершено', 'День в разгаре', 'Вечер впереди', 'Цикл завершён! 🌟'];
+            document.getElementById('dayStatus').textContent = statusMessages[todayGens];
+
+            // Checklist UI
+            CYCLES.forEach(cycle => {
+                const items = document.querySelectorAll(`[data-cycle="${cycle}"]`);
+                const log = todayLog[cycle];
+
+                items.forEach(item => {
+                    const task = item.dataset.task;
+                    const isTaskDone = log && log[task];
+                    if (isTaskDone) {
+                        item.classList.add('checked');
+                    } else {
+                        item.classList.remove('checked');
+                    }
+                });
+
+                // Complete button
+                const btn = document.getElementById(`${cycle}Complete`);
+                const card = document.getElementById(`${cycle}Card`);
+
+                if (log && log.completed) {
+                    btn.classList.add('completed');
+                    btn.innerHTML = '<span>✓</span> Выполнено';
+                    btn.disabled = true;
+                    document.getElementById(`${cycle}Gen`).textContent = '✓ Получен';
+                    document.getElementById(`${cycle}Gen`).classList.add('earned');
+                } else {
+                    btn.classList.remove('completed');
+                    const cycleLabels = { morning: 'Завершить утро', day: 'Завершить день', evening: 'Завершить день с благодарностью' };
+                    btn.innerHTML = `<span>✓</span> ${cycleLabels[cycle]}`;
+                    btn.disabled = false;
+                    document.getElementById(`${cycle}Gen`).textContent = '+1 GEN';
+                    document.getElementById(`${cycle}Gen`).classList.remove('earned');
+                }
+
+                // Active card highlight
+                const currentHour = new Date().getHours();
+                let activeCycle = '';
+                if (currentHour < 11) activeCycle = 'morning';
+                else if (currentHour < 18) activeCycle = 'day';
+                else activeCycle = 'evening';
+
+                card.classList.remove('active-morning', 'active-day', 'active-evening');
+                if (cycle === activeCycle && !(log && log.completed)) {
+                    card.classList.add(`active-${cycle}`);
+                }
+            });
+
+            // Anchor text
+            const anchorEl = document.getElementById('anchorText');
+            anchorEl.textContent = state.anchor || 'Я ВКЛЮЧЁН';
+            anchorEl.classList.toggle('has-anchor', !!state.anchor && state.anchor !== 'Я ВКЛЮЧЁН');
+            anchorEl.classList.toggle('default-anchor', !state.anchor || state.anchor === 'Я ВКЛЮЧЁН');
+
+            // Stats page
+            document.getElementById('statTotalGens').textContent = state.totalGens;
+            document.getElementById('statStreak').textContent = streak;
+
+            const firstDate = new Date(state.firstDate);
+            const today = new Date();
+            const daysDiff = Math.max(1, Math.floor((today - firstDate) / (1000 * 60 * 60 * 24)) + 1);
+            document.getElementById('statTotalDays').textContent = daysDiff;
+
+            const levelInfo = getLevel(state.totalGens);
+            document.getElementById('statLevel').textContent = `${levelInfo.level}`;
+
+            // Render goals
+            renderGoals();
+
+            // Render history
+            renderHistory();
+
+            // Render insights
+            renderInsights();
+        }
+
+        // ===== CHECKLIST CLICK =====
+        document.querySelectorAll('.checklist-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const cycle = this.dataset.cycle;
+                const task = this.dataset.task;
+                const todayStr = getTodayStr();
+
+                if (!state.dailyLogs[todayStr]) {
+                    state.dailyLogs[todayStr] = { morning: {}, day: {}, evening: {} };
+                }
+
+                if (!state.dailyLogs[todayStr][cycle]) {
+                    state.dailyLogs[todayStr][cycle] = {};
+                }
+
+                const current = state.dailyLogs[todayStr][cycle][task] || false;
+                state.dailyLogs[todayStr][cycle][task] = !current;
+
+                // Toggle visual
+                this.classList.toggle('checked');
+                saveState(state);
+            });
+        });
+
+        // ===== BREATH SELECTOR =====
+        document.querySelectorAll('.breath-option').forEach(opt => {
+            opt.addEventListener('click', function () {
+                document.querySelectorAll('.breath-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // ===== COMPLETE CYCLE =====
+        function completeCycle(cycle) {
+            const todayStr = getTodayStr();
+            if (!state.dailyLogs[todayStr]) {
+                state.dailyLogs[todayStr] = { morning: {}, day: {}, evening: {} };
+            }
+
+            const cycleData = state.dailyLogs[todayStr][cycle] || {};
+
+            // Check if required tasks are done
+            const requiredTasks = {
+                morning: ['wakeup', 'breathing', 'goal', 'anchor'],
+                day: ['walk', 'mindful'],
+                evening: ['gratitude', 'reflection', 'insight']
+            };
+
+            const allDone = requiredTasks[cycle].every(task => cycleData[task]);
+
+            if (!allDone) {
+                const missing = requiredTasks[cycle].filter(task => !cycleData[task]).length;
+                showToast(`Отметьте ещё ${missing} пункт(ов)`);
+                return;
+            }
+
+            // Save
+            state.dailyLogs[todayStr][cycle].completed = true;
+            state.dailyLogs[todayStr][cycle].completedAt = new Date().toISOString();
+
+            // Save daily goal if morning
+            if (cycle === 'morning') {
+                const goalText = document.getElementById('dailyGoal').value.trim();
+                state.dailyLogs[todayStr].dailyGoal = goalText;
+            }
+
+            // Save gratitude and insight
+            if (cycle === 'evening') {
+                const gratitude = document.getElementById('gratitudeText').value.trim();
+                const insight = document.getElementById('insightText').value.trim();
+                state.dailyLogs[todayStr].gratitude = gratitude;
+                state.dailyLogs[todayStr].insight = insight;
+
+                if (insight) {
+                    state.insights.push({
+                        date: todayStr,
+                        text: insight,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            }
+
+            state.totalGens += 1;
+            saveState(state);
+
+            // Show GEN animation
+            showGenAnimation();
+            showToast(`+1 GEN получен! ⚡`);
+
+            updateUI();
+        }
+
+        // ===== GEN ANIMATION =====
+        function showGenAnimation() {
+            const el = document.getElementById('genAnimation');
+            el.classList.remove('show');
+            void el.offsetWidth; // reflow
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 900);
+        }
+
+        // ===== TOAST =====
+        function showToast(message) {
+            const el = document.getElementById('toast');
+            el.textContent = message;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 2500);
+        }
+
+        // ===== ANCHOR =====
+        function editAnchor() {
+            const current = state.anchor || 'Я ВКЛЮЧЁН';
+            const newAnchor = prompt('Ваш якорь-триггер:', current);
+            if (newAnchor && newAnchor.trim()) {
+                state.anchor = newAnchor.trim();
+                saveState(state);
+                updateUI();
+                showToast('Якорь обновлён! 🔗');
+            }
+        }
+
+        // ===== TIMER =====
+        let timerInterval = null;
+        let timerSeconds = 0;
+        let timerRunning = false;
+
+        function toggleTimer() {
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                document.getElementById('timerStartBtn').textContent = 'Старт';
+                document.getElementById('timerStartBtn').classList.add('primary');
+            } else {
+                document.getElementById('timerDisplay').style.display = 'block';
+                timerRunning = true;
+                document.getElementById('timerStartBtn').textContent = 'Пауза';
+                document.getElementById('timerStartBtn').classList.remove('primary');
+                timerInterval = setInterval(() => {
+                    timerSeconds++;
+                    const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+                    const secs = (timerSeconds % 60).toString().padStart(2, '0');
+                    document.getElementById('timerTime').textContent = `${mins}:${secs}`;
+
+                    if (timerSeconds >= 1800) {
+                        // 30 minutes reached
+                        document.getElementById('timerTime').style.color = '#10b981';
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timerSeconds = 0;
+            document.getElementById('timerTime').textContent = '00:00';
+            document.getElementById('timerTime').style.color = 'var(--accent-day)';
+            document.getElementById('timerStartBtn').textContent = 'Старт';
+            document.getElementById('timerStartBtn').classList.add('primary');
+            document.getElementById('timerDisplay').style.display = 'none';
+        }
+
+        // Show timer when walking task is checked
+        const walkChecklist = document.querySelector('[data-task="walk"]');
+        const origWalkClick = walkChecklist.onclick;
+        walkChecklist.addEventListener('click', function () {
+            const isChecked = this.classList.contains('checked');
+            if (isChecked) {
+                document.getElementById('timerDisplay').style.display = 'block';
+            }
+        });
+
+        // ===== NAVIGATION =====
+        document.querySelectorAll('.nav-item').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const pageId = this.dataset.page;
+
+                document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
+
+                // Show/hide FAB
+                const fab = document.getElementById('fabBtn');
+                fab.style.display = pageId === 'pageGoals' ? 'flex' : 'none';
+            });
+        });
+
+        // ===== GOALS =====
+        function openGoalModal() {
+            document.getElementById('goalModal').classList.add('show');
+            // Set default deadline to 1 month from now
+            const d = new Date();
+            d.setMonth(d.getMonth() + 1);
+            document.getElementById('goalDeadline').value = d.toISOString().split('T')[0];
+        }
+
+        function closeGoalModal() {
+            document.getElementById('goalModal').classList.remove('show');
+        }
+
+        function createGoal() {
+            const title = document.getElementById('goalTitle').value.trim();
+            const why = document.getElementById('goalWhy').value.trim();
+            const deadline = document.getElementById('goalDeadline').value;
+            const scale = document.getElementById('goalScale').value;
+
+            if (!title) {
+                showToast('Введите название цели');
+                return;
+            }
+
+            state.goals.push({
+                id: Date.now().toString(),
+                title,
+                why,
+                deadline,
+                scale,
+                created: getTodayStr(),
+                completed: null,
+                status: 'active'
+            });
+
+            saveState(state);
+            closeGoalModal();
+
+            // Clear form
+            document.getElementById('goalTitle').value = '';
+            document.getElementById('goalWhy').value = '';
+            document.getElementById('goalDeadline').value = '';
+
+            showToast('Цель создана! 🎯');
+            renderGoals();
+        }
+
+        function completeGoal(id) {
+            const goal = state.goals.find(g => g.id === id);
+            if (goal) {
+                goal.completed = getTodayStr();
+                goal.status = 'done';
+                saveState(state);
+                showToast('Цель достигнута! 🎉');
+                renderGoals();
+            }
+        }
+
+        function postponeGoal(id) {
+            const goal = state.goals.find(g => g.id === id);
+            if (goal) {
+                const newDeadline = prompt('Новый дедлайн (YYYY-MM-DD):', goal.deadline);
+                if (newDeadline) {
+                    goal.deadline = newDeadline;
+                    saveState(state);
+                    showToast('Дедлайн обновлён 📅');
+                    renderGoals();
+                }
+            }
+        }
+
+        function closeGoal(id) {
+            const goal = state.goals.find(g => g.id === id);
+            if (goal) {
+                goal.status = 'closed';
+                saveState(state);
+                renderGoals();
+            }
+        }
+
+        function deleteGoal(id) {
+            if (confirm('Удалить цель?')) {
+                state.goals = state.goals.filter(g => g.id !== id);
+                saveState(state);
+                renderGoals();
+            }
+        }
+
+        function renderGoals() {
+            const container = document.getElementById('goalsList');
+            const empty = document.getElementById('goalsEmpty');
+
+            const activeGoals = state.goals.filter(g => g.status === 'active');
+            const doneGoals = state.goals.filter(g => g.status === 'done');
+
+            if (state.goals.length === 0) {
+                container.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+
+            const today = new Date();
+            const scaleLabels = {
+                day: 'День', week: 'Неделя', month: 'Месяц',
+                quarter: 'Квартал', year: 'Год', five: '5 лет', life: 'Жизнь'
+            };
+
+            let html = '';
+
+            // Active goals first
+            [...activeGoals, ...doneGoals].forEach(goal => {
+                const created = new Date(goal.created);
+                const deadline = goal.deadline ? new Date(goal.deadline) : null;
+                const completed = goal.completed ? new Date(goal.completed) : null;
+
+                let daysLeft = '';
+                let progress = 0;
+
+                if (deadline) {
+                    const totalDays = Math.ceil((deadline - created) / (1000 * 60 * 60 * 24));
+                    const elapsed = Math.max(0, Math.ceil((today - created) / (1000 * 60 * 60 * 24)));
+                    daysLeft = totalDays - elapsed;
+                    progress = totalDays > 0 ? Math.min(100, (elapsed / totalDays) * 100) : 100;
+                }
+
+                let statusClass = 'active';
+                let statusText = 'Активна';
+
+                if (goal.status === 'done') {
+                    statusClass = 'done';
+                    statusText = '✓ Выполнена';
+                } else if (daysLeft < 0) {
+                    statusClass = 'expired';
+                    statusText = '⏰ Просрочена';
+                }
+
+                if (goal.status === 'closed') {
+                    statusText = 'Закрыта';
+                    statusClass = 'expired';
+                }
+
+                const progressWidth = goal.status === 'done' ? 100 : Math.min(100, progress);
+
+                html += `
+                    <div class="goal-card">
+                        <div class="goal-card-header">
+                            <div class="goal-title">${goal.title}</div>
+                            <div class="goal-status ${statusClass}">${statusText}</div>
+                        </div>
+                        ${goal.why ? `<div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:8px;font-style:italic;">${goal.why}</div>` : ''}
+                        <div class="goal-meta">
+                            <span>📅 ${formatDate(goal.created)}</span>
+                            <span>⏳ ${goal.deadline ? formatDate(goal.deadline) : 'Без дедлайна'}</span>
+                            <span>📊 ${scaleLabels[goal.scale]}</span>
+                        </div>
+                        ${goal.status === 'active' ? `
+                            <div class="goal-progress-bar">
+                                <div class="goal-progress-fill" style="width:${progressWidth}%"></div>
+                            </div>
+                            ${daysLeft !== '' ? `<div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:8px;">Осталось: ${Math.max(0, daysLeft)} дн.</div>` : ''}
+                            <div class="goal-actions">
+                                <button class="goal-action-btn primary" onclick="completeGoal('${goal.id}')">✓ Достигнута</button>
+                                <button class="goal-action-btn" onclick="postponeGoal('${goal.id}')">Сдвинуть</button>
+                                <button class="goal-action-btn" onclick="deleteGoal('${goal.id}')">✕</button>
+                            </div>
+                        ` : `
+                            ${goal.completed ? `<div style="font-size:0.72rem;color:var(--accent-gen);margin-bottom:8px;">✅ Выполнена ${formatDate(goal.completed)}</div>` : ''}
+                            <div class="goal-actions">
+                                <button class="goal-action-btn" onclick="deleteGoal('${goal.id}')">Удалить</button>
+                            </div>
+                        `}
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ===== HISTORY =====
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            const logs = state.dailyLogs;
+            const sortedDates = Object.keys(logs).sort().reverse().slice(0, 14);
+
+            if (sortedDates.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-text">Пока нет данных.<br>Начните свой первый цикл!</div></div>';
+                return;
+            }
+
+            let html = '';
+            sortedDates.forEach(dateStr => {
+                const log = logs[dateStr];
+                const m = log.morning && log.morning.completed;
+                const d = log.day && log.day.completed;
+                const e = log.evening && log.evening.completed;
+                const gens = [m, d, e].filter(Boolean).length;
+
+                html += `
+                    <div class="history-day">
+                        <div class="history-date">${formatDate(dateStr)}</div>
+                        <div class="history-dots">
+                            <div class="history-dot ${m ? 'filled-morning' : ''}" title="Утро"></div>
+                            <div class="history-dot ${d ? 'filled-day' : ''}" title="День"></div>
+                            <div class="history-dot ${e ? 'filled-evening' : ''}" title="Вечер"></div>
+                        </div>
+                        <div class="history-gens">${gens}/3</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ===== INSIGHTS =====
+        function renderInsights() {
+            const container = document.getElementById('insightsList');
+            const empty = document.getElementById('insightsEmpty');
+
+            // Also gather insights from daily logs
+            const allInsights = [];
+
+            // From dedicated insights array
+            state.insights.forEach(insight => {
+                allInsights.push(insight);
+            });
+
+            // From daily logs that have insights
+            Object.entries(state.dailyLogs).forEach(([dateStr, log]) => {
+                if (log.insight && !allInsights.find(i => i.date === dateStr && i.text === log.insight)) {
+                    allInsights.push({
+                        date: dateStr,
+                        text: log.insight,
+                        timestamp: log.evening && log.evening.completedAt ? log.evening.completedAt : `${dateStr}T22:00:00`
+                    });
+                }
+            });
+
+            // Sort by date descending
+            allInsights.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            if (allInsights.length === 0) {
+                container.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+
+            let html = '';
+            allInsights.forEach(insight => {
+                html += `
+                    <div class="insight-card">
+                        <div class="insight-date">${formatDate(insight.date)}</div>
+                        <div class="insight-text">${insight.text}</div>
+                        <div class="insight-tags">
+                            <span class="insight-tag">#инсайт</span>
+                            <span class="insight-tag">#${insight.date}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ===== CLOSE MODAL ON OVERLAY CLICK =====
+        document.getElementById('goalModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeGoalModal();
+            }
+        });
+
+        // ===== INIT =====
+        updateUI();
+
+        // Auto-highlight current cycle
+        (function highlightCurrentCycle() {
+            const hour = new Date().getHours();
+            let cycle = 'morning';
+            if (hour >= 11 && hour < 18) cycle = 'day';
+            if (hour >= 18) cycle = 'evening';
+
+            const todayStr = getTodayStr();
+            const log = state.dailyLogs[todayStr];
+            if (log && log[cycle] && log[cycle].completed) {
+                // If current cycle is done, highlight the next undone cycle or none
+            }
+        })();
+
+        // ===== DAILY GOAL RESTORE =====
+        (function restoreDailyGoal() {
+            const todayStr = getTodayStr();
+            const log = state.dailyLogs[todayStr];
+            if (log && log.dailyGoal) {
+                document.getElementById('dailyGoal').value = log.dailyGoal;
+            }
+        })();
+
+        // ===== RESTORE GRATITUDE/INSIGHT =====
+        (function restoreEveningInputs() {
+            const todayStr = getTodayStr();
+            const log = state.dailyLogs[todayStr];
+            if (log) {
+                if (log.gratitude) document.getElementById('gratitudeText').value = log.gratitude;
+                if (log.insight) document.getElementById('insightText').value = log.insight;
+            }
+        })();
+    </script>
+</body>
+</html>
+
