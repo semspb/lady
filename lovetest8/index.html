@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌿 Семетриум Любви</title>
+<style>
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/400,500,600,700.css');
+:root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--accent:#e94560;--green:#4ade80;--yellow:#fbbf24;--red:#f87171;--body:#fb923c;--soul:#60a5fa;--spirit:#c084fc;--text:#f0f0f0;--text2:#8888a0;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* SCREEN LAYOUTS */
+.screen{display:none;min-height:100vh;padding:16px;flex-direction:column;padding-bottom:90px}
+.screen.active{display:flex}
+
+/* WELCOME SCREEN CENTERING FIX */
+#welcome{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center; /* Vertical center */
+    padding:20px;
+    text-align:center;
+}
+
+.logo-svg{width:110px;height:110px;margin:0 auto;animation:pulse 3s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.w-title{font-size:26px;font-weight:700;background:linear-gradient(135deg,#e94560,#fbbf24,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-top:10px}
+.w-sub{color:var(--text2);font-size:15px;line-height:1.5;max-width:340px;margin:4px auto 0}
+
+/* DESCRIPTION BLOCK */
+.desc-block{background:linear-gradient(135deg,rgba(233,69,96,0.08),rgba(96,165,250,0.08));border:1px solid rgba(233,69,96,0.2);border-radius:20px;padding:20px;margin:20px 0;text-align:left;max-width:360px;width:100%}
+.desc-block h3{font-size:16px;font-weight:700;color:#e94560;margin-bottom:10px;display:flex;align-items:center;gap:6px;justify-content:center}
+.desc-block p{font-size:14px;line-height:1.6;color:var(--text);margin-bottom:8px}
+.desc-block p:last-child{margin-bottom:0}
+.desc-block .highlight{color:#fbbf24;font-weight:600}
+.desc-block .emoji-row{font-size:18px;margin:10px 0;text-align:center;letter-spacing:6px}
+
+.info-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 18px;width:100%;max-width:360px;text-align:left;margin-top:8px}
+.info-box h3{font-size:13px;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;text-align:center}
+.info-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:14px}
+.info-row:last-child{border:none}
+.info-row span:last-child{font-weight:600}
+
+.btn-wrap{width:100%;max-width:360px;margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 24px;border:none;border-radius:16px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:all .15s;min-height:52px;width:100%;-webkit-appearance:none}
+.btn:active{transform:scale(0.97)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#c23152);color:#fff}
+.btn-secondary{background:var(--card);border:1px solid var(--border);color:var(--text)}
+
+/* QUIZ SCREEN */
+#quiz{gap:12px}
+.q-header{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;background:var(--bg);padding:4px 0 8px}
+.q-header .back{background:none;border:none;color:var(--text2);font-size:24px;cursor:pointer;padding:8px}
+.q-header .count{font-size:14px;color:var(--text2);font-weight:600}
+.pbar{width:100%;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--yellow));border-radius:3px;transition:width .3s}
+.q-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:20px;margin-top:8px}
+.q-tag{display:inline-block;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:10px}
+.q-level{font-size:14px;margin-bottom:8px;font-weight:600}
+.q-text{font-size:17px;font-weight:600;line-height:1.5}
+.answers{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.abtn{display:flex;align-items:flex-start;gap:12px;padding:14px 14px;background:var(--card);border:2px solid var(--border);border-radius:16px;cursor:pointer;transition:all .15s;text-align:left;width:100%;font-family:inherit;color:var(--text);font-size:13.5px;line-height:1.45;-webkit-appearance:none}
+.abtn:active{transform:scale(0.98)}
+.abtn.sel{border-color:var(--accent);background:rgba(233,69,96,0.08)}
+.abtn .lt{flex-shrink:0;width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;background:var(--bg3);color:var(--text2)}
+.abtn.sel .lt{background:var(--accent);color:#fff}
+
+/* FIXED FOOTER QUIZ */
+.q-footer-fixed{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(0deg,var(--bg) 85%,transparent);padding:12px 16px 20px;display:flex;gap:10px;z-index:100}
+.q-footer-fixed .btn{flex:1}
+
+/* RESULTS SCREEN */
+#results{gap:16px}
+.r-head{text-align:center;margin-bottom:8px}
+.r-head h2{font-size:22px;font-weight:700}
+.r-head .rd{font-size:13px;color:var(--text2);margin-top:4px}
+.r-overall{text-align:center;padding:20px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;margin-bottom:8px}
+.r-overall .big{font-size:48px;font-weight:800}
+.r-overall .st{font-size:16px;margin-top:6px;font-weight:600}
+.legend{display:flex;justify-content:center;gap:20px;margin:8px 0;padding:10px;background:var(--bg2);border-radius:12px;border:1px solid var(--border)}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600}
+.legend-dot{width:14px;height:14px;border-radius:4px}
+.begin-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:8px}
+.begin-head{display:flex;align-items:center;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.begin-head .name{font-size:16px;font-weight:700}
+.begin-head .gr{font-size:13px;opacity:.6}
+.begin-head .pct{font-size:16px;font-weight:700}
+.begin-head .ind{display:inline-block;padding:2px 10px;border-radius:8px;font-size:11px;font-weight:700}
+.ind-on{background:rgba(74,222,128,0.2);color:#4ade80}
+.ind-off{background:rgba(248,113,113,0.2);color:#f87171}
+.ind-mid{background:rgba(160,160,176,0.15);color:#a0a0b0}
+.lv-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.lv-row:last-child{margin-bottom:0}
+.lv-label{font-size:13px;font-weight:700;width:60px;flex-shrink:0;display:flex;align-items:center;gap:4px}
+.lv-bar-track{flex:1;height:14px;background:var(--bg3);border-radius:7px;overflow:hidden;position:relative}
+.lv-bar-fill{height:100%;border-radius:7px;transition:width .5s ease}
+.lv-bar-zero{position:absolute;left:50%;top:0;width:2px;height:100%;background:rgba(255,255,255,0.15)}
+.lv-pct{font-size:13px;font-weight:600;width:40px;text-align:right;flex-shrink:0}
+.sec{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-top:10px}
+.dtable{width:100%;border-collapse:collapse;font-size:13px}
+.dtable th{padding:8px 4px;border-bottom:2px solid var(--border);font-size:11px;color:var(--text2);text-align:left;font-weight:600}
+.dtable td{padding:10px 4px;border-bottom:1px solid var(--border)}
+.dtable tr:last-child td{border:none}
+.ins-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px}
+.ins-box h4{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ins-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;line-height:1.6}
+.ins-item:last-child{border:none}
+.ins-item .il{font-weight:700;margin-bottom:4px;font-size:14px}
+.ins-item .ix{color:var(--text2);font-size:13px;line-height:1.55}
+
+/* FIXED FOOTER RESULTS */
+.r-actions-fixed{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(0deg,var(--bg) 75%,transparent);padding:10px 16px 20px;z-index:100;display:flex;gap:10px}
+.r-actions-fixed .btn{flex:1}
+
+#history{padding:16px;gap:16px}
+#history h2{font-size:22px;font-weight:700}
+.h-item{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.h-item .hd{font-size:13px;color:var(--text2)}
+.h-item .hs{font-size:22px;font-weight:700}
+.h-item .ha{display:flex;gap:6px}
+.h-item .ha button{background:none;border:none;font-size:20px;cursor:pointer;padding:6px;opacity:.7}
+.no-h{text-align:center;padding:40px 20px;color:var(--text2);font-size:15px;line-height:1.6}
+@media(min-width:600px){.screen{max-width:480px;margin:0 auto}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+</style>
+</head>
+<body>
+
+<!-- WELCOME -->
+<div id="welcome" class="screen active">
+  <div class="logo-svg" id="logoSvg"></div>
+  <div class="w-title">Семетриум Любви</div>
+  <div class="w-sub">Диагностическая карта вашего внутреннего сада</div>
+
+  <div class="desc-block">
+    <h3>🌿 Что такое Семетриум?</h3>
+    <p><span class="highlight">Семетриум</span> — это пространство измерения внутренней любви. Семь начал и три уровня глубины образуют карту вашего эмоционального ландшафта.</p>
+    <p>Пройдя этот тест, вы узнаете:</p>
+    <div class="emoji-row">🔥 🤝  ☀️  🛠️ </div>
+    <p>• Какая любовь во вас <span class="highlight">жива и ресурсна</span><br>
+    • Какая любовь <span class="highlight">спит или в дефиците</span><br>
+    • Где есть <span class="highlight">перекосы и дисбаланс</span><br>
+    • Что делать для <span class="highlight">гармонизации</span></p>
+    <p>Это не тест «про отношения с другим» — это <span class="highlight">зеркало вашей внутренней способности любить</span>.</p>
+  </div>
+
+  <div class="info-box">
+    <h3>📋 О тесте</h3>
+    <div class="info-row"><span>Вопросов</span><span>21</span></div>
+    <div class="info-row"><span>Время</span><span>~5–7 мин</span></div>
+    <div class="info-row"><span>Шкала</span><span>−100% … +100%</span></div>
+    <div class="info-row"><span>Измерений</span><span>21 (7 начал × 3 уровня)</span></div>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="btn btn-primary" onclick="startQuiz()">🌱 Начать тест</button>
+    <button class="btn btn-secondary" onclick="showHistory()">📊 История прохождений</button>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+  <div class="q-header">
+    <button class="back" onclick="doExit()">✕</button>
+    <span class="count" id="qCount">1 / 21</span>
+  </div>
+  <div class="pbar"><div class="pfill" id="pFill"></div></div>
+  <div class="q-card">
+    <div class="q-tag" id="qTag"></div>
+    <div class="q-level" id="qLevel"></div>
+    <div class="q-text" id="qText"></div>
+  </div>
+  <div class="answers" id="ansBox"></div>
+  <div style="flex:1"></div>
+</div>
+
+<div class="q-footer-fixed" id="quizFooter" style="display:none">
+  <button class="btn btn-secondary" id="prevBtn" onclick="prevQ()">← Назад</button>
+  <button class="btn btn-primary" id="nextBtn" onclick="nextQ()">Далее →</button>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="r-head">
+    <h2>🌿 Ваш Сад Любви</h2>
+    <div class="rd" id="rDate"></div>
+  </div>
+  <div class="r-overall">
+    <div class="big" id="rPct"></div>
+    <div class="st" id="rSt"></div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--body)"></div>Тело</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--soul)"></div>Душа</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--spirit)"></div>Дух</div>
+  </div>
+  <div class="sec">⚖️ Тело · Душа · Дух</div>
+  <div id="levelBarsContainer"></div>
+  <div class="sec">📊 Сводка</div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:10px;overflow-x:auto"><table class="dtable" id="dTable"></table></div>
+  <div class="sec">🔍 Аналитика и рекомендации</div>
+  <div class="ins-box" id="insBox"></div>
+  <div style="flex:1"></div>
+</div>
+
+<div class="r-actions-fixed" id="resultsFooter" style="display:none">
+  <button class="btn btn-secondary btn-sm" onclick="exportPDF()">📄 PDF</button>
+  <button class="btn btn-secondary btn-sm" onclick="showWelcome()">🏠</button>
+  <button class="btn btn-primary" onclick="startQuiz()">🔄 Заново</button>
+</div>
+
+<!-- HISTORY -->
+<div id="history" class="screen">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h2>📊 История</h2>
+    <button onclick="showWelcome()" style="background:none;border:none;color:var(--text2);font-size:24px;cursor:pointer;padding:8px">✕</button>
+  </div>
+  <div id="hList"></div>
+</div>
+
+<script>
+var BEGINNINGS = [
+  {id:'eros',n:'ЭРОС',gr:'ἔρως',ic:'🔥',cl:'#e94560',
+   desc_hi:'ЭРОС — страсть и влечение, огонь, который зажигает жизнь. Вы умеете направлять энергию влечения в творческое русло, не теряя себя.',
+   desc_lo:'ЭРОС нуждается в развитии. Попробуйте практики работы с телесностью: танец, дыхательные упражнения, осознанное движение. Важно не подавлять влечение, а учиться его осознавать.',
+   desc_mid:'ЭРОС проявляется, но ещё не раскрыт полностью. Обратите внимание на ситуации, где вы сдерживаете свою энергию — где можно быть смелее?'},
+  {id:'philia',n:'ФИЛИЯ',gr:'φιλία',ic:'🤝',cl:'#60a5fa',
+   desc_hi:'ФИЛИЯ — дружба, взаимность, глубокое родство душ. Вы умеете создавать пространства доверия и равноправия.',
+   desc_lo:'ФИЛИЯ требует внимания. Практикуйте активное слушание, ищите людей, с которыми можете быть собой без масок. Дружба — это навык.',
+   desc_mid:'ФИЛИЯ развивается. У вас есть основа для глубокой дружбы. Попробуйте чаще инициировать контакт, делиться уязвимостью.'},
+  {id:'storge',n:'СТОРГЕ',gr:'στοργή',ic:'🌱',cl:'#4ade80',
+   desc_hi:'СТОРГЕ — глубокая привязанность, корни, чувство дома. Вы создаёте пространство безопасности для близких.',
+   desc_lo:'СТОРГЕ — зона роста. Возможно, вам трудно привязываться или доверять. Начните с малого: ритуалы близости, регулярный контакт с теми, кто вам дорог.',
+   desc_mid:'СТОРГЕ формируется. У вас есть базовое чувство привязанности. Углубите его через осознанную заботу и терпение.'},
+  {id:'agape',n:'АГАПЭ',gr:'ἀγάπη',ic:'☀️',cl:'#fbbf24',
+   desc_hi:'АГАПЭ — безусловная любовь, высшая форма заботы. Вы способны отдавать без ожиданий, принимать без условий.',
+   desc_lo:'АГАПЭ — зона роста. Попробуйте практиковать бескорыстную помощь: сделайте что-то хорошее для другого, не ожидая ничего взамен. Начните с малого.',
+   desc_mid:'АГАПЭ проявляется. У вас есть способность к безусловной заботе. Развивайте её через практику эмпатии и принятия.'},
+  {id:'ludus',n:'ЛЮДУС',gr:'λῦδος',ic:'⛲',cl:'#c084fc',
+   desc_hi:'ЛЮДУС — игра, лёгкость, спонтанность. Вы умеете радоваться жизни, находить юмор и свободу в отношениях.',
+   desc_lo:'ЛЮДУС подавлен. Жизнь стала слишком серьёзной. Разрешите себе 15 минут в день на «бесполезную» радость: танцуйте, рисуйте, смейтесь без причины.',
+   desc_mid:'ЛЮДУС проявляется, но мог бы быть ярче. Добавьте больше спонтанности: неожиданные прогулки, импровизация, игра без правил.'},
+  {id:'pragma',n:'ПРАГМА',gr:'πρᾶγμα',ic:'🛠️',cl:'#fb923c',
+   desc_hi:'ПРАГМА — структура, надёжность, партнёрство. Вы умеете строить устойчивые отношения через ответственность и общие цели.',
+   desc_lo:'ПРАГМА — зона роста. Начните с малого: выполняйте обещания, создавайте ритуалы, обсуждайте планы с близкими. Структура — это не скука, а забота.',
+   desc_mid:'ПРАГМА развивается. У вас есть основа для надёжных отношений. Укрепите её через честные разговоры о будущем и совместные проекты.'},
+  {id:'autarkia',n:'АВТАРКИЯ',gr:'αὐτάρκεια',ic:'🏡',cl:'#2dd4bf',
+   desc_hi:'АВТАРКИЯ — самодостаточность, целостность, свобода быть собой. Вы знаете свою ценность и не зависите от чужого одобрения.',
+   desc_lo:'АВТАРКИЯ — зона роста. Практикуйте время наедине с собой. Спросите: «Чего хочу Я, без оглядки на других?» Ваши границы — ваш дом.',
+   desc_mid:'АВТАРКИЯ формируется. Вы на пути к самодостаточности. Укрепляйте её через честность с собой и уважение к своим потребностям.'}
+];
+
+var LEVELS = [
+  {id:'body',n:'ТЕЛО',ic:'🔸',cl:'#fb923c',
+   desc_hi:'Телесный уровень развит: вы чувствуете свои инстинкты, комфортно в физическом контакте, заботитесь о теле.',
+   desc_lo:'Тело «молчит» или кричит. Начните с базовых практик: дыхание, прогулки, осознанное питание. Тело — ваш первый дом, и он ждёт внимания.',
+   desc_mid:'Тело на среднем уровне. Обратите внимание: где вы игнорируете физические сигналы? Где можно больше доверять телу?'},
+  {id:'soul',n:'ДУША',ic:'🔹',cl:'#60a5fa',
+   desc_hi:'Душевный уровень силён: вы осознаёте свои эмоции, умеете сопереживать, сохраняете баланс в отношениях.',
+   desc_lo:'Душа нуждается в заботе. Практикуйте ведение дневника, медитацию, разговоры с доверенным человеком. Эмоции — не враги, а посланники.',
+   desc_mid:'Душа развивается. Вы на пути к эмоциональной зрелости. Углубите практику через рефлексию и честный диалог с собой.'},
+  {id:'spirit',n:'ДУХ',ic:'✨',cl:'#c084fc',
+   desc_hi:'Духовный уровень интегрирован: вы находите смыслы в отношениях, живёте в согласии с ценностями, видите большую картину.',
+   desc_lo:'Духовный уровень требует внимания. Задавайте себе вопросы: «Зачем мне эти отношения?», «Что я даю миру через любовь?». Смысл — компас.',
+   desc_mid:'Дух проявляется. Вы ищете и находите смыслы. Продолжайте практику рефлексии, читайте философию, исследуйте свои ценности.'}
+];
+
+/* 
+   УНИКАЛЬНЫЕ ОТВЕТЫ ДЛЯ КАЖДОГО ВОПРОСА
+   Структура: [А (-1000), Б (-400), В (0), Г (+300), Д (+700), Е (+1000)]
+*/
+var QS = [
+  {b:'eros',l:'body',q:'Когда я чувствую сильное влечение, моё тело реагирует…',a:[
+     'Паника, одержимость, потеря контроля, физическая боль от longing',
+     'Тревожное возбуждение, сердце колотится от страха отвержения, суетливость',
+     'Никакой особой реакции / не замечаю телесных сигналов',
+     'Приятное волнение, энергия, интерес, лёгкое ускорение пульса',
+     'Гармоничное возбуждение + осознанность, ощущение прилива сил',
+     'Влечение как творческая сила, глубокая магнетическая связь без потери себя'
+  ]},
+  {b:'eros',l:'soul',q:'Когда объект моего влечения уделяет внимание другому, я…',a:[
+     'Ярость, отчаяние, желание контролировать или уничтожить соперника',
+     'Тревога, сравнение себя не в свою пользу, потеря уверенности',
+     'Не замечаю / не эмоционально вовлечён / мне всё равно',
+     'Волнуюсь, но справляюсь, могу открыто обсудить чувства',
+     'Доверяю партнёру и себе, вижу в этом возможность для роста',
+     'Радуюсь за партнёра, любовь становится шире, ревность отсутствует'
+  ]},
+  {b:'eros',l:'spirit',q:'Страсть для меня — это…',a:[
+     'Опасная сила, которая может всё разрушить, нужно её подавлять',
+     'Непредсказуемая эмоция, которой трудно управлять, источник хаоса',
+     'Обычное чувство, биология, не более того',
+     'Ценный ресурс, который можно направлять в творчество и работу',
+     'Творческая энергия, вдохновляющая на рост и преодоление себя',
+     'Священный огонь, связывающий меня с самой Жизнью и Творцом'
+  ]},
+  {b:'philia',l:'body',q:'Мне комфортно находиться в тишине с близким другом…',a:[
+     'Нет: молчание вызывает тревогу, неловкость, желание уйти',
+     'Могу, но тело напряжено, жду подвоха или неловкой паузы',
+     'Не придаю значения / обычно всегда есть о чём поговорить',
+     'Да, чувствую спокойствие и тепло, тишина не давит',
+     'Это одно из моих любимых состояний, тишина объединяет',
+     'Такая тишина — глубокий язык доверия, где слова не нужны'
+  ]},
+  {b:'philia',l:'soul',q:'Когда друг добивается большого успеха, моя первая реакция…',a:[
+     'Зависть, обида, желание обесценить его достижения или сплетничать',
+     'Смешанные чувства: рад за него, но грустно и завидно за себя',
+     'Равнодушие / не эмоционально вовлечён в жизнь друга',
+     'Искренняя радость и гордость за друга, желание поздравить',
+     'Вдохновение: его успех мотивирует меня, я вижу возможности для нас',
+     'Его успех — часть общего поля, поднимающего нас обоих, я лику'
+  ]},
+  {b:'philia',l:'spirit',q:'Настоящая дружба для меня — это…',a:[
+     'Сделка: я даю, только если получаю выгоду или услугу',
+     'Удобство: пока нам хорошо вместе, пока нет конфликтов',
+     'Обычное явление, приятное времяпрепровождение',
+     'Взаимное уважение и поддержка в важные моменты жизни',
+     'Глубокая связь на общих ценностях, готовность помочь без просьб',
+     'Духовное родство за рамками повседневности, встреча двух душ'
+  ]},
+  {b:'storge',l:'body',q:'Когда я прихожу «домой» (к близким), моё тело…',a:[
+     'Остаётся напряжённым: дома нет покоя, жду конфликта',
+     'Расслабляется с оговорками, всё ещё держу оборону',
+     'Не замечаю разницы / не придаю значения месту',
+     'Чувствует облегчение и уют, «своё» пространство',
+     'Полностью расслабляется, как в безопасной гавани',
+     'Дом — продолжение моего тела, где я наиболее целостен'
+  ]},
+  {b:'storge',l:'soul',q:'Моя способность прощать ошибки близких…',a:[
+     'Практически отсутствует: помню всё, держу обиду годами',
+     'Трудна: прощаю словами, но внутри не забываю, возвращаю в спорах',
+     'Не задумываюсь / стараюсь не обижаться, чтобы избежать проблем',
+     'Стараюсь прощать, понимаю, что люди несовершенны',
+     'Прощаю искренне, вижу в ошибках урок для нас обоих',
+     'Прощение — глубинная сила любви, я отпускаю боль мгновенно'
+  ]},
+  {b:'storge',l:'spirit',q:'Привязанность к близким — это…',a:[
+     'Клетка: боюсь потерять и теряю себя, зависимые отношения',
+     'Груз ответственности, который иногда давит и утомляет',
+     'Обычная часть жизни, социальная роль',
+     'Фундамент, на котором строю жизнь, опора',
+     'Живая связь, которая растёт и меняется вместе со мной',
+     'Корни, питающие без ограничения роста, безусловная связь'
+  ]},
+  {b:'agape',l:'body',q:'Когда я забочусь о ком-то физически, я чувствую…',a:[
+     'Раздражение, усталость, желание сбежать, «почему я?»',
+     'Обязанность: делаю механически, без тепла, через силу',
+     'Нейтрально: просто действие, как работа',
+     'Удовлетворение: приятно быть полезным, вижу результат',
+     'Глубокую радость от возможности отдать, энергия приходит',
+     'Забота — не потеря, а умножение жизненной силы, поток'
+  ]},
+  {b:'agape',l:'soul',q:'Когда близкий ошибается, моя первая реакция…',a:[
+     'Раздражение, обвинение, желание «исправить» силой или наказать',
+     'Жалость с позиции превосходства, скрытое осуждение',
+     'Равнодушие / отстраняюсь, «сам виноват»',
+     'Сочувствие, желание поддержать, помочь исправить',
+     'Эмпатия + границы, помощь без слияния и созависимости',
+     'Безусловное принятие: ошибка не отменяет ценности человека'
+  ]},
+  {b:'agape',l:'spirit',q:'Безусловная любовь для меня — это…',a:[
+     'Миф: все любят с условиями, наивно верить в иное',
+     'Идеал, которого не достичь, недостижимая мечта',
+     'Красивая концепция, философская идея',
+     'Цель, к которой стремлюсь, направление развития',
+     'Реальность в лучшие моменты, я переживаю это',
+     'Суть моего существования, я — канал этой любви'
+  ]},
+  {b:'ludus',l:'body',q:'Когда я делаю что-то «бесполезное» ради удовольствия…',a:[
+     'Чувствую вину: время потрачено зря, надо работать',
+     'Неловкость: выгляжу глупо, стыдно перед другими',
+     'Редко занимаюсь / не вижу в этом смысла',
+     'Получаю удовольствие, но сдерживаюсь, чтобы не «распуститься»',
+     'Полностью погружаюсь, теряю счёт времени, кайфую',
+     'Игра — состояние, в котором я наиболее живой и настоящий'
+  ]},
+  {b:'ludus',l:'soul',q:'Когда всё идёт не по плану, я…',a:[
+     'Впадаю в отчаяние или гнев, мир рушится',
+     'Сильно расстраиваюсь, пытаюсь судорожно всё вернуть',
+     'Принимаю: жизнь есть жизнь, плыву по течению',
+     'Адаптируюсь, ищу возможности в новой ситуации',
+     'Нахожу юмор и возможность для творчества в хаосе',
+     'Непредсказуемость — приглашение к танцу, я доверяю потоку'
+  ]},
+  {b:'ludus',l:'spirit',q:'Игра и спонтанность для меня — это…',a:[
+     'Потеря времени, детская глупость',
+     'Развлечение для детей, я вырос из этого',
+     'Приятный отдых, способ переключиться',
+     'Важная часть жизни, которая перезагружает мозг',
+     'Философия: через игру я познаю мир и себя',
+     'Сакральный акт: соприкосновение с божественным началом'
+  ]},
+  {b:'pragma',l:'body',q:'Мой быт в отношениях (уборка, финансы, routine)…',a:[
+     'Хаос: избегаю, создаю конфликты, живу в беспорядке',
+     'Напряжение: стараюсь, но устаю, всё держится на мне',
+     'Каждый сам за себя / не вижу проблемы в хаосе',
+     'Организован: делим обязанности, есть базовый порядок',
+     'Комфортная система на нас обоих, быт не в тягость',
+     'Быт — ритуал заботы, который я выполняю с радостью и любовью'
+  ]},
+  {b:'pragma',l:'soul',q:'Моя способность выполнять обещания партнёру…',a:[
+     'Низкая: нахожу оправдания, забываю, подвожу',
+     'Средняя: стараюсь, но иногда срываюсь или опаздываю',
+     'Не задумываюсь: обещания — это просто слова',
+     'Высокая: сказал — сделал, дорожу доверием',
+     'Меня не подвести: слово — фундамент доверия',
+     'Обещание — священный контракт, который я чту как закон'
+  ]},
+  {b:'pragma',l:'spirit',q:'Прочные отношения — это…',a:[
+     'Невозможны: все разочаровываются, всё временно',
+     'Возможны, но требуют огромных жертв и терпения',
+     'Случаются редко: нужно просто найти «того самого»',
+     'Строятся трудом и уважением, это работа',
+     'Совместное творчество двух зрелых личностей',
+     'Путь к лучшему «я» для каждого из нас, духовный союз'
+  ]},
+  {b:'autarkia',l:'body',q:'Когда я один/одна, моё тело чувствует…',a:[
+     'Одиночество как физическую боль, пустоту в груди',
+     'Дискомфорт: нужно заполнить тишину телефоном или едой',
+     'Нейтрально: как обычно, без особых ощущений',
+     'Спокойствие: мне хорошо с собой, тело расслаблено',
+     'Наслаждение: время восстановления, кайф от одиночества',
+     'Самость: в одиночестве я наиболее целостен и наполнен'
+  ]},
+  {b:'autarkia',l:'soul',q:'Моё настроение зависит от…',a:[
+     'Полностью от других: их настроение = моё настроение',
+     'Сильно от внешних обстоятельств и реакций людей',
+     'Не отслеживаю / живу на автомате',
+     'Частично от внешних, частично от внутренних факторов',
+     'В основном от моего внутреннего состояния и мыслей',
+     'Я — источник своего настроения, внешнее лишь фон'
+  ]},
+  {b:'autarkia',l:'spirit',q:'Свобода быть собой в отношениях — это…',a:[
+     'Утопия: всегда приходится притворяться и подстраиваться',
+     'Труднодостижима: адаптируюсь, боюсь быть отвергнутым',
+     'Не задумываюсь: как складывается, так и ладно',
+     'Возможна: стараюсь быть искренним, но иногда сложно',
+     'Основа: без подлинности нет отношений, я выбираю себя',
+     'Моя подлинность — главный дар, который я приношу в мир'
+  ]}
+];
+
+var currentQ = 0;
+var answers = [];
+
+/* ============================================
+   ЛОГОТИП СЕМЕТРИУМ — Семь треугольников
+   ============================================ */
+function buildLogoSVG() {
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" class="logo-svg">' +
+    '<defs>' +
+    '<linearGradient id="colorGradient" x1="0%" y1="0%" x2="100%" y2="100%">' +
+    '<stop offset="0%" stop-color="#dc2626"/>' +
+    '<stop offset="25%" stop-color="#a855f7"/>' +
+    '<stop offset="50%" stop-color="#fbbf24"/>' +
+    '<stop offset="75%" stop-color="#ec4899"/>' +
+    '<stop offset="100%" stop-color="#dc2626"/>' +
+    '</linearGradient>' +
+    '<filter id="softGlow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>' +
+    '<feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+    '</defs>' +
+    '<polygon points="156.00,32.57 238.07,72.09 156.00,137.53" fill="url(#colorGradient)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>' +
+    '<polygon points="245.55,81.48 265.82,170.28 163.49,146.92" fill="url(#colorGradient)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>' +
+    '<polygon points="263.15,181.98 206.36,253.19 160.82,158.63" fill="url(#colorGradient)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>' +
+    '<polygon points="195.54,258.40 104.46,258.40 150.00,163.84" fill="url(#colorGradient)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>' +
+    '<polygon points="93.64,253.19 36.85,181.98 139.18,158.63" fill="url(#colorGradient)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>' +
+    '<polygon points="34.18,170.28 54.45,81.48 136.51,146.92" fill="url(#colorGradient)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>' +
+    '<polygon points="61.93,72.09 144.00,32.57 144.00,137.53" fill="url(#colorGradient)" fill-opacity="0.35" stroke="#f472b6" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>' +
+    '</svg>';
+}
+
+function showScreen(id){
+  var screens=document.querySelectorAll('.screen');
+  for(var i=0;i<screens.length;i++) screens[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  document.getElementById('quizFooter').style.display=id==='quiz'?'flex':'none';
+  document.getElementById('resultsFooter').style.display=id==='results'?'flex':'none';
+}
+
+function showWelcome(){
+  showScreen('welcome');
+  document.getElementById('quizFooter').style.display='none';
+  document.getElementById('resultsFooter').style.display='none';
+}
+
+function showHistory(){showScreen('history');renderHistoryList();}
+function startQuiz(){currentQ=0;answers=new Array(21).fill(null);showScreen('quiz');renderQuestion();}
+
+function renderQuestion(){
+  var q=QS[currentQ],bi=null,li=null;
+  for(var i=0;i<BEGINNINGS.length;i++) if(BEGINNINGS[i].id===q.b) bi=BEGINNINGS[i];
+  for(var j=0;j<LEVELS.length;j++) if(LEVELS[j].id===q.l) li=LEVELS[j];
+  document.getElementById('qCount').textContent=(currentQ+1)+' / 21';
+  document.getElementById('pFill').style.width=((currentQ+1)/21*100)+'%';
+  var tagEl=document.getElementById('qTag');
+  tagEl.textContent=bi.ic+' '+bi.n+' ('+bi.gr+')';
+  tagEl.style.background=bi.cl+'22';tagEl.style.color=bi.cl;
+  document.getElementById('qLevel').innerHTML='<span style="color:'+li.cl+';font-weight:700">'+li.ic+' '+li.n+'</span>';
+  document.getElementById('qText').textContent=q.q;
+  var box=document.getElementById('ansBox');box.innerHTML='';
+  for(var k=0;k<q.a.length;k++){
+    (function(idx){
+      var btn=document.createElement('button');
+      btn.className='abtn'+(answers[currentQ]===idx?' sel':'');
+      btn.innerHTML='<span class="lt">'+String.fromCharCode(1040+idx)+'</span><span>'+q.a[idx]+'</span>';
+      btn.onclick=function(){selectAnswer(idx);};
+      box.appendChild(btn);
+    })(k);
+  }
+  document.getElementById('prevBtn').style.visibility=currentQ===0?'hidden':'visible';
+  document.getElementById('nextBtn').textContent=currentQ===20?'✨ Результаты':'Далее →';
+}
+
+function selectAnswer(idx){
+  answers[currentQ]=idx;
+  var btns=document.querySelectorAll('.abtn');
+  for(var i=0;i<btns.length;i++) btns[i].classList.toggle('sel',i===idx);
+}
+function nextQ(){
+  if(answers[currentQ]===null){
+    var btns=document.querySelectorAll('.abtn');
+    for(var i=0;i<btns.length;i++) btns[i].style.animation='shake .3s';
+    setTimeout(function(){var b2=document.querySelectorAll('.abtn');for(var j=0;j<b2.length;j++) b2[j].style.animation='';},300);
+    return;
+  }
+  if(currentQ<20){currentQ++;renderQuestion();window.scrollTo({top:0,behavior:'smooth'});}
+  else calculateResults();
+}
+function prevQ(){if(currentQ>0){currentQ--;renderQuestion();}}
+function doExit(){if(confirm('Прервать тест? Прогресс не сохранён.')) showWelcome();}
+
+function calculateResults(){
+  var totalScore=0,byBeginning={},byLevel={},byBL={};
+  for(var i=0;i<BEGINNINGS.length;i++){
+    var bid=BEGINNINGS[i].id;
+    byBeginning[bid]={score:0,percent:0};
+    byBL[bid]={};
+    for(var j=0;j<LEVELS.length;j++){
+      var lid=LEVELS[j].id;
+      byBL[bid][lid]={score:0,percent:0};
+    }
+  }
+  for(var j2=0;j2<LEVELS.length;j2++) byLevel[LEVELS[j2].id]={score:0,percent:0};
+  for(var k=0;k<QS.length;k++){
+    var val=answers[k]===0?-1000:(answers[k]===1?-400:(answers[k]===2?0:(answers[k]===3?300:(answers[k]===4?700:1000))));
+    totalScore+=val;
+    byBeginning[QS[k].b].score+=val;
+    byLevel[QS[k].l].score+=val;
+    byBL[QS[k].b][QS[k].l].score+=val;
+  }
+  for(var bi=0;bi<BEGINNINGS.length;bi++){
+    var bid2=BEGINNINGS[bi].id;
+    byBeginning[bid2].percent=Math.round(byBeginning[bid2].score/3000*100);
+    for(var li=0;li<LEVELS.length;li++)
+      byBL[bid2][LEVELS[li].id].percent=Math.round(byBL[bid2][LEVELS[li].id].score/1000*100);
+  }
+  for(var li2=0;li2<LEVELS.length;li2++) byLevel[LEVELS[li2].id].percent=Math.round(byLevel[LEVELS[li2].id].score/7000*100);
+  var result={date:new Date().toISOString(),byBeginning:byBeginning,byLevel:byLevel,byBL:byBL,overall:Math.round(totalScore/21000*100),totalScore:totalScore};
+  saveResult(result);displayResults(result);
+}
+
+function displayResults(r){
+  showScreen('results');
+  var d=new Date(r.date);
+  document.getElementById('rDate').textContent=d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  var pct=r.overall,statusText,statusColor;
+  if(pct>60){statusText='✨ ON — Ресурсное состояние';statusColor='#4ade80';}
+  else if(pct>20){statusText='🟢 Развитие';statusColor='#4ade80';}
+  else if(pct>-20){statusText='⚪ Нейтраль';statusColor='#a0a0b0';}
+  else if(pct>-60){statusText='🟡 Зона риска';statusColor='#fbbf24';}
+  else{statusText='🔴 OFF — Критический дефицит';statusColor='#f87171';}
+  var pctEl=document.getElementById('rPct');
+  pctEl.textContent=(pct>=0?'+':'')+pct+'%';
+  pctEl.style.color=statusColor;
+  document.getElementById('rSt').innerHTML='<span style="color:'+statusColor+'">'+statusText+'</span>';
+
+  var lbContainer=document.getElementById('levelBarsContainer');
+  lbContainer.innerHTML='';
+  for(var bi2=0;bi2<BEGINNINGS.length;bi2++){
+    var b=BEGINNINGS[bi2],bid=b.id,bp=r.byBeginning[bid].percent;
+    var indClass=bp>60?'ind-on':(bp<-60?'ind-off':'ind-mid');
+    var indText=bp>60?'ON':(bp<-60?'OFF':'—');
+    var box=document.createElement('div');
+    box.className='begin-card';
+    var html='<div class="begin-head">';
+    html+='<span class="name">'+b.ic+' '+b.n+'</span>';
+    html+='<span class="gr">('+b.gr+')</span>';
+    html+='<span class="pct" style="color:'+b.cl+'">'+(bp>=0?'+':'')+bp+'%</span>';
+    html+='<span class="indicator '+indClass+'">'+indText+'</span>';
+    html+='</div>';
+    for(var li3=0;li3<LEVELS.length;li3++){
+      var lv=LEVELS[li3],lid=lv.id,lvp=r.byBL[bid][lid].percent;
+      var barW=Math.abs(lvp)/100*100;
+      var barColor=lvp>0?lv.cl:(lvp<0?'#f87171':'#a0a0b0');
+      var marginLeft=lvp<0?(100-barW)/2+'%':'50%';
+      var barWidth=lvp!==0?barW/2+'%':'0';
+      html+='<div class="lv-row">';
+      html+='<span class="lv-label"><span style="color:'+lv.cl+'">'+lv.ic+'</span> <span style="color:'+lv.cl+'">'+lv.n+'</span></span>';
+      html+='<div class="lv-bar-track"><div class="lv-bar-zero"></div>';
+      if(lvp!==0) html+='<div class="lv-bar-fill" style="width:'+barWidth+';background:'+barColor+';margin-left:'+marginLeft+'"></div>';
+      html+='</div>';
+      html+='<span class="lv-pct" style="color:'+barColor+'">'+(lvp>=0?'+':'')+lvp+'%</span>';
+      html+='</div>';
+    }
+    box.innerHTML=html;
+    lbContainer.appendChild(box);
+  }
+
+  var tbl=document.getElementById('dTable');
+  var html='<tr><th>Начало</th><th>%</th><th>Инд.</th></tr>';
+  for(var ti2=0;ti2<BEGINNINGS.length;ti2++){
+    var tb=BEGINNINGS[ti2],td=r.byBeginning[tb.id],tv=td.percent;
+    var tcol=tv>60?'#4ade80':(tv>-60?'#fbbf24':'#f87171');
+    var tind=tv>60?'ON':(tv<-60?'OFF':'—');
+    var indC=tv>60?'ind-on':(tv<-60?'ind-off':'ind-mid');
+    html+='<tr><td>'+tb.ic+' '+tb.n+'<br><span style="font-size:12px;color:var(--text2)">'+tb.gr+'</span></td>';
+    html+='<td style="font-weight:700;color:'+tcol+'">'+(tv>=0?'+':'')+tv+'%</td>';
+    html+='<td><span class="indicator '+indC+'">'+tind+'</span></td></tr>';
+  }
+  tbl.innerHTML=html;
+
+  var sorted=[];
+  for(var si=0;si<BEGINNINGS.length;si++){
+    var sb=BEGINNINGS[si];
+    sorted.push({id:sb.id,n:sb.n,gr:sb.gr,ic:sb.ic,cl:sb.cl,percent:r.byBeginning[sb.id].percent});
+  }
+  sorted.sort(function(a,b){return b.percent-a.percent;});
+  var dominant=sorted[0],weakest=sorted[sorted.length-1];
+  var insHtml='<h4>🔍 Развёрнутая аналитика</h4>';
+  insHtml+='<div class="ins-item"><div class="il">📊 Общий индекс: <span style="color:'+statusColor+'">'+(pct>=0?'+':'')+pct+'%</span></div><div class="ix">';
+  if(pct>60) insHtml+='Ваш сад любви расцвёл. Вы в ресурсном состоянии.';
+  else if(pct>20) insHtml+='Ваш сад активно развивается. Есть здоровая основа.';
+  else if(pct>-20) insHtml+='Нейтральная зона — пространство возможностей.';
+  else if(pct>-60) insHtml+='Зона риска: есть области, где любовь искажена.';
+  else insHtml+='Критический дефицит — отправная точка для трансформации.';
+  insHtml+='</div></div>';
+  var domObj=BEGINNINGS.find(function(x){return x.id===dominant.id;});
+  var weakObj=BEGINNINGS.find(function(x){return x.id===weakest.id;});
+  insHtml+='<div class="ins-item"><div class="il">👑 Доминанта: '+dominant.ic+' '+dominant.n+' ('+dominant.gr+') — <span style="color:'+dominant.cl+'">'+(dominant.percent>=0?'+':'')+dominant.percent+'%</span></div><div class="ix">'+(dominant.percent>60?domObj.desc_hi:(dominant.percent>-60?domObj.desc_mid:domObj.desc_lo))+'</div></div>';
+  insHtml+='<div class="ins-item"><div class="il">🌱 Зона роста: '+weakest.ic+' '+weakest.n+' ('+weakest.gr+') — <span style="color:'+weakest.cl+'">'+(weakest.percent>=0?'+':'')+weakest.percent+'%</span></div><div class="ix">'+weakObj.desc_lo+'</div></div>';
+  var lvs=[];
+  for(var lvk=0;lvk<LEVELS.length;lvk++) lvs.push({n:LEVELS[lvk].n,percent:r.byLevel[LEVELS[lvk].id].percent});
+  var lRange=Math.max(lvs[0].percent,lvs[1].percent,lvs[2].percent)-Math.min(lvs[0].percent,lvs[1].percent,lvs[2].percent);
+  if(lRange>40){
+    var strongest=lvs[0].percent>=lvs[1].percent&&lvs[0].percent>=lvs[2].percent?'Тело':(lvs[1].percent>=lvs[2].percent?'Душа':'Дух');
+    var weakestL=lvs[0].percent<=lvs[1].percent&&lvs[0].percent<=lvs[2].percent?'Тело':(lvs[1].percent<=lvs[2].percent?'Душа':'Дух');
+    insHtml+='<div class="ins-item"><div class="il" style="color:#fbbf24">⚠️ Дисбаланс уровней</div><div class="ix">Разброс '+lRange+'%. Сильнее — '+strongest+', слабее — '+weakestL+'. Практикуйте интеграцию.</div></div>';
+  }
+  insHtml+='<h4 style="margin-top:14px">🧭 Рекомендации</h4>';
+  var recs=[];
+  for(var ri2=0;ri2<BEGINNINGS.length;ri2++){
+    var rb=BEGINNINGS[ri2],rp=r.byBeginning[rb.id].percent;
+    if(rp<-60) recs.push({ic:rb.ic,t:'Приоритет: '+rb.n+' ('+rb.gr+') — OFF',x:rb.desc_lo});
+    else if(rp<0) recs.push({ic:rb.ic,t:'Развивайте '+rb.n+' ('+rb.gr+')',x:rb.desc_lo});
+    else if(rp<30) recs.push({ic:rb.ic,t:'Усильте '+rb.n+' ('+rb.gr+')',x:rb.desc_mid});
+  }
+  if(!recs.length) recs.push({ic:'🌟',t:'Продолжайте расти',x:'Профиль сбалансирован.'});
+  for(var rci=0;rci<recs.length;rci++){
+    var rec=recs[rci];
+    insHtml+='<div class="ins-item"><div class="il">'+rec.ic+' '+rec.t+'</div><div class="ix">'+rec.x+'</div></div>';
+  }
+  document.getElementById('insBox').innerHTML=insHtml;
+  window._lastResult=r;
+}
+
+function saveResult(r){
+  var h=JSON.parse(localStorage.getItem('sem_history')||'[]');
+  h.unshift(r);if(h.length>30) h=h.slice(0,30);
+  localStorage.setItem('sem_history',JSON.stringify(h));
+}
+function renderHistoryList(){
+  var h=JSON.parse(localStorage.getItem('sem_history')||'[]'),el=document.getElementById('hList');
+  if(!h.length){el.innerHTML='<div class="no-h">🌿 Пока нет прохождений.<br>Пройдите тест.</div>';return;}
+  el.innerHTML='';
+  for(var i=0;i<h.length;i++){(function(idx){
+    var r=h[idx],dd=new Date(r.date),p=r.overall;
+    var c=p>60?'#4ade80':(p>-60?'#fbbf24':'#f87171');
+    var div=document.createElement('div');div.className='h-item';
+    div.innerHTML='<div><div class="hd">'+dd.toLocaleDateString('ru-RU')+' '+dd.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'</div><div class="hs" style="color:'+c+'">'+(p>=0?'+':'')+p+'%</div></div><div class="ha"><button onclick="viewH('+idx+')">👁️</button><button onclick="delH('+idx+')">🗑️</button></div>';
+    el.appendChild(div);
+  })(i);}
+}
+function viewH(idx){var h=JSON.parse(localStorage.getItem('sem_history')||'[]');if(h[idx])displayResults(h[idx]);}
+function delH(idx){if(!confirm('Удалить?'))return;var h=JSON.parse(localStorage.getItem('sem_history')||'[]');h.splice(idx,1);localStorage.setItem('sem_history',JSON.stringify(h));renderHistoryList();}
+
+function exportPDF(){
+  var r=window._lastResult;if(!r)return;
+  var d=new Date(r.date),p=r.overall;
+  var st=p>60?'РЕСУРС':(p>20?'РАЗВИТИЕ':(p>-20?'НЕЙТРАЛЬ':(p>-60?'РИСК':'КРИЗИС')));
+  var rows='';
+  for(var i=0;i<BEGINNINGS.length;i++){
+    var b=BEGINNINGS[i],v=r.byBeginning[b.id],ind=v.percent>60?'ON':(v.percent<-60?'OFF':'—');
+    rows+='<tr><td style="padding:6px;border:1px solid #ddd">'+b.ic+' '+b.n+' ('+b.gr+')</td><td style="padding:6px;border:1px solid #ddd;text-align:center;color:'+(v.percent>60?'#22c55e':(v.percent<-60?'#ef4444':'#666'))+'">'+(v.percent>=0?'+':'')+v.percent+'%</td><td style="padding:6px;border:1px solid #ddd;text-align:center">'+ind+'</td></tr>';
+  }
+  var div=document.createElement('div');
+  div.style.cssText='position:absolute;left:-9999px;top:0;width:600px;background:#fff;color:#1a1a2e;font-family:Inter,sans-serif;padding:30px;';
+  div.innerHTML='<h1 style="font-size:22px;margin-bottom:4px">🌿 Семетриум Любви — Отчёт</h1><p style="color:#666;font-size:13px;margin-bottom:20px">'+d.toLocaleDateString('ru-RU')+'</p><div style="text-align:center;margin:24px 0"><div style="font-size:48px;font-weight:700;color:'+(p>=0?'#22c55e':'#ef4444')+'">'+(p>=0?'+':'')+p+'%</div><div style="font-size:16px;color:#666">Индекс: '+st+'</div></div><h2 style="font-size:16px;margin:20px 0 8px;border-bottom:2px solid #e94560;padding-bottom:4px">Сводка</h2><table style="width:100%;border-collapse:collapse;font-size:13px"><tr style="background:#f5f5f5"><th style="padding:8px;border:1px solid #ddd;text-align:left">Начало</th><th style="padding:8px;border:1px solid #ddd">%</th><th style="padding:8px;border:1px solid #ddd">Инд.</th></tr>'+rows+'</table><p style="margin-top:32px;font-size:11px;color:#999;text-align:center">triraid.ru/love • Семетриум Любви</p>';
+  document.body.appendChild(div);
+  var w=window.open('','','width=600,height=800');
+  w.document.write('<html><head><title>Отчёт</title></head><body>'+div.innerHTML+'</body></html>');
+  w.document.close();w.focus();
+  setTimeout(function(){w.print();},500);
+  setTimeout(function(){document.body.removeChild(div);},1000);
+}
+
+document.getElementById('nextBtn').onclick=nextQ;
+document.getElementById('prevBtn').onclick=prevQ;
+document.getElementById('logoSvg').innerHTML=buildLogoSVG();
+</script>
+</body>
+</html>
+
