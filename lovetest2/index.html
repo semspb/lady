@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌿 Семетриум Любви</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/400,500,600,700.css');
+:root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--accent:#e94560;--green:#4ade80;--yellow:#fbbf24;--red:#f87171;--blue:#60a5fa;--text:#f0f0f0;--text2:#8888a0;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.screen{display:none;min-height:100vh;padding:16px;flex-direction:column}
+.screen.active{display:flex}
+#welcome{justify-content:center;align-items:center;text-align:center;padding:32px 20px;gap:20px}
+.w-icon svg{width:90px;height:90px}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.w-icon{animation:pulse 3s infinite}
+.w-title{font-size:26px;font-weight:700;background:linear-gradient(135deg,#e94560,#fbbf24,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.w-sub{color:var(--text2);font-size:15px;line-height:1.6;max-width:320px}
+.info-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 20px;width:100%;max-width:340px;text-align:left}
+.info-box h3{font-size:13px;color:var(--accent);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+.info-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:14px}
+.info-row:last-child{border:none}
+.info-row span:last-child{font-weight:600}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 28px;border:none;border-radius:14px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:all .15s;min-height:52px;width:100%;max-width:340px;-webkit-appearance:none;appearance:none}
+.btn:active{transform:scale(0.97)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#c23152);color:#fff}
+.btn-secondary{background:var(--card);border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:12px 16px;font-size:13px;min-height:44px;max-width:none;width:auto;border-radius:12px}
+#quiz{padding:12px;gap:12px}
+.q-header{display:flex;justify-content:space-between;align-items:center}
+.q-header .back{background:none;border:none;color:var(--text2);font-size:22px;cursor:pointer;padding:8px}
+.q-header .count{font-size:14px;color:var(--text2);font-weight:500}
+.pbar{width:100%;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--yellow));border-radius:3px;transition:width .3s}
+.q-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:20px}
+.q-tag{display:inline-block;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:10px}
+.q-level{font-size:13px;color:var(--text2);margin-bottom:8px;font-weight:500}
+.q-text{font-size:17px;font-weight:500;line-height:1.55}
+.answers{display:flex;flex-direction:column;gap:8px}
+.abtn{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--card);border:2px solid var(--border);border-radius:14px;cursor:pointer;transition:all .15s;text-align:left;width:100%;font-family:inherit;color:var(--text);font-size:13.5px;line-height:1.5;-webkit-appearance:none;appearance:none}
+.abtn:active{transform:scale(0.98)}
+.abtn.sel{border-color:var(--accent);background:rgba(233,69,96,0.08)}
+.abtn .lt{flex-shrink:0;width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;background:var(--bg3);color:var(--text2)}
+.abtn.sel .lt{background:var(--accent);color:#fff}
+.q-footer{display:flex;gap:10px;margin-top:auto;padding-top:12px}
+.q-footer .btn{flex:1;max-width:none}
+#results{padding:16px;padding-bottom:40px;gap:18px}
+.r-head{text-align:center;margin-bottom:4px}
+.r-head h2{font-size:22px;font-weight:700}
+.r-head .rd{font-size:13px;color:var(--text2);margin-top:4px}
+
+/* Semetrium visualization */
+.sem-container{position:relative;width:280px;height:280px;margin:0 auto}
+.sem-container svg{width:100%;height:100%}
+.sem-center-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.sem-center-text .pct{font-size:36px;font-weight:700}
+.sem-center-text .lbl{font-size:12px;color:var(--text2);margin-top:2px}
+
+.level-bars{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:8px}
+.level-bars h4{font-size:14px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.lv-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.lv-row:last-child{margin-bottom:0}
+.lv-label{font-size:12px;width:24px;text-align:right;flex-shrink:0}
+.lv-bar-bg{flex:1;height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;position:relative}
+.lv-bar-fill{height:100%;border-radius:5px;transition:width .4s}
+.lv-bar-zero{position:absolute;left:50%;width:2px;height:100%;background:rgba(255,255,255,0.15)}
+.lv-pct{font-size:12px;font-weight:600;width:42px;text-align:right;flex-shrink:0}
+
+.sec{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;margin-top:4px}
+.chart-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px}
+.chart-box canvas{max-height:300px}
+.dtable{width:100%;border-collapse:collapse;font-size:13px}
+.dtable th{padding:8px 4px;border-bottom:2px solid var(--border);font-size:11px;color:var(--text2);text-align:left;font-weight:600}
+.dtable td{padding:10px 4px;border-bottom:1px solid var(--border)}
+.dtable tr:last-child td{border:none}
+.indicator{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700}
+.ind-on{background:rgba(74,222,128,0.2);color:#4ade80}
+.ind-off{background:rgba(248,113,113,0.2);color:#f87171}
+.ind-mid{background:rgba(160,160,176,0.15);color:#a0a0b0}
+
+.ins-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px}
+.ins-box h4{font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ins-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;line-height:1.55}
+.ins-item:last-child{border:none}
+.ins-item .il{font-weight:600;margin-bottom:4px;font-size:14px}
+.ins-item .ix{color:var(--text2);font-size:13px}
+
+.r-actions{display:flex;gap:8px;flex-wrap:wrap}
+.r-actions .btn{flex:1;min-width:0}
+
+#history{padding:16px;padding-bottom:40px;gap:16px}
+#history h2{font-size:22px;font-weight:700}
+.h-item{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.h-item .hd{font-size:13px;color:var(--text2)}
+.h-item .hs{font-size:22px;font-weight:700}
+.h-item .ha{display:flex;gap:6px}
+.h-item .ha button{background:none;border:none;font-size:20px;cursor:pointer;padding:6px;opacity:.6}
+.no-h{text-align:center;padding:40px 20px;color:var(--text2);font-size:14px}
+@media(min-width:600px){.screen{max-width:460px;margin:0 auto}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+</style>
+</head>
+<body>
+
+<!-- WELCOME -->
+<div id="welcome" class="screen active">
+  <div class="w-icon">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="2" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <g filter="url(#glow)">
+        <polygon points="100,8 110,80 90,80" fill="#4ade80" opacity="0.9"/>
+        <polygon points="100,8 110,80 90,80" fill="none" stroke="#4ade80" stroke-width="1.5" transform="rotate(51.43 100 100)"/>
+        <polygon points="100,8 110,80 90,80" fill="none" stroke="#4ade80" stroke-width="1.5" transform="rotate(102.86 100 100)"/>
+        <polygon points="100,8 110,80 90,80" fill="none" stroke="#4ade80" stroke-width="1.5" transform="rotate(154.29 100 100)"/>
+        <polygon points="100,8 110,80 90,80" fill="none" stroke="#4ade80" stroke-width="1.5" transform="rotate(205.71 100 100)"/>
+        <polygon points="100,8 110,80 90,80" fill="none" stroke="#4ade80" stroke-width="1.5" transform="rotate(257.14 100 100)"/>
+        <polygon points="100,8 110,80 90,80" fill="none" stroke="#4ade80" stroke-width="1.5" transform="rotate(308.57 100 100)"/>
+      </g>
+      <circle cx="100" cy="100" r="6" fill="#4ade80" opacity="0.6"/>
+      <circle cx="100" cy="100" r="12" fill="none" stroke="#4ade80" stroke-width="0.5" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="w-title">Семетриум Любви</div>
+  <div class="w-sub">Диагностическая карта вашего внутреннего сада</div>
+  <div class="info-box">
+    <h3>📋 О тесте</h3>
+    <div class="info-row"><span>Вопросов</span><span>21</span></div>
+    <div class="info-row"><span>Время</span><span>~5–7 мин</span></div>
+    <div class="info-row"><span>Шкала</span><span>−100% … +100%</span></div>
+    <div class="info-row"><span>Измерений</span><span>21 (7 начал × 3 уровня)</span></div>
+  </div>
+  <button class="btn btn-primary" onclick="startQuiz()">🌱 Начать тест</button>
+  <button class="btn btn-secondary" onclick="showHistory()">📊 История</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+  <div class="q-header">
+    <button class="back" onclick="doExit()">✕</button>
+    <span class="count" id="qCount">1 / 21</span>
+  </div>
+  <div class="pbar"><div class="pfill" id="pFill"></div></div>
+  <div class="q-card">
+    <div class="q-tag" id="qTag"></div>
+    <div class="q-level" id="qLevel"></div>
+    <div class="q-text" id="qText"></div>
+  </div>
+  <div class="answers" id="ansBox"></div>
+  <div class="q-footer">
+    <button class="btn btn-secondary" id="prevBtn" onclick="prevQ()">← Назад</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()">Далее →</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="r-head">
+    <h2>🌿 Ваш Сад Любви</h2>
+    <div class="rd" id="rDate"></div>
+  </div>
+
+  <!-- Semetrium Visualization -->
+  <div class="sem-container" id="semContainer"></div>
+
+  <div class="sec">⚖️ Баланс: Тело · Душа · Дух</div>
+  <div id="levelBarsContainer"></div>
+
+  <div class="sec">📊 Сводка по началам</div>
+  <div class="chart-box" style="padding:10px;overflow-x:auto"><table class="dtable" id="dTable"></table></div>
+
+  <div class="sec">🔍 Аналитика и рекомендации</div>
+  <div class="ins-box" id="insBox"></div>
+
+  <div class="r-actions">
+    <button class="btn btn-secondary btn-sm" onclick="exportPDF()">📄 PDF</button>
+    <button class="btn btn-secondary btn-sm" onclick="showWelcome()">🏠 Домой</button>
+    <button class="btn btn-primary btn-sm" onclick="startQuiz()">🔄 Заново</button>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div id="history" class="screen">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h2>📊 История</h2>
+    <button class="back" onclick="showWelcome()" style="background:none;border:none;color:var(--text2);font-size:22px;cursor:pointer;padding:8px">✕</button>
+  </div>
+  <div id="hList"></div>
+</div>
+
+<script>
+var BEGINNINGS = [
+  {id:'eros',n:'ЭРОС',ic:'🔥',cl:'#e94560'},
+  {id:'philia',n:'ФИЛИЯ',ic:'🤝',cl:'#60a5fa'},
+  {id:'storge',n:'СТОРГЕ',ic:'🌱',cl:'#4ade80'},
+  {id:'agape',n:'АГАПЭ',ic:'☀️',cl:'#fbbf24'},
+  {id:'ludus',n:'ЛЮДУС',ic:'⛲',cl:'#c084fc'},
+  {id:'pragma',n:'ПРАГМА',ic:'🛠️',cl:'#fb923c'},
+  {id:'autarkia',n:'АВТАРКИЯ',ic:'🏡',cl:'#2dd4bf'}
+];
+var LEVELS = [
+  {id:'body',n:'ТЕЛО',ic:'🔸',cl:'#fb923c'},
+  {id:'soul',n:'ДУША',ic:'🔹',cl:'#60a5fa'},
+  {id:'spirit',n:'ДУХ',ic:'✨',cl:'#c084fc'}
+];
+var OPTS = [
+  {lt:'А',v:-1000,t:'Полный дефицит: разрушительный паттерн, потеря себя'},
+  {lt:'Б',v:-400,t:'Зона риска: тревога, зависимость, искажение'},
+  {lt:'В',v:0,t:'Нейтраль: не проявлено / не осознаю'},
+  {lt:'Г',v:300,t:'Здоровое начало: осознанное проявление'},
+  {lt:'Д',v:700,t:'Развитый навык: интеграция и баланс'},
+  {lt:'Е',v:1000,t:'Мастерство: мудрость, поток, свобода'}
+];
+
+var QS = [
+  {b:'eros',l:'body',q:'Когда я чувствую сильное влечение, моё тело реагирует…',a:['Паника, одержимость, потеря контроля','Тревожное возбуждение, страх отвержения','Никакой особой реакции','Приятное волнение, энергия, интерес','Гармоничное возбуждение + осознанность','Влечение как творческая сила без потери себя']},
+  {b:'eros',l:'soul',q:'Когда объект моего влечения уделяет внимание другому, я…',a:['Ярость, отчаяние, желание контролировать','Тревога, сравнение, потеря уверенности','Не замечаю / не эмоционально вовлечён','Волнуюсь, но справляюсь, обсуждаю чувства','Доверяю партнёру и себе','Вижу возможность для роста и углубления доверия']},
+  {b:'eros',l:'spirit',q:'Страсть для меня — это…',a:['Опасная сила, которая может всё разрушить','Непредсказуемая эмоция, которой трудно управлять','Обычное чувство, не более','Ценный ресурс, который можно направлять','Творческая энергия, вдохновляющая на рост','Священный огонь, связывающий с жизненной силой']},
+  {b:'philia',l:'body',q:'Мне комфортно находиться в тишине с близким другом…',a:['Нет: молчание вызывает тревогу, желание уйти','Могу, но тело напряжено','Не придаю значения','Да, чувствую спокойствие и тепло','Это одно из моих любимых состояний','Такая тишина — глубокий язык доверия']},
+  {b:'philia',l:'soul',q:'Когда друг добивается большого успеха, моя первая реакция…',a:['Зависть, обида, желание обесценить','Смешанные чувства: рад, но грустно за себя','Равнодушие','Искренняя радость и гордость','Вдохновение: его успех мотивирует меня','Его успех — часть общего поля, поднимающего нас']},
+  {b:'philia',l:'spirit',q:'Настоящая дружба для меня — это…',a:['Сделка: я даю, только если получаю','Удобство: пока хорошо вместе','Обычное явление','Взаимное уважение и поддержка','Глубокая связь на общих ценностях','Духовное родство за рамками повседневности']},
+  {b:'storge',l:'body',q:'Когда я прихожу «домой» (к близким), моё тело…',a:['Остаётся напряжённым: дома нет покоя','Расслабляется с оговорками','Не замечаю разницы','Чувствует облегчение и уют','Полностью расслабляется, как в безопасной гавани','Дом — продолжение моего тела, где я целостен']},
+  {b:'storge',l:'soul',q:'Моя способность прощать ошибки близких…',a:['Практически отсутствует: помню всё','Трудна: прощаю, но не забываю','Не задумываюсь / стараюсь не обижаться','Стараюсь прощать','Прощаю искренне, понимая несовершенство','Прощение — глубинная сила любви, а не слабость']},
+  {b:'storge',l:'spirit',q:'Привязанность к близким — это…',a:['Клетка: боюсь потерять и теряю себя','Груз ответственности','Обычная часть жизни','Фундамент, на котором строю жизнь','Живая связь, которая растёт со мной','Корни, питающие без ограничения роста']},
+  {b:'agape',l:'body',q:'Когда я забочусь о ком-то физически, я чувствую…',a:['Раздражение, усталость, желание сбежать','Обязанность: делаю без тепла','Нейтрально: просто действие','Удовлетворение: приятно быть полезным','Глубокую радость от возможности отдать','Забота — не потеря, а умножение жизненной силы']},
+  {b:'agape',l:'soul',q:'Когда близкий ошибается, моя первая реакция…',a:['Раздражение, обвинение, желание «исправить» силой','Жалость с позиции превосходства','Равнодушие / отстраняюсь','Сочувствие, желание поддержать','Эмпатия + границы, помощь без слияния','Безусловное принятие: ошибка не отменяет ценности']},
+  {b:'agape',l:'spirit',q:'Безусловная любовь для меня — это…',a:['Миф: все любят с условиями','Идеал, которого не достичь','Красивая концепция','Цель, к которой стремлюсь','Реальность в лучшие моменты','Суть моего существования']},
+  {b:'ludus',l:'body',q:'Когда я делаю что-то «бесполезное» ради удовольствия…',a:['Чувствую вину: время потрачено зря','Неловкость: выгляжу глупо','Редко занимаюсь','Получаю удовольствие, но сдерживаюсь','Полностью погружаюсь, теряю счёт времени','Игра — состояние, в котором я наиболее живой']},
+  {b:'ludus',l:'soul',q:'Когда всё идёт не по плану, я…',a:['Впадаю в отчаяние или гнев','Сильно расстраиваюсь','Принимаю: жизнь есть жизнь','Адаптируюсь, ищу возможности','Нахожу юмор и возможность для творчества','Непредсказуемость — приглашение к танцу']},
+  {b:'ludus',l:'spirit',q:'Игра и спонтанность для меня — это…',a:['Потеря времени','Развлечение для детей','Приятный отдых','Важная часть жизни','Философия: через игру познаю мир','Сакральный акт: соприкосновение с божественным']},
+  {b:'pragma',l:'body',q:'Мой быт в отношениях (уборка, финансы, routine)…',a:['Хаос: избегаю, создаю конфликты','Напряжение: стараюсь, но устаю','Каждый сам за себя','Организован: делим обязанности','Комфортная система на нас обоих','Быт — ритуал заботы, который я выполняю с радостью']},
+  {b:'pragma',l:'soul',q:'Моя способность выполнять обещания партнёру…',a:['Низкая: нахожу оправдания','Средняя: иногда подвожу','Не задумываюсь','Высокая: сказал — сделал','Меня не подвести: слово — фундамент доверия','Обещание — священный контракт, который я чту']},
+  {b:'pragma',l:'spirit',q:'Прочные отношения — это…',a:['Невозможны: все разочаровываются','Возможны, но требуют жертв','Случаются редко','Строятся трудом и уважением','Совместное творчество двух зрелых личностей','Путь к лучшему «я» для каждого из нас']},
+  {b:'autarkia',l:'body',q:'Когда я один/одна, моё тело чувствует…',a:['Одиночество как физическую боль','Дискомфорт: нужно заполнить тишину','Нейтрально','Спокойствие: мне хорошо с собой','Наслаждение: время восстановления','Самость: в одиночестве я наиболее целостен']},
+  {b:'autarkia',l:'soul',q:'Моё настроение зависит от…',a:['Полностью от других','Сильно от внешних обстоятельств','Не отслеживаю','Частично от внешних, частично от внутренних','В основном от моего внутреннего состояния','Я — источник своего настроения']},
+  {b:'autarkia',l:'spirit',q:'Свобода быть собой в отношениях — это…',a:['Утопия: всегда приходится притворяться','Труднодостижима: адаптируюсь','Не задумываюсь','Возможна: стараюсь быть искренним','Основа: без подлинности нет отношений','Моя подлинность — главный дар в отношениях']}
+];
+
+var currentQ = 0;
+var answers = [];
+
+function showScreen(id) {
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove('active');
+  }
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showWelcome() { showScreen('welcome'); }
+function showHistory() { showScreen('history'); renderHistoryList(); }
+
+function startQuiz() {
+  currentQ = 0;
+  answers = new Array(21).fill(null);
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  var q = QS[currentQ];
+  var bi = null, li = null;
+  for (var i = 0; i < BEGINNINGS.length; i++) { if (BEGINNINGS[i].id === q.b) bi = BEGINNINGS[i]; }
+  for (var j = 0; j < LEVELS.length; j++) { if (LEVELS[j].id === q.l) li = LEVELS[j]; }
+
+  document.getElementById('qCount').textContent = (currentQ + 1) + ' / 21';
+  document.getElementById('pFill').style.width = ((currentQ + 1) / 21 * 100) + '%';
+
+  var tagEl = document.getElementById('qTag');
+  tagEl.textContent = bi.ic + ' ' + bi.n;
+  tagEl.style.background = bi.cl + '22';
+  tagEl.style.color = bi.cl;
+
+  document.getElementById('qLevel').textContent = li.ic + ' ' + li.n;
+  document.getElementById('qText').textContent = q.q;
+
+  var box = document.getElementById('ansBox');
+  box.innerHTML = '';
+  for (var k = 0; k < OPTS.length; k++) {
+    (function(idx) {
+      var btn = document.createElement('button');
+      btn.className = 'abtn' + (answers[currentQ] === idx ? ' sel' : '');
+      btn.innerHTML = '<span class="lt">' + OPTS[idx].lt + '</span><span>' + OPTS[idx].t + '</span>';
+      btn.onclick = function() { selectAnswer(idx); };
+      box.appendChild(btn);
+    })(k);
+  }
+
+  document.getElementById('prevBtn').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+  document.getElementById('nextBtn').textContent = currentQ === 20 ? '✨ Результаты' : 'Далее →';
+}
+
+function selectAnswer(idx) {
+  answers[currentQ] = idx;
+  var btns = document.querySelectorAll('.abtn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.toggle('sel', i === idx);
+  }
+}
+
+function nextQ() {
+  if (answers[currentQ] === null) {
+    var btns = document.querySelectorAll('.abtn');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].style.animation = 'shake .3s';
+    }
+    setTimeout(function() {
+      var btns2 = document.querySelectorAll('.abtn');
+      for (var j = 0; j < btns2.length; j++) { btns2[j].style.animation = ''; }
+    }, 300);
+    return;
+  }
+  if (currentQ < 20) {
+    currentQ++;
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    calculateResults();
+  }
+}
+
+function prevQ() {
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+
+function doExit() {
+  if (confirm('Прервать тест? Прогресс не сохранён.')) { showScreen('welcome'); }
+}
+
+function calculateResults() {
+  var totalScore = 0;
+  var byBeginning = {};
+  var byLevel = {};
+  var byBeginningLevel = {};
+
+  for (var i = 0; i < BEGINNINGS.length; i++) {
+    var bid = BEGINNINGS[i].id;
+    byBeginning[bid] = { score: 0, percent: 0 };
+    byBeginningLevel[bid] = {};
+    for (var j = 0; j < LEVELS.length; j++) {
+      var lid = LEVELS[j].id;
+      byBeginningLevel[bid][lid] = { score: 0, percent: 0 };
+    }
+  }
+  for (var j2 = 0; j2 < LEVELS.length; j2++) {
+    byLevel[LEVELS[j2].id] = { score: 0, percent: 0 };
+  }
+
+  for (var k = 0; k < QS.length; k++) {
+    var chosenIdx = answers[k];
+    var val = OPTS[chosenIdx].v;
+    totalScore += val;
+    byBeginning[QS[k].b].score += val;
+    byLevel[QS[k].l].score += val;
+    byBeginningLevel[QS[k].b][QS[k].l].score += val;
+  }
+
+  for (var bi = 0; bi < BEGINNINGS.length; bi++) {
+    var bid2 = BEGINNINGS[bi].id;
+    byBeginning[bid2].percent = Math.round(byBeginning[bid2].score / 3000 * 100);
+    for (var li = 0; li < LEVELS.length; li++) {
+      var lid2 = LEVELS[li].id;
+      byBeginningLevel[bid2][lid2].percent = Math.round(byBeginningLevel[bid2][lid2].score / 1000 * 100);
+    }
+  }
+  for (var li2 = 0; li2 < LEVELS.length; li2++) {
+    byLevel[LEVELS[li2].id].percent = Math.round(byLevel[LEVELS[li2].id].score / 7000 * 100);
+  }
+
+  var overallPct = Math.round(totalScore / 21000 * 100);
+
+  var result = {
+    date: new Date().toISOString(),
+    byBeginning: byBeginning,
+    byLevel: byLevel,
+    byBeginningLevel: byBeginningLevel,
+    overall: overallPct,
+    totalScore: totalScore
+  };
+
+  saveResult(result);
+  displayResults(result);
+}
+
+function displayResults(r) {
+  showScreen('results');
+
+  var d = new Date(r.date);
+  document.getElementById('rDate').textContent = d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+  // === SEMETRIUM SVG VISUALIZATION ===
+  var semContainer = document.getElementById('semContainer');
+  var pct = r.overall;
+  var statusText, statusColor;
+  if (pct > 60) { statusText = '✨ ON — Ресурсное состояние'; statusColor = '#4ade80'; }
+  else if (pct > 20) { statusText = '🟢 Развитие'; statusColor = '#4ade80'; }
+  else if (pct > -20) { statusText = '⚪ Нейтраль'; statusColor = '#a0a0b0'; }
+  else if (pct > -60) { statusText = '🟡 Зона риска'; statusColor = '#fbbf24'; }
+  else { statusText = '🔴 OFF — Критический дефицит'; statusColor = '#f87171'; }
+
+  var svgHTML = '<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">';
+  svgHTML += '<defs>';
+  svgHTML += '<filter id="semglow"><feGaussianBlur stdDeviation="3" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+  svgHTML += '</defs>';
+
+  // Background semetrium (faint)
+  svgHTML += '<g opacity="0.08">';
+  for (var bg = 0; bg < 7; bg++) {
+    svgHTML += '<polygon points="150,20 165,120 135,120" fill="#4ade80" transform="rotate(' + (bg * 360 / 7) + ' 150 150)"/>';
+  }
+  svgHTML += '</g>';
+
+  // Filled triangles based on each beginning's percentage
+  for (var ti = 0; ti < 7; ti++) {
+    var begId = BEGINNINGS[ti].id;
+    var begPct = r.byBeginning[begId].percent;
+    var begCl = BEGINNINGS[ti].cl;
+
+    // Calculate fill: positive fills outward, negative fills inward with different color
+    var fillPct = Math.min(100, Math.max(0, (begPct + 100) / 2)); // 0..100
+    var isOff = begPct < -60;
+    var isOn = begPct > 60;
+    var triColor = isOff ? '#f87171' : (isOn ? '#4ade80' : begCl);
+    var opacity = isOff ? 0.7 : (isOn ? 0.8 : 0.5);
+
+    // Triangle from center (150,150) to tip (150,20)
+    // Fill height: if fillPct = 0, triangle is collapsed at center; if 100, full triangle
+    var tipY = 150 - (fillPct / 100) * 130; // 150 at 0%, 20 at 100%
+    var halfW = (fillPct / 100) * 15; // 0 at center, 15 at tip
+
+    svgHTML += '<g transform="rotate(' + (ti * 360 / 7) + ' 150 150)" filter="url(#semglow)">';
+    svgHTML += '<polygon points="150,' + tipY.toFixed(1) + ' ' + (150 + halfW).toFixed(1) + ',150 ' + (150 - halfW).toFixed(1) + ',150" fill="' + triColor + '" opacity="' + opacity + '"/>';
+    svgHTML += '</g>';
+  }
+
+  // Center circle
+  svgHTML += '<circle cx="150" cy="150" r="35" fill="#0a0a14" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>';
+  svgHTML += '<text x="150" y="145" text-anchor="middle" fill="' + statusColor + '" font-size="22" font-weight="700" font-family="Inter,sans-serif">' + (pct >= 0 ? '+' : '') + pct + '%</text>';
+  svgHTML += '<text x="150" y="163" text-anchor="middle" fill="#8888a0" font-size="9" font-family="Inter,sans-serif">ЛЮБОВЬ</text>';
+
+  svgHTML += '</svg>';
+  semContainer.innerHTML = svgHTML;
+
+  // Below semetrium: overall indicator
+  var centerInfo = '<div style="text-align:center;margin-top:8px">';
+  centerInfo += '<div style="font-size:13px;color:' + statusColor + ';font-weight:600">' + statusText + '</div>';
+  centerInfo += '</div>';
+  semContainer.innerHTML += centerInfo;
+
+  // === LEVEL BARS: 3 levels for EACH of 7 beginnings ===
+  var lbContainer = document.getElementById('levelBarsContainer');
+  lbContainer.innerHTML = '';
+
+  for (var bi2 = 0; bi2 < BEGINNINGS.length; bi2++) {
+    var b = BEGINNINGS[bi2];
+    var bid = b.id;
+    var bp = r.byBeginning[bid].percent;
+
+    var box = document.createElement('div');
+    box.className = 'level-bars';
+
+    var indClass = bp > 60 ? 'ind-on' : (bp < -60 ? 'ind-off' : 'ind-mid');
+    var indText = bp > 60 ? 'ON' : (bp < -60 ? 'OFF' : '—');
+
+    var html = '<h4>' + b.ic + ' ' + b.n + ' <span style="color:' + b.cl + '">(' + (bp >= 0 ? '+' : '') + bp + '%)</span> <span class="indicator ' + indClass + '">' + indText + '</span></h4>';
+
+    for (var li3 = 0; li3 < LEVELS.length; li3++) {
+      var lv = LEVELS[li3];
+      var lid = lv.id;
+      var lvp = r.byBeginningLevel[bid][lid].percent;
+
+      // Bar: centered at 0, positive goes right (green), negative goes left (red)
+      var barColor = lvp > 0 ? '#4ade80' : (lvp < 0 ? '#f87171' : '#a0a0b0');
+      var barW = Math.abs(lvp) / 100 * 50; // 0..50% of container
+
+      html += '<div class="lv-row">';
+      html += '<span class="lv-label" style="color:' + lv.cl + '">' + lv.ic + '</span>';
+      html += '<div class="lv-bar-bg">';
+      html += '<div class="lv-bar-zero"></div>';
+      if (lvp > 0) {
+        html += '<div class="lv-bar-fill" style="width:' + barW + '%;background:' + barColor + ';margin-left:50%"></div>';
+      } else if (lvp < 0) {
+        html += '<div class="lv-bar-fill" style="width:' + barW + '%;background:' + barColor + ';margin-left:' + (50 - barW) + '%"></div>';
+      }
+      html += '</div>';
+      html += '<span class="lv-pct" style="color:' + barColor + '">' + (lvp >= 0 ? '+' : '') + lvp + '%</span>';
+      html += '</div>';
+    }
+
+    box.innerHTML = html;
+    lbContainer.appendChild(box);
+  }
+
+  // === DETAIL TABLE ===
+  var tbl = document.getElementById('dTable');
+  var html = '<tr><th>Начало</th><th>%</th><th>Инд.</th><th style="width:30%">Уровень</th></tr>';
+  for (var ti2 = 0; ti2 < BEGINNINGS.length; ti2++) {
+    var tb = BEGINNINGS[ti2];
+    var td = r.byBeginning[tb.id];
+    var tv = td.percent;
+    var barW2 = Math.max(4, Math.abs(tv));
+    var tcol = tv > 60 ? '#4ade80' : (tv > -60 ? '#fbbf24' : '#f87171');
+    var tind = tv > 60 ? 'ON' : (tv < -60 ? 'OFF' : '—');
+    var indC = tv > 60 ? 'ind-on' : (tv < -60 ? 'ind-off' : 'ind-mid');
+    var mL = tv < 0 ? 'margin-left:auto' : '';
+    html += '<tr>';
+    html += '<td>' + tb.ic + ' ' + tb.n + '</td>';
+    html += '<td style="font-weight:600;color:' + tcol + '">' + (tv >= 0 ? '+' : '') + tv + '%</td>';
+    html += '<td><span class="indicator ' + indC + '">' + tind + '</span></td>';
+    html += '<td><div style="height:7px;border-radius:4px;background:var(--bg3);overflow:hidden"><div style="width:' + barW2 + '%;height:100%;border-radius:4px;background:' + tcol + ';' + mL + '"></div></div></td>';
+    html += '</tr>';
+  }
+  tbl.innerHTML = html;
+
+  // === INSIGHTS ===
+  var sorted = [];
+  for (var si = 0; si < BEGINNINGS.length; si++) {
+    sorted.push({ id: BEGINNINGS[si].id, name: BEGINNINGS[si].n, ic: BEGINNINGS[si].ic, percent: r.byBeginning[BEGINNINGS[si].id].percent });
+  }
+  sorted.sort(function(a, b) { return b.percent - a.percent; });
+
+  var dominant = sorted[0];
+  var weakest = sorted[sorted.length - 1];
+
+  var insHtml = '<h4>🔍 Аналитика</h4>';
+  insHtml += '<div class="ins-item"><div class="il">👑 Доминанта: ' + dominant.ic + ' ' + dominant.name + ' (' + dominant.percent + '%)</div><div class="ix">Ваша сильнейшая сторона. Это ресурс, на который вы можете опираться.</div></div>';
+  insHtml += '<div class="ins-item"><div class="il">🌱 Зона роста: ' + weakest.ic + ' ' + weakest.name + ' (' + weakest.percent + '%)</div><div class="ix">Наибольшая возможность для развития.</div></div>';
+
+  var rng = sorted[0].percent - sorted[sorted.length - 1].percent;
+  if (rng > 50) {
+    insHtml += '<div class="ins-item"><div class="il" style="color:#fbbf24">⚠️ Перекос между началами</div><div class="ix">' + sorted[0].name + ' (' + sorted[0].percent + '%) vs ' + sorted[sorted.length - 1].name + ' (' + sorted[sorted.length - 1].percent + '%) — разница ' + rng + '%</div></div>';
+  }
+
+  var lvs2 = [];
+  for (var lvk2 = 0; lvk2 < LEVELS.length; lvk2++) {
+    lvs2.push(r.byLevel[LEVELS[lvk2].id].percent);
+  }
+  var lrange = Math.max.apply(null, lvs2) - Math.min.apply(null, lvs2);
+  if (lrange > 40) {
+    insHtml += '<div class="ins-item"><div class="il" style="color:#fbbf24">⚠️ Дисбаланс Тело/Душа/Дух</div><div class="ix">Разброс ' + lrange + '% между уровнями глубины</div></div>';
+  }
+
+  insHtml += '<h4 style="margin-top:14px">🧭 Рекомендации</h4>';
+  var recommendations = [];
+  if (r.byBeginning.ludus.percent < 0) {
+    recommendations.push({ ic: '⛲', t: 'Развивайте ЛЮДУС', x: '15 мин/день делайте что-то «бесполезное» и приятное. Танцуйте, рисуйте, шутите. Игра — это мудрость.' });
+  }
+  if (r.byBeginning.autarkia.percent < 30) {
+    recommendations.push({ ic: '🏡', t: 'Укрепляйте АВТАРКИЮ', x: 'Проводите время наедине осознанно. Ваши границы — не стена, а мембрана.' });
+  }
+  if (r.byLevel.spirit.percent < 0) {
+    recommendations.push({ ic: '✨', t: 'Работайте с ДУХОМ', x: 'Вечером спрашивайте: «Что сегодня наполнило меня смыслом?» Записывайте 1–2 пункта.' });
+  }
+  if (r.byLevel.body.percent < 0) {
+    recommendations.push({ ic: '🔸', t: 'Вернитесь в ТЕЛО', x: 'Заземление: дыхание, прогулки босиком, осознанное питание. Тело — фундамент.' });
+  }
+  if (r.byBeginning.eros.percent > 70 && r.byBeginning.autarkia.percent < 30) {
+    recommendations.push({ ic: '⚖️', t: 'Баланс ЭРОС / АВТАРКИЯ', x: 'Страсть мощна, но самодостаточность нуждается в укреплении.' });
+  }
+  if (recommendations.length === 0) {
+    recommendations.push({ ic: '🌟', t: 'Продолжайте расти', x: 'Ваш профиль сбалансирован. Поддерживайте практики и оставайтесь открытыми.' });
+  }
+  for (var ri = 0; ri < recommendations.length; ri++) {
+    var rec = recommendations[ri];
+    insHtml += '<div class="ins-item"><div class="il">' + rec.ic + ' ' + rec.t + '</div><div class="ix">' + rec.x + '</div></div>';
+  }
+
+  document.getElementById('insBox').innerHTML = insHtml;
+  window._lastResult = r;
+}
+
+function saveResult(r) {
+  var history = JSON.parse(localStorage.getItem('sem_history') || '[]');
+  history.unshift(r);
+  if (history.length > 30) history = history.slice(0, 30);
+  localStorage.setItem('sem_history', JSON.stringify(history));
+}
+
+function renderHistoryList() {
+  var history = JSON.parse(localStorage.getItem('sem_history') || '[]');
+  var el = document.getElementById('hList');
+  if (history.length === 0) {
+    el.innerHTML = '<div class="no-h">🌿 Пока нет прохождений.<br>Пройдите тест.</div>';
+    return;
+  }
+  el.innerHTML = '';
+  for (var i = 0; i < history.length; i++) {
+    (function(idx) {
+      var r = history[idx];
+      var d = new Date(r.date);
+      var p = r.overall;
+      var c = p > 60 ? '#4ade80' : (p > -60 ? '#fbbf24' : '#f87171');
+      var div = document.createElement('div');
+      div.className = 'h-item';
+      div.innerHTML = '<div><div class="hd">' + d.toLocaleDateString('ru-RU') + ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + '</div><div class="hs" style="color:' + c + '">' + (p >= 0 ? '+' : '') + p + '%</div></div><div class="ha"><button onclick="viewHistory(' + idx + ')">👁️</button><button onclick="deleteHistory(' + idx + ')">🗑️</button></div>';
+      el.appendChild(div);
+    })(i);
+  }
+}
+
+function viewHistory(idx) {
+  var history = JSON.parse(localStorage.getItem('sem_history') || '[]');
+  if (history[idx]) { displayResults(history[idx]); }
+}
+
+function deleteHistory(idx) {
+  if (!confirm('Удалить эту запись?')) return;
+  var history = JSON.parse(localStorage.getItem('sem_history') || '[]');
+  history.splice(idx, 1);
+  localStorage.setItem('sem_history', JSON.stringify(history));
+  renderHistoryList();
+}
+
+function exportPDF() {
+  var r = window._lastResult;
+  if (!r) return;
+  var d = new Date(r.date);
+  var p = r.overall;
+  var st = p > 60 ? 'РЕСУРС' : (p > 20 ? 'РАЗВИТИЕ' : (p > -20 ? 'НЕЙТРАЛЬ' : (p > -60 ? 'РИСК' : 'КРИЗИС')));
+
+  var rows = '';
+  for (var i = 0; i < BEGINNINGS.length; i++) {
+    var b = BEGINNINGS[i];
+    var v = r.byBeginning[b.id];
+    var ind = v.percent > 60 ? 'ON' : (v.percent < -60 ? 'OFF' : '—');
+    rows += '<tr><td style="padding:6px;border:1px solid #ddd">' + b.ic + ' ' + b.n + '</td><td style="padding:6px;border:1px solid #ddd;text-align:center;color:' + (v.percent > 60 ? '#22c55e' : (v.percent < -60 ? '#ef4444' : '#666')) + '">' + (v.percent >= 0 ? '+' : '') + v.percent + '%</td><td style="padding:6px;border:1px solid #ddd;text-align:center">' + ind + '</td></tr>';
+  }
+
+  // Sub-levels
+  var subRows = '';
+  for (var si2 = 0; si2 < BEGINNINGS.length; si2++) {
+    var b2 = BEGINNINGS[si2];
+    for (var li4 = 0; li4 < LEVELS.length; li4++) {
+      var lv2 = LEVELS[li4];
+      var sv = r.byBeginningLevel[b2.id][lv2.id];
+      subRows += '<tr><td style="padding:4px 6px;border:1px solid #ddd;font-size:11px">  ' + lv2.ic + ' ' + lv2.n + '</td><td style="padding:4px 6px;border:1px solid #ddd;text-align:center;font-size:11px">' + (sv.percent >= 0 ? '+' : '') + sv.percent + '%</td></tr>';
+    }
+  }
+
+  var div = document.createElement('div');
+  div.style.cssText = 'position:absolute;left:-9999px;top:0;width:600px;background:#fff;color:#1a1a2e;font-family:Inter,sans-serif;padding:30px;';
+  var htmlStr = '';
+  htmlStr += '<h1 style="font-size:22px;margin-bottom:4px">🌿 Семетриум Любви — Отчёт</h1>';
+  htmlStr += '<p style="color:#666;font-size:13px;margin-bottom:20px">' + d.toLocaleDateString('ru-RU') + ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + '</p>';
+  htmlStr += '<div style="text-align:center;margin:24px 0"><div style="font-size:48px;font-weight:700;color:' + (p >= 0 ? '#22c55e' : '#ef4444') + '">' + (p >= 0 ? '+' : '') + p + '%</div>';
+  htmlStr += '<div style="font-size:16px;color:#666">Индекс Любви: ' + st + '</div></div>';
+  htmlStr += '<h2 style="font-size:16px;margin:20px 0 8px;border-bottom:2px solid #e94560;padding-bottom:4px">7 Начал</h2>';
+  htmlStr += '<table style="width:100%;border-collapse:collapse;font-size:13px"><tr style="background:#f5f5f5"><th style="padding:8px;border:1px solid #ddd;text-align:left">Начало</th><th style="padding:8px;border:1px solid #ddd">%</th><th style="padding:8px;border:1px solid #ddd">Инд.</th></tr>' + rows + '</table>';
+  htmlStr += '<h2 style="font-size:16px;margin:20px 0 8px;border-bottom:2px solid #60a5fa;padding-bottom:4px">3 уровня по каждому началу</h2>';
+  htmlStr += '<table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="background:#f5f5f5"><th style="padding:6px;border:1px solid #ddd;text-align:left">Уровень</th><th style="padding:6px;border:1px solid #ddd">%</th></tr>' + subRows + '</table>';
+  htmlStr += '<p style="margin-top:32px;font-size:11px;color:#999;text-align:center">triraid.ru/love • Семетриум Любви</p>';
+  div.innerHTML = htmlStr;
+  document.body.appendChild(div);
+
+  var w = window.open('', '', 'width=600,height=800');
+  w.document.write('<html><head><title>Семетриум Любви — Отчёт</title></head><body>' + div.innerHTML + '</body></html>');
+  w.document.close();
+  w.focus();
+  setTimeout(function() { w.print(); }, 500);
+  setTimeout(function() { document.body.removeChild(div); }, 1000);
+}
+
+// Wire up buttons
+document.getElementById('nextBtn').onclick = nextQ;
+document.getElementById('prevBtn').onclick = prevQ;
+</script>
+</body>
+</html>
+
