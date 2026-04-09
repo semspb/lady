@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <!-- Анимированный градиент с переливом -->
+    <linearGradient id="flowingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <animate attributeName="x1" values="0%;100%;0%" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="x2" values="100%;0%;100%" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="y1" values="0%;100%;0%" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="y2" values="100%;0%;100%" dur="10s" repeatCount="indefinite"/>
+      
+      <stop offset="0%" stop-color="#1a5c1a">
+        <animate attributeName="stop-color" values="#1a5c1a;#2d8a2d;#4ade80;#2d8a2d;#1a5c1a" dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#2d8a2d">
+        <animate attributeName="stop-color" values="#2d8a2d;#4ade80;#86efac;#4ade80;#2d8a2d" dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#4ade80">
+        <animate attributeName="stop-color" values="#4ade80;#86efac;#bbf7d0;#86efac;#4ade80" dur="8s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <!-- Фильтр для мягкого свечения -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 7 треугольников, образующих семиугольную звезду -->
+  <polygon points="156.00,32.57 238.07,72.09 156.00,137.53" fill="url(#flowingGradient)" fill-opacity="0.35" stroke="#4ade80" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+  
+  <polygon points="245.55,81.48 265.82,170.28 163.49,146.92" fill="url(#flowingGradient)" fill-opacity="0.35" stroke="#4ade80" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+  
+  <polygon points="263.15,181.98 206.36,253.19 160.82,158.63" fill="url(#flowingGradient)" fill-opacity="0.35" stroke="#4ade80" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+  
+  <polygon points="195.54,258.40 104.46,258.40 150.00,163.84" fill="url(#flowingGradient)" fill-opacity="0.35" stroke="#4ade80" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+  
+  <polygon points="93.64,253.19 36.85,181.98 139.18,158.63" fill="url(#flowingGradient)" fill-opacity="0.35" stroke="#4ade80" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+  
+  <polygon points="34.18,170.28 54.45,81.48 136.51,146.92" fill="url(#flowingGradient)" fill-opacity="0.35" stroke="#4ade80" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+  
+  <polygon points="61.93,72.09 144.00,32.57 144.00,137.53" fill="url(#flowingGradient)" fill-opacity="0.35" stroke="#4ade80" stroke-width="0.8" stroke-opacity="0.5" filter="url(#softGlow)"/>
+</svg>
