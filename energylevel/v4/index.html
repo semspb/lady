@@ -1,94 +1,80 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1100" width="800" height="1100">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1050" width="500" height="1050">
   <defs>
     <style>
       text { font-family: Arial, sans-serif; user-select: none; }
       .level-text { font-size: 14px; font-weight: bold; fill: white; }
-      .title-text { font-size: 24px; font-weight: bold; fill: #2c3e50; }
-      .subtitle-text { font-size: 14px; fill: #7f8c8d; }
     </style>
   </defs>
 
   <!-- Фон -->
-  <rect width="800" height="1100" fill="#f8f9fa" rx="10"/>
+  <rect width="500" height="1050" fill="#f8f9fa" rx="10"/>
 
-  <!-- Заголовок -->
-  <text x="400" y="40" text-anchor="middle" class="title-text">Шкала энергетического состояния</text>
-  <text x="400" y="65" text-anchor="middle" class="subtitle-text">16 уровней сознания — от Стыда к Просветлению</text>
+  <!-- 1. Стыд — самый маленький, снизу -->
+  <rect x="205" y="980" width="90" height="36" rx="18" fill="#1a1a1a" opacity="0.85"/>
+  <text x="250" y="1003" text-anchor="middle" class="level-text">Стыд</text>
 
-  <!-- ==================== ЗОНА 1: ВЫЖИВАНИЕ (снизу) ==================== -->
-  <rect x="30" y="820" width="740" height="250" rx="12" fill="#ffebee" opacity="0.5"/>
-  <text x="50" y="845" font-size="13" font-weight="bold" fill="#c62828">⬇ ЗОНА ВЫЖИВАНИЯ — уровни ниже 200</text>
+  <!-- 2. Вина -->
+  <rect x="195" y="938" width="110" height="38" rx="19" fill="#2c2c2c" opacity="0.85"/>
+  <text x="250" y="961" text-anchor="middle" class="level-text">Вина</text>
 
-  <rect x="355" y="920" width="90" height="36" rx="18" fill="#1a1a1a" opacity="0.85"/>
-  <text x="400" y="943" text-anchor="middle" class="level-text">Стыд</text>
+  <!-- 3. Апатия -->
+  <rect x="185" y="896" width="130" height="38" rx="19" fill="#4a4a4a" opacity="0.85"/>
+  <text x="250" y="919" text-anchor="middle" class="level-text">Апатия</text>
 
-  <rect x="340" y="878" width="120" height="38" rx="19" fill="#2c2c2c" opacity="0.85"/>
-  <text x="400" y="901" text-anchor="middle" class="level-text">Вина</text>
+  <!-- 4. Горе -->
+  <rect x="175" y="854" width="150" height="38" rx="19" fill="#6b4c7a" opacity="0.85"/>
+  <text x="250" y="877" text-anchor="middle" class="level-text">Горе</text>
 
-  <rect x="325" y="836" width="150" height="38" rx="19" fill="#4a4a4a" opacity="0.85"/>
-  <text x="400" y="859" text-anchor="middle" class="level-text">Апатия</text>
+  <!-- 5. Страх -->
+  <rect x="165" y="812" width="170" height="38" rx="19" fill="#7a6c4c" opacity="0.85"/>
+  <text x="250" y="835" text-anchor="middle" class="level-text">Страх</text>
 
-  <rect x="310" y="970" width="180" height="38" rx="19" fill="#6b4c7a" opacity="0.85"/>
-  <text x="400" y="993" text-anchor="middle" class="level-text">Горе</text>
+  <!-- 6. Желание -->
+  <rect x="155" y="770" width="190" height="38" rx="19" fill="#8b5e3c" opacity="0.85"/>
+  <text x="250" y="793" text-anchor="middle" class="level-text">Желание</text>
 
-  <rect x="295" y="1012" width="210" height="38" rx="19" fill="#7a6c4c" opacity="0.85"/>
-  <text x="400" y="1035" text-anchor="middle" class="level-text">Страх</text>
+  <!-- 7. Гнев -->
+  <rect x="145" y="728" width="210" height="38" rx="19" fill="#b22222" opacity="0.85"/>
+  <text x="250" y="751" text-anchor="middle" class="level-text">Гнев</text>
 
-  <rect x="280" y="1054" width="240" height="38" rx="19" fill="#8b5e3c" opacity="0.85"/>
-  <text x="400" y="1077" text-anchor="middle" class="level-text">Желание</text>
+  <!-- 8. Гордость -->
+  <rect x="135" y="686" width="230" height="38" rx="19" fill="#c97e3a" opacity="0.85"/>
+  <text x="250" y="709" text-anchor="middle" class="level-text">Гордость</text>
 
-  <!-- Разделитель -->
-  <line x1="40" y1="810" x2="760" y2="810" stroke="#f39c12" stroke-width="3" stroke-dasharray="10,5"/>
-  <text x="400" y="802" text-anchor="middle" font-size="12" fill="#f39c12" font-weight="bold">▲ ПОРОГ 200 — переход от насилия к силе ▲</text>
+  <!-- 9. Мужество -->
+  <rect x="120" y="640" width="260" height="42" rx="21" fill="#4a90a4" opacity="0.85"/>
+  <text x="250" y="664" text-anchor="middle" class="level-text">Мужество</text>
 
-  <!-- ==================== ЗОНА 2: СИЛА ДУХА ==================== -->
-  <rect x="30" y="520" width="740" height="280" rx="12" fill="#e8f5e9" opacity="0.5"/>
-  <text x="50" y="545" font-size="13" font-weight="bold" fill="#2e7d32">⬆ ЗОНА СИЛЫ ДУХА — уровни 200–499 (Линейный ум)</text>
+  <!-- 10. Нейтралитет -->
+  <rect x="105" y="594" width="290" height="42" rx="21" fill="#5ba87a" opacity="0.85"/>
+  <text x="250" y="618" text-anchor="middle" class="level-text">Нейтралитет</text>
 
-  <rect x="265" y="560" width="270" height="38" rx="19" fill="#b22222" opacity="0.85"/>
-  <text x="400" y="583" text-anchor="middle" class="level-text">Гнев</text>
+  <!-- 11. Готовность -->
+  <rect x="90" y="548" width="320" height="42" rx="21" fill="#7cb342" opacity="0.85"/>
+  <text x="250" y="572" text-anchor="middle" class="level-text">Готовность</text>
 
-  <rect x="250" y="605" width="300" height="38" rx="19" fill="#c97e3a" opacity="0.85"/>
-  <text x="400" y="628" text-anchor="middle" class="level-text">Гордость</text>
+  <!-- 12. Принятие -->
+  <rect x="75" y="502" width="350" height="42" rx="21" fill="#8bc34a" opacity="0.85"/>
+  <text x="250" y="526" text-anchor="middle" class="level-text">Принятие</text>
 
-  <rect x="235" y="650" width="330" height="42" rx="21" fill="#4a90a4" opacity="0.85"/>
-  <text x="400" y="674" text-anchor="middle" class="level-text">Мужество</text>
+  <!-- 13. Разум -->
+  <rect x="60" y="456" width="380" height="42" rx="21" fill="#5c6bc0" opacity="0.85"/>
+  <text x="250" y="480" text-anchor="middle" class="level-text">Разум</text>
 
-  <rect x="220" y="698" width="360" height="42" rx="21" fill="#5ba87a" opacity="0.85"/>
-  <text x="400" y="722" text-anchor="middle" class="level-text">Нейтралитет</text>
+  <!-- 14. Любовь -->
+  <rect x="45" y="406" width="410" height="46" rx="23" fill="#e91e63" opacity="0.85"/>
+  <text x="250" y="432" text-anchor="middle" class="level-text" font-size="15">Любовь</text>
 
-  <rect x="205" y="746" width="390" height="42" rx="21" fill="#7cb342" opacity="0.85"/>
-  <text x="400" y="770" text-anchor="middle" class="level-text">Готовность</text>
+  <!-- 15. Радость -->
+  <rect x="35" y="352" width="430" height="50" rx="25" fill="#ff9800" opacity="0.85"/>
+  <text x="250" y="379" text-anchor="middle" class="level-text" font-size="15">Радость</text>
 
-  <rect x="190" y="794" width="420" height="42" rx="21" fill="#8bc34a" opacity="0.85"/>
-  <text x="400" y="818" text-anchor="middle" class="level-text">Принятие</text>
+  <!-- 16. Мир -->
+  <rect x="25" y="294" width="450" height="54" rx="27" fill="#3f51b5" opacity="0.85"/>
+  <text x="250" y="324" text-anchor="middle" class="level-text" font-size="16">Мир</text>
 
-  <rect x="175" y="842" width="450" height="42" rx="21" fill="#5c6bc0" opacity="0.85"/>
-  <text x="400" y="866" text-anchor="middle" class="level-text">Разум</text>
-
-  <!-- Разделитель -->
-  <line x1="40" y1="512" x2="760" y2="512" stroke="#9c27b0" stroke-width="3" stroke-dasharray="10,5"/>
-  <text x="400" y="504" text-anchor="middle" font-size="12" fill="#9c27b0" font-weight="bold">▲ ПОРОГ 500 — переход от ума к сердцу ▲</text>
-
-  <!-- ==================== ЗОНА 3: ДУХОВНОСТЬ (сверху, самые большие) ==================== -->
-  <rect x="30" y="88" width="740" height="410" rx="12" fill="#f3e5f5" opacity="0.5"/>
-  <text x="50" y="110" font-size="13" font-weight="bold" fill="#6a1b9a">⬆ ЗОНА ДУХОВНОСТИ — уровни 500–1000 (Духовная реальность)</text>
-
-  <rect x="155" y="125" width="490" height="46" rx="23" fill="#e91e63" opacity="0.85"/>
-  <text x="400" y="151" text-anchor="middle" class="level-text" font-size="15">Любовь</text>
-
-  <rect x="140" y="178" width="520" height="50" rx="25" fill="#ff9800" opacity="0.85"/>
-  <text x="400" y="205" text-anchor="middle" class="level-text" font-size="15">Радость</text>
-
-  <rect x="120" y="235" width="560" height="54" rx="27" fill="#3f51b5" opacity="0.85"/>
-  <text x="400" y="265" text-anchor="middle" class="level-text" font-size="16">Мир</text>
-
-  <rect x="90" y="296" width="620" height="64" rx="32" fill="#9c27b0" opacity="0.9"/>
-  <text x="400" y="330" text-anchor="middle" class="level-text" font-size="18">Просветление</text>
-
-  <!-- Стрелка роста -->
-  <line x1="770" y1="940" x2="770" y2="160" stroke="#999" stroke-width="2"/>
-  <polygon points="770,155 765,165 775,165" fill="#999"/>
-  <text x="785" y="550" writing-mode="tb" font-size="12" fill="#999" font-weight="bold">РОСТ ЭНЕРГИИ →</text>
+  <!-- 17. Просветление — самый большой, наверху -->
+  <rect x="10" y="226" width="480" height="64" rx="32" fill="#9c27b0" opacity="0.9"/>
+  <text x="250" y="260" text-anchor="middle" class="level-text" font-size="18">Просветление</text>
 
 </svg>
