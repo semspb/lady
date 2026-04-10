@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Шкала энергии Хокинса | Ваш уровень</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #eef2f7;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 12px 12px 35px;
+            color: #1a2c3c;
+        }
+
+        .app-container {
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        /* карточка шага (тест) */
+        .step-card {
+            background: white;
+            border-radius: 36px;
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1);
+            padding: 22px 20px 28px;
+            margin-bottom: 16px;
+        }
+
+        .progress {
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c6e8f;
+        }
+
+        .q-counter {
+            background: #e9f0f5;
+            padding: 5px 14px;
+            border-radius: 40px;
+        }
+
+        .q-text {
+            font-size: 1.55rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin: 18px 0 24px;
+            color: #0e2e3e;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .opt-btn {
+            background: #f9fcff;
+            border: 1px solid #dee9f0;
+            border-radius: 100px;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            color: #1f4a60;
+            cursor: pointer;
+            transition: all 0.12s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .opt-btn:active {
+            transform: scale(0.98);
+            background: #eef3fc;
+        }
+
+        .opt-marker {
+            width: 28px;
+            height: 28px;
+            background: white;
+            border-radius: 30px;
+            border: 1.5px solid #bdd9e8;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2b7a62;
+        }
+
+        .opt-btn.selected {
+            background: #e1f0fa;
+            border-color: #2b7a62;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .opt-btn.selected .opt-marker {
+            background: #2b7a62;
+            border-color: #2b7a62;
+            color: white;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .nav-btn {
+            background: #eef2f5;
+            border: none;
+            padding: 14px 0;
+            flex: 1;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #2c5a6e;
+            cursor: pointer;
+            transition: 0.1s;
+            text-align: center;
+        }
+
+        .nav-btn.primary {
+            background: #1f6d5c;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn.primary:active {
+            background: #0f5546;
+            transform: scale(0.97);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.97);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            transform: none;
+        }
+
+        /* блок результата */
+        .result-container {
+            background: white;
+            border-radius: 40px;
+            padding: 18px 15px 24px;
+            margin-top: 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .scale-title {
+            font-weight: 800;
+            font-size: 20px;
+            margin-bottom: 14px;
+            padding-left: 4px;
+            color: #154153;
+            text-align: center;
+        }
+
+        .svg-scale-wrapper {
+            overflow-x: auto;
+            background: #ffffff;
+            border-radius: 32px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            padding: 8px 0;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .level-description {
+            background: #f6fafd;
+            border-radius: 32px;
+            padding: 18px 20px;
+            border-left: 5px solid;
+            margin-top: 12px;
+        }
+
+        .level-name-result {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .level-range-badge {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: inline-block;
+            background: #eef2f5;
+            padding: 4px 12px;
+            border-radius: 50px;
+        }
+
+        .desc-text {
+            line-height: 1.45;
+            color: #1e4a62;
+        }
+
+        .restart-btn {
+            background: none;
+            border: 1px solid #cbdde6;
+            margin-top: 22px;
+            padding: 12px;
+            border-radius: 60px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            font-size: 15px;
+            color: #2c6e8f;
+            transition: 0.1s;
+        }
+
+        .restart-btn:active {
+            background: #eef2f5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 11px;
+            color: #6f8ea0;
+            margin-top: 20px;
+        }
+
+        .indicator-icon {
+            background: #ffd966;
+            border-radius: 60px;
+            padding: 5px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #4a2e00;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- Пошаговый тест -->
+    <div id="testArea" class="step-card">
+        <div class="progress">
+            <span class="q-counter" id="questionCounter">Вопрос 1 / 10</span>
+            <span id="answeredHint" style="font-size:13px; opacity:0.7;">⬤ выберите ответ</span>
+        </div>
+        <div class="q-text" id="questionText">Загрузка...</div>
+        <div class="options-list" id="optionsContainer"></div>
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn">← Назад</button>
+            <button class="nav-btn primary" id="nextBtn">Далее →</button>
+        </div>
+        <div style="margin-top: 12px; text-align: center;">
+            <button class="restart-btn" id="resetTestBtn">⟳ Начать заново</button>
+        </div>
+    </div>
+
+    <!-- Блок результата с улучшенной шкалой -->
+    <div id="resultArea" class="result-container hidden">
+        <div class="scale-title">⚡ Ваш уровень энергии</div>
+        <div class="svg-scale-wrapper" id="svgResultWrapper"></div>
+        <div class="level-description" id="levelDescriptionBlock">
+            <div class="level-name-result" id="resultLevelName"></div>
+            <div><span class="level-range-badge" id="resultEnergyRange"></span> <span id="resultZoneSpan" style="font-weight:500;"></span></div>
+            <div class="desc-text" id="resultDescription"></div>
+        </div>
+        <button class="restart-btn" id="restartFromResultBtn">📋 Пройти тест заново</button>
+    </div>
+    <footer>Модель Дэвида Хокинса — саморефлексия</footer>
+</div>
+
+<script>
+    // ---------- ВОПРОСЫ (10) ----------
+    const questions = [
+        { text: "Когда я сталкиваюсь с неожиданной трудностью или проблемой, я чаще всего:",
+          options: ["Впадаю в ступор, руки опускаются","Начинаю тревожиться, прокручиваю худшее","Злюсь на обстоятельства","Думаю: «трудно, но попробую»","Спокойно анализирую и ищу решение","Принимаю как вызов, с интересом ищу выход"],
+          scores: [1,2,3,4,6,10] },
+        { text: "Когда кто-то критикует меня (даже конструктивно), я обычно:",
+          options: ["Чувствую себя уничтоженным, стыдно","Обижаюсь, ухожу в себя","Злюсь и грублю","Внутренне защищаюсь, но молчу","Выслушиваю, обдумываю","Благодарю за обратную связь","Радуюсь возможности стать лучше"],
+          scores: [1,2,3,3,4,6,10] },
+        { text: "Моё обычное утреннее состояние после пробуждения:",
+          options: ["«Зачем просыпаться? ничего хорошего»","Тревога: «вдруг что-то случится?»","Сразу вскакиваю, нет времени","«Нужно вставать, у меня обязанности»","Лёгкое спокойствие, интерес к дню","Чувство благодарности и радость"],
+          scores: [1,2,3,4,6,10] },
+        { text: "Когда другой человек добивается большого успеха, я:",
+          options: ["Чувствую себя ничтожеством","Завидую, но скрываю","Думаю «ему просто повезло»","Хочу догнать и перегнать","Спокойно: значит, это возможно","Радуюсь за него, учусь","Вдохновляюсь, мир изобилен"],
+          scores: [1,2,3,3,4,6,10] },
+        { text: "Если я совершаю ошибку (даже небольшую), я обычно:",
+          options: ["Чувствую себя ничтожеством","Долго виню себя","Злюсь на себя и обстоятельства","Оправдываюсь","Признаю, исправляю и иду дальше","Анализирую причину, чтобы не повторять","Благодарю за урок и становлюсь лучше"],
+          scores: [1,2,3,3,4,6,10] },
+        { text: "В конфликте с близким человеком я чаще всего:",
+          options: ["Замыкаюсь и молчу","Плачу, чувствую себя жертвой","Кричу, обвиняю","Демонстративно обижаюсь","Спокойно объясняю и слушаю","Ищу решение для обоих","Чувствую любовь даже в конфликте"],
+          scores: [2,2,3,3,4,6,10] },
+        { text: "Как я отношусь к незнакомым людям (в метро, на улице)?",
+          options: ["Раздражают","Боюсь их","Мне всё равно","Нейтрально, каждый занят своим делом","Замечаю как часть общей картины","Чувствую тёплые чувства"],
+          scores: [3,2,1,4,6,10] },
+        { text: "Моё отношение к деньгам и материальным благам:",
+          options: ["Безнадёжно, никогда не будет","Боюсь остаться без денег","Трачу на удовольствия, не думая","Деньги = статус","Деньги — инструмент, управляю","Спокоен, деньги приходят и уходят","Доверяю жизни, нужное приходит"],
+          scores: [1,2,3,3,4,6,10] },
+        { text: "Когда я наедине с собой (без дел, гаджетов), я чувствую:",
+          options: ["Пустоту, тоскливо","Тревогу, мысли крутятся","Скуку, хочется заняться","Спокойствие, комфортно","Интерес к своим мыслям","Глубокий покой и радость"],
+          scores: [2,2,3,4,6,10] },
+        { text: "Если бы я описал свою жизнь одним словом, это было бы:",
+          options: ["Безнадёжность","Выживание","Борьба","Обязанности","Путь","Развитие","Любовь","Благодарность"],
+          scores: [1,2,3,3,4,6,10,10] }
+    ];
+
+    let currentIndex = 0;
+    let userAnswers = new Array(10).fill(null);
+
+    // DOM
+    const testArea = document.getElementById('testArea');
+    const resultArea = document.getElementById('resultArea');
+    const questionCounter = document.getElementById('questionCounter');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const resetTestBtn = document.getElementById('resetTestBtn');
+    const restartFromResultBtn = document.getElementById('restartFromResultBtn');
+    const answeredHint = document.getElementById('answeredHint');
+
+    // ---- отрисовка вопроса ----
+    function renderCurrentQuestion() {
+        const q = questions[currentIndex];
+        questionText.innerText = q.text;
+        questionCounter.innerText = `Вопрос ${currentIndex+1} / 10`;
+        const selectedScore = userAnswers[currentIndex];
+        optionsContainer.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+            const optDiv = document.createElement('div');
+            optDiv.className = 'opt-btn';
+            if (selectedScore !== null && selectedScore === q.scores[idx]) {
+                optDiv.classList.add('selected');
+            }
+            const markerSpan = document.createElement('span');
+            markerSpan.className = 'opt-marker';
+            markerSpan.innerText = String.fromCharCode(65+idx);
+            const textSpan = document.createElement('span');
+            textSpan.innerText = opt;
+            textSpan.style.flex = "1";
+            optDiv.appendChild(markerSpan);
+            optDiv.appendChild(textSpan);
+            optDiv.addEventListener('click', () => {
+                userAnswers[currentIndex] = q.scores[idx];
+                renderCurrentQuestion();
+                answeredHint.innerText = '✓ ответ выбран';
+                answeredHint.style.opacity = '1';
+            });
+            optionsContainer.appendChild(optDiv);
+        });
+        if (userAnswers[currentIndex] !== null) {
+            nextBtn.disabled = false;
+            answeredHint.innerText = '✓ ответ выбран';
+        } else {
+            nextBtn.disabled = true;
+            answeredHint.innerText = '⬤ выберите ответ';
+        }
+        prevBtn.disabled = (currentIndex === 0);
+    }
+
+    function goNext() {
+        if (userAnswers[currentIndex] === null) return;
+        if (currentIndex < 9) {
+            currentIndex++;
+            renderCurrentQuestion();
+        } else {
+            finishTestAndShowResult();
+        }
+    }
+
+    function goPrev() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderCurrentQuestion();
+        }
+    }
+
+    function computeTotalScore() {
+        let total = 0;
+        for (let i=0; i<userAnswers.length; i++) {
+            if (userAnswers[i] === null) return null;
+            total += userAnswers[i];
+        }
+        return total;
+    }
+
+    // определение уровня по сумме
+    function getLevelFromSum(sum) {
+        if (sum >= 10 && sum <= 14) return { levelName: "Стыд / Вина", energyRange: "20–30", zone: "⬇ Зона выживания", description: "Ощущение ничтожности, стыд или хроническое самообвинение. Энергия сжата. Путь: маленькие шаги, принятие себя.", baseLevels: ["Стыд","Вина"] };
+        if (sum >= 15 && sum <= 19) return { levelName: "Апатия / Горе", energyRange: "50–75", zone: "⬇ Зона выживания", description: "Безнадёжность, глубокая печаль, жертва. Добавьте микро-действия: встать, выйти на свет.", baseLevels: ["Апатия","Горе"] };
+        if (sum >= 20 && sum <= 24) return { levelName: "Страх / Желание", energyRange: "100–125", zone: "⬇ Зона выживания", description: "Тревожность, зависимость, одержимость. Работайте с заземлением.", baseLevels: ["Страх","Желание"] };
+        if (sum >= 25 && sum <= 29) return { levelName: "Гнев / Гордость", energyRange: "150–175", zone: "⬇ Зона выживания", description: "Фрустрация, желание мстить или высокомерие. Признайте уязвимость.", baseLevels: ["Гнев","Гордость"] };
+        if (sum >= 30 && sum <= 34) return { levelName: "Мужество", energyRange: "200", zone: "⬆ Сила духа", description: "Первый уровень силы. Вы готовы справляться, уверенность растёт.", baseLevels: ["Мужество"] };
+        if (sum >= 35 && sum <= 39) return { levelName: "Нейтралитет", energyRange: "250", zone: "⬆ Сила духа", description: "Спокойствие, нет драмы. Гибкая энергия равновесия.", baseLevels: ["Нейтралитет"] };
+        if (sum >= 40 && sum <= 44) return { levelName: "Готовность", energyRange: "310", zone: "⬆ Сила духа", description: "Оптимизм, дисциплина, поток энергии без лени.", baseLevels: ["Готовность"] };
+        if (sum >= 45 && sum <= 49) return { levelName: "Принятие", energyRange: "350", zone: "⬆ Сила духа", description: "Ответственность, резонанс с миром, нет борьбы.", baseLevels: ["Принятие"] };
+        if (sum >= 50 && sum <= 54) return { levelName: "Разум", energyRange: "400", zone: "⬆ Сила духа", description: "Логика, ясность, наука. Не теряйте связь с сердцем.", baseLevels: ["Разум"] };
+        if (sum >= 55 && sum <= 64) return { levelName: "Любовь", energyRange: "500", zone: "✨ Духовность", description: "Безусловная любовь, сострадание, энергия излучается сама.", baseLevels: ["Любовь"] };
+        if (sum >= 65 && sum <= 74) return { levelName: "Радость", energyRange: "540", zone: "✨ Духовность", description: "Непоколебимое счастье, сверхтекучесть.", baseLevels: ["Радость"] };
+        if (sum >= 75 && sum <= 84) return { levelName: "Мир", energyRange: "600", zone: "✨ Духовность", description: "Блаженство, исчезновение эго. Трансцендентность.", baseLevels: ["Мир"] };
+        if (sum >= 85 && sum <= 100) return { levelName: "Просветление", energyRange: "700–1000", zone: "✨ Духовность", description: "Чистое сознание, единство со всем.", baseLevels: ["Просветление"] };
+        return { levelName: "—", energyRange: "—", zone: "", description: "Пройдите все вопросы", baseLevels: [] };
+    }
+
+    // Функция генерации SVG с отступами между уровнями и масштабированием выделенного уровня (+15% ширина и высота)
+    function renderSvgWithHighlight(highlightLevelObj) {
+        // базовые списки: 17 уровней снизу вверх
+        const levelsList = [
+            "Стыд", "Вина", "Апатия", "Горе", "Страх", "Желание", "Гнев", "Гордость",
+            "Мужество", "Нейтралитет", "Готовность", "Принятие", "Разум",
+            "Любовь", "Радость", "Мир", "Просветление"
+        ];
+        // исходные ширины и высоты (базовые)
+        let baseWidths = [90,110,130,150,170,190,210,230,260,290,320,350,380,410,430,450,480];
+        let baseHeights = [36,38,38,38,38,38,38,38,42,42,42,42,42,46,50,54,64];
+        const colors = [
+            "#1a1a1a","#2c2c2c","#4a4a4a","#6b4c7a","#7a6c4c","#8b5e3c","#b22222","#c97e3a",
+            "#4a90a4","#5ba87a","#7cb342","#8bc34a","#5c6bc0","#e91e63","#ff9800","#3f51b5","#9c27b0"
+        ];
+        
+        // копируем массивы, чтобы изменить для выделенного уровня
+        let finalWidths = [...baseWidths];
+        let finalHeights = [...baseHeights];
+        let highlightIndex = -1;
+        
+        if (highlightLevelObj && highlightLevelObj.baseLevels) {
+            for (let i = 0; i < levelsList.length; i++) {
+                if (highlightLevelObj.baseLevels.includes(levelsList[i])) {
+                    highlightIndex = i;
+                    // увеличиваем на 15% ширину и высоту
+                    finalWidths[i] = Math.floor(baseWidths[i] * 1.15);
+                    finalHeights[i] = Math.floor(baseHeights[i] * 1.15);
+                    break;
+                }
+            }
+        }
+        
+        const svgWidth = 540;   // чуть шире, чтобы поместился увеличенный блок
+        let startY = 980;       // старт снизу
+        
+        let svgHtml = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svgWidth} 1050" width="100%" style="max-width:540px; background:#fafcff; border-radius:28px;">`;
+        svgHtml += `<rect width="${svgWidth}" height="1050" fill="#fafcff" rx="16"/>`;
+        
+        let yOffset = startY;
+        // отступы между уровнями: +6px gap
+        const gap = 6;
+        
+        for (let i = 0; i < levelsList.length; i++) {
+            const lvl = levelsList[i];
+            let w = finalWidths[i];
+            let h = finalHeights[i];
+            const x = (svgWidth - w) / 2;
+            const y = yOffset - h;
+            let strokeWidth = 0;
+            let strokeColor = "";
+            let extraMarker = "";
+            
+            const isHighlight = (highlightIndex === i);
+            if (isHighlight) {
+                strokeWidth = 5;
+                strokeColor = "#FFB347";   // яркий оранжевый
+                extraMarker = `<circle cx="${x + w + 12}" cy="${y + h/2}" r="18" fill="#FFD966" stroke="#e67e22" stroke-width="2"/>
+                               <text x="${x + w + 12}" y="${y + h/2 + 6}" text-anchor="middle" font-size="16" font-weight="bold" fill="#b64900">⭐</text>`;
+            }
+            
+            svgHtml += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h/2}" fill="${colors[i]}" opacity="0.88" stroke="${strokeColor}" stroke-width="${strokeWidth}" filter="${isHighlight ? 'url(#glow)' : ''}"/>`;
+            svgHtml += `<text x="${svgWidth/2}" y="${y + h/2 + 5}" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white">${lvl}</text>`;
+            svgHtml += extraMarker;
+            
+            // отступ перед следующим уровнем
+            yOffset = y - gap;
+        }
+        
+        // добавим легенду для выделения
+        if (highlightIndex !== -1) {
+            svgHtml += `<text x="30" y="1030" font-size="11" fill="#d97706" font-weight="bold">⭐ Ваш уровень — увеличен на 15%</text>`;
+        }
+        svgHtml += `</svg>`;
+        document.getElementById('svgResultWrapper').innerHTML = svgHtml;
+    }
+
+    function finishTestAndShowResult() {
+        const total = computeTotalScore();
+        if (total === null) return;
+        const levelInfo = getLevelFromSum(total);
+        document.getElementById('resultLevelName').innerHTML = `<span>${levelInfo.levelName}</span> <span class="indicator-icon">⭐ Ваш уровень</span>`;
+        document.getElementById('resultEnergyRange').innerHTML = `🔋 ${levelInfo.energyRange}`;
+        document.getElementById('resultZoneSpan').innerHTML = levelInfo.zone;
+        document.getElementById('resultDescription').innerHTML = levelInfo.description;
+        
+        renderSvgWithHighlight(levelInfo);
+        
+        testArea.classList.add('hidden');
+        resultArea.classList.remove('hidden');
+    }
+
+    function resetFullTest() {
+        userAnswers = new Array(10).fill(null);
+        currentIndex = 0;
+        resultArea.classList.add('hidden');
+        testArea.classList.remove('hidden');
+        renderCurrentQuestion();
+        answeredHint.innerText = '⬤ выберите ответ';
+    }
+
+    // события
+    nextBtn.addEventListener('click', goNext);
+    prevBtn.addEventListener('click', goPrev);
+    resetTestBtn.addEventListener('click', resetFullTest);
+    if (restartFromResultBtn) restartFromResultBtn.addEventListener('click', resetFullTest);
+    
+    renderCurrentQuestion();
+</script>
+</body>
+</html>
