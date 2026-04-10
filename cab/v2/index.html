@@ -1,0 +1,2579 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Личный кабинет — Семитриум</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.0/index.min.css" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #f8f9fc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f0f2f8;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b7280;
+  --text-tertiary: #9ca3af;
+  --accent: #6c5ce7;
+  --accent-light: #a29bfe;
+  --accent-bg: rgba(108, 92, 231, 0.08);
+  --accent-bg2: rgba(108, 92, 231, 0.15);
+  --green: #10b981;
+  --green-bg: rgba(16, 185, 129, 0.1);
+  --red: #ef4444;
+  --red-bg: rgba(239, 68, 68, 0.1);
+  --orange: #f59e0b;
+  --orange-bg: rgba(245, 158, 11, 0.1);
+  --blue: #3b82f6;
+  --blue-bg: rgba(59, 130, 246, 0.1);
+  --pink: #ec4899;
+  --pink-bg: rgba(236, 72, 153, 0.1);
+  --border: #e5e7eb;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.1);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  --gradient-hero: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 50%, #fd79a8 100%);
+  --gradient-card: linear-gradient(135deg, #f8f9fc 0%, #eef0f8 100%);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #161625;
+  --bg-card: #1e1e30;
+  --bg-card-hover: #2a2a40;
+  --text-primary: #f1f1f6;
+  --text-secondary: #9ca3b4;
+  --text-tertiary: #6b7280;
+  --accent: #8b7cf7;
+  --accent-light: #a29bfe;
+  --accent-bg: rgba(139, 124, 247, 0.12);
+  --accent-bg2: rgba(139, 124, 247, 0.2);
+  --green-bg: rgba(16, 185, 129, 0.15);
+  --red-bg: rgba(239, 68, 68, 0.15);
+  --orange-bg: rgba(245, 158, 11, 0.15);
+  --blue-bg: rgba(59, 130, 246, 0.15);
+  --pink-bg: rgba(236, 72, 153, 0.15);
+  --border: #2d2d42;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+  --gradient-hero: linear-gradient(135deg, #4c3db5 0%, #6c5ce7 50%, #c44d8a 100%);
+  --gradient-card: linear-gradient(135deg, #1a1a2e 0%, #161625 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: var(--transition);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+/* Onboarding */
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.onboarding-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.05);
+}
+
+.onboarding-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  position: relative;
+}
+
+.onboarding-slide {
+  display: none;
+  animation: fadeSlideIn 0.4s ease;
+}
+
+.onboarding-slide.active { display: block; }
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.onboarding-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  margin: 0 auto 28px;
+  background: var(--accent-bg2);
+}
+
+.onboarding-slide h2 {
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.onboarding-slide p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.onboarding-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.onboarding-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.onboarding-feature .feat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.onboarding-feature .feat-text h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.onboarding-feature .feat-text p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.onboarding-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.onboarding-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.onboarding-dot.active {
+  background: var(--accent);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--gradient-hero);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.4); }
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-secondary {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+  margin-top: 10px;
+}
+
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Main App */
+.app-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+/* Header */
+.header {
+  padding: 16px 20px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-primary);
+  backdrop-filter: blur(20px);
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.header-title span { color: var(--accent); }
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 18px;
+}
+
+.icon-btn:hover { border-color: var(--accent); background: var(--accent-bg); }
+
+/* Energy Hero Card */
+.energy-hero {
+  margin: 8px 20px 20px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--gradient-hero);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.energy-hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 150px;
+  height: 150px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+
+.energy-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  width: 100px;
+  height: 100px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+}
+
+.energy-hero .energy-label {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.energy-hero .energy-value {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+}
+
+.energy-hero .energy-value span { font-size: 18px; opacity: 0.8; font-weight: 600; }
+
+.energy-stats {
+  display: flex;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.energy-stat {
+  flex: 1;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  text-align: center;
+}
+
+.energy-stat .stat-num {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.energy-stat .stat-label {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.energy-bar-container {
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.energy-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.energy-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.energy-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+/* Section */
+.section {
+  padding: 0 20px;
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.section-link {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Quick Links */
+.quick-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.quick-link:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.quick-link .ql-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.quick-link .ql-info h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.quick-link .ql-info p {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.quick-link .ql-arrow {
+  margin-left: auto;
+  font-size: 16px;
+  color: var(--text-tertiary);
+}
+
+/* Projects Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.project-card {
+  padding: 18px 14px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.project-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.project-card .pc-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0 auto 10px;
+}
+
+.project-card h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.project-card p {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+/* Referral */
+.ref-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.ref-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ref-header .rh-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--accent-bg2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.ref-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.ref-header p {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.ref-code-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--accent-bg);
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+}
+
+.ref-code-box code {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+.ref-code-box .copy-btn {
+  padding: 6px 12px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.ref-code-box .copy-btn:hover { opacity: 0.85; }
+
+.ref-link-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.ref-link-box code {
+  flex: 1;
+  font-size: 11px;
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+
+.ref-link-box .copy-btn {
+  padding: 6px 12px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+  flex-shrink: 0;
+}
+
+.ref-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.ref-stat {
+  text-align: center;
+  padding: 12px 8px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+}
+
+.ref-stat .rs-num {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.ref-stat .rs-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Pride / Team */
+.pride-level {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.pride-level-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.pride-level-header:hover { background: var(--bg-card-hover); }
+
+.pride-level-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pride-level-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--accent-bg2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.pride-level-info h4 {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pride-level-info p {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.pride-level-bonus {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--green);
+}
+
+.pride-level-content {
+  display: none;
+  padding: 0 16px 14px;
+  border-top: 1px solid var(--border);
+}
+
+.pride-level-content.open { display: block; animation: fadeSlideIn 0.3s ease; }
+
+.pride-member {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pride-member:last-child { border-bottom: none; }
+
+.pride-member-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pride-member-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gradient-hero);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pride-member-info h5 {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pride-member-info p {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.pride-member-energy {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+}
+
+/* Packages */
+.package-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border);
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.package-card.popular {
+  border-color: var(--accent);
+}
+
+.package-card.popular::before {
+  content: 'ХИТ';
+  position: absolute;
+  top: 12px;
+  right: -24px;
+  background: var(--accent);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 28px;
+  transform: rotate(45deg);
+}
+
+.package-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+
+.package-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.package-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.package-icon {
+  font-size: 28px;
+}
+
+.package-name h3 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.package-name p {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.package-badge {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.package-pricing {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.package-price {
+  padding: 10px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.package-price .pp-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.package-price .pp-value {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.package-price .pp-value.accent { color: var(--accent); }
+.package-price .pp-value.green { color: var(--green); }
+
+.package-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.package-benefit {
+  padding: 5px 10px;
+  background: var(--accent-bg);
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.package-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.package-btn.primary {
+  background: var(--accent);
+  color: white;
+}
+
+.package-btn.primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.package-btn.outline {
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+.package-btn.outline:hover { background: var(--accent-bg); }
+
+/* Partners */
+.partner-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.partner-tab {
+  padding: 10px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  font-family: inherit;
+  color: var(--text-secondary);
+}
+
+.partner-tab.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.material-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.material-card:hover {
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+}
+
+.material-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.material-info h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.material-info p {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* Daily Check-in */
+.checkin-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 20px;
+  text-align: center;
+}
+
+.checkin-card h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.checkin-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.checkin-week {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.checkin-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.checkin-day .cd-label {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+.checkin-day .cd-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: var(--transition);
+}
+
+.checkin-day .cd-dot.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+
+.checkin-day .cd-dot.today {
+  border-color: var(--accent);
+  border-style: dashed;
+}
+
+.checkin-reward {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--green-bg);
+  border-radius: var(--radius-sm);
+  margin-bottom: 14px;
+}
+
+.checkin-reward span {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.checkin-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--green);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.checkin-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.checkin-btn:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  z-index: 500;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.nav-item .nav-icon {
+  font-size: 22px;
+  transition: var(--transition);
+}
+
+.nav-item .nav-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  transition: var(--transition);
+}
+
+.nav-item.active .nav-icon { transform: scale(1.1); }
+.nav-item.active .nav-label { color: var(--accent); font-weight: 700; }
+
+/* Pages */
+.page { display: none; }
+.page.active { display: block; animation: fadeSlideIn 0.3s ease; }
+
+/* Energy Chart */
+.energy-chart {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.chart-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.chart-period {
+  display: flex;
+  gap: 4px;
+}
+
+.chart-period button {
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-secondary);
+  font-family: inherit;
+}
+
+.chart-period button.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+  padding: 0 4px;
+}
+
+.chart-bar-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+}
+
+.chart-bar {
+  flex: 1;
+  width: 100%;
+  border-radius: 4px 4px 2px 2px;
+  background: var(--accent-bg2);
+  transition: var(--transition);
+  min-height: 4px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.chart-bar-inner {
+  width: 100%;
+  border-radius: 4px 4px 2px 2px;
+  transition: height 0.6s ease;
+}
+
+.chart-bar-label {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+/* Energy Scale */
+.energy-scale {
+  margin-top: 16px;
+  padding: 14px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+}
+
+.energy-scale-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.energy-scale-header span {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.energy-scale-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ef4444 0%, #f59e0b 30%, #e5e7eb 50%, #10b981 70%, #059669 100%);
+  position: relative;
+}
+
+.energy-scale-marker {
+  position: absolute;
+  top: -6px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: left 0.5s ease;
+}
+
+.energy-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+/* Disclaimer */
+.disclaimer {
+  margin: 20px 20px 30px;
+  padding: 16px;
+  background: var(--orange-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(245,158,11,0.2);
+}
+
+.disclaimer p {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.disclaimer .d-icon {
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay.open { display: flex; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 24px 20px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.modal-content h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* Calculator */
+.calc-container {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.calc-slider-container {
+  margin-bottom: 16px;
+}
+
+.calc-slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calc-slider-label span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.calc-slider-label .calc-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.calc-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  outline: none;
+}
+
+.calc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(108,92,231,0.4);
+}
+
+.calc-result {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.calc-result-item {
+  text-align: center;
+  padding: 12px 8px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+}
+
+.calc-result-item .cri-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.calc-result-item .cri-value {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.calc-result-item .cri-value.green { color: var(--green); }
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 20px;
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast .toast-icon { font-size: 20px; }
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.pulse { animation: pulse 2s infinite; }
+
+/* Calendar grid */
+.mini-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-top: 14px;
+}
+
+.mini-cal-day {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--bg-primary);
+  color: var(--text-tertiary);
+}
+
+.mini-cal-day.active {
+  background: var(--green);
+  color: white;
+}
+
+.mini-cal-day.today {
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+.mini-cal-day.empty {
+  background: transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 360px) {
+  .energy-hero .energy-value { font-size: 28px; }
+  .energy-stats { flex-direction: column; gap: 8px; }
+  .projects-grid { grid-template-columns: 1fr 1fr; }
+  .ref-stats { grid-template-columns: repeat(3, 1fr); }
+  .package-pricing { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 481px) {
+  .app-container { padding-bottom: 80px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Onboarding -->
+<div class="onboarding-overlay" id="onboarding">
+  <div class="onboarding-container">
+    <!-- Slide 1 -->
+    <div class="onboarding-slide active" data-slide="0">
+      <div class="onboarding-icon">🌟</div>
+      <h2>Энергия — основа всего</h2>
+      <p>Любовь, деньги, здоровье — это разные формы одной энергии. Узнайте, как ваш типаж влияет на то, как вы заряжаетесь и отдаёте энергию.</p>
+      <div class="onboarding-features">
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--red-bg)">🔥</div>
+          <div class="feat-text">
+            <h4>Физическая энергия</h4>
+            <p>Тело, здоровье, витальность</p>
+          </div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--blue-bg)">🧠</div>
+          <div class="feat-text">
+            <h4>Психическая энергия</h4>
+            <p>Эмоции, мышление, фокус</p>
+          </div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--accent-bg2)">✨</div>
+          <div class="feat-text">
+            <h4>Энергия эгрегора</h4>
+            <p>Связь с коллективным полем</p>
+          </div>
+        </div>
+      </div>
+      <div class="onboarding-dots">
+        <div class="onboarding-dot active" data-goto="0"></div>
+        <div class="onboarding-dot" data-goto="1"></div>
+        <div class="onboarding-dot" data-goto="2"></div>
+      </div>
+      <button class="btn-primary" onclick="nextSlide()">Далее →</button>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="onboarding-slide" data-slide="1">
+      <div class="onboarding-icon">🎭</div>
+      <h2>Ваш код личности</h2>
+      <p>Каждый человек уникален. Система Семитриум определяет ваш типаж по двум параметрам: как вы воспринимаете мир (N/F/T/S) и как взаимодействуете (E/I).</p>
+      <div class="onboarding-features">
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--green-bg)">💡</div>
+          <div class="feat-text">
+            <h4>8 типажей личности</h4>
+            <p>Глубинная диагностика ваших паттернов</p>
+          </div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--orange-bg)">⚡</div>
+          <div class="feat-text">
+            <h4>Индивидуальный код</h4>
+            <p>Например, ES: вы заряжаетесь через действие</p>
+          </div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--pink-bg)">💕</div>
+          <div class="feat-text">
+            <h4>Ключ к отношениям</h4>
+            <p>Поймите себя и партнёра глубже</p>
+          </div>
+        </div>
+      </div>
+      <div class="onboarding-dots">
+        <div class="onboarding-dot" data-goto="0"></div>
+        <div class="onboarding-dot active" data-goto="1"></div>
+        <div class="onboarding-dot" data-goto="2"></div>
+      </div>
+      <button class="btn-primary" onclick="nextSlide()">Далее →</button>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="onboarding-slide" data-slide="2">
+      <div class="onboarding-icon">🔋</div>
+      <h2>Ежедневный чекап</h2>
+      <p>Проверяйте баланс энергий каждый день — как уровень заряда у телефона. Занимает 1 минуту.</p>
+      <div class="onboarding-features">
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--green-bg)">📊</div>
+          <div class="feat-text">
+            <h4>Мониторинг состояния</h4>
+            <p>Визуализация вашего энергетического баланса</p>
+          </div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--accent-bg2)">📈</div>
+          <div class="feat-text">
+            <h4>История и аналитика</h4>
+            <p>Отслеживайте динамику во времени</p>
+          </div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--orange-bg)">🎁</div>
+          <div class="feat-text">
+            <h4>Бонусы за активность</h4>
+            <p>Получайте GEN за каждый чекап</p>
+          </div>
+        </div>
+      </div>
+      <div class="onboarding-dots">
+        <div class="onboarding-dot" data-goto="0"></div>
+        <div class="onboarding-dot" data-goto="1"></div>
+        <div class="onboarding-dot active" data-goto="2"></div>
+      </div>
+      <button class="btn-primary" onclick="startApp()">🚀 Начать</button>
+      <button class="btn-secondary" onclick="startApp()">Пропустить онбординг</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toast-text">Скопировано!</span>
+</div>
+
+<!-- Main App -->
+<div class="app-container">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-title">🌿 <span>Garden</span></div>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Сменить тему">🌙</button>
+      <button class="icon-btn" onclick="showNotifications()" title="Уведомления">🔔</button>
+    </div>
+  </header>
+
+  <!-- Page: Home -->
+  <div class="page active" id="page-home">
+    <!-- Energy Hero -->
+    <div class="energy-hero">
+      <div class="energy-label">⚡ Ваш GEN-баланс</div>
+      <div class="energy-value" id="genBalance">2,450 <span>GEN</span></div>
+      <div class="energy-stats">
+        <div class="energy-stat">
+          <div class="stat-num" id="totalDays">47</div>
+          <div class="stat-label">Дней в приложении</div>
+        </div>
+        <div class="energy-stat">
+          <div class="stat-num" id="activeDays">32</div>
+          <div class="stat-label">Активных дней</div>
+        </div>
+        <div class="energy-stat">
+          <div class="stat-num" id="streakDays">7 🔥</div>
+          <div class="stat-label">Серия</div>
+        </div>
+      </div>
+      <div class="energy-bar-container">
+        <div class="energy-bar-labels">
+          <span>-1000</span>
+          <span>0</span>
+          <span>+1000</span>
+        </div>
+        <div class="energy-bar">
+          <div class="energy-bar-fill" id="energyBarFill" style="width: 72%; background: linear-gradient(90deg, #10b981, #059669);"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Check-in -->
+    <div class="section">
+      <div class="checkin-card">
+        <h3>🌞 Ежедневный чекап</h3>
+        <p>Проверьте баланс энергий и получите +1 GEN</p>
+        <div class="checkin-week">
+          <div class="checkin-day"><span class="cd-label">Пн</span><div class="cd-dot active">✓</div></div>
+          <div class="checkin-day"><span class="cd-label">Вт</span><div class="cd-dot active">✓</div></div>
+          <div class="checkin-day"><span class="cd-label">Ср</span><div class="cd-dot active">✓</div></div>
+          <div class="checkin-day"><span class="cd-label">Чт</span><div class="cd-dot active">✓</div></div>
+          <div class="checkin-day"><span class="cd-label">Пт</span><div class="cd-dot active">✓</div></div>
+          <div class="checkin-day"><span class="cd-label">Сб</span><div class="cd-dot active">✓</div></div>
+          <div class="checkin-day"><span class="cd-label">Вс</span><div class="cd-dot today pulse">!</div></div>
+        </div>
+        <div class="checkin-reward">
+          <span>🎁 +1 GEN за чекап</span>
+        </div>
+        <button class="checkin-btn" id="checkinBtn" onclick="doCheckin()">⚡ Пройти чекап</button>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">🔗 Быстрый доступ</div>
+      </div>
+      <div class="quick-links">
+        <a class="quick-link" href="http://zaloveclub.ru/allpages/qwsem4/" target="_blank">
+          <div class="ql-icon" style="background:var(--pink-bg)">💕</div>
+        
+          <div class="ql-info">
+            <h3>Семитриум Любви</h3>
+            <p>7 архетипов × 3 уровня = диагностика отношений</p>
+          </div>
+          <span class="ql-arrow">→</span>
+        </a>
+        <a class="quick-link" href="http://zaloveclub.ru/fin/" target="_blank">
+          <div class="ql-icon" style="background:var(--orange-bg)">💰</div>
+         
+          <div class="ql-info">
+            <h3>Денежный Семитриум</h3>
+            <p>Финансовые сценарии и энергия изобилия</p>
+          </div>
+          <span class="ql-arrow">→</span>
+        </a>
+        <a class="quick-link" href="http://lp.triraid.ru/nat" target="_blank">
+          <div class="ql-icon" style="background:var(--accent-bg2)">🎭</div>
+
+           <div class="ql-info">
+            <h3>Денежный Семитриум</h3>
+            <p>Финансовые сценарии и энергия изобилия</p>
+          </div>
+          <span class="ql-arrow">→</span>
+        </a>
+        <a class="quick-link" href="http://lp.triraid.ru/nat" target="_blank">
+          <div class="ql-icon" style="background:var(--accent-bg2)">🎭</div>
+          
+          <div class="ql-info">
+            <h3>Тест на Типаж</h3>
+            <p>Определите свой код личности (N/F/T/S × E/I)</p>
+          </div>
+          
+          <span class="ql-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">📂 Проекты</div>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card" onclick="navigateTo('page-energy')">
+          <div class="pc-icon" style="background:var(--green-bg)">🌱</div>
+          <h3>Энергия</h3>
+          <p>Трекер чекапов и аналитика</p>
+        </div>
+        <div class="project-card" onclick="navigateTo('page-techniques')">
+          <div class="pc-icon" style="background:var(--blue-bg)">🧰</div>
+          <h3>Техники</h3>
+          <p>ТОК, медитации, практики</p>
+        </div>
+        <div class="project-card" onclick="navigateTo('page-bonus')">
+          <div class="pc-icon" style="background:var(--orange-bg)">🎁</div>
+          <h3>Бонусы</h3>
+          <p>Рефералы и начисления GEN</p>
+        </div>
+        <div class="project-card" onclick="navigateTo('page-partner')">
+          <div class="pc-icon" style="background:var(--pink-bg)">🤝</div>
+          <h3>Партнёрам</h3>
+          <p>Обучение и пакеты КА</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+      <p><span class="d-icon">⚠️</span> Проект не является инвестиционным, лотерейным или схемой пассивного дохода. Вы приобретаете доступ к образовательным материалам. Результат зависит от вашей личной активности.</p>
+    </div>
+  </div>
+
+  <!-- Page: Energy -->
+  <div class="page" id="page-energy">
+    <div class="section" style="margin-top: 10px;">
+      <div class="section-header">
+        <div class="section-title">🔋 Моя энергия</div>
+        <a class="section-link" onclick="navigateTo('page-home')">← На главную</a>
+      </div>
+
+      <!-- Energy Scale -->
+      <div class="energy-scale" style="background:var(--bg-card); border:1px solid var(--border);">
+        <div class="energy-scale-header">
+          <span style="color:var(--red);">-1000</span>
+          <span id="currentEnergyValue" style="color:var(--accent); font-size:18px;">+720</span>
+          <span style="color:var(--green);">+1000</span>
+        </div>
+        <div class="energy-scale-bar">
+          <div class="energy-scale-marker" id="energyMarker" style="left: 72%;"></div>
+        </div>
+        <div class="energy-scale-labels">
+          <span>Разряд</span>
+          <span>Нейтрально</span>
+          <span>Заряд</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="section">
+      <div class="energy-chart">
+        <div class="chart-header">
+          <h3>📈 Динамика</h3>
+          <div class="chart-period">
+            <button class="active" onclick="setChartPeriod(this, 'week')">Неделя</button>
+            <button onclick="setChartPeriod(this, 'month')">Месяц</button>
+            <button onclick="setChartPeriod(this, 'all')">Всё</button>
+          </div>
+        </div>
+        <div class="chart-bars" id="chartBars">
+          <div class="chart-bar-wrapper"><div class="chart-bar"><div class="chart-bar-inner" style="height:60%;background:var(--green);"></div></div><span class="chart-bar-label">Пн</span></div>
+          <div class="chart-bar-wrapper"><div class="chart-bar"><div class="chart-bar-inner" style="height:75%;background:var(--green);"></div></div><span class="chart-bar-label">Вт</span></div>
+          <div class="chart-bar-wrapper"><div class="chart-bar"><div class="chart-bar-inner" style="height:45%;background:var(--orange);"></div></div><span class="chart-bar-label">Ср</span></div>
+          <div class="chart-bar-wrapper"><div class="chart-bar"><div class="chart-bar-inner" style="height:85%;background:var(--green);"></div></div><span class="chart-bar-label">Чт</span></div>
+          <div class="chart-bar-wrapper"><div class="chart-bar"><div class="chart-bar-inner" style="height:55%;background:var(--orange);"></div></div><span class="chart-bar-label">Пт</span></div>
+          <div class="chart-bar-wrapper"><div class="chart-bar"><div class="chart-bar-inner" style="height:90%;background:var(--green);"></div></div><span class="chart-bar-label">Сб</span></div>
+          <div class="chart-bar-wrapper"><div class="chart-bar"><div class="chart-bar-inner" style="height:72%;background:var(--accent);"></div></div><span class="chart-bar-label">Вс</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">📅 Календарь активности</div>
+      </div>
+      <div class="energy-chart">
+        <div class="mini-calendar" id="miniCalendar"></div>
+        <div style="display:flex; gap:12px; margin-top:12px; font-size:11px; color:var(--text-secondary);">
+          <span>🟢 Активный день</span>
+          <span>⬜ Неактивный</span>
+          <span>🔵 Сегодня</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GEN Earning Rules -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">⚙️ Как начисляется GEN</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--green-bg)">📝</div>
+          <div class="feat-text"><h4>Ежедневный чекап</h4><p>+1 GEN каждый день</p></div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--blue-bg)">🧪</div>
+          <div class="feat-text"><h4>Прохождение теста</h4><p>+10 GEN за каждый тест</p></div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--accent-bg2)">👥</div>
+          <div class="feat-text"><h4>Активность реферала</h4><p>+1-5 GEN (зависит от уровня)</p></div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--orange-bg)">📦</div>
+          <div class="feat-text"><h4>Покупка пакета КА</h4><p>+50-500 GEN</p></div>
+        </div>
+        <div class="onboarding-feature">
+          <div class="feat-icon" style="background:var(--pink-bg)">🎪</div>
+          <div class="feat-text"><h4>Участие в событии</h4><p>+20 GEN</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page: Bonus -->
+  <div class="page" id="page-bonus">
+    <div class="section" style="margin-top: 10px;">
+      <div class="section-header">
+        <div class="section-title">🎁 Бонусная программа</div>
+        <a class="section-link" onclick="navigateTo('page-home')">← На главную</a>
+      </div>
+
+      <!-- Referral -->
+      <div class="ref-card" style="margin-bottom: 16px;">
+        <div class="ref-header">
+          <div class="rh-icon">🔗</div>
+          <div>
+            <h3>Реферальная ссылка</h3>
+            <p>Приглашайте друзей и получайте бонусы</p>
+          </div>
+        </div>
+        <div class="ref-code-box">
+          <code id="refCode">SEM-USER-2024</code>
+          <button class="copy-btn" onclick="copyToClipboard('SEM-USER-2024')">📋 Копировать</button>
+        </div>
+        <div class="ref-link-box">
+          <code id="refLink">zaloveclub.ru/?ref=SEM-USER-2024</code>
+          <button class="copy-btn" onclick="copyToClipboard('zaloveclub.ru/?ref=SEM-USER-2024')">📋</button>
+        </div>
+        <div class="ref-stats">
+          <div class="ref-stat">
+            <div class="rs-num">12</div>
+            <div class="rs-label">Личные</div>
+          </div>
+          <div class="ref-stat">
+            <div class="rs-num">8</div>
+            <div class="rs-label">Активных</div>
+          </div>
+          <div class="ref-stat">
+            <div class="rs-num">340</div>
+            <div class="rs-label">GEN заработано</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pride / Team -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">👥 Мой ПРАИД</div>
+      </div>
+      <p style="font-size:12px; color:var(--text-secondary); margin-bottom:14px;">Партнерский (П) Энергетический (РА) Код (ИД) формирует и усиливает каждый участник команды генерируя энергию, от которой вы получаете бонус от их активности в системе.</p>
+
+      <div id="prideLevels"></div>
+    </div>
+  </div>
+
+  <!-- Page: Partner -->
+  <div class="page" id="page-partner">
+    <div class="section" style="margin-top: 10px;">
+      <div class="section-header">
+        <div class="section-title">🤝 Партнёрам</div>
+        <a class="section-link" onclick="navigateTo('page-home')">← На главную</a>
+      </div>
+
+      <!-- Tabs -->
+      <div class="partner-tabs">
+        <button class="partner-tab active" onclick="switchPartnerTab(this, 'tab-materials')">📚 Обучение</button>
+        <button class="partner-tab" onclick="switchPartnerTab(this, 'tab-packages')">📦 Пакеты КА</button>
+        <button class="partner-tab" onclick="switchPartnerTab(this, 'tab-calc')">🧮 Калькулятор</button>
+      </div>
+
+      <!-- Tab: Materials -->
+      <div id="tab-materials" class="partner-content active">
+        <div class="material-card">
+          <div class="material-icon" style="background:var(--red-bg)">🎬</div>
+          <div class="material-info">
+            <h4>Видео: Презентация проектов</h4>
+            <p>Как рассказать о Семитриуме за 3 минуты</p>
+          </div>
+        </div>
+        <div class="material-card">
+          <div class="material-icon" style="background:var(--blue-bg)">📋</div>
+          <div class="material-info">
+            <h4>Скрипты онбординга</h4>
+            <p>Готовые тексты для приглашения новых участников</p>
+          </div>
+        </div>
+        <div class="material-card">
+          <div class="material-icon" style="background:var(--green-bg)">🧪</div>
+          <div class="material-info">
+            <h4>Гайд по типаж-диагностике</h4>
+            <p>Как интерпретировать результаты тестов</p>
+          </div>
+        </div>
+        <div class="material-card">
+          <div class="material-icon" style="background:var(--orange-bg)">❓</div>
+          <div class="material-info">
+            <h4>FAQ: Частые вопросы</h4>
+            <p>Библиотека ответов на вопросы клиентов</p>
+          </div>
+        </div>
+        <div class="material-card">
+          <div class="material-icon" style="background:var(--accent-bg2)">📊</div>
+          <div class="material-info">
+            <h4>Статистика партнёра</h4>
+            <p>Конверсия, активность, история начислений</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Packages -->
+      <div id="tab-packages" class="partner-content" style="display:none;">
+        <div class="package-card">
+          <div class="package-top">
+            <div class="package-name">
+              <span class="package-icon">🌱</span>
+              <div>
+                <h3>Старт</h3>
+                <p>3 Кодa Активации</p>
+              </div>
+            </div>
+            <div class="package-badge">58% выгода</div>
+          </div>
+          <div class="package-pricing">
+            <div class="package-price">
+              <div class="pp-label">Цена за 1 КА</div>
+              <div class="pp-value">7 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Стоимость пакета</div>
+              <div class="pp-value accent">21 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Ценность (дисконт / полная)</div>
+              <div class="pp-value" style="font-size:13px;">49 500 ₽ / 104 700 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Экономия</div>
+              <div class="pp-value green">28 500 ₽</div>
+            </div>
+          </div>
+          <div class="package-benefits">
+            <span class="package-benefit">Базовая библиотека</span>
+          </div>
+          <button class="package-btn outline" onclick="showToast('🌱 Пакет Старт: 21 000 ₽')">Купить 3 КА</button>
+        </div>
+
+        <div class="package-card">
+          <div class="package-top">
+            <div class="package-name">
+              <span class="package-icon">🌿</span>
+              <div>
+                <h3>Профи</h3>
+                <p>10 Кодов Активации</p>
+              </div>
+            </div>
+            <div class="package-badge">70% выгода</div>
+          </div>
+          <div class="package-pricing">
+            <div class="package-price">
+              <div class="pp-label">Цена за 1 КА</div>
+              <div class="pp-value">5 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Стоимость пакета</div>
+              <div class="pp-value accent">50 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Ценность (дисконт / полная)</div>
+              <div class="pp-value" style="font-size:13px;">165 000 ₽ / 349 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Экономия</div>
+              <div class="pp-value green">115 000 ₽</div>
+            </div>
+          </div>
+          <div class="package-benefits">
+            <span class="package-benefit">+5% к генерации GEN (30 дней)</span>
+            <span class="package-benefit">Доступ к вебинарам</span>
+          </div>
+          <button class="package-btn primary" onclick="showToast('🌿 Пакет Профи: 50 000 ₽')">Купить 10 КА</button>
+        </div>
+
+        <div class="package-card popular">
+          <div class="package-top">
+            <div class="package-name">
+              <span class="package-icon">🌳</span>
+              <div>
+                <h3>Мастер</h3>
+                <p>30 Кодов Активации</p>
+              </div>
+            </div>
+            <div class="package-badge">76% выгода</div>
+          </div>
+          <div class="package-pricing">
+            <div class="package-price">
+              <div class="pp-label">Цена за 1 КА</div>
+              <div class="pp-value">4 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Стоимость пакета</div>
+              <div class="pp-value accent">120 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Ценность (дисконт / полная)</div>
+              <div class="pp-value" style="font-size:13px;">495 000 ₽ / 1 047 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Экономия</div>
+              <div class="pp-value green">375 000 ₽</div>
+            </div>
+          </div>
+          <div class="package-benefits">
+            <span class="package-benefit">+10% к генерации GEN</span>
+            <span class="package-benefit">Приоритетная поддержка</span>
+          </div>
+          <button class="package-btn primary" onclick="showToast('🌳 Пакет Мастер: 120 000 ₽')">Купить 30 КА</button>
+        </div>
+
+        <div class="package-card" style="border-color: var(--gold, #f59e0b);">
+          <div class="package-top">
+            <div class="package-name">
+              <span class="package-icon">🌲</span>
+              <div>
+                <h3>Максимум</h3>
+                <p>50 Кодов Активации</p>
+              </div>
+            </div>
+            <div class="package-badge" style="background:var(--orange-bg); color:var(--orange);">82% выгода</div>
+          </div>
+          <div class="package-pricing">
+            <div class="package-price">
+              <div class="pp-label">Цена за 1 КА</div>
+              <div class="pp-value">3 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Стоимость пакета</div>
+              <div class="pp-value accent">150 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Ценность (дисконт / полная)</div>
+              <div class="pp-value" style="font-size:13px;">825 000 ₽ / 1 175 000 ₽</div>
+            </div>
+            <div class="package-price">
+              <div class="pp-label">Экономия</div>
+              <div class="pp-value green">675 000 ₽</div>
+            </div>
+          </div>
+          <div class="package-benefits">
+            <span class="package-benefit">+15% к генерации GEN</span>
+            <span class="package-benefit">Личный куратор</span>
+            <span class="package-benefit">Закрытые вебинары</span>
+          </div>
+          <button class="package-btn primary" style="background: linear-gradient(135deg, #f59e0b, #d97706);" onclick="showToast('🌲 Пакет Максимум: 150 000 ₽')">Купить 50 КА</button>
+        </div>
+
+        <!-- Conditions -->
+        <div style="padding: 16px; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 10px;">
+          <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 10px;">⚙️ Условия использования КА</h4>
+          <ul style="font-size: 12px; color: var(--text-secondary); line-height: 1.8; padding-left: 16px;">
+            <li>Каждый КА — уникальный, одноразовый, привязан к аккаунту при активации</li>
+            <li>Неактивированные коды можно передавать внутри команды</li>
+            <li>Срок действия КА: <strong>12 месяцев</strong> с момента покупки</li>
+            <li>Возврат не предусмотрен</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tab: Calculator -->
+      <div id="tab-calc" class="partner-content" style="display:none;">
+        <div class="calc-container">
+          <h3 style="font-size:16px; font-weight:800; margin-bottom:16px; text-align:center;">🧮 Калькулятор выгоды</h3>
+          <div class="calc-slider-container">
+            <div class="calc-slider-label">
+              <span>Количество КА</span>
+              <span class="calc-value" id="calcCount">10</span>
+            </div>
+            <input type="range" class="calc-slider" id="calcSlider" min="3" max="50" value="10" step="1" oninput="updateCalc()">
+          </div>
+          <div class="calc-result">
+            <div class="calc-result-item">
+              <div class="cri-label">Цена за 1 КА</div>
+              <div class="cri-value" id="calcPriceOne">5 000 ₽</div>
+            </div>
+            <div class="calc-result-item">
+              <div class="cri-label">Стоимость</div>
+              <div class="cri-value" id="calcTotal">50 000 ₽</div>
+            </div>
+            <div class="calc-result-item">
+              <div class="cri-label">Экономия</div>
+              <div class="cri-value green" id="calcSaving">115 000 ₽</div>
+            </div>
+            <div class="calc-result-item">
+              <div class="cri-label">Ценность</div>
+              <div class="cri-value" id="calcValue">165 000 ₽</div>
+            </div>
+            <div class="calc-result-item">
+              <div class="cri-label">Полная ценность</div>
+              <div class="cri-value" id="calcFullValue">349 000 ₽</div>
+            </div>
+            <div class="calc-result-item">
+              <div class="cri-label">Выгода</div>
+              <div class="cri-value green" id="calcPercent">70%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+      <p><span class="d-icon">⚠️</span> Покупка пакетов КА не является инвестицией или гарантией дохода. Вы приобретаете доступ к образовательным материалам и инструментам. Финансовый результат зависит от вашей активности.</p>
+    </div>
+  </div>
+
+  <!-- Page: Techniques -->
+  <div class="page" id="page-techniques">
+    <div class="section" style="margin-top: 10px;">
+      <div class="section-header">
+        <div class="section-title">🧰 Техники</div>
+        <a class="section-link" onclick="navigateTo('page-home')">← На главную</a>
+      </div>
+
+      <div class="material-card" onclick="showToast('🔒 Доступно с пакетом КА')">
+        <div class="material-icon" style="background:var(--pink-bg)">🤲</div>
+        <div class="material-info">
+          <h4>ТОК — Техника Осознанного Касания</h4>
+          <p>Глубинная работа с энергетическими блоками через тактильный контакт</p>
+        </div>
+      </div>
+      <div class="material-card" onclick="showToast('🔒 Доступно с пакетом КА')">
+        <div class="material-icon" style="background:var(--blue-bg)">🧘</div>
+        <div class="material-info">
+          <h4>Медитация «Семитриум»</h4>
+          <p>Гармонизация 7 энергетических центров</p>
+        </div>
+      </div>
+      <div class="material-card" onclick="showToast('🔒 Доступно с пакетом КА')">
+        <div class="material-icon" style="background:var(--green-bg)">🌬️</div>
+        <div class="material-info">
+          <h4>Дыхательные практики</h4>
+          <p>Техники управления физической энергией</p>
+        </div>
+      </div>
+      <div class="material-card" onclick="showToast('🔒 Доступно с пакетом КА')">
+        <div class="material-icon" style="background:var(--orange-bg)">🔥</div>
+        <div class="material-info">
+          <h4>Практика заземления</h4>
+          <p>Восстановление связи с физической энергией</p>
+        </div>
+      </div>
+      <div class="material-card" onclick="showToast('✅ Бесплатная техника!')">
+        <div class="material-icon" style="background:var(--accent-bg2)">✨</div>
+        <div class="material-info">
+          <h4>Экспресс-чекап (бесплатно)</h4>
+          <p>3-минутная диагностика текущего состояния</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="navigateTo('page-home')" data-page="page-home">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Главная</span>
+    </button>
+    <button class="nav-item" onclick="navigateTo('page-energy')" data-page="page-energy">
+      <span class="nav-icon">🔋</span>
+      <span class="nav-label">Энергия</span>
+    </button>
+    <button class="nav-item" onclick="navigateTo('page-bonus')" data-page="page-bonus">
+      <span class="nav-icon">🎁</span>
+      <span class="nav-label">Бонусы</span>
+    </button>
+    <button class="nav-item" onclick="navigateTo('page-partner')" data-page="page-partner">
+      <span class="nav-icon">🤝</span>
+      <span class="nav-label">Партнёры</span>
+    </button>
+  </nav>
+</div>
+
+<!-- Checkin Modal -->
+<div class="modal-overlay" id="checkinModal">
+  <div class="modal-content">
+    <div class="modal-handle"></div>
+    <h2>⚡ Ежедневный чекап</h2>
+    <p style="font-size:14px; color:var(--text-secondary); text-align:center; margin-bottom:20px;">Как вы себя чувствуете сегодня?</p>
+
+    <div style="margin-bottom:20px;">
+      <label style="font-size:13px; font-weight:600; margin-bottom:8px; display:block;">Физическая энергия</label>
+      <input type="range" class="calc-slider" min="-1000" max="1000" value="200" id="checkinPhys" style="width:100%;">
+      <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-tertiary); margin-top:4px;">
+        <span>Разряд</span><span id="checkinPhysVal">+200</span><span>Заряд</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <label style="font-size:13px; font-weight:600; margin-bottom:8px; display:block;">Психическая энергия</label>
+      <input type="range" class="calc-slider" min="-1000" max="1000" value="100" id="checkinPsych" style="width:100%;">
+      <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-tertiary); margin-top:4px;">
+        <span>Разряд</span><span id="checkinPsychVal">+100</span><span>Заряд</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <label style="font-size:13px; font-weight:600; margin-bottom:8px; display:block;">Энергия эгрегора</label>
+      <input type="range" class="calc-slider" min="-1000" max="1000" value="300" id="checkinEgr" style="width:100%;">
+      <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-tertiary); margin-top:4px;">
+        <span>Разряд</span><span id="checkinEgrVal">+300</span><span>Заряд</span>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="submitCheckin()" style="margin-bottom:10px;">✅ Сохранить и получить +1 GEN</button>
+    <button class="btn-secondary" onclick="closeCheckinModal()">Отмена</button>
+  </div>
+</div>
+
+<script>
+// State
+let currentSlide = 0;
+let currentTheme = localStorage.getItem('theme') || 'light';
+let checkedIn = false;
+let genBalance = 2450;
+let activeDays = 32;
+let totalDays = 47;
+let currentEnergy = 720;
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  // Check if onboarding was seen
+  if (localStorage.getItem('onboarded') === 'true') {
+    document.getElementById('onboarding').classList.add('hidden');
+  }
+
+  // Apply saved theme
+  applyTheme(currentTheme);
+
+  // Generate Pride levels
+  generatePrideLevels();
+
+  // Generate Mini Calendar
+  generateCalendar();
+
+  // Slider listeners
+  const sliders = ['checkinPhys', 'checkinPsych', 'checkinEgr'];
+  const displays = ['checkinPhysVal', 'checkinPsychVal', 'checkinEgrVal'];
+  sliders.forEach((s, i) => {
+    const el = document.getElementById(s);
+    el.addEventListener('input', () => {
+      const v = parseInt(el.value);
+      const sign = v >= 0 ? '+' : '';
+      document.getElementById(displays[i]).textContent = sign + v;
+    });
+  });
+
+  // Update calculator
+  updateCalc();
+});
+
+// Onboarding
+function nextSlide() {
+  if (currentSlide < 2) {
+    currentSlide++;
+    updateSlides();
+  }
+}
+
+function goToSlide(idx) {
+  currentSlide = idx;
+  updateSlides();
+}
+
+function updateSlides() {
+  document.querySelectorAll('.onboarding-slide').forEach((s, i) => {
+    s.classList.toggle('active', i === currentSlide);
+  });
+  document.querySelectorAll('.onboarding-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentSlide);
+  });
+}
+
+function startApp() {
+  localStorage.setItem('onboarded', 'true');
+  document.getElementById('onboarding').classList.add('hidden');
+}
+
+// Dot click handlers
+document.querySelectorAll('.onboarding-dot').forEach(dot => {
+  dot.addEventListener('click', () => {
+    goToSlide(parseInt(dot.dataset.goto));
+  });
+});
+
+// Theme
+function toggleTheme() {
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  applyTheme(currentTheme);
+  localStorage.setItem('theme', currentTheme);
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙' : '☀️';
+}
+
+// Navigation
+function navigateTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.page === pageId);
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Copy
+function copyToClipboard(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('📋 Скопировано: ' + text));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('📋 Скопировано: ' + text);
+  }
+}
+
+// Toast
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-text').textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// Check-in
+function doCheckin() {
+  if (checkedIn) {
+    showToast('✅ Вы уже прошли чекап сегодня!');
+    return;
+  }
+  document.getElementById('checkinModal').classList.add('open');
+}
+
+function closeCheckinModal() {
+  document.getElementById('checkinModal').classList.remove('open');
+}
+
+function submitCheckin() {
+  const phys = parseInt(document.getElementById('checkinPhys').value);
+  const psych = parseInt(document.getElementById('checkinPsych').value);
+  const egr = parseInt(document.getElementById('checkinEgr').value);
+  const avg = Math.round((phys + psych + egr) / 3);
+
+  currentEnergy = avg;
+  genBalance += 1;
+  activeDays += 1;
+
+  // Update UI
+  document.getElementById('genBalance').innerHTML = genBalance.toLocaleString() + ' <span>GEN</span>';
+  document.getElementById('activeDays').textContent = activeDays;
+
+  const pct = ((currentEnergy + 1000) / 2000) * 100;
+  document.getElementById('energyBarFill').style.width = pct + '%';
+  document.getElementById('energyBarFill').style.background = currentEnergy >= 0
+    ? 'linear-gradient(90deg, #10b981, #059669)'
+    : 'linear-gradient(90deg, #ef4444, #dc2626)';
+
+  document.getElementById('currentEnergyValue').textContent = (currentEnergy >= 0 ? '+' : '') + currentEnergy;
+  document.getElementById('energyMarker').style.left = pct + '%';
+
+  // Mark today
+  const todayDot = document.querySelector('.cd-dot.today');
+  if (todayDot) {
+    todayDot.textContent = '✓';
+    todayDot.classList.remove('today', 'pulse');
+    todayDot.classList.add('active');
+  }
+
+  checkedIn = true;
+  document.getElementById('checkinBtn').disabled = true;
+  document.getElementById('checkinBtn').textContent = '✅ Чекап пройден!';
+  document.getElementById('checkinBtn').style.opacity = '0.7';
+
+  closeCheckinModal();
+  showToast('⚡ Чекап пройден! +1 GEN начислен');
+}
+
+// Pride Levels
+function generatePrideLevels() {
+  const levels = [
+    { lvl: 1, bonus: '5%', members: [{name:'Анна К.', date:'12.01', energy:'+145 GEN'}, {name:'Иван М.', date:'15.01', energy:'+89 GEN'}, {name:'Ольга С.', date:'18.01', energy:'+210 GEN'}]},
+    { lvl: 2, bonus: '5%', members: [{name:'Дмитрий В.', date:'20.01', energy:'+67 GEN'}, {name:'Елена П.', date:'22.01', energy:'+134 GEN'}]},
+    { lvl: 3, bonus: '5%', members: [{name:'Сергей Л.', date:'25.01', energy:'+45 GEN'}]},
+    { lvl: 4, bonus: '5%', members: [] },
+    { lvl: 5, bonus: '5%', members: [] },
+    { lvl: 6, bonus: '5%', members: [] },
+    { lvl: 7, bonus: '5%', members: [] }
+  ];
+
+  const container = document.getElementById('prideLevels');
+  container.innerHTML = levels.map((l, i) => `
+    <div class="pride-level">
+      <div class="pride-level-header" onclick="togglePride(${i})">
+        <div class="pride-level-left">
+          <div class="pride-level-num">${l.lvl}</div>
+          <div class="pride-level-info">
+            <h4>Уровень ${l.lvl}</h4>
+            <p>${l.members.length} участник${l.members.length === 0 ? 'ов' : l.members.length < 5 ? 'а' : ''}</p>
+          </div>
+        </div>
+        <div class="pride-level-bonus">${l.bonus}</div>
+      </div>
+      <div class="pride-level-content" id="prideContent${i}">
+        ${l.members.length > 0 ? l.members.map(m => `
+          <div class="pride-member">
+            <div class="pride-member-left">
+              <div class="pride-member-avatar">${m.name.charAt(0)}</div>
+              <div class="pride-member-info">
+                <h5>${m.name}</h5>
+                <p>С ${m.date}</p>
+              </div>
+            </div>
+            <div class="pride-member-energy">${m.energy}</div>
+          </div>
+        `).join('') : '<p style="font-size:13px; color:var(--text-tertiary); padding:10px 0; text-align:center;">Пока нет участников на этом уровне</p>'}
+      </div>
+    </div>
+  `).join('');
+}
+
+function togglePride(idx) {
+  const content = document.getElementById('prideContent' + idx);
+  const isOpen = content.classList.contains('open');
+  document.querySelectorAll('.pride-level-content').forEach(c => c.classList.remove('open'));
+  if (!isOpen) content.classList.add('open');
+}
+
+// Calendar
+function generateCalendar() {
+  const container = document.getElementById('miniCalendar');
+  const activeDays = [1,2,3,4,5,6,7,8,10,11,12,14,15,16,17,19,20,21,23,24,25,27,28,30,31];
+  const today = 15;
+
+  // Day headers
+  const dayHeaders = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  let html = dayHeaders.map(d => `<div class="mini-cal-day" style="font-weight:800; font-size:10px; background:transparent;">${d}</div>`).join('');
+
+  // Empty cells for offset (assume month starts on Wednesday)
+  for (let i = 0; i < 2; i++) {
+    html += '<div class="mini-cal-day empty"></div>';
+  }
+
+  for (let d = 1; d <= 31; d++) {
+    const isActive = activeDays.includes(d);
+    const isToday = d === today;
+    const cls = isToday ? 'today' : (isActive ? 'active' : '');
+    html += `<div class="mini-cal-day ${cls}">${d}</div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+// Chart period
+function setChartPeriod(btn, period) {
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const bars = document.getElementById('chartBars');
+  const data = {
+    week: [{label:'Пн',h:60,c:'var(--green)'},{label:'Вт',h:75,c:'var(--green)'},{label:'Ср',h:45,c:'var(--orange)'},{label:'Чт',h:85,c:'var(--green)'},{label:'Пт',h:55,c:'var(--orange)'},{label:'Сб',h:90,c:'var(--green)'},{label:'Вс',h:72,c:'var(--accent)'}],
+    month: [{label:'1н',h:55,c:'var(--green)'},{label:'2н',h:70,c:'var(--green)'},{label:'3н',h:40,c:'var(--orange)'},{label:'4н',h:80,c:'var(--green)'}],
+    all: [{label:'Янв',h:30,c:'var(--orange)'},{label:'Фев',h:50,c:'var(--green)'},{label:'Мар',h:65,c:'var(--green)'},{label:'Апр',h:55,c:'var(--orange)'},{label:'Май',h:78,c:'var(--green)'},{label:'Июн',h:85,c:'var(--accent)'}]
+  };
+
+  bars.innerHTML = data[period].map(d => `
+    <div class="chart-bar-wrapper">
+      <div class="chart-bar"><div class="chart-bar-inner" style="height:${d.h}%;background:${d.c};"></div></div>
+      <span class="chart-bar-label">${d.label}</span>
+    </div>
+  `).join('');
+}
+
+// Partner Tabs
+function switchPartnerTab(btn, tabId) {
+  btn.parentElement.querySelectorAll('.partner-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.partner-content').forEach(c => c.style.display = 'none');
+  document.getElementById(tabId).style.display = 'block';
+}
+
+// Calculator
+function updateCalc() {
+  const count = parseInt(document.getElementById('calcSlider').value);
+  let pricePer, total, saving, value, fullValue, percent;
+
+  if (count <= 3) {
+    pricePer = 7000; total = count * 7000; saving = 28500 * (count/3); value = 49500 * (count/3); fullValue = 104700 * (count/3); percent = 58;
+  } else if (count <= 10) {
+    pricePer = 5000; total = count * 5000; saving = 11500 * count; value = 16500 * count; fullValue = 34900 * count; percent = 70;
+  } else if (count <= 30) {
+    pricePer = 4000; total = count * 4000; saving = 12500 * count; value = 16500 * count; fullValue = 34900 * count; percent = 76;
+  } else {
+    pricePer = 3000; total = count * 3000; saving = 13500 * count; value = 16500 * count; fullValue = 23500 * count; percent = 82;
+  }
+
+  document.getElementById('calcCount').textContent = count;
+  document.getElementById('calcPriceOne').textContent = pricePer.toLocaleString() + ' ₽';
+  document.getElementById('calcTotal').textContent = total.toLocaleString() + ' ₽';
+  document.getElementById('calcSaving').textContent = Math.round(saving).toLocaleString() + ' ₽';
+  document.getElementById('calcValue').textContent = Math.round(value).toLocaleString() + ' ₽';
+  document.getElementById('calcFullValue').textContent = Math.round(fullValue).toLocaleString() + ' ₽';
+  document.getElementById('calcPercent').textContent = percent + '%';
+}
+
+// Notifications
+function showNotifications() {
+  showToast('🔔 Нет новых уведомлений');
+}
+
+// Close modal on overlay click
+document.getElementById('checkinModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('checkinModal')) {
+    closeCheckinModal();
+  }
+});
+</script>
+</body>
+</html>
+
