@@ -2,588 +2,640 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Шкала энергетического состояния — тест Дэвида Хокинса</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Шкала энергии Хокинса | Пошаговый тест</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #eef2f5;
-            padding: 30px 20px;
-            color: #1e2a3a;
+            background: #eef2f7;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 18px 12px 40px;
+            color: #1a2c3c;
         }
 
-        .container {
-            max-width: 1100px;
+        /* главный контейнер */
+        .app-container {
+            max-width: 580px;
             margin: 0 auto;
+        }
+
+        /* карточка шага */
+        .step-card {
             background: white;
             border-radius: 36px;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1);
             overflow: hidden;
-            padding: 30px 28px 45px;
-            transition: all 0.2s;
+            padding: 24px 20px 28px;
+            margin-bottom: 20px;
+            transition: 0.2s;
         }
 
-        /* заголовок */
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #1e3c4c, #2b5b6e);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-        }
-
-        .header p {
-            color: #5b6e7c;
-            margin-top: 8px;
-            font-size: 15px;
-        }
-
-        /* схема SVG + блок результата */
-        .schema-area {
-            background: #f8fafc;
-            border-radius: 32px;
-            padding: 20px 15px 15px 15px;
-            margin-bottom: 35px;
-            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03), 0 8px 20px rgba(0,0,0,0.05);
-        }
-
-        .svg-wrapper {
-            display: flex;
-            justify-content: center;
-            overflow-x: auto;
-            background: #ffffff;
-            border-radius: 28px;
-            padding: 10px 0;
-        }
-
-        svg {
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
-            height: auto;
-            cursor: pointer;
-        }
-
-        .result-card {
-            background: white;
-            border-radius: 28px;
-            padding: 18px 24px;
-            margin-top: 20px;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.05);
-            border: 1px solid #e2edf2;
-        }
-
-        .result-level {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: space-between;
-        }
-
-        .level-name {
-            background: #1e3c4c;
-            display: inline-block;
-            padding: 6px 18px;
-            border-radius: 60px;
-            color: white;
-            font-size: 20px;
-        }
-
-        .level-range {
-            font-size: 18px;
-            color: #2c6e8f;
-            font-weight: 500;
-        }
-
-        .zone-badge {
-            font-size: 14px;
-            padding: 5px 14px;
-            border-radius: 30px;
-            font-weight: 600;
-        }
-
-        .interpret {
-            margin-top: 18px;
-            line-height: 1.45;
-            color: #2c3f4f;
-            font-size: 15px;
-            border-top: 1px dashed #cbdde6;
-            padding-top: 16px;
-        }
-
-        /* форма теста */
-        .test-section {
-            margin-top: 20px;
-        }
-
-        .question-card {
-            background: #fefefe;
-            border-radius: 28px;
-            border: 1px solid #e4edf2;
-            padding: 22px 26px;
+        .progress {
             margin-bottom: 18px;
-            transition: 0.1s;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c6e8f;
+        }
+
+        .q-counter {
+            background: #e9f0f5;
+            padding: 5px 14px;
+            border-radius: 40px;
         }
 
         .q-text {
+            font-size: 1.55rem;
             font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 18px;
-            color: #1a4b62;
+            line-height: 1.35;
+            margin: 18px 0 24px;
+            color: #0e2e3e;
         }
 
-        .options {
+        /* варианты ответов (большие тапы) */
+        .options-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
+            margin-bottom: 32px;
         }
 
-        .option {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            padding: 8px 12px;
-            background: #f9fbfd;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: 0.1s;
-            border: 1px solid transparent;
-        }
-
-        .option:hover {
-            background: #eef3fc;
-            border-color: #bdd9e8;
-        }
-
-        .option input {
-            margin-top: 3px;
-            accent-color: #2b7a62;
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-        }
-
-        .option label {
-            font-size: 15px;
-            line-height: 1.4;
-            color: #1f3c48;
+        .opt-btn {
+            background: #f9fcff;
+            border: 1px solid #dee9f0;
+            border-radius: 100px;
+            padding: 14px 20px;
+            font-size: 1rem;
             font-weight: 500;
-            flex: 1;
+            text-align: left;
+            color: #1f4a60;
             cursor: pointer;
+            transition: all 0.12s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(2px);
         }
 
-        .btn-submit {
-            background: linear-gradient(105deg, #2b5e6e, #1c4b5c);
-            border: none;
-            width: 100%;
-            padding: 16px;
-            font-size: 18px;
-            font-weight: 700;
+        .opt-btn:active {
+            transform: scale(0.98);
+            background: #eef3fc;
+        }
+
+        .opt-marker {
+            width: 28px;
+            height: 28px;
+            background: white;
+            border-radius: 30px;
+            border: 1.5px solid #bdd9e8;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2b7a62;
+        }
+
+        .opt-btn.selected {
+            background: #e1f0fa;
+            border-color: #2b7a62;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .opt-btn.selected .opt-marker {
+            background: #2b7a62;
+            border-color: #2b7a62;
             color: white;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: 0.2s;
-            margin: 18px 0 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .btn-submit:hover {
-            background: linear-gradient(105deg, #1e4f62, #0f3e4e);
-            transform: scale(0.99);
+        /* навигация */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 10px;
         }
 
-        .reset-btn {
+        .nav-btn {
             background: #eef2f5;
-            border: 1px solid #cbdbe0;
-            padding: 10px 20px;
-            border-radius: 40px;
+            border: none;
+            padding: 14px 0;
+            flex: 1;
+            border-radius: 60px;
             font-weight: 600;
+            font-size: 1rem;
             color: #2c5a6e;
             cursor: pointer;
-            margin-left: 12px;
             transition: 0.1s;
+            text-align: center;
         }
 
-        .footer-note {
+        .nav-btn.primary {
+            background: #1f6d5c;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn.primary:active {
+            background: #0f5546;
+            transform: scale(0.97);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.97);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            transform: none;
+        }
+
+        /* шкала + результат */
+        .result-container {
+            background: white;
+            border-radius: 40px;
+            padding: 20px 15px 24px;
+            margin-top: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .scale-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 16px;
+            padding-left: 8px;
+            color: #154153;
+        }
+
+        .svg-scale-wrapper {
+            overflow-x: auto;
+            background: #ffffff;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .level-description {
+            background: #f6fafd;
+            border-radius: 32px;
+            padding: 18px 20px;
+            border-left: 5px solid;
+            margin-top: 16px;
+        }
+
+        .level-name-result {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .level-range-badge {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: inline-block;
+            background: #eef2f5;
+            padding: 4px 12px;
+            border-radius: 50px;
+        }
+
+        .desc-text {
+            line-height: 1.45;
+            color: #1e4a62;
+        }
+
+        .restart-btn {
+            background: none;
+            border: 1px solid #cbdde6;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 60px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            font-size: 15px;
+            color: #2c6e8f;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
             text-align: center;
             font-size: 12px;
-            color: #7f8e9b;
-            margin-top: 30px;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 20px;
-        }
-
-        @media (max-width: 650px) {
-            .container {
-                padding: 20px 18px;
-            }
-            .question-card {
-                padding: 16px 18px;
-            }
-            .q-text {
-                font-size: 16px;
-            }
-            .option label {
-                font-size: 13px;
-            }
+            color: #6f8ea0;
+            margin-top: 24px;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>⚡ Шкала энергетического состояния</h1>
-        <p>16 уровней сознания — тест по модели Дэвида Хокинса</p>
-    </div>
-
-    <!-- Блок с SVG схемой и результатом -->
-    <div class="schema-area">
-        <div class="svg-wrapper" id="svgContainer">
-            <!-- SVG будет вставлен сюда через JS, чтобы динамически подсвечивать уровни -->
+<div class="app-container">
+    <!-- Блок пошагового теста -->
+    <div id="testArea" class="step-card">
+        <div class="progress">
+            <span class="q-counter" id="questionCounter">Вопрос 1 / 10</span>
+            <span id="answeredHint" style="font-size:13px; opacity:0.7;">⬤ выберите ответ</span>
         </div>
-        <div class="result-card" id="resultBlock" style="display: none;">
-            <div class="result-level">
-                <span class="level-name" id="levelName">—</span>
-                <span class="level-range" id="levelRange"></span>
-                <span class="zone-badge" id="zoneBadge"></span>
-            </div>
-            <div class="interpret" id="interpretText">
-                Пройдите тест, чтобы определить свой уровень.
-            </div>
+        <div class="q-text" id="questionText">Загрузка...</div>
+        <div class="options-list" id="optionsContainer"></div>
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn">← Назад</button>
+            <button class="nav-btn primary" id="nextBtn">Далее →</button>
+        </div>
+        <div style="margin-top: 12px; text-align: center;">
+            <button class="restart-btn" id="resetTestBtn">⟳ Начать заново</button>
         </div>
     </div>
 
-    <!-- Тест: 10 вопросов -->
-    <div class="test-section" id="testSection">
-        <form id="energyTest">
-            <!-- вопросы будут динамически построены, но для надёжности пропишем в HTML структурно -->
-        </form>
-        <button class="btn-submit" id="submitBtn">✨ Узнать мой уровень ✨</button>
-        <div style="display: flex; justify-content: flex-end;">
-            <button class="reset-btn" id="resetBtn">⟳ Очистить ответы</button>
+    <!-- Блок результата (шкала + описание) -->
+    <div id="resultArea" class="result-container hidden">
+        <div class="scale-title">📊 Шкала энергетического состояния</div>
+        <div class="svg-scale-wrapper" id="svgResultWrapper"></div>
+        <div class="level-description" id="levelDescriptionBlock">
+            <div class="level-name-result" id="resultLevelName"></div>
+            <div><span class="level-range-badge" id="resultEnergyRange"></span> <span id="resultZoneSpan" style="font-weight:500;"></span></div>
+            <div class="desc-text" id="resultDescription"></div>
         </div>
+        <button class="restart-btn" id="restartFromResultBtn">📋 Пройти тест заново</button>
     </div>
-    <div class="footer-note">
-        Тест основан на нелинейной шкале Дэвида Хокинса. Результат помогает рефлексии, а не является диагнозом.
-    </div>
+    <footer>Модель Дэвида Хокинса — саморефлексия, не клиническая диагностика</footer>
 </div>
 
 <script>
     // --------------------------------------------------------------
-    // 1. Данные вопросов (10 вопросов, варианты с баллами 1,2,3,4,6,10)
-    //    Баллы соответствуют скрытым весам (нелинейное отображение)
-    // --------------------------------------------------------------
+    // 10 вопросов (с вариантами и весами)
     const questions = [
         { text: "Когда я сталкиваюсь с неожиданной трудностью или проблемой, я чаще всего:",
           options: [
-              "Впадаю в ступор, не знаю, что делать, опускаются руки → (1 балл)",
-              "Начинаю тревожиться, прокручиваю худшие сценарии → (2 балла)",
-              "Злюсь на обстоятельства или на тех, кто создал проблему → (3 балла)",
-              "Думаю: «Это трудно, но я попробую справиться» → (4 балла)",
-              "Спокойно анализирую ситуацию и ищу логическое решение → (6 баллов)",
-              "Принимаю проблему как вызов и с интересом ищу выход → (10 баллов)"
+              "Впадаю в ступор, не знаю, что делать, опускаются руки",
+              "Начинаю тревожиться, прокручиваю худшие сценарии",
+              "Злюсь на обстоятельства или на тех, кто создал проблему",
+              "Думаю: «Это трудно, но я попробую справиться»",
+              "Спокойно анализирую ситуацию и ищу логическое решение",
+              "Принимаю проблему как вызов и с интересом ищу выход"
           ],
           scores: [1,2,3,4,6,10] },
         { text: "Когда кто-то критикует меня (даже конструктивно), я обычно:",
           options: [
-              "Чувствую себя уничтоженным, мне стыдно → (1 балл)",
-              "Обижаюсь и ухожу в себя, долго переживаю → (2 балла)",
-              "Злюсь и могу ответить грубостью или защищаться → (3 балла)",
-              "Внутренне не соглашаюсь, но внешне сохраняю спокойствие → (3 балла)",
-              "Выслушиваю, обдумываю и решаю, есть ли в критике правда → (4 балла)",
-              "Благодарю за обратную связь, даже если она неприятна → (6 баллов)",
-              "Искренне радуюсь, потому что это возможность стать лучше → (10 баллов)"
+              "Чувствую себя уничтоженным, мне стыдно",
+              "Обижаюсь и ухожу в себя, долго переживаю",
+              "Злюсь и могу ответить грубостью или защищаться",
+              "Внутренне не соглашаюсь, но внешне сохраняю спокойствие",
+              "Выслушиваю, обдумываю и решаю, есть ли в критике правда",
+              "Благодарю за обратную связь, даже если она неприятна",
+              "Искренне радуюсь, потому что это возможность стать лучше"
           ],
           scores: [1,2,3,3,4,6,10] },
         { text: "Моё обычное состояние, когда я просыпаюсь утром:",
           options: [
-              "«Зачем просыпаться? Всё равно ничего хорошего не будет» → (1 балл)",
-              "Тревога: «Что сегодня случится? Вдруг что-то пойдёт не так?» → (2 балла)",
-              "Желание поскорее вскочить и начать делать дела, нет времени на нежности → (3 балла)",
-              "«Нужно вставать, у меня есть обязанности» (ровно, без эмоций) → (4 балла)",
-              "Лёгкое спокойствие, я просыпаюсь без спешки, с интересом к дню → (6 баллов)",
-              "Чувство благодарности за новый день и лёгкая радость → (10 баллов)"
+              "«Зачем просыпаться? Всё равно ничего хорошего не будет»",
+              "Тревога: «Что сегодня случится? Вдруг что-то пойдёт не так?»",
+              "Желание поскорее вскочить и начать делать дела, нет времени на нежности",
+              "«Нужно вставать, у меня есть обязанности» (ровно, без эмоций)",
+              "Лёгкое спокойствие, я просыпаюсь без спешки, с интересом к дню",
+              "Чувство благодарности за новый день и лёгкая радость"
           ],
           scores: [1,2,3,4,6,10] },
         { text: "Когда я вижу, что другой человек добился большого успеха (особенно в моей сфере), я:",
           options: [
-              "Чувствую себя ничтожеством на его фоне → (1 балл)",
-              "Завидую, но стараюсь этого не показывать → (2 балла)",
-              "Думаю: «Ему просто повезло» или «У него были связи» → (3 балла)",
-              "Испытываю желание догнать и перегнать его → (3 балла)",
-              "Спокойно отмечаю: «У него получилось, значит, это возможно» → (4 балла)",
-              "Искренне радуюсь за него и анализирую, чему могу научиться → (6 баллов)",
-              "Это вызывает у меня вдохновение и чувство, что мир изобилен для всех → (10 баллов)"
+              "Чувствую себя ничтожеством на его фоне",
+              "Завидую, но стараюсь этого не показывать",
+              "Думаю: «Ему просто повезло» или «У него были связи»",
+              "Испытываю желание догнать и перегнать его",
+              "Спокойно отмечаю: «У него получилось, значит, это возможно»",
+              "Искренне радуюсь за него и анализирую, чему могу научиться",
+              "Это вызывает у меня вдохновение и чувство, что мир изобилен для всех"
           ],
           scores: [1,2,3,3,4,6,10] },
         { text: "Если я совершаю ошибку (даже небольшую), я обычно:",
           options: [
-              "Чувствую себя ничтожеством, мысль: «Я ни на что не способен» → (1 балл)",
-              "Долго себя виню и прокручиваю ошибку в голове → (2 балла)",
-              "Злюсь на себя и на обстоятельства → (3 балла)",
-              "Признаю ошибку, но начинаю оправдываться перед другими → (3 балла)",
-              "Признаю ошибку, исправляю её и иду дальше → (4 балла)",
-              "Анализирую причину ошибки, чтобы не повторять её в будущем → (6 баллов)",
-              "Благодарю судьбу за урок и становлюсь лучше благодаря ошибке → (10 баллов)"
+              "Чувствую себя ничтожеством, мысль: «Я ни на что не способен»",
+              "Долго себя виню и прокручиваю ошибку в голове",
+              "Злюсь на себя и на обстоятельства",
+              "Признаю ошибку, но начинаю оправдываться перед другими",
+              "Признаю ошибку, исправляю её и иду дальше",
+              "Анализирую причину ошибки, чтобы не повторять её в будущем",
+              "Благодарю судьбу за урок и становлюсь лучше благодаря ошибке"
           ],
           scores: [1,2,3,3,4,6,10] },
         { text: "В конфликтной ситуации с близким человеком я чаще всего:",
           options: [
-              "Замыкаюсь и молчу, хотя внутри всё кипит → (2 балла)",
-              "Плачу, чувствую себя жертвой → (2 балла)",
-              "Кричу, обвиняю, могу сказать резкие слова → (3 балла)",
-              "Демонстративно показываю, что я обижен(а), и жду извинений → (3 балла)",
-              "Спокойно объясняю свою точку зрения и слушаю другого → (4 балла)",
-              "Ищу решение, которое устроит обоих, без победителей и побеждённых → (6 баллов)",
-              "Чувствую любовь даже в конфликте и легко нахожу путь к примирению → (10 баллов)"
+              "Замыкаюсь и молчу, хотя внутри всё кипит",
+              "Плачу, чувствую себя жертвой",
+              "Кричу, обвиняю, могу сказать резкие слова",
+              "Демонстративно показываю, что я обижен(а), и жду извинений",
+              "Спокойно объясняю свою точку зрения и слушаю другого",
+              "Ищу решение, которое устроит обоих, без победителей и побеждённых",
+              "Чувствую любовь даже в конфликте и легко нахожу путь к примирению"
           ],
           scores: [2,2,3,3,4,6,10] },
         { text: "Как я обычно отношусь к незнакомым людям (в метро, на улице, в очереди)?",
           options: [
-              "Они меня раздражают, лучше бы их не было → (3 балла)",
-              "Я их боюсь, стараюсь держать дистанцию → (2 балла)",
-              "Мне всё равно, я их не замечаю → (1 балл)",
-              "Я отношусь нейтрально, каждый занят своим делом → (4 балла)",
-              "Я замечаю их как часть общей картины мира → (6 баллов)",
-              "Я чувствую к ним тёплые чувства, даже не зная их → (10 баллов)"
+              "Они меня раздражают, лучше бы их не было",
+              "Я их боюсь, стараюсь держать дистанцию",
+              "Мне всё равно, я их не замечаю",
+              "Я отношусь нейтрально, каждый занят своим делом",
+              "Я замечаю их как часть общей картины мира",
+              "Я чувствую к ним тёплые чувства, даже не зная их"
           ],
           scores: [3,2,1,4,6,10] },
         { text: "Моё отношение к деньгам и материальным благам:",
           options: [
-              "«У меня никогда не будет достаточно денег, это безнадёжно» → (1 балл)",
-              "«Я постоянно боюсь остаться без денег» → (2 балла)",
-              "«Деньги нужны для удовольствий, я трачу, не думая о завтрашнем дне» → (3 балла)",
-              "«Деньги — это показатель моего успеха и статуса» → (3 балла)",
-              "«Деньги — это инструмент, я умею ими управлять» → (4 балла)",
-              "«Деньги приходят и уходят, я спокоен(на) насчёт финансов» → (6 баллов)",
-              "«Я доверяю жизни, нужное количество всегда приходит вовремя» → (10 баллов)"
+              "«У меня никогда не будет достаточно денег, это безнадёжно»",
+              "«Я постоянно боюсь остаться без денег»",
+              "«Деньги нужны для удовольствий, я трачу, не думая о завтрашнем дне»",
+              "«Деньги — это показатель моего успеха и статуса»",
+              "«Деньги — это инструмент, я умею ими управлять»",
+              "«Деньги приходят и уходят, я спокоен(на) насчёт финансов»",
+              "«Я доверяю жизни, нужное количество всегда приходит вовремя»"
           ],
           scores: [1,2,3,3,4,6,10] },
         { text: "Когда я остаюсь наедине с собой (без дел, гаджетов, людей), я чувствую:",
           options: [
-              "Пустоту, мне страшно или тоскливо → (2 балла)",
-              "Тревогу, мысли начинают крутиться о проблемах → (2 балла)",
-              "Скуку, хочется чем-то себя занять → (3 балла)",
-              "Спокойствие, мне комфортно с самим собой → (4 балла)",
-              "Интерес к своим мыслям и ощущениям → (6 баллов)",
-              "Глубокий покой и радость от тишины внутри → (10 баллов)"
+              "Пустоту, мне страшно или тоскливо",
+              "Тревогу, мысли начинают крутиться о проблемах",
+              "Скуку, хочется чем-то себя занять",
+              "Спокойствие, мне комфортно с самим собой",
+              "Интерес к своим мыслям и ощущениям",
+              "Глубокий покой и радость от тишины внутри"
           ],
           scores: [2,2,3,4,6,10] },
         { text: "Если бы мне нужно было описать свою жизнь одним словом или фразой, это было бы:",
           options: [
-              "Безнадёжность → (1 балл)",
-              "Выживание → (2 балла)",
-              "Борьба → (3 балла)",
-              "Обязанности → (3 балла)",
-              "Путь → (4 балла)",
-              "Развитие → (6 баллов)",
-              "Любовь → (10 баллов)",
-              "Благодарность → (10 баллов)"
+              "Безнадёжность", "Выживание", "Борьба", "Обязанности", "Путь", "Развитие", "Любовь", "Благодарность"
           ],
           scores: [1,2,3,3,4,6,10,10] }
     ];
 
-    // Функция рендера формы
-    function renderForm() {
-        const formContainer = document.getElementById('energyTest');
-        formContainer.innerHTML = '';
-        questions.forEach((q, idx) => {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            const qTitle = document.createElement('div');
-            qTitle.className = 'q-text';
-            qTitle.innerText = `${idx+1}. ${q.text}`;
-            card.appendChild(qTitle);
-            const optsDiv = document.createElement('div');
-            optsDiv.className = 'options';
-            q.options.forEach((optText, optIdx) => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'option';
-                const radio = document.createElement('input');
-                radio.type = 'radio';
-                radio.name = `q${idx}`;
-                radio.value = q.scores[optIdx];
-                radio.id = `q${idx}_opt${optIdx}`;
-                const label = document.createElement('label');
-                label.htmlFor = `q${idx}_opt${optIdx}`;
-                label.innerText = optText;
-                optionDiv.appendChild(radio);
-                optionDiv.appendChild(label);
-                optsDiv.appendChild(optionDiv);
+    // состояние теста
+    let currentIndex = 0;          // 0..9
+    let userAnswers = new Array(10).fill(null); // храним выбранный балл
+
+    // DOM элементы
+    const testArea = document.getElementById('testArea');
+    const resultArea = document.getElementById('resultArea');
+    const questionCounter = document.getElementById('questionCounter');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const resetTestBtn = document.getElementById('resetTestBtn');
+    const restartFromResultBtn = document.getElementById('restartFromResultBtn');
+    const answeredHint = document.getElementById('answeredHint');
+
+    // ---- отрисовка текущего вопроса ----
+    function renderCurrentQuestion() {
+        const q = questions[currentIndex];
+        questionText.innerText = q.text;
+        questionCounter.innerText = `Вопрос ${currentIndex+1} / 10`;
+        
+        // подсветка: выбран ли ответ
+        const selectedScore = userAnswers[currentIndex];
+        optionsContainer.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+            const optDiv = document.createElement('div');
+            optDiv.className = 'opt-btn';
+            if (selectedScore !== null && selectedScore === q.scores[idx]) {
+                optDiv.classList.add('selected');
+            }
+            const markerSpan = document.createElement('span');
+            markerSpan.className = 'opt-marker';
+            markerSpan.innerText = String.fromCharCode(65+idx); // A, B, C...
+            const textSpan = document.createElement('span');
+            textSpan.innerText = opt;
+            textSpan.style.flex = "1";
+            optDiv.appendChild(markerSpan);
+            optDiv.appendChild(textSpan);
+            
+            // событие выбора ответа
+            optDiv.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // сохраняем выбранный балл
+                userAnswers[currentIndex] = q.scores[idx];
+                // перерисовываем текущий вопрос для обновления выделения
+                renderCurrentQuestion();
+                // обновляем подсказку
+                answeredHint.innerText = '✓ ответ выбран';
+                answeredHint.style.opacity = '1';
+                answeredHint.style.color = '#1f6d5c';
+                // автоматически не переходим, но кнопка Далее станет активной
             });
-            card.appendChild(optsDiv);
-            formContainer.appendChild(card);
+            optionsContainer.appendChild(optDiv);
         });
+        
+        // состояние кнопки "Далее" (активна если ответ выбран)
+        if (userAnswers[currentIndex] !== null) {
+            nextBtn.disabled = false;
+            answeredHint.innerText = '✓ ответ выбран';
+            answeredHint.style.opacity = '1';
+        } else {
+            nextBtn.disabled = true;
+            answeredHint.innerText = '⬤ выберите ответ';
+            answeredHint.style.opacity = '0.7';
+        }
+        
+        // управление кнопкой "Назад"
+        prevBtn.disabled = (currentIndex === 0);
     }
 
-    // Подсчёт суммы выбранных баллов
-    function computeScore() {
+    // переход на следующий вопрос
+    function goNext() {
+        if (userAnswers[currentIndex] === null) {
+            // не должно случиться, кнопка disabled, но на всякий случай
+            return;
+        }
+        if (currentIndex < 9) {
+            currentIndex++;
+            renderCurrentQuestion();
+        } else {
+            // завершили тест — подсчитываем результат и показываем шкалу
+            finishTestAndShowResult();
+        }
+    }
+
+    function goPrev() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderCurrentQuestion();
+        }
+    }
+
+    // подсчет суммы и получение уровня
+    function computeTotalScore() {
         let total = 0;
-        for (let i = 0; i < questions.length; i++) {
-            const selected = document.querySelector(`input[name="q${i}"]:checked`);
-            if (selected) {
-                total += parseFloat(selected.value);
-            } else {
-                return null; // не все ответы
-            }
+        for (let i = 0; i < userAnswers.length; i++) {
+            if (userAnswers[i] === null) return null;
+            total += userAnswers[i];
         }
         return total;
     }
 
-    // Трансляция суммы в уровень (диапазон, название, зона, описание)
+    // функция определения уровня по сумме (нелинейная разбивка)
     function getLevelFromSum(sum) {
-        // Таблица: диапазон сумм (10-100) -> уровень, энергетический диапазон, зона
-        if (sum >= 10 && sum <= 14) return { levelName: "Стыд / Вина", energyRange: "20–30", zone: "⬇ Выживание", zoneClass: "выживание", description: "Ощущение собственной ничтожности, глубокий стыд или постоянное самообвинение. Энергия сжата. Путь: начните с маленького действия — уборки, прогулки, простого «я имею право быть»." };
-        if (sum >= 15 && sum <= 19) return { levelName: "Апатия / Горе", energyRange: "50–75", zone: "⬇ Выживание", zoneClass: "выживание", description: "Безнадёжность, печаль, ощущение себя жертвой. Тяжелая инертная энергия. Путь: разрешите себе горевать, но сделайте микро-шаг: встаньте, умойтесь." };
-        if (sum >= 20 && sum <= 24) return { levelName: "Страх / Желание", energyRange: "100–125", zone: "⬇ Выживание", zoneClass: "выживание", description: "Тревожность, зависимость от внешнего, одержимость деньгами или одобрением. Путь: осознать страх и начать действовать маленькими шагами." };
-        if (sum >= 25 && sum <= 29) return { levelName: "Гнев / Гордость", energyRange: "150–175", zone: "⬇ Выживание", zoneClass: "выживание", description: "Фрустрация, желание мстить или высокомерие, зависимость от статуса. Путь: признать свою уязвимость, перестать сравнивать." };
-        if (sum >= 30 && sum <= 34) return { levelName: "Мужество", energyRange: "200", zone: "⬆ Сила духа", zoneClass: "сила", description: "Первый уровень подлинной силы. Готовность справляться с трудностями, уверенность. Вы на пороге роста." };
-        if (sum >= 35 && sum <= 39) return { levelName: "Нейтралитет", energyRange: "250", zone: "⬆ Сила духа", zoneClass: "сила", description: "Спокойствие, отсутствие драмы, вы не цепляетесь за мнения. Гибкая энергия равновесия." };
-        if (sum >= 40 && sum <= 44) return { levelName: "Готовность", energyRange: "310", zone: "⬆ Сила духа", zoneClass: "сила", description: "Оптимизм, дисциплина, желание делать дела хорошо. Энергия ускоренного потока." };
-        if (sum >= 45 && sum <= 49) return { levelName: "Принятие", energyRange: "350", zone: "⬆ Сила духа", zoneClass: "сила", description: "Вы берёте ответственность, не делите на плохое/хорошее. Резонанс с миром." };
-        if (sum >= 50 && sum <= 54) return { levelName: "Разум", energyRange: "400", zone: "⬆ Сила духа", zoneClass: "сила", description: "Логика, ясность, наука. Вы способны видеть причинно-следственные связи. Не теряйте сердце." };
-        if (sum >= 55 && sum <= 64) return { levelName: "Любовь", energyRange: "500", zone: "✨ Духовность", zoneClass: "духовность", description: "Безусловная любовь, сострадание. Энергия излучается сама. Вы служите миру без усилий." };
-        if (sum >= 65 && sum <= 74) return { levelName: "Радость", energyRange: "540", zone: "✨ Духовность", zoneClass: "духовность", description: "Непоколебимое счастье, внутренний покой, не зависящий от обстоятельств. Сверхтекучесть." };
-        if (sum >= 75 && sum <= 84) return { levelName: "Мир", energyRange: "600", zone: "✨ Духовность", zoneClass: "духовность", description: "Блаженство, исчезновение эго. Редкое состояние глубокой трансцендентности." };
-        if (sum >= 85 && sum <= 100) return { levelName: "Просветление", energyRange: "700–1000", zone: "✨ Духовность", zoneClass: "духовность", description: "Чистое сознание, единство со всем. Крайне высокий уровень — вы за пределами личности." };
-        return { levelName: "Не определено", energyRange: "—", zone: "", zoneClass: "", description: "Пройдите тест полностью." };
+        if (sum >= 10 && sum <= 14) return { 
+            levelName: "Стыд / Вина", energyRange: "20–30", zone: "⬇ Зона выживания", 
+            description: "Ощущение ничтожности, стыд или хроническое самообвинение. Энергия сжата, мир воспринимается враждебно. Начните с малого: примите себя, сделайте простой шаг (уборка, прогулка).",
+            baseLevels: ["Стыд","Вина"]
+        };
+        if (sum >= 15 && sum <= 19) return { 
+            levelName: "Апатия / Горе", energyRange: "50–75", zone: "⬇ Зона выживания", 
+            description: "Безнадёжность, глубокая печаль, ощущение себя жертвой. Энергия тяжелая. Позвольте себе горевать, но добавьте маленькое действие: встаньте, умойтесь, выйдите на свет.",
+            baseLevels: ["Апатия","Горе"]
+        };
+        if (sum >= 20 && sum <= 24) return { 
+            levelName: "Страх / Желание", energyRange: "100–125", zone: "⬇ Зона выживания", 
+            description: "Тревожность, зависимость от внешнего, одержимость деньгами или одобрением. Мир кажется опасным. Работайте с маленькими шагами и заземлением.",
+            baseLevels: ["Страх","Желание"]
+        };
+        if (sum >= 25 && sum <= 29) return { 
+            levelName: "Гнев / Гордость", energyRange: "150–175", zone: "⬇ Зона выживания", 
+            description: "Фрустрация, желание мстить или высокомерие, зависимость от статуса. Энергия взрывная. Попробуйте признать уязвимость и перестать сравнивать.",
+            baseLevels: ["Гнев","Гордость"]
+        };
+        if (sum >= 30 && sum <= 34) return { 
+            levelName: "Мужество", energyRange: "200", zone: "⬆ Сила духа", 
+            description: "Первый уровень подлинной силы. Вы готовы справляться с трудностями, появляется уверенность. Вы на пороге личностного роста.",
+            baseLevels: ["Мужество"]
+        };
+        if (sum >= 35 && sum <= 39) return { 
+            levelName: "Нейтралитет", energyRange: "250", zone: "⬆ Сила духа", 
+            description: "Спокойствие, отсутствие драмы, вы не цепляетесь за мнения. Гибкая энергия равновесия, мир воспринимается безопасно.",
+            baseLevels: ["Нейтралитет"]
+        };
+        if (sum >= 40 && sum <= 44) return { 
+            levelName: "Готовность", energyRange: "310", zone: "⬆ Сила духа", 
+            description: "Оптимизм, дисциплина, желание делать дела хорошо. Энергия ускоренного потока, вы действуете без прокрастинации.",
+            baseLevels: ["Готовность"]
+        };
+        if (sum >= 45 && sum <= 49) return { 
+            levelName: "Принятие", energyRange: "350", zone: "⬆ Сила духа", 
+            description: "Ответственность за свою жизнь, вы не делите события на плохие/хорошие. Резонанс с миром, проактивность.",
+            baseLevels: ["Принятие"]
+        };
+        if (sum >= 50 && sum <= 54) return { 
+            levelName: "Разум", energyRange: "400", zone: "⬆ Сила духа", 
+            description: "Логика, ясность, наука. Вы видите причинно-следственные связи. Не теряйте связь с сердцем, иначе рискуете стать сухим.",
+            baseLevels: ["Разум"]
+        };
+        if (sum >= 55 && sum <= 64) return { 
+            levelName: "Любовь", energyRange: "500", zone: "✨ Духовность", 
+            description: "Безусловная любовь, сострадание. Энергия излучается сама, вы служите миру без усилий. Редкое состояние глубины.",
+            baseLevels: ["Любовь"]
+        };
+        if (sum >= 65 && sum <= 74) return { 
+            levelName: "Радость", energyRange: "540", zone: "✨ Духовность", 
+            description: "Непоколебимое счастье, внутренний покой, не зависящий от обстоятельств. Сверхтекучесть, интуитивное проживание.",
+            baseLevels: ["Радость"]
+        };
+        if (sum >= 75 && sum <= 84) return { 
+            levelName: "Мир", energyRange: "600", zone: "✨ Духовность", 
+            description: "Блаженство, исчезновение эго. Крайне редкое состояние глубокой трансцендентности, полное принятие.",
+            baseLevels: ["Мир"]
+        };
+        if (sum >= 85 && sum <= 100) return { 
+            levelName: "Просветление", energyRange: "700–1000", zone: "✨ Духовность", 
+            description: "Чистое сознание, единство со всем сущим. Уровень Будды и Иисуса. Выход за пределы личности.",
+            baseLevels: ["Просветление"]
+        };
+        return { levelName: "Не определено", energyRange: "—", zone: "", description: "Пройдите все вопросы", baseLevels: [] };
     }
 
-    // ОТРИСОВКА SVG и ПОДСВЕТКА (адаптация под вашу схему, где уровни снизу вверх)
-    function renderSvgWithHighlight(highlightLevelName) {
-        // Создаём SVG согласно трапециевидной форме: снизу Стыд, сверху Просветление.
-        // Всего блоков 17: Стыд, Вина, Апатия, Горе, Страх, Желание, Гнев, Гордость, Мужество, Нейтралитет, Готовность, Принятие, Разум, Любовь, Радость, Мир, Просветление.
+    // генерация SVG с подсветкой нужного уровня
+    function renderSvgWithHighlight(highlightLevelObj) {
         const levelsList = [
             "Стыд", "Вина", "Апатия", "Горе", "Страх", "Желание", "Гнев", "Гордость",
             "Мужество", "Нейтралитет", "Готовность", "Принятие", "Разум",
             "Любовь", "Радость", "Мир", "Просветление"
         ];
-        // соответствие названий для сравнения (с учётом возможного слэша)
-        function matchLevel(levelName, target) {
-            if (levelName === target) return true;
-            if (target === "Стыд / Вина" && (levelName === "Стыд" || levelName === "Вина")) return true;
-            if (target === "Апатия / Горе" && (levelName === "Апатия" || levelName === "Горе")) return true;
-            if (target === "Страх / Желание" && (levelName === "Страх" || levelName === "Желание")) return true;
-            if (target === "Гнев / Гордость" && (levelName === "Гнев" || levelName === "Гордость")) return true;
-            return false;
-        }
-
-        const width = 500, height = 1050;
-        let svgHtml = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="100%" height="auto" style="max-width:500px;">`;
-        svgHtml += `<rect width="${width}" height="${height}" fill="#f8f9fa" rx="10"/>`;
-        
-        // Координаты для 17 блоков (снизу вверх)
-        const startY = 980;
-        const step = 44; // примерный шаг, но у каждого уровня своя ширина
-        const heights = [36,38,38,38,38,38,38,38,42,42,42,42,42,46,50,54,64];
         const widths = [90,110,130,150,170,190,210,230,260,290,320,350,380,410,430,450,480];
+        const heights = [36,38,38,38,38,38,38,38,42,42,42,42,42,46,50,54,64];
         const colors = [
             "#1a1a1a","#2c2c2c","#4a4a4a","#6b4c7a","#7a6c4c","#8b5e3c","#b22222","#c97e3a",
             "#4a90a4","#5ba87a","#7cb342","#8bc34a","#5c6bc0","#e91e63","#ff9800","#3f51b5","#9c27b0"
         ];
+        const widthSvg = 500;
+        let startY = 980;
+        let svgHtml = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${widthSvg} 1050" width="100%" style="max-width:500px; background:#f8f9fa; border-radius:24px;">`;
+        svgHtml += `<rect width="${widthSvg}" height="1050" fill="#f8f9fa" rx="12"/>`;
         
         let yOffset = startY;
         for (let i = 0; i < levelsList.length; i++) {
             const lvl = levelsList[i];
             const w = widths[i];
             const h = heights[i];
-            const x = (width - w) / 2;
+            const x = (widthSvg - w) / 2;
             const y = yOffset - h;
-            let color = colors[i];
             let strokeWidth = 0;
             let strokeColor = "";
-            // подсветка, если текущий уровень совпадает с highlightLevelName
-            if (highlightLevelName && matchLevel(highlightLevelName, lvl)) {
+            // проверка подсветки
+            if (highlightLevelObj && highlightLevelObj.baseLevels && highlightLevelObj.baseLevels.includes(lvl)) {
                 strokeWidth = 4;
-                strokeColor = "#FFD966";
-                color = colors[i]; // сохраняем цвет, но добавляем обводку
-            } else if (highlightLevelName && (
-                (highlightLevelName === "Стыд / Вина" && (lvl === "Стыд"||lvl==="Вина")) ||
-                (highlightLevelName === "Апатия / Горе" && (lvl === "Апатия"||lvl==="Горе")) ||
-                (highlightLevelName === "Страх / Желание" && (lvl === "Страх"||lvl==="Желание")) ||
-                (highlightLevelName === "Гнев / Гордость" && (lvl === "Гнев"||lvl==="Гордость"))
-            )) {
-                strokeWidth = 4;
-                strokeColor = "#FFD966";
+                strokeColor = "#FFE484";
             }
-            
-            svgHtml += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h/2}" fill="${color}" opacity="0.85" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
-            svgHtml += `<text x="${width/2}" y="${y + h/2 + 5}" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white">${lvl}</text>`;
+            svgHtml += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h/2}" fill="${colors[i]}" opacity="0.85" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
+            svgHtml += `<text x="${widthSvg/2}" y="${y + h/2 + 5}" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white">${lvl}</text>`;
             yOffset = y;
         }
         svgHtml += `</svg>`;
-        document.getElementById('svgContainer').innerHTML = svgHtml;
+        document.getElementById('svgResultWrapper').innerHTML = svgHtml;
     }
 
-    // Обновление UI после подсчёта
-    function updateResult(sum) {
-        if (sum === null) {
-            alert("Пожалуйста, ответьте на все 10 вопросов.");
-            return false;
-        }
-        const levelData = getLevelFromSum(sum);
-        document.getElementById('levelName').innerText = levelData.levelName;
-        document.getElementById('levelRange').innerHTML = `🔋 ${levelData.energyRange}`;
-        let zoneHtml = levelData.zone;
-        let badgeColor = "#b0bec5";
-        if (levelData.zoneClass === "выживание") badgeColor = "#ef9a9a";
-        else if (levelData.zoneClass === "сила") badgeColor = "#a5d6a7";
-        else if (levelData.zoneClass === "духовность") badgeColor = "#ce93d8";
-        document.getElementById('zoneBadge').innerHTML = `<span style="background:${badgeColor}; padding:5px 14px; border-radius:60px; font-weight:bold;">${zoneHtml}</span>`;
-        document.getElementById('interpretText').innerHTML = levelData.description;
-        document.getElementById('resultBlock').style.display = "block";
+    function finishTestAndShowResult() {
+        const total = computeTotalScore();
+        if (total === null) return;
+        const levelInfo = getLevelFromSum(total);
+        // отображаем результат
+        document.getElementById('resultLevelName').innerText = levelInfo.levelName;
+        document.getElementById('resultEnergyRange').innerHTML = `🔋 ${levelInfo.energyRange}`;
+        const zoneSpan = document.getElementById('resultZoneSpan');
+        zoneSpan.innerHTML = levelInfo.zone;
+        document.getElementById('resultDescription').innerHTML = levelInfo.description;
         
-        // Подсветка в SVG
-        renderSvgWithHighlight(levelData.levelName);
-        return true;
+        // рендерим svg с подсветкой
+        renderSvgWithHighlight(levelInfo);
+        
+        // скрываем тестовую область, показываем результат
+        testArea.classList.add('hidden');
+        resultArea.classList.remove('hidden');
     }
 
-    // Обработчик отправки
-    function onSubmit() {
-        const totalScore = computeScore();
-        if (totalScore !== null) {
-            updateResult(totalScore);
-            // плавный скролл к результату
-            document.getElementById('resultBlock').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        } else {
-            alert("Ответьте на все вопросы, чтобы получить результат.");
-        }
-    }
-    
-    // Очистка всех radio
-    function resetForm() {
-        const radios = document.querySelectorAll('input[type="radio"]');
-        radios.forEach(radio => radio.checked = false);
-        document.getElementById('resultBlock').style.display = "none";
-        renderSvgWithHighlight(null); // нейтральная схема
+    // сброс теста (полная перезагрузка состояния)
+    function resetFullTest() {
+        userAnswers = new Array(10).fill(null);
+        currentIndex = 0;
+        // скрываем результат, показываем тест
+        resultArea.classList.add('hidden');
+        testArea.classList.remove('hidden');
+        renderCurrentQuestion();
+        // сброс подсказки
+        answeredHint.innerText = '⬤ выберите ответ';
+        answeredHint.style.opacity = '0.7';
     }
 
-    // Инициализация
-    function init() {
-        renderForm();
-        renderSvgWithHighlight(null); // обычная схема без подсветки
-        document.getElementById('submitBtn').addEventListener('click', onSubmit);
-        document.getElementById('resetBtn').addEventListener('click', resetForm);
-    }
+    // события
+    nextBtn.addEventListener('click', goNext);
+    prevBtn.addEventListener('click', goPrev);
+    resetTestBtn.addEventListener('click', resetFullTest);
+    if (restartFromResultBtn) restartFromResultBtn.addEventListener('click', resetFullTest);
     
-    init();
+    // начальная отрисовка
+    renderCurrentQuestion();
 </script>
 </body>
 </html>
