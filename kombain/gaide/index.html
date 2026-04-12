@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Комбайн Генерации Продаж — Мини-уроки</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --navy: #0a1628;
+    --navy-light: #12243d;
+    --navy-mid: #1a3356;
+    --coral: #ff6b6b;
+    --coral-dark: #ee5a5a;
+    --coral-glow: rgba(255,107,107,0.15);
+    --gold: #ffd93d;
+    --teal: #4ecdc4;
+    --purple: #a855f7;
+    --green: #10b981;
+    --blue: #3b82f6;
+    --white: #ffffff;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1e293b;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    --shadow-xl: 0 16px 48px rgba(0,0,0,0.15);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  .presentation {
+    width: 210mm;
+    height: 297mm;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--white);
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  .slide.prev {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  /* ===== ОБЛОЖКА ===== */
+  .cover {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-light) 40%, var(--navy-mid) 100%);
+    color: var(--white);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -80mm; right: -60mm;
+    width: 180mm; height: 180mm;
+    background: radial-gradient(circle, var(--coral-glow) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -60mm; left: -40mm;
+    width: 140mm; height: 140mm;
+    background: radial-gradient(circle, rgba(78,205,196,0.08) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .cover-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 16mm 16mm;
+  }
+  .cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 24mm 20mm;
+  }
+  .cover-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,107,107,0.12);
+    border: 1px solid rgba(255,107,107,0.25);
+    color: var(--coral);
+    padding: 6px 18px;
+    border-radius: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12mm;
+  }
+  .cover-icon {
+    width: 36mm; height: 36mm;
+    background: linear-gradient(135deg, var(--coral), #ff8787);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22pt;
+    margin: 0 auto 10mm;
+    box-shadow: 0 12px 32px rgba(255,107,107,0.35);
+    position: relative;
+  }
+  .cover-icon::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: calc(var(--radius-lg) + 4px);
+    background: linear-gradient(135deg, var(--coral), transparent);
+    opacity: 0.3;
+    z-index: -1;
+  }
+  .cover h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 36pt;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 6mm;
+    letter-spacing: -0.5px;
+  }
+  .cover h1 span {
+    background: linear-gradient(135deg, var(--coral), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .cover-subtitle {
+    font-size: 13pt;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    line-height: 1.5;
+    margin-bottom: 12mm;
+  }
+  .cover-divider {
+    width: 50mm; height: 3px;
+    background: linear-gradient(90deg, var(--coral), transparent);
+    margin: 8mm auto 10mm;
+    border-radius: 2px;
+  }
+  .cover-stats {
+    display: flex;
+    justify-content: center;
+    gap: 10mm;
+    flex-wrap: wrap;
+  }
+  .cover-stat {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-md);
+    padding: 8px 16px;
+    font-size: 8.5pt;
+    color: rgba(255,255,255,0.65);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .cover-stat strong { color: var(--coral); font-size: 14pt; display: block; margin-bottom: 2px; }
+  .cover-footer {
+    position: absolute;
+    bottom: 18mm;
+    left: 50%; transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 1px;
+  }
+
+  /* ===== ОБЩИЕ СТИЛИ СЛАЙДОВ ===== */
+  .slide-header {
+    padding: 14mm 18mm 10mm;
+    position: relative;
+    color: var(--white);
+    overflow: hidden;
+  }
+  .slide-header::after {
+    content: '';
+    position: absolute;
+    top: -20mm; right: -15mm;
+    width: 70mm; height: 70mm;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .slide-header-inner {
+    display: flex;
+    align-items: center;
+    gap: 6mm;
+    position: relative;
+    z-index: 2;
+  }
+  .slide-header-icon {
+    width: 16mm; height: 16mm;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18pt;
+    flex-shrink: 0;
+  }
+  .slide-header h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+  .slide-header h2 .sub {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 8.5pt;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: rgba(255,255,255,0.6);
+    margin-top: 2px;
+  }
+
+  .slide-body {
+    padding: 6mm 18mm 18mm;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5mm;
+  }
+
+  /* ===== СЕКЦИИ ===== */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    margin: 2mm 0 2mm;
+    page-break-after: avoid;
+  }
+  .section-title .num {
+    width: 8mm; height: 8mm;
+    background: var(--coral);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(255,107,107,0.3);
+  }
+  .section-title h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .section-title .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gray-200), transparent);
+  }
+
+  /* ===== ТАБЛИЦЫ ===== */
+  .table-box {
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+  thead th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3mm;
+    text-align: left;
+    border-bottom: 2px solid var(--coral);
+  }
+  tbody td {
+    padding: 2.5mm 3mm;
+    border-bottom: 1px solid var(--gray-100);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) { background: var(--gray-50); }
+  tbody tr:hover { background: rgba(255,107,107,0.04); }
+
+  .badge {
+    display: inline-flex;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7pt;
+    font-weight: 700;
+  }
+  .badge.en { background: rgba(255,107,107,0.12); color: #e85555; }
+  .badge.ef { background: rgba(78,205,196,0.12); color: #2a9d8f; }
+  .badge.et { background: rgba(168,85,247,0.12); color: #7c3aed; }
+  .badge.es { background: rgba(255,217,61,0.15); color: #d4a017; }
+  .badge.in { background: rgba(30,58,95,0.08); color: #1e3a5f; }
+  .badge.if { background: rgba(16,185,129,0.1); color: #059669; }
+  .badge.it { background: rgba(59,130,246,0.1); color: #2563eb; }
+  .badge.is { background: rgba(210,105,30,0.1); color: #c2410c; }
+
+  /* ===== КАРТОЧКИ ===== */
+  .card {
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 4mm 5mm;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+  .card.coral::before { background: var(--coral); }
+  .card.teal::before { background: var(--teal); }
+  .card.gold::before { background: var(--gold); }
+  .card.purple::before { background: var(--purple); }
+  .card.navy::before { background: var(--navy-mid); }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 2.5mm;
+    margin-bottom: 2mm;
+  }
+  .card-ico {
+    width: 7mm; height: 7mm;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9pt;
+    flex-shrink: 0;
+  }
+  .card-ico.c { background: rgba(255,107,107,0.12); }
+  .card-ico.t { background: rgba(78,205,196,0.12); }
+  .card-ico.g { background: rgba(255,217,61,0.15); }
+  .card-ico.p { background: rgba(168,85,247,0.12); }
+  .card-ico.n { background: rgba(30,58,95,0.08); }
+  .card-t {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    letter-spacing: 0.5px;
+  }
+  .card-b { font-size: 9pt; line-height: 1.6; color: var(--gray-700); }
+  .card-b strong { color: var(--navy); }
+  .card-b em { color: var(--coral-dark); font-style: normal; font-weight: 600; }
+
+  /* ===== КОД-БЛОК ===== */
+  .code {
+    background: var(--gray-50);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 4mm 5mm;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    line-height: 1.7;
+    color: var(--gray-700);
+    position: relative;
+  }
+  .code::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--coral), var(--gold), var(--teal));
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+  .c { display: block; padding: 0.5px 0; }
+  .c .a { color: var(--coral); font-weight: 700; }
+  .c .l { color: var(--navy-mid); font-weight: 600; }
+
+  /* ===== ЗАМЕТКА ===== */
+  .note {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border: 1.5px solid #fbbf24;
+    border-radius: var(--radius-md);
+    padding: 4mm 5mm;
+    font-size: 8.5pt;
+    display: flex;
+    gap: 3mm;
+    align-items: flex-start;
+    position: relative;
+  }
+  .note::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: #fbbf24;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+  .note .ic { font-size: 11pt; flex-shrink: 0; }
+  .note strong { color: var(--navy); }
+
+  /* ===== ЭКСТРЕННЫЙ ===== */
+  .emerg {
+    border: 2px solid var(--coral);
+    border-radius: var(--radius-md);
+    padding: 4mm 5mm;
+    position: relative;
+    background: var(--white);
+  }
+  .emerg::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--coral);
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+  .emerg-t {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    font-weight: 700;
+    color: var(--coral-dark);
+    text-transform: uppercase;
+    margin-bottom: 2mm;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+  }
+  .emerg .code {
+    border: none;
+    background: transparent;
+    padding: 2mm 0;
+    margin: 0;
+  }
+  .emerg .code::before { display: none; }
+
+  /* ===== ДВУХКОЛОНКА ===== */
+  .cols2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm;
+  }
+  .cols2 .col { page-break-inside: avoid; }
+
+  /* ===== ЦИКЛ ===== */
+  .cycle {
+    display: flex;
+    align-items: flex-start;
+    gap: 3mm;
+    padding: 2.5mm 0;
+    border-bottom: 1px dashed var(--gray-200);
+  }
+  .cycle:last-child { border-bottom: none; }
+  .cycle-n {
+    width: 8mm; height: 8mm;
+    background: linear-gradient(135deg, var(--coral), var(--coral-dark));
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1mm;
+    box-shadow: 0 2px 8px rgba(255,107,107,0.3);
+  }
+  .cycle-t { font-size: 9pt; line-height: 1.5; color: var(--gray-700); }
+  .cycle-t strong { color: var(--navy); }
+
+  /* ===== ЧЕКЛИСТ ===== */
+  .check {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .check li {
+    padding: 2mm 0 2mm 8mm;
+    position: relative;
+    font-size: 9pt;
+    color: var(--gray-700);
+    border-bottom: 1px dotted var(--gray-200);
+  }
+  .check li:last-child { border-bottom: none; }
+  .check li::before {
+    content: '☐';
+    position: absolute;
+    left: 0;
+    font-size: 11pt;
+    color: var(--coral);
+  }
+
+  /* ===== ТЕХПАСПОРТ ===== */
+  .passport {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: 6mm 7mm;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .passport::after {
+    content: '';
+    position: absolute;
+    top: -10mm; right: -10mm;
+    width: 40mm; height: 40mm;
+    background: rgba(255,107,107,0.08);
+    border-radius: 50%;
+  }
+  .passport h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--coral);
+    margin-bottom: 3mm;
+    position: relative;
+    z-index: 2;
+  }
+  .passport p {
+    font-size: 8.5pt;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.65);
+    position: relative;
+    z-index: 2;
+  }
+  .passport strong { color: #fff; }
+  .passport em { color: var(--coral); font-style: normal; }
+
+  /* ===== НАВИГАЦИЯ ===== */
+  .nav-panel {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--gray-200);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    background: var(--white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9pt;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover {
+    border-color: var(--coral);
+    color: var(--coral);
+    box-shadow: 0 4px 12px rgba(255,107,107,0.15);
+  }
+  .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  .nav-btn:disabled:hover {
+    border-color: var(--gray-200);
+    color: var(--navy);
+    box-shadow: none;
+  }
+  .nav-btn.primary {
+    background: linear-gradient(135deg, var(--coral), var(--coral-dark));
+    border-color: var(--coral);
+    color: #fff;
+  }
+  .nav-btn.primary:hover {
+    box-shadow: 0 6px 16px rgba(255,107,107,0.35);
+    transform: translateY(-1px);
+  }
+  .nav-info {
+    text-align: center;
+  }
+  .nav-info .current {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18pt;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .nav-info .total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9pt;
+    color: var(--gray-400);
+  }
+  .nav-dots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gray-200);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-dot.active {
+    background: var(--coral);
+    width: 24px;
+    border-radius: 4px;
+  }
+  .nav-dot:hover:not(.active) {
+    background: var(--gray-300);
+  }
+
+  /* ===== ОГЛАВЛЕНИЕ ===== */
+  .toc-item {
+    display: flex;
+    gap: 4mm;
+    padding: 5mm 0;
+    border-bottom: 1px solid var(--gray-100);
+    align-items: flex-start;
+  }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-n {
+    width: 12mm; height: 12mm;
+    background: var(--navy);
+    color: #fff;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9pt;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .toc-c h4 {
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1mm;
+  }
+  .toc-c p {
+    font-size: 8.5pt;
+    color: var(--gray-500);
+    line-height: 1.5;
+  }
+
+  /* ===== FOOTER СЛАЙДА ===== */
+  .slide-footer {
+    padding: 3mm 18mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 7pt;
+    color: var(--gray-400);
+    font-family: 'JetBrains Mono', monospace;
+    border-top: 1px solid var(--gray-100);
+    margin-top: auto;
+  }
+
+  /* ===== АНИМАЦИЯ ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .slide.active .section-title,
+  .slide.active .card,
+  .slide.active .code,
+  .slide.active .note,
+  .slide.active .emerg,
+  .slide.active .table-box,
+  .slide.active .toc-item,
+  .slide.active .cycle {
+    animation: fadeInUp 0.4s ease forwards;
+  }
+  .slide.active .section-title { animation-delay: 0.1s; }
+  .slide.active .card { animation-delay: 0.15s; }
+  .slide.active .code { animation-delay: 0.2s; }
+  .slide.active .table-box { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<div class="presentation" id="presentation">
+
+  <!-- ===== СЛАЙД 1: ОБЛОЖКА ===== -->
+  <div class="slide cover active" data-slide="0">
+    <div class="cover-grid"></div>
+    <div class="cover-content">
+      <div class="cover-badge">📋 Полевое руководство агента</div>
+      <div class="cover-icon">🚜</div>
+      <h1>Комбайн<br><span>Генерации</span><br>Продаж</h1>
+      <p class="cover-subtitle">Система, откалиброванная на реальных диалогах.<br>Не теория. Инструкция.</p>
+      <div class="cover-divider"></div>
+      <div class="cover-stats">
+        <div class="cover-stat"><strong>8</strong>типажей</div>
+        <div class="cover-stat"><strong>4</strong>канала</div>
+        <div class="cover-stat"><strong>5</strong>техник</div>
+        <div class="cover-stat"><strong>24</strong>скрипта</div>
+        <div class="cover-stat"><strong>1</strong>Sales OS</div>
+      </div>
+    </div>
+    <div class="cover-footer">v2.0 • 2025 • Не является публичной офертой</div>
+  </div>
+
+  <!-- ===== СЛАЙД 2: ОГЛАВЛЕНИЕ ===== -->
+  <div class="slide" data-slide="1">
+    <div class="slide-header" style="background:linear-gradient(135deg,var(--navy),var(--navy-light));">
+      <div class="slide-header-inner">
+        <div class="slide-header-icon">📋</div>
+        <h2>Навигация по системе<span class="sub">Структура полевого руководства</span></h2>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="toc-item"><div class="toc-n">01</div><div class="toc-c"><h4>📡 Сканер типажа</h4><p>Диагностика за 30 секунд: 5 маркеров, алгоритм первого контакта, техника переключателя</p></div></div>
+      <div class="toc-item"><div class="toc-n">02</div><div class="toc-c"><h4>📻 Настройка частоты</h4><p>Языки влияния: 8 типажей, слова-триггеры, стоп-слова, переключение в реальном времени</p></div></div>
+      <div class="toc-item"><div class="toc-n">03</div><div class="toc-c"><h4>📐 Датчик потребностей</h4><p>Карта болей: от симптома к ядру, банк ключевых вопросов, вскрытие мотивов</p></div></div>
+      <div class="toc-item"><div class="toc-n">04</div><div class="toc-c"><h4>⚙️ Механизм закрытия</h4><p>Скрипты-резонаторы: 3 уровня, конвертер возражений, тайминг и ритм</p></div></div>
+      <div class="toc-item"><div class="toc-n">05</div><div class="toc-c"><h4>🛢️ Охлаждение и топливо</h4><p>Энергия продавца: протокол «Стоп-слив», ритуалы до/после, 4 границы</p></div></div>
+      <div class="toc-item"><div class="toc-n">06</div><div class="toc-c"><h4>🧭 Навигация и маршрут</h4><p>Цели-резонаторы, 3 приоритета дня, метрики, еженедельный обзор</p></div></div>
+      <div class="note" style="margin-top:4mm;">
+        <span class="ic">💡</span>
+        <span><strong>Как пользоваться:</strong> Перед контактом → «Калибровка» • Во время звонка → «Протокол» • После сделки → «Бортовой журнал».</span>
+      </div>
+    </div>
+    <div class="slide-footer"><span>КОМБАЙН ГЕНЕРАЦИИ ПРОДАЖ</span><span>v2.0</span><span>2 / 10</span></div>
+  </div>
+
+  <!-- ===== СЛАЙД 3: МОДУЛЬ 1 ===== -->
+  <div class="slide" data-slide="2">
+    <div class="slide-header" style="background:linear-gradient(135deg,var(--navy),var(--navy-light));">
+      <div class="slide-header-inner">
+        <div class="slide-header-icon">📡</div>
+        <h2>Модуль 1. Сканер типажа<span class="sub">Диагностика за 30 секунд • 5 маркеров</span></h2>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="section-title"><div class="num">1</div><h3>Калибровка сканера</h3><div class="line"></div></div>
+      <div class="table-box">
+        <table>
+          <thead><tr><th style="width:14%;">Датчик</th><th style="width:32%;">Что считываем</th><th>Сигнал → Тип</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="font-family:'JetBrains Mono';font-size:8pt;">🎚 Темп</strong></td><td>Скорость речи, паузы, ритм</td><td>Быстро → ES/ET/EN • Размеренно → IN/IF/IT</td></tr>
+            <tr><td><strong style="font-family:'JetBrains Mono';font-size:8pt;">🎯 Фокус</strong></td><td>Первые вопросы клиента</td><td>«Сколько/когда?» → ES • «Как работает?» → ET/IT • «А если...?» → EN/IN</td></tr>
+            <tr><td><strong style="font-family:'JetBrains Mono';font-size:8pt;">🗣 Лексика</strong></td><td>3 ключевых слова за 15 сек</td><td>«Выгодно» → ES • «Надёжно» → IF • «Инновации» → EN</td></tr>
+            <tr><td><strong style="font-family:'JetBrains Mono';font-size:8pt;">🔍 Детали</strong></td><td>Реакция на подробности</td><td>Просит детали → IT/IS • «К сути» → EN/ES</td></tr>
+            <tr><td><strong style="font-family:'JetBrains Mono';font-size:8pt;">🤝 Неверб</strong></td><td>Поза, жесты, зрительный контакт</td><td>Активно → E • Сдержанно → I • Заземлённо → S</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-title"><div class="num">2</div><h3>Протокол первого контакта</h3><div class="line"></div></div>
+      <div class="code">
+        <span class="c"><span class="l">0–30 сек</span> <span class="a">→</span> Считать 2–3 датчика <span class="a">→</span> Гипотеза: тип Х</span>
+        <span class="c"><span class="l">30–60 сек</span> <span class="a">→</span> Тестовая фраза-подстройка <span class="a">→</span> Реакция?</span>
+        <span class="c"><span class="l">60–90 сек</span> <span class="a">→</span> Подтвердить/скорректировать <span class="a">→</span> Запуск ветки</span>
+      </div>
+      <div class="note"><span class="ic">💡</span><span><strong>Полевая заметка:</strong> Клиент не врёт. Слушай паттерн, а не слова.</span></div>
+      <div class="card navy">
+        <div class="card-head"><div class="card-ico n">🔄</div><div class="card-t">Переключатель</div></div>
+        <div class="card-b"><em>«Что для вас важнее: скорость, надёжность или глубина проработки?»</em> → Ответ укажет доминирующий канал.</div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>МОДУЛЬ 1: СКАНЕР ТИПАЖА</span><span>v2.0</span><span>3 / 10</span></div>
+  </div>
+
+  <!-- ===== СЛАЙД 4: МОДУЛЬ 2 ===== -->
+  <div class="slide" data-slide="3">
+    <div class="slide-header" style="background:linear-gradient(135deg,var(--coral),var(--coral-dark));">
+      <div class="slide-header-inner">
+        <div class="slide-header-icon">📻</div>
+        <h2>Модуль 2. Настройка частоты<span class="sub">Языки влияния • 8 типажей • Триггеры</span></h2>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="table-box">
+        <table>
+          <thead><tr><th style="width:8%;">Тип</th><th style="width:18%;">Частота</th><th style="width:37%;">Включить ✅</th><th style="width:37%;">Выключить ❌</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge en">EN</span></td><td>Визионерская</td><td>потенциал, прорыв, масштаб</td><td>рутина, детали</td></tr>
+            <tr><td><span class="badge ef">EF</span></td><td>Эмпатийная</td><td>доверие, поддержка, комфортно</td><td>давление, формальность</td></tr>
+            <tr><td><span class="badge et">ET</span></td><td>Логическая</td><td>алгоритм, данные, ROI</td><td>«просто поверьте»</td></tr>
+            <tr><td><span class="badge es">ES</span></td><td>Прагматичная</td><td>сейчас, готово, быстро</td><td>теория, «давайте обсудим»</td></tr>
+            <tr><td><span class="badge in">IN</span></td><td>Стратегическая</td><td>суть, контекст, долгосрочно</td><td>поверхностность, суета</td></tr>
+            <tr><td><span class="badge if">IF</span></td><td>Ценностная</td><td>надёжно, проверено, забота</td><td>риск, неопределённость</td></tr>
+            <tr><td><span class="badge it">IT</span></td><td>Аналитическая</td><td>модель, параметры, точность</td><td>упрощение, «на глаз»</td></tr>
+            <tr><td><span class="badge is">IS</span></td><td>Стабилизирующая</td><td>пошагово, гарантия, контроль</td><td>резкие изменения</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><span class="ic">💡</span><span><strong>Полевая заметка:</strong> Один аргумент на неверной частоте = белый шум. E-типы: энергичный темп. I-типы: размеренный, с паузами.</span></div>
+      <div class="card coral">
+        <div class="card-head"><div class="card-ico c">🔄</div><div class="card-t">Переключатель частоты</div></div>
+        <div class="card-b"><em>«Я озвучил это с точки зрения [канал]. Если посмотреть через призму [другой канал], как вы это видите?»</em></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>МОДУЛЬ 2: НАСТРОЙКА ЧАСТОТЫ</span><span>v2.0</span><span>4 / 10</span></div>
+  </div>
+
+  <!-- ===== СЛАЙД 5: МОДУЛЬ 3 ===== -->
+  <div class="slide" data-slide="4">
+    <div class="slide-header" style="background:linear-gradient(135deg,var(--navy-mid),var(--teal));">
+      <div class="slide-header-inner">
+        <div class="slide-header-icon">📐</div>
+        <h2>Модуль 3. Датчик потребностей<span class="sub">Карта болей • Банк вопросов</span></h2>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="section-title"><div class="num">1</div><h3>Схема вскрытия</h3><div class="line"></div></div>
+      <div class="code">
+        <span class="c"><span class="l">Симптом</span> <span class="a">(что говорит)</span> → «Долго, дорого, сложно»</span>
+        <span class="c"><span class="l">Проблема</span> <span class="a">(что имеет в виду)</span> → «Нет ресурсов на внедрение»</span>
+        <span class="c"><span class="l">Потребность</span> <span class="a">(что двигает)</span> → «Хочу предсказуемый результат без риска»</span>
+      </div>
+      <div class="section-title"><div class="num">2</div><h3>Банк ключей</h3><div class="line"></div></div>
+      <div class="table-box">
+        <table>
+          <thead><tr><th style="width:8%;">Тип</th><th style="width:30%;">Открывающий</th><th style="width:30%;">Углубляющий</th><th style="width:32%;">Подтверждающий</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge en">EN</span></td><td>Какие возможности хотите открыть?</td><td>Что уже пробовали?</td><td>Если бы решение закрыло разрыв, стало бы приоритетом?</td></tr>
+            <tr><td><span class="badge et">ET</span></td><td>Какие метрики оцениваете?</td><td>Где теряется эффективность?</td><td>ROI через 14 дней — достаточно?</td></tr>
+            <tr><td><span class="badge ef">EF</span></td><td>Что важно в партнёре?</td><td>Как команда реагирует?</td><td>Комфорт на каждом этапе — это то, что нужно?</td></tr>
+            <tr><td><span class="badge es">ES</span></td><td>Что важнее: скорость или риски?</td><td>Кто будет запускать?</td><td>Готово к старту завтра. Подписываем?</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><span class="ic">💡</span><span><strong>Полевая заметка:</strong> 1 вопрос → пауза 3–5 сек → слушай. Тишина раскрывает больше, чем допрос.</span></div>
+    </div>
+    <div class="slide-footer"><span>МОДУЛЬ 3: ДАТЧИК ПОТРЕБНОСТЕЙ</span><span>v2.0</span><span>5 / 10</span></div>
+  </div>
+
+  <!-- ===== СЛАЙД 6: МОДУЛЬ 4 ===== -->
+  <div class="slide" data-slide="5">
+    <div class="slide-header" style="background:linear-gradient(135deg,var(--navy),var(--purple));">
+      <div class="slide-header-inner">
+        <div class="slide-header-icon">⚙️</div>
+        <h2>Модуль 4. Механизм закрытия<span class="sub">Скрипты-резонаторы • 3 уровня</span></h2>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="section-title"><div class="num">1</div><h3>Формула резонатора</h3><div class="line"></div></div>
+      <div class="code">
+        <span class="c"><span class="l">КРЮК</span> <span class="a">(под тип)</span> → <span class="l">МОСТ</span> <span class="a">(под боль)</span> → <span class="l">ДЕЙСТВИЕ</span> <span class="a">(под комфорт)</span></span>
+      </div>
+      <div class="section-title"><div class="num">2</div><h3>Шестерни закрытия</h3><div class="line"></div></div>
+      <div class="table-box">
+        <table>
+          <thead><tr><th style="width:8%;">Тип</th><th style="width:30%;">Мягкое</th><th style="width:32%;">Стандартное</th><th style="width:30%;">Прямое</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge en">EN</span></td><td>Хотите увидеть потенциал?</td><td>Пилот на 14 дней — оцените масштаб</td><td>Стартуем в понедельник?</td></tr>
+            <tr><td><span class="badge et">ET</span></td><td>Какие метрики решающие?</td><td>ROI через 10 дней. Запускаем тест?</td><td>Данные за внедрение. Фиксируем?</td></tr>
+            <tr><td><span class="badge es">ES</span></td><td>Скорость или риски?</td><td>Запуск завтра. Результат через 3 дня</td><td>Всё настроено. Подписываем?</td></tr>
+            <tr><td><span class="badge if">IF</span></td><td>Какие гарантии важны?</td><td>Этапы + отчёты + пауза. Оформляем?</td><td>Условия зафиксированы. Подписываем?</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-title"><div class="num">3</div><h3>Конвертер возражений</h3><div class="line"></div></div>
+      <div class="code">
+        <span class="c"><span class="l">1. Признание</span> <span class="a">(на языке типа)</span> → «Понимаю, важна окупаемость...»</span>
+        <span class="c"><span class="l">2. Переформулировка</span> → «Посчитаем ROI при параметрах Х...»</span>
+        <span class="c"><span class="l">3. Микро-шаг</span> → «Протестируем на ваших данных?»</span>
+      </div>
+      <div class="note"><span class="ic">💡</span><span><strong>Полевая заметка:</strong> Не отбивай возражение — превращай его в мост к следующему шагу.</span></div>
+    </div>
+    <div class="slide-footer"><span>МОДУЛЬ 4: МЕХАНИЗМ ЗАКРЫТИЯ</span><span>v2.0</span><span>6 / 10</span></div>
+  </div>
+
+  <!-- ===== СЛАЙД 7: МОДУЛЬ 5 ===== -->
+  <div class="slide" data-slide="6">
+    <div class="slide-header" style="background:linear-gradient(135deg,var(--navy),var(--gold));">
+      <div class="slide-header-inner">
+        <div class="slide-header-icon">🛢️</div>
+        <h2>Модуль 5. Охлаждение и топливо<span class="sub">Энергия продавца • Протоколы</span></h2>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="section-title"><div class="num">1</div><h3>Протокол «Стоп-слив»</h3><div class="line"></div></div>
+      <div class="code">
+        <span class="c"><span class="l">1. Осознать:</span> «Сейчас я теряю энергию на [тип/ситуация]»</span>
+        <span class="c"><span class="l">2. Дистанцироваться:</span> Вдох 4с → Задержка 4с → Выдох 6с + «Я в ресурсе»</span>
+        <span class="c"><span class="l">3. Переключить:</span> «Что для вас сейчас приоритетно?»</span>
+      </div>
+      <div class="section-title"><div class="num">2</div><h3>Ритуалы до/после</h3><div class="line"></div></div>
+      <div class="cols2">
+        <div class="card teal col">
+          <div class="card-head"><div class="card-ico t">🟢</div><div class="card-t">До контакта</div></div>
+          <div class="card-b">
+            <strong>0:00–0:30</strong> Дыхание 4-4-6<br>
+            <strong>0:30–1:30</strong> Якорь: «Я помогаю найти решение»<br>
+            <strong>1:30–3:00</strong> Визуализация: 30 сек успешного диалога
+          </div>
+        </div>
+        <div class="card coral col">
+          <div class="card-head"><div class="card-ico c">🔴</div><div class="card-t">После контакта</div></div>
+          <div class="card-b">
+            <strong>0:00–1:00</strong> Физический сброс: кисти, плечи<br>
+            <strong>1:00–2:00</strong> 1 инсайт + 1 действие<br>
+            <strong>2:00–3:00</strong> «Контакт завершён. Я в балансе»
+          </div>
+        </div>
+      </div>
+      <div class="section-title"><div class="num">3</div><h3>4 границы</h3><div class="line"></div></div>
+      <div class="table-box">
+        <table>
+          <thead><tr><th style="width:20%;">Тип</th><th style="width:38%;">Правило</th><th>Фраза-разделитель</th></tr></thead>
+          <tbody>
+            <tr><td><strong>⏰ Временная</strong></td><td>90 мин работа → 15 мин отдых</td><td>«У меня окно до 14:00»</td></tr>
+            <tr><td><strong>❤️ Эмоциональная</strong></td><td>Помогаю решением, не проживаю</td><td>«Фиксирую критерии и подберу»</td></tr>
+            <tr><td><strong>📞 Коммуникационная</strong></td><td>2 попытки → пауза 7 дней</td><td>«Отправлю. Вернусь через неделю»</td></tr>
+            <tr><td><strong>🎯 Смысловая</strong></td><td>Еженедельно: «Зачем?» + 3 победы</td><td>Не продавать. Решать. Расти.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="slide-footer"><span>МОДУЛЬ 5: ОХЛАЖДЕНИЕ И ТОПЛИВО</span><span>v2.0</span><span>7 / 10</span></div>
+  </div>
+
+  <!-- ===== СЛАЙД 8: МОДУЛЬ 6 ===== -->
+  <div class="slide" data-slide="7">
+    <div class="slide-header" style="background:linear-gradient(135deg,var(--navy),var(--navy-light));">
+      <div class="slide-header-inner">
+        <div class="slide-header-icon">🧭</div>
+        <h2>Модуль 6. Навигация<span class="sub">Цели • Фокус • Метрики • Обзор</span></h2>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="section-title"><div class="num">1</div><h3>Цели-резонаторы</h3><div class="line"></div></div>
+      <div class="table-box">
+        <table>
+          <thead><tr><th style="width:8%;">Тип</th><th style="width:52%;">Формулировка цели</th><th>Критерий успеха</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge en">EN</span></td><td>Открыть 3 новых канала привлечения</td><td>Запущено, есть лиды</td></tr>
+            <tr><td><span class="badge et">ET</span></td><td>Конверсия 1 контакта: 15% → 25%</td><td>CRM подтверждает</td></tr>
+            <tr><td><span class="badge es">ES</span></td><td>Закрыть 5 сделок до конца недели</td><td>5 договоров</td></tr>
+            <tr><td><span class="badge in">IN</span></td><td>Понять потребность ЦА, адаптировать</td><td>3 инсайта + скрипт</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-title"><div class="num">2</div><h3>Панель навигации</h3><div class="line"></div></div>
+      <div class="cols2">
+        <div class="card navy col">
+          <div class="card-head"><div class="card-ico n">✅</div><div class="card-t">3 приоритета дня</div></div>
+          <div class="card-b">
+            <strong>1. Результат</strong> — сделка / встреча<br>
+            <strong>2. Отношения</strong> — фоллоу-ап<br>
+            <strong>3. Развитие</strong> — тест скрипта
+          </div>
+        </div>
+        <div class="card teal col">
+          <div class="card-head"><div class="card-ico t">📈</div><div class="card-t">Метрики</div></div>
+          <div class="card-b">
+            <strong>Конверсия</strong> → +15%<br>
+            <strong>Время сделки</strong> → −20%<br>
+            <strong>Рекомендации</strong> → 80%+
+          </div>
+        </div>
+      </div>
+      <div class="section-title"><div class="num">3</div><h3>Еженедельный обзор</h3><div class="line"></div></div>
+      <div class="code">
+        <span class="c"><span class="l">ФАКТЫ</span> <span class="a">(3 мин)</span> → Что сделал? Метрики? Типы?</span>
+        <span class="c"><span class="l">ИНСАЙТЫ</span> <span class="a">(5 мин)</span> → Что удивило? Где потеря энергии?</span>
+        <span class="c"><span class="l">КОРРЕКТИРОВКА</span> <span class="a">(4 мин)</span> → 1 изменение в скрипте</span>
+        <span class="c"><span class="l">ПЛАН</span> <span class="a">(3 мин)</span> → 3 приоритета + 1 эксперимент</span>
+      </div>
+    </div>
+    <div class="slide-footer"><span>МОДУЛЬ 6: НАВИГАЦИЯ И МАРШРУТ</span><span>v2.0</span><span>8 / 10</span></div>
+  </div>
+
+  <!-- ===== СЛАЙД 9: ЭКСТРЕННЫЕ ПРОТОКОЛЫ ===== -->
+  <div class="slide" data-slide="8">
+    <div class="slide-header" style="background:linear-gradient(135deg,var(--coral),var(--coral-dark));">
+      <div class="slide-header-inner">
+        <div class="slide-header-icon">🆘</div>
+        <h2>Экстренные протоколы<span class="sub">Быстрая диагностика неисправностей</span></h2>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="emerg">
+        <div class="emerg-t">🔴 Клиент молчит / односложно</div>
+        <div class="code"><span class="c"><span class="a">→</span> Смени вопрос: «Расскажите, как видите идеальное решение?»</span><span class="c"><span class="a">→</span> Дай паузу 5–7 сек <span class="a">(клиент раскрывается в тишине)</span></span><span class="c"><span class="a">→</span> Если не ЛПР: «Кто ещё участвует в решении?»</span></div>
+      </div>
+      <div class="emerg">
+        <div class="emerg-t">🔴 «Я подумаю»</div>
+        <div class="code"><span class="c"><span class="a">→</span> Уточни: «Что именно требует доп. контекста?»</span><span class="c"><span class="a">→</span> Зафиксируй: «Пришлю чек-лист, вернитесь когда готовы»</span><span class="c"><span class="a">→</span> <strong>НЕ дави.</strong> Дай пространство — сохрани контакт.</span></div>
+      </div>
+      <div class="emerg">
+        <div class="emerg-t">🔴 Маркеры противоречат</div>
+        <div class="code"><span class="c"><span class="a">→</span> Тест: «Что важнее: скорость, надёжность или глубина?»</span><span class="c"><span class="a">→</span> Гибридный тип: «Зафиксируем первый шаг, детали — по ходу»</span><span class="c"><span class="a">→</span> Наблюдай реакцию → корректируй частоту</span></div>
+      </div>
+      <div class="emerg">
+        <div class="emerg-t">🔴 Слив энергии</div>
+        <div class="code"><span class="c"><span class="a">→</span> Протокол «Стоп-слив» <span class="a">(вдох 4-4-6 + якорь)</span></span><span class="c"><span class="a">→</span> 3-мин разгрузка после контакта</span><span class="c"><span class="a">→</span> Чередуй сложные контакты с лёгкими</span></div>
+      </div>
+      <div class="emerg">
+        <div class="emerg-t">🔴 Не знаешь тип</div>
+        <div class="code"><span class="c"><span class="a">→</span> Нейтральный: Факты + Выгода + Масштаб + Поддержка</span><span class="c"><span class="a">→</span> Наблюдай реакцию → корректируй</span><span class="c"><span class="a">→</span> «Давайте начнём с того, что для вас приоритетно»</span></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>ЭКСТРЕННЫЕ ПРОТОКОЛЫ</span><span>v2.0</span><span>9 / 10</span></div>
+  </div>
+
+  <!-- ===== СЛАЙД 10: БОРТОВОЙ ЖУРНАЛ ===== -->
+  <div class="slide" data-slide="9">
+    <div class="slide-header" style="background:linear-gradient(135deg,var(--navy),var(--navy-light));">
+      <div class="slide-header-inner">
+        <div class="slide-header-icon">📋</div>
+        <h2>Бортовой журнал<span class="sub">Чек-лист + Цикл продажи</span></h2>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="section-title"><div class="num">1</div><h3>Чек-лист перед контактом</h3><div class="line"></div></div>
+      <ul class="check">
+        <li>Канал связи: переписка / звонок / встреча</li>
+        <li>Какие 2–3 датчика типа я услышу/увижу первыми?</li>
+        <li>Стартовая фраза-подстройка под этот тип: ____________________</li>
+        <li>Вероятная «боль» типа: ____________________________________</li>
+        <li>Уровень закрытия: мягкий / стандарт / прямой</li>
+        <li>Ритуал настройки до контакта (3 мин): ☐ выполнен</li>
+        <li>Что запишу после контакта? ___________________</li>
+      </ul>
+      <div class="section-title"><div class="num">2</div><h3>Цикл продажи</h3><div class="line"></div></div>
+      <div class="cycle"><div class="cycle-n">1</div><div class="cycle-t"><strong>ДИАГНОЗ</strong> — 5 маркеров → гипотеза → тестовая фраза</div></div>
+      <div class="cycle"><div class="cycle-n">2</div><div class="cycle-t"><strong>ЯЗЫК</strong> — Лексика + тон + структура под тип</div></div>
+      <div class="cycle"><div class="cycle-n">3</div><div class="cycle-t"><strong>БОЛЬ</strong> — Симптом → вопрос → потребность → ценность</div></div>
+      <div class="cycle"><div class="cycle-n">4</div><div class="cycle-t"><strong>РЕЗОНАТОР</strong> — Крюк → Мост → Действие</div></div>
+      <div class="cycle"><div class="cycle-n">5</div><div class="cycle-t"><strong>ЭНЕРГИЯ</strong> — Ритуал до → Протокол → Разгрузка</div></div>
+      <div class="cycle"><div class="cycle-n">6</div><div class="cycle-t"><strong>РЕЗУЛЬТАТ</strong> — 3 приоритета → метрики → обзор</div></div>
+      <div class="note" style="margin-top:4mm;"><span class="ic">🎯</span><span><strong>Золотое правило:</strong> Не продавай продукт — продавай решение, которое резонирует с типом и болью.</span></div>
+      <div class="passport">
+        <h4>🚜 Техпаспорт системы</h4>
+        <p>
+          <strong>Комбайн Генерации Продаж</strong> v2.0 • Полевое руководство<br>
+          Калибровка: 8 типажей • 4 канала • 5 техник<br><br>
+          📱 Полный курс: <em>[ссылка]</em> 💬 Чат разборов: <em>[ссылка]</em> 📊 Sales OS: <em>[ссылка]</em>
+        </p>
+      </div>
+    </div>
+    <div class="slide-footer"><span>БОРТОВОЙ ЖУРНАЛ</span><span>v2.0</span><span>10 / 10</span></div>
+  </div>
+
+  <!-- ===== НАВИГАЦИЯ ===== -->
+  <div class="nav-panel">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Назад
+    </button>
+    <div class="nav-info">
+      <span class="current" id="currentNum">1</span>
+      <span class="total"> / 10</span>
+      <div class="nav-dots" id="navDots"></div>
+    </div>
+    <button class="nav-btn primary" id="nextBtn" onclick="changeSlide(1)">
+      Вперёд
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  const dotsContainer = document.getElementById('navDots');
+
+  // Создаём точки
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(dot);
+  }
+
+  function updateSlide() {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active', 'prev');
+      if (i === currentSlide) {
+        slide.classList.add('active');
+      } else if (i < currentSlide) {
+        slide.classList.add('prev');
+      }
+    });
+
+    document.getElementById('currentNum').textContent = currentSlide + 1;
+    document.getElementById('prevBtn').disabled = currentSlide === 0;
+    document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+
+    document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+  }
+
+  function changeSlide(dir) {
+    const next = currentSlide + dir;
+    if (next >= 0 && next < totalSlides) {
+      currentSlide = next;
+      updateSlide();
+    }
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    updateSlide();
+  }
+
+  // Клавиатура
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      changeSlide(1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      changeSlide(-1);
+    }
+  });
+
+  // Свайп
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+  });
+
+  updateSlide();
+</script>
+
+</body>
+</html>
