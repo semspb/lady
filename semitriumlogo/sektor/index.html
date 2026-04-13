@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Семитриум — Результаты</title>
+    <title>Семитриум — Исправленная визуализация</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #0f172a 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -17,7 +17,7 @@
             color: #1f2937;
         }
         .container {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.98);
             border-radius: 28px;
             padding: 36px 24px;
             box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4);
@@ -37,49 +37,32 @@
         }
         svg { width: 100%; height: 100%; display: block; overflow: visible; }
         
-        .legend {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-top: 12px;
-        }
+        /* Легенда и карточки */
+        .legend { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 12px; }
         .legend-card {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
+            display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+            background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 14px;
             transition: all 0.2s ease;
         }
         .legend-card:hover {
-            border-color: #c7d2fe;
-            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.08);
+            border-color: #c7d2fe; box-shadow: 0 4px 16px rgba(124, 58, 237, 0.08);
             transform: translateY(-1px);
         }
         .color-marker {
             width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-            border: 2px solid rgba(255,255,255,0.9);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12); border: 2px solid #fff;
         }
         .card-content { flex: 1; min-width: 0; }
-        .card-top {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
-        }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .sector-name { font-weight: 600; font-size: 15px; color: #111827; }
-        .sector-percent { font-weight: 700; font-size: 18px; color: #4f46e5; min-width: 48px; text-align: right; }
+        .sector-percent { font-weight: 700; font-size: 18px; color: #4f46e5; }
         
-        .trinity-row { display: flex; align-items: center; gap: 8px; }
-        .trinity-bars {
-            display: flex; gap: 4px; flex: 1; height: 6px; border-radius: 3px;
-            background: #e5e7eb; overflow: hidden;
-        }
+        /* Тринити бары */
+        .trinity-bars { display: flex; gap: 4px; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; margin-top: 6px; }
         .trinity-bar { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
         .trinity-bar.spirit { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
         .trinity-bar.soul { background: linear-gradient(90deg, #f472b6, #ec4899); }
         .trinity-bar.body { background: linear-gradient(90deg, #f87171, #ef4444); }
-        
         .trinity-labels { display: flex; gap: 10px; font-size: 11px; color: #6b7280; margin-top: 4px; font-weight: 500; }
         .trinity-labels span { display: flex; align-items: center; gap: 3px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
@@ -89,10 +72,7 @@
         
         @media (max-width: 480px) {
             .container { padding: 24px 16px; }
-            .legend-card { padding: 12px 14px; gap: 12px; }
-            .color-marker { width: 24px; height: 24px; }
-            .sector-name { font-size: 14px; }
-            .sector-percent { font-size: 16px; }
+            .legend-card { padding: 12px 14px; }
         }
     </style>
 </head>
@@ -105,9 +85,7 @@
     
     <div class="star-wrap">
         <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <!-- Градиенты будут сгенерированы динамически через JS с точным углом -->
-            </defs>
+            <defs id="grad-defs"></defs>
             <g id="triangles"></g>
         </svg>
     </div>
@@ -116,7 +94,7 @@
 </div>
 
 <script>
-// Данные: 7 сфер (пример)
+// Данные (пример)
 const sectors = [
     { name: 'Здоровье', percent: 70, spirit: 9, soul: 7, body: 5, color: '#ef4444' },
     { name: 'Карьера', percent: 85, spirit: 8, soul: 9, body: 9, color: '#f97316' },
@@ -127,133 +105,119 @@ const sectors = [
     { name: 'Нетворкинг', percent: 40, spirit: 5, soul: 4, body: 3, color: '#ec4899' }
 ];
 
-// Оригинальные координаты треугольников из вашего SVG
-// Вершина 1 (apexIndex) — та, что ближе к центру (оттуда идёт цвет)
+// Оригинальные координаты (порядок точек может быть любым, скрипт сам найдет центр)
 const originalTriangles = [
-    { points: '156.00,32.57 238.07,72.09 156.00,137.53', apexIndex: 2 },
-    { points: '245.55,81.48 265.82,170.28 163.49,146.92', apexIndex: 2 },
-    { points: '263.15,181.98 206.36,253.19 160.82,158.63', apexIndex: 2 },
-    { points: '195.54,258.40 104.46,258.40 150.00,163.84', apexIndex: 2 },
-    { points: '93.64,253.19 36.85,181.98 139.18,158.63', apexIndex: 2 },
-    { points: '34.18,170.28 54.45,81.48 136.51,146.92', apexIndex: 2 },
-    { points: '61.93,72.09 144.00,32.57 144.00,137.53', apexIndex: 1 }
+    '156.00,32.57 238.07,72.09 156.00,137.53',
+    '245.55,81.48 265.82,170.28 163.49,146.92',
+    '263.15,181.98 206.36,253.19 160.82,158.63',
+    '195.54,258.40 104.46,258.40 150.00,163.84',
+    '93.64,253.19 36.85,181.98 139.18,158.63',
+    '34.18,170.28 54.45,81.48 136.51,146.92',
+    '61.93,72.09 144.00,32.57 144.00,137.53'
 ];
 
+// Центр звезды (примерно)
+const CENTER = { x: 150, y: 150 };
+
 function parsePoints(str) {
-    return str.split(' ').map(p => {
+    return str.trim().split(/\s+/).map(p => {
         const [x, y] = p.split(',').map(Number);
         return { x, y };
     });
 }
 
-// Расчёт угла для градиента: от вершины 1 к середине основания
-function calculateGradientAngle(points, apexIndex) {
-    const apex = points[apexIndex];
-    // Находим две другие вершины (основание)
-    const basePoints = points.filter((_, i) => i !== apexIndex);
-    // Середина основания
-    const midBase = {
-        x: (basePoints[0].x + basePoints[1].x) / 2,
-        y: (basePoints[0].y + basePoints[1].y) / 2
-    };
-    
-    // Вектор от вершины к середине основания
-    const dx = midBase.x - apex.x;
-    const dy = midBase.y - apex.y;
-    
-    // Угол в градусах
-    let angle = Math.atan2(dy, dx) * 180 / Math.PI;
-    // SVG градиенты: 0° = вправо, 90° = вниз. 
-    // Нам нужно чтобы x1,y1 = apex, x2,y2 = midBase
-    // Преобразуем в проценты относительно bounding box треугольника
-    return { dx, dy, angle };
-}
+// Находим вершину 1 (самую близкую к центру) и основание
+function getGeometry(pointsStr) {
+    const points = parsePoints(pointsStr);
+    let apex = null;
+    let base = [];
+    let minDist = Infinity;
 
-function createFilledTriangle(originalPoints, apexIndex, percent, color, index) {
-    const points = parsePoints(originalPoints);
-    const apex = points[apexIndex];
-    const basePoints = points.filter((_, i) => i !== apexIndex);
-    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    
-    // Создаём уникальный градиент для каждого треугольника
-    const gradId = `triGrad${index}`;
-    const defs = document.querySelector('defs');
-    const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-    grad.setAttribute('id', gradId);
-    
-    // Направление градиента: от вершины (x1,y1) к середине основания (x2,y2)
-    // В системе координат viewBox 0-300
-    const midBaseX = (basePoints[0].x + basePoints[1].x) / 2;
-    const midBaseY = (basePoints[0].y + basePoints[1].y) / 2;
-    
-    // Преобразуем координаты в проценты
-    const x1 = (apex.x / 300) * 100;
-    const y1 = (apex.y / 300) * 100;
-    const x2 = (midBaseX / 300) * 100;
-    const y2 = (midBaseY / 300) * 100;
-    
-    grad.setAttribute('x1', `${x1}%`);
-    grad.setAttribute('y1', `${y1}%`);
-    grad.setAttribute('x2', `${x2}%`);
-    grad.setAttribute('y2', `${y2}%`);
-    
-    const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-    stop1.setAttribute('offset', '0%');
-    stop1.setAttribute('stop-color', color);
-    stop1.setAttribute('stop-opacity', '0.95');
-    
-    const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-    stop2.setAttribute('offset', '100%');
-    stop2.setAttribute('stop-color', color);
-    stop2.setAttribute('stop-opacity', '0.15');
-    
-    grad.appendChild(stop1);
-    grad.appendChild(stop2);
-    defs.appendChild(grad);
-    
-    // Фоновый треугольник (бледный, полный)
-    const bg = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-    bg.setAttribute('points', originalPoints);
-    bg.setAttribute('fill', '#e5e7eb');
-    bg.setAttribute('fill-opacity', '0.30');
-    bg.setAttribute('stroke', '#ffffff');
-    bg.setAttribute('stroke-width', '1.2');
-    bg.setAttribute('stroke-opacity', '0.8');
-    group.appendChild(bg);
-    
-    // Заполнение: от вершины к основанию пропорционально percent
-    if (percent > 3) {
-        const ratio = percent / 100;
-        const fillP1 = {
-            x: apex.x + (basePoints[0].x - apex.x) * ratio,
-            y: apex.y + (basePoints[0].y - apex.y) * ratio
-        };
-        const fillP2 = {
-            x: apex.x + (basePoints[1].x - apex.x) * ratio,
-            y: apex.y + (basePoints[1].y - apex.y) * ratio
-        };
-        
-        const fill = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-        fill.setAttribute('points', `${apex.x},${apex.y} ${fillP1.x},${fillP1.y} ${fillP2.x},${fillP2.y}`);
-        fill.setAttribute('fill', `url(#${gradId})`);
-        fill.setAttribute('opacity', '0.95');
-        group.appendChild(fill);
-    }
-    
-    return group;
+    points.forEach(p => {
+        const dist = Math.sqrt(Math.pow(p.x - CENTER.x, 2) + Math.pow(p.y - CENTER.y, 2));
+        if (dist < minDist) {
+            minDist = dist;
+            apex = p;
+        }
+    });
+
+    base = points.filter(p => p !== apex);
+    return { apex, base };
 }
 
 function render() {
+    const defs = document.getElementById('grad-defs');
     const container = document.getElementById('triangles');
     const legend = document.getElementById('legend');
-    
+
     sectors.forEach((s, i) => {
-        const t = originalTriangles[i];
-        // Рисуем треугольник с оригинальными пропорциями
-        const tri = createFilledTriangle(t.points, t.apexIndex, s.percent, s.color, i);
-        container.appendChild(tri);
+        // 1. Определяем геометрию (исправляем перепутанные вершины)
+        const { apex, base } = getGeometry(originalTriangles[i]);
         
-        // Карточка в легенде
+        // Середина основания для направления градиента
+        const midBase = {
+            x: (base[0].x + base[1].x) / 2,
+            y: (base[0].y + base[1].y) / 2
+        };
+
+        // 2. Создаем градиент от Вершины 1 к Основанию с затуханием в 0
+        const gradId = `grad-${i}`;
+        const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+        grad.setAttribute('id', gradId);
+        grad.setAttribute('x1', apex.x);
+        grad.setAttribute('y1', apex.y);
+        grad.setAttribute('x2', midBase.x); // Градиент идет до середины основания
+        grad.setAttribute('y2', midBase.y);
+        grad.setAttribute('gradientUnits', 'userSpaceOnUse');
+
+        // Стоп 1: Вершина (100% цвета, высокая непрозрачность)
+        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop1.setAttribute('offset', '0%');
+        stop1.setAttribute('stop-color', s.color);
+        stop1.setAttribute('stop-opacity', '0.95');
+        grad.appendChild(stop1);
+
+        // Стоп 2: Край (0% непрозрачности - убирает четкую границу)
+        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop2.setAttribute('offset', '100%');
+        stop2.setAttribute('stop-color', s.color);
+        stop2.setAttribute('stop-opacity', '0.0');
+        grad.appendChild(stop2);
+        
+        defs.appendChild(grad);
+
+        // 3. Рисуем фон (бледный треугольник целиком)
+        const bg = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        bg.setAttribute('points', originalTriangles[i]);
+        bg.setAttribute('fill', '#e5e7eb');
+        bg.setAttribute('fill-opacity', '0.35');
+        bg.setAttribute('stroke', '#fff');
+        bg.setAttribute('stroke-width', '1.2');
+        container.appendChild(bg);
+
+        // 4. Рисуем заполнение (обрезанный треугольник)
+        // Если нужно показать % заполнения
+        if (s.percent > 5) {
+            const ratio = s.percent / 100;
+            const fillP1 = {
+                x: apex.x + (base[0].x - apex.x) * ratio,
+                y: apex.y + (base[0].y - apex.y) * ratio
+            };
+            const fillP2 = {
+                x: apex.x + (base[1].x - apex.x) * ratio,
+                y: apex.y + (base[1].y - apex.y) * ratio
+            };
+            
+            // Используем градиент. Т.к. градиент настроен на всю длину, 
+            // при обрезке (ratio < 1) цвет на срезе будет достаточно ярким,
+            // но плавно уходящим в прозрачность.
+            const fill = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            fill.setAttribute('points', `${apex.x},${apex.y} ${fillP1.x},${fillP1.y} ${fillP2.x},${fillP2.y}`);
+            fill.setAttribute('fill', `url(#${gradId})`);
+            container.appendChild(fill);
+        }
+
+        // 5. Создаем карточку в легенде
         const card = document.createElement('div');
         card.className = 'legend-card';
         card.innerHTML = `
@@ -263,12 +227,10 @@ function render() {
                     <span class="sector-name">${s.name}</span>
                     <span class="sector-percent">${s.percent}%</span>
                 </div>
-                <div class="trinity-row">
-                    <div class="trinity-bars">
-                        <div class="trinity-bar spirit" style="width: ${s.spirit * 10}%"></div>
-                        <div class="trinity-bar soul" style="width: ${s.soul * 10}%"></div>
-                        <div class="trinity-bar body" style="width: ${s.body * 10}%"></div>
-                    </div>
+                <div class="trinity-bars">
+                    <div class="trinity-bar spirit" style="width: ${s.spirit * 10}%"></div>
+                    <div class="trinity-bar soul" style="width: ${s.soul * 10}%"></div>
+                    <div class="trinity-bar body" style="width: ${s.body * 10}%"></div>
                 </div>
                 <div class="trinity-labels">
                     <span><i class="dot spirit"></i>Дух ${s.spirit}</span>
