@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Семитриум — Исправленная визуализация</title>
+    <title>Семитриум — Результаты</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #0f172a 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -17,15 +17,15 @@
             color: #1f2937;
         }
         .container {
-            background: rgba(255, 255, 255, 0.98);
+            background: #ffffff;
             border-radius: 28px;
             padding: 36px 24px;
             box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4);
             max-width: 760px;
             width: 100%;
         }
-        .header { text-align: center; margin-bottom: 24px; }
-        .header h1 { font-size: 26px; color: #1e1b4b; margin-bottom: 6px; }
+        .header { text-align: center; margin-bottom: 28px; }
+        .header h1 { font-size: 26px; color: #1e1b4b; margin-bottom: 6px; letter-spacing: -0.5px; }
         .header p { color: #6b7280; font-size: 14px; }
         
         .star-wrap {
@@ -37,8 +37,12 @@
         }
         svg { width: 100%; height: 100%; display: block; overflow: visible; }
         
-        /* Легенда и карточки */
-        .legend { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 12px; }
+        .legend {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 16px;
+        }
         .legend-card {
             display: flex; align-items: center; gap: 14px; padding: 14px 16px;
             background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 14px;
@@ -49,22 +53,25 @@
             transform: translateY(-1px);
         }
         .color-marker {
-            width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12); border: 2px solid #fff;
+            width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15); border: 2px solid #fff;
         }
         .card-content { flex: 1; min-width: 0; }
-        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .sector-name { font-weight: 600; font-size: 15px; color: #111827; }
-        .sector-percent { font-weight: 700; font-size: 18px; color: #4f46e5; }
+        .sector-val { 
+            font-weight: 700; font-size: 20px; color: #4f46e5; 
+            background: #eef2ff; padding: 4px 10px; border-radius: 20px;
+        }
         
-        /* Тринити бары */
         .trinity-bars { display: flex; gap: 4px; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; margin-top: 6px; }
         .trinity-bar { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
         .trinity-bar.spirit { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
         .trinity-bar.soul { background: linear-gradient(90deg, #f472b6, #ec4899); }
         .trinity-bar.body { background: linear-gradient(90deg, #f87171, #ef4444); }
-        .trinity-labels { display: flex; gap: 10px; font-size: 11px; color: #6b7280; margin-top: 4px; font-weight: 500; }
-        .trinity-labels span { display: flex; align-items: center; gap: 3px; }
+        
+        .trinity-labels { display: flex; gap: 10px; font-size: 11px; color: #6b7280; margin-top: 6px; font-weight: 500; }
+        .trinity-labels span { display: flex; align-items: center; gap: 4px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
         .dot.spirit { background: #3b82f6; }
         .dot.soul { background: #ec4899; }
@@ -73,6 +80,7 @@
         @media (max-width: 480px) {
             .container { padding: 24px 16px; }
             .legend-card { padding: 12px 14px; }
+            .sector-val { font-size: 18px; }
         }
     </style>
 </head>
@@ -85,7 +93,13 @@
     
     <div class="star-wrap">
         <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-            <defs id="grad-defs"></defs>
+            <defs>
+                <!-- Фильтр для мягкого края заполнения -->
+                <filter id="softEdge" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="1.2" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
+            </defs>
             <g id="triangles"></g>
         </svg>
     </div>
@@ -94,18 +108,18 @@
 </div>
 
 <script>
-// Данные (пример)
+// Данные: значения 10, 9, 8, 7, 7, 8, 9 (по шкале книги)
 const sectors = [
-    { name: 'Здоровье', percent: 70, spirit: 9, soul: 7, body: 5, color: '#ef4444' },
-    { name: 'Карьера', percent: 85, spirit: 8, soul: 9, body: 9, color: '#f97316' },
-    { name: 'Отношения', percent: 60, spirit: 7, soul: 6, body: 5, color: '#eab308' },
-    { name: 'Финансы', percent: 45, spirit: 9, soul: 4, body: 3, color: '#22c55e' },
-    { name: 'Творчество', percent: 75, spirit: 8, soul: 9, body: 6, color: '#3b82f6' },
-    { name: 'Духовность', percent: 55, spirit: 6, soul: 7, body: 4, color: '#8b5cf6' },
-    { name: 'Нетворкинг', percent: 40, spirit: 5, soul: 4, body: 3, color: '#ec4899' }
+    { name: 'Здоровье', val: 10, spirit: 9, soul: 7, body: 5, color: '#ef4444' },
+    { name: 'Карьера', val: 9, spirit: 8, soul: 9, body: 9, color: '#f97316' },
+    { name: 'Отношения', val: 8, spirit: 7, soul: 6, body: 5, color: '#eab308' },
+    { name: 'Финансы', val: 7, spirit: 9, soul: 4, body: 3, color: '#22c55e' },
+    { name: 'Творчество', val: 7, spirit: 8, soul: 9, body: 6, color: '#3b82f6' },
+    { name: 'Духовность', val: 8, spirit: 6, soul: 7, body: 4, color: '#8b5cf6' },
+    { name: 'Нетворкинг', val: 9, spirit: 5, soul: 4, body: 3, color: '#ec4899' }
 ];
 
-// Оригинальные координаты (порядок точек может быть любым, скрипт сам найдет центр)
+// Оригинальные координаты треугольников
 const originalTriangles = [
     '156.00,32.57 238.07,72.09 156.00,137.53',
     '245.55,81.48 265.82,170.28 163.49,146.92',
@@ -116,7 +130,6 @@ const originalTriangles = [
     '61.93,72.09 144.00,32.57 144.00,137.53'
 ];
 
-// Центр звезды (примерно)
 const CENTER = { x: 150, y: 150 };
 
 function parsePoints(str) {
@@ -126,58 +139,41 @@ function parsePoints(str) {
     });
 }
 
-// Находим вершину 1 (самую близкую к центру) и основание
+// Автоматический поиск вершины 1 (ближайшей к центру)
 function getGeometry(pointsStr) {
     const points = parsePoints(pointsStr);
-    let apex = null;
-    let base = [];
-    let minDist = Infinity;
-
+    let apex = null, minDist = Infinity;
     points.forEach(p => {
         const dist = Math.sqrt(Math.pow(p.x - CENTER.x, 2) + Math.pow(p.y - CENTER.y, 2));
-        if (dist < minDist) {
-            minDist = dist;
-            apex = p;
-        }
+        if (dist < minDist) { minDist = dist; apex = p; }
     });
-
-    base = points.filter(p => p !== apex);
-    return { apex, base };
+    return { apex, base: points.filter(p => p !== apex) };
 }
 
 function render() {
-    const defs = document.getElementById('grad-defs');
     const container = document.getElementById('triangles');
     const legend = document.getElementById('legend');
+    const defs = document.querySelector('defs');
 
     sectors.forEach((s, i) => {
-        // 1. Определяем геометрию (исправляем перепутанные вершины)
         const { apex, base } = getGeometry(originalTriangles[i]);
-        
-        // Середина основания для направления градиента
-        const midBase = {
-            x: (base[0].x + base[1].x) / 2,
-            y: (base[0].y + base[1].y) / 2
-        };
+        const midBase = { x: (base[0].x + base[1].x) / 2, y: (base[0].y + base[1].y) / 2 };
+        const ratio = s.val / 10; // 10 → 1.0, 7 → 0.7 и т.д.
 
-        // 2. Создаем градиент от Вершины 1 к Основанию с затуханием в 0
+        // 1. Градиент: 100% у вершины → 0% у основания
         const gradId = `grad-${i}`;
         const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
         grad.setAttribute('id', gradId);
-        grad.setAttribute('x1', apex.x);
-        grad.setAttribute('y1', apex.y);
-        grad.setAttribute('x2', midBase.x); // Градиент идет до середины основания
-        grad.setAttribute('y2', midBase.y);
+        grad.setAttribute('x1', apex.x); grad.setAttribute('y1', apex.y);
+        grad.setAttribute('x2', midBase.x); grad.setAttribute('y2', midBase.y);
         grad.setAttribute('gradientUnits', 'userSpaceOnUse');
 
-        // Стоп 1: Вершина (100% цвета, высокая непрозрачность)
         const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
         stop1.setAttribute('offset', '0%');
         stop1.setAttribute('stop-color', s.color);
         stop1.setAttribute('stop-opacity', '0.95');
         grad.appendChild(stop1);
 
-        // Стоп 2: Край (0% непрозрачности - убирает четкую границу)
         const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
         stop2.setAttribute('offset', '100%');
         stop2.setAttribute('stop-color', s.color);
@@ -186,38 +182,28 @@ function render() {
         
         defs.appendChild(grad);
 
-        // 3. Рисуем фон (бледный треугольник целиком)
+        // 2. Фон (бледный контур всей сферы)
         const bg = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         bg.setAttribute('points', originalTriangles[i]);
         bg.setAttribute('fill', '#e5e7eb');
-        bg.setAttribute('fill-opacity', '0.35');
+        bg.setAttribute('fill-opacity', '0.25');
         bg.setAttribute('stroke', '#fff');
         bg.setAttribute('stroke-width', '1.2');
         container.appendChild(bg);
 
-        // 4. Рисуем заполнение (обрезанный треугольник)
-        // Если нужно показать % заполнения
-        if (s.percent > 5) {
-            const ratio = s.percent / 100;
-            const fillP1 = {
-                x: apex.x + (base[0].x - apex.x) * ratio,
-                y: apex.y + (base[0].y - apex.y) * ratio
-            };
-            const fillP2 = {
-                x: apex.x + (base[1].x - apex.x) * ratio,
-                y: apex.y + (base[1].y - apex.y) * ratio
-            };
+        // 3. Заполнение с мягким краем
+        if (ratio > 0.05) {
+            const fillP1 = { x: apex.x + (base[0].x - apex.x) * ratio, y: apex.y + (base[0].y - apex.y) * ratio };
+            const fillP2 = { x: apex.x + (base[1].x - apex.x) * ratio, y: apex.y + (base[1].y - apex.y) * ratio };
             
-            // Используем градиент. Т.к. градиент настроен на всю длину, 
-            // при обрезке (ratio < 1) цвет на срезе будет достаточно ярким,
-            // но плавно уходящим в прозрачность.
             const fill = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
             fill.setAttribute('points', `${apex.x},${apex.y} ${fillP1.x},${fillP1.y} ${fillP2.x},${fillP2.y}`);
             fill.setAttribute('fill', `url(#${gradId})`);
+            fill.setAttribute('filter', 'url(#softEdge)'); // Убирает чёткую границу
             container.appendChild(fill);
         }
 
-        // 5. Создаем карточку в легенде
+        // 4. Карточка легенды
         const card = document.createElement('div');
         card.className = 'legend-card';
         card.innerHTML = `
@@ -225,7 +211,7 @@ function render() {
             <div class="card-content">
                 <div class="card-top">
                     <span class="sector-name">${s.name}</span>
-                    <span class="sector-percent">${s.percent}%</span>
+                    <span class="sector-val">${s.val}/10</span>
                 </div>
                 <div class="trinity-bars">
                     <div class="trinity-bar spirit" style="width: ${s.spirit * 10}%"></div>
@@ -243,7 +229,6 @@ function render() {
     });
 }
 
-// Запуск
 render();
 </script>
 </body>
