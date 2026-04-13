@@ -1,31 +1,317 @@
-<!-- Один треугольник с динамическим заполнением -->
-<g id="sector-health">
-  <!-- Бледный фон (весь треугольник) -->
-  <polygon points="156,32 238,72 156,137" 
-           fill="#f472b6" fill-opacity="0.25" 
-           stroke="#fff" stroke-width="0.5"/>
-  
-  <!-- Заполнение от центра (маска или clip-path) -->
-  <defs>
-    <linearGradient id="fillGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" stop-color="#ec4899" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#ec4899" stop-opacity="0.4"/>
-    </linearGradient>
-    <clipPath id="clip70">
-      <!-- Полигон, обрезанный на 70% высоты от центра -->
-      <polygon points="156,95 210,72 156,137"/>
-    </clipPath>
-  </defs>
-  
-  <!-- Заполненная часть -->
-  <polygon points="156,32 238,72 156,137" 
-           fill="url(#fillGradient)" 
-           clip-path="url(#clip70)"
-           opacity="0.85"/>
-  
-  <!-- Процент по центру -->
-  <text x="175" y="95" font-size="11" fill="#fff" text-anchor="middle" font-weight="600">70%</text>
-  
-  <!-- Подпись сферы -->
-  <text x="156" y="25" font-size="9" fill="#cbd5e1" text-anchor="middle">Здоровье</text>
-</g>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Семитриум - Визуализация результатов</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1e1b4b;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .star-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 0 auto 30px;
+        }
+        
+        .sector-label {
+            position: absolute;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4b5563;
+            text-align: center;
+            width: 100px;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+        
+        .percent-label {
+            position: absolute;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .stat-card {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .stat-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #7c3aed;
+        }
+        
+        .stat-card .desc {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔺 Ваш Семитриум</h1>
+        <p class="subtitle">7 ключевых сфер вашей жизни</p>
+        
+        <div class="star-container" id="starContainer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="500" height="500">
+                <defs>
+                    <!-- Градиент для заполнения от центра -->
+                    <radialGradient id="centerGradient" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.9"/>
+                        <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#d97706" stop-opacity="0.3"/>
+                    </radialGradient>
+                    
+                    <radialGradient id="centerGradient2" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#ec4899" stop-opacity="0.9"/>
+                        <stop offset="50%" stop-color="#db2777" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#be185d" stop-opacity="0.3"/>
+                    </radialGradient>
+                    
+                    <radialGradient id="centerGradient3" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.9"/>
+                        <stop offset="50%" stop-color="#7c3aed" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#6d28d9" stop-opacity="0.3"/>
+                    </radialGradient>
+                    
+                    <radialGradient id="centerGradient4" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#10b981" stop-opacity="0.9"/>
+                        <stop offset="50%" stop-color="#059669" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#047857" stop-opacity="0.3"/>
+                    </radialGradient>
+                    
+                    <radialGradient id="centerGradient5" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.9"/>
+                        <stop offset="50%" stop-color="#2563eb" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.3"/>
+                    </radialGradient>
+                    
+                    <radialGradient id="centerGradient6" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#ef4444" stop-opacity="0.9"/>
+                        <stop offset="50%" stop-color="#dc2626" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#b91c1c" stop-opacity="0.3"/>
+                    </radialGradient>
+                    
+                    <radialGradient id="centerGradient7" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.9"/>
+                        <stop offset="50%" stop-color="#0d9488" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#0f766e" stop-opacity="0.3"/>
+                    </radialGradient>
+                    
+                    <!-- Фильтр для мягкости -->
+                    <filter id="softGlow">
+                        <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                
+                <!-- Группа для 7 треугольников -->
+                <g id="sectors"></g>
+            </svg>
+        </div>
+        
+        <div class="stats" id="stats"></div>
+    </div>
+
+    <script>
+        // Данные из теста (пример)
+        const sectorsData = [
+            { name: 'Здоровье', percent: 70, spirit: 9, soul: 7, body: 5 },
+            { name: 'Карьера', percent: 85, spirit: 8, soul: 9, body: 9 },
+            { name: 'Отношения', percent: 60, spirit: 7, soul: 6, body: 5 },
+            { name: 'Финансы', percent: 45, spirit: 9, soul: 4, body: 3 },
+            { name: 'Творчество', percent: 75, spirit: 8, soul: 9, body: 6 },
+            { name: 'Духовность', percent: 55, spirit: 6, soul: 7, body: 4 },
+            { name: 'Нетворкинг', percent: 40, spirit: 5, soul: 4, body: 3 }
+        ];
+
+        // Координаты 7 треугольников (вершины)
+        const triangles = [
+            // 1 - верхний
+            { points: '150,20 220,90 150,140', labelPos: { x: 150, y: 10 } },
+            // 2 - верхний правый
+            { points: '230,95 270,170 160,145', labelPos: { x: 265, y: 110 } },
+            // 3 - нижний правый
+            { points: '268,180 210,260 158,155', labelPos: { x: 255, y: 230 } },
+            // 4 - нижний
+            { points: '200,265 100,265 152,160', labelPos: { x: 150, y: 285 } },
+            // 5 - нижний левый
+            { points: '90,260 32,180 142,155', labelPos: { x: 45, y: 230 } },
+            // 6 - верхний левый
+            { points: '30,170 70,95 140,145', labelPos: { x: 35, y: 110 } },
+            // 7 - верхний левый (ближе к центру)
+            { points: '80,90 150,20 150,140', labelPos: { x: 80, y: 50 } }
+        ];
+
+        const gradients = [
+            'url(#centerGradient)',
+            'url(#centerGradient2)',
+            'url(#centerGradient3)',
+            'url(#centerGradient4)',
+            'url(#centerGradient5)',
+            'url(#centerGradient6)',
+            'url(#centerGradient7)'
+        ];
+
+        function createClippedTriangle(points, percent, gradientId, index) {
+            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            
+            // Парсим точки треугольника
+            const pointList = points.split(' ').map(p => {
+                const [x, y] = p.split(',').map(Number);
+                return { x, y };
+            });
+            
+            // Находим центр треугольника
+            const centerX = pointList.reduce((sum, p) => sum + p.x, 0) / 3;
+            const centerY = pointList.reduce((sum, p) => sum + p.y, 0) / 3;
+            
+            // Создаем фон (бледный)
+            const bgPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            bgPolygon.setAttribute('points', points);
+            bgPolygon.setAttribute('fill', '#e5e7eb');
+            bgPolygon.setAttribute('fill-opacity', '0.3');
+            bgPolygon.setAttribute('stroke', '#d1d5db');
+            bgPolygon.setAttribute('stroke-width', '0.8');
+            bgPolygon.setAttribute('stroke-opacity', '0.5');
+            group.appendChild(bgPolygon);
+            
+            // Создаем заполнение (от центра)
+            if (percent > 0) {
+                // Вычисляем точки для обрезанного треугольника
+                const fillPoints = pointList.map(p => {
+                    const ratio = percent / 100;
+                    return {
+                        x: centerX + (p.x - centerX) * ratio,
+                        y: centerY + (p.y - centerY) * ratio
+                    };
+                });
+                
+                const fillPointsStr = fillPoints.map(p => `${p.x},${p.y}`).join(' ');
+                
+                const fillPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                fillPolygon.setAttribute('points', fillPointsStr);
+                fillPolygon.setAttribute('fill', gradientId);
+                fillPolygon.setAttribute('opacity', '0.85');
+                fillPolygon.setAttribute('filter', 'url(#softGlow)');
+                group.appendChild(fillPolygon);
+            }
+            
+            // Добавляем процент в центр заполненной части
+            if (percent > 20) {
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                const ratio = percent / 100;
+                const textX = centerX + (pointList[0].x - centerX) * ratio * 0.5;
+                const textY = centerY + (pointList[0].y - centerY) * ratio * 0.5;
+                
+                text.setAttribute('x', textX);
+                text.setAttribute('y', textY + 5);
+                text.setAttribute('font-size', '11');
+                text.setAttribute('fill', '#fff');
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('font-weight', '600');
+                text.textContent = `${percent}%`;
+                group.appendChild(text);
+            }
+            
+            return group;
+        }
+
+        function renderSectors() {
+            const sectorsGroup = document.getElementById('sectors');
+            const statsContainer = document.getElementById('stats');
+            
+            sectorsData.forEach((sector, index) => {
+                // Создаем треугольник
+                const triangle = createClippedTriangle(
+                    triangles[index].points,
+                    sector.percent,
+                    gradients[index],
+                    index
+                );
+                sectorsGroup.appendChild(triangle);
+                
+                // Добавляем подпись сферы
+                const label = document.createElement('div');
+                label.className = 'sector-label';
+                label.style.left = triangles[index].labelPos.x + 'px';
+                label.style.top = triangles[index].labelPos.y + 'px';
+                label.textContent = sector.name;
+                document.getElementById('starContainer').appendChild(label);
+                
+                // Добавляем карточку со статистикой
+                const statCard = document.createElement('div');
+                statCard.className = 'stat-card';
+                statCard.innerHTML = `
+                    <h3>${sector.name}</h3>
+                    <div class="value">${sector.percent}%</div>
+                    <div class="desc">
+                        🔵 Дух: ${sector.spirit}/10<br>
+                        🟣 Душа: ${sector.soul}/10<br>
+                        🔴 Тело: ${sector.body}/10
+                    </div>
+                `;
+                statsContainer.appendChild(statCard);
+            });
+        }
+
+        // Запускаем рендеринг
+        renderSectors();
+    </script>
+</body>
+</html>
