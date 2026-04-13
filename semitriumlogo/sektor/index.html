@@ -8,7 +8,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -17,40 +17,26 @@
             color: #1f2937;
         }
         .container {
-            background: rgba(255, 255, 255, 0.98);
+            background: #ffffff;
             border-radius: 28px;
-            padding: 36px 28px;
+            padding: 36px 24px;
             box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4);
             max-width: 760px;
             width: 100%;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-        .header h1 {
-            font-size: 26px;
-            color: #1e1b4b;
-            margin-bottom: 6px;
-            letter-spacing: -0.3px;
-        }
-        .header p {
-            color: #6b7280;
-            font-size: 14px;
-        }
+        .header { text-align: center; margin-bottom: 24px; }
+        .header h1 { font-size: 26px; color: #1e1b4b; margin-bottom: 6px; }
+        .header p { color: #6b7280; font-size: 14px; }
+        
         .star-wrap {
             position: relative;
             width: 100%;
             aspect-ratio: 1;
-            max-width: 420px;
+            max-width: 480px;
             margin: 0 auto 32px;
         }
-        svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-            overflow: visible;
-        }
+        svg { width: 100%; height: 100%; display: block; overflow: visible; }
+        
         .legend {
             display: grid;
             grid-template-columns: 1fr;
@@ -65,86 +51,41 @@
             background: #f9fafb;
             border: 1px solid #e5e7eb;
             border-radius: 14px;
-            transition: box-shadow 0.2s, border-color 0.2s;
+            transition: all 0.2s ease;
         }
         .legend-card:hover {
             border-color: #c7d2fe;
             box-shadow: 0 4px 16px rgba(124, 58, 237, 0.08);
+            transform: translateY(-1px);
         }
         .color-marker {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            flex-shrink: 0;
+            width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.12);
             border: 2px solid rgba(255,255,255,0.9);
         }
-        .card-content {
-            flex: 1;
-            min-width: 0;
-        }
+        .card-content { flex: 1; min-width: 0; }
         .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
         }
-        .sector-name {
-            font-weight: 600;
-            font-size: 15px;
-            color: #111827;
-        }
-        .sector-percent {
-            font-weight: 700;
-            font-size: 18px;
-            color: #4f46e5;
-            min-width: 48px;
-            text-align: right;
-        }
-        .trinity-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .sector-name { font-weight: 600; font-size: 15px; color: #111827; }
+        .sector-percent { font-weight: 700; font-size: 18px; color: #4f46e5; min-width: 48px; text-align: right; }
+        
+        .trinity-row { display: flex; align-items: center; gap: 8px; }
         .trinity-bars {
-            display: flex;
-            gap: 4px;
-            flex: 1;
-            height: 6px;
-            border-radius: 3px;
-            background: #e5e7eb;
-            overflow: hidden;
+            display: flex; gap: 4px; flex: 1; height: 6px; border-radius: 3px;
+            background: #e5e7eb; overflow: hidden;
         }
-        .trinity-bar {
-            height: 100%;
-            border-radius: 2px;
-            transition: width 0.4s ease;
-        }
+        .trinity-bar { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
         .trinity-bar.spirit { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
         .trinity-bar.soul { background: linear-gradient(90deg, #f472b6, #ec4899); }
         .trinity-bar.body { background: linear-gradient(90deg, #f87171, #ef4444); }
-        .trinity-labels {
-            display: flex;
-            gap: 10px;
-            font-size: 11px;
-            color: #6b7280;
-            margin-top: 4px;
-            font-weight: 500;
-        }
-        .trinity-labels span {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-        .trinity-labels .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        .trinity-labels .dot.spirit { background: #3b82f6; }
-        .trinity-labels .dot.soul { background: #ec4899; }
-        .trinity-labels .dot.body { background: #ef4444; }
+        
+        .trinity-labels { display: flex; gap: 10px; font-size: 11px; color: #6b7280; margin-top: 4px; font-weight: 500; }
+        .trinity-labels span { display: flex; align-items: center; gap: 3px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .dot.spirit { background: #3b82f6; }
+        .dot.soul { background: #ec4899; }
+        .dot.body { background: #ef4444; }
         
         @media (max-width: 480px) {
             .container { padding: 24px 16px; }
@@ -165,65 +106,35 @@
     <div class="star-wrap">
         <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <!-- Градиенты: заливка от вершины к основанию (яркий → бледный) -->
-                <linearGradient id="grad1" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stop-color="#ef4444" stop-opacity="0.92"/>
-                    <stop offset="100%" stop-color="#ef4444" stop-opacity="0.22"/>
-                </linearGradient>
-                <linearGradient id="grad2" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stop-color="#f97316" stop-opacity="0.92"/>
-                    <stop offset="100%" stop-color="#f97316" stop-opacity="0.22"/>
-                </linearGradient>
-                <linearGradient id="grad3" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stop-color="#eab308" stop-opacity="0.92"/>
-                    <stop offset="100%" stop-color="#eab308" stop-opacity="0.22"/>
-                </linearGradient>
-                <linearGradient id="grad4" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stop-color="#22c55e" stop-opacity="0.92"/>
-                    <stop offset="100%" stop-color="#22c55e" stop-opacity="0.22"/>
-                </linearGradient>
-                <linearGradient id="grad5" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.92"/>
-                    <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.22"/>
-                </linearGradient>
-                <linearGradient id="grad6" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.92"/>
-                    <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.22"/>
-                </linearGradient>
-                <linearGradient id="grad7" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stop-color="#ec4899" stop-opacity="0.92"/>
-                    <stop offset="100%" stop-color="#ec4899" stop-opacity="0.22"/>
-                </linearGradient>
+                <!-- Градиенты будут сгенерированы динамически через JS с точным углом -->
             </defs>
-            
-            <!-- Группа треугольников -->
             <g id="triangles"></g>
         </svg>
     </div>
     
-    <!-- Легенда в карточках -->
     <div class="legend" id="legend"></div>
 </div>
 
 <script>
-// Данные: 7 сфер с процентами и Тринити (оценки 1-10 → умножаем на 10 для %)
+// Данные: 7 сфер (пример)
 const sectors = [
-    { name: 'Здоровье', percent: 70, spirit: 9, soul: 7, body: 5, color: '#ef4444', grad: 'url(#grad1)' },
-    { name: 'Карьера', percent: 85, spirit: 8, soul: 9, body: 9, color: '#f97316', grad: 'url(#grad2)' },
-    { name: 'Отношения', percent: 60, spirit: 7, soul: 6, body: 5, color: '#eab308', grad: 'url(#grad3)' },
-    { name: 'Финансы', percent: 45, spirit: 9, soul: 4, body: 3, color: '#22c55e', grad: 'url(#grad4)' },
-    { name: 'Творчество', percent: 75, spirit: 8, soul: 9, body: 6, color: '#3b82f6', grad: 'url(#grad5)' },
-    { name: 'Духовность', percent: 55, spirit: 6, soul: 7, body: 4, color: '#8b5cf6', grad: 'url(#grad6)' },
-    { name: 'Нетворкинг', percent: 40, spirit: 5, soul: 4, body: 3, color: '#ec4899', grad: 'url(#grad7)' }
+    { name: 'Здоровье', percent: 70, spirit: 9, soul: 7, body: 5, color: '#ef4444' },
+    { name: 'Карьера', percent: 85, spirit: 8, soul: 9, body: 9, color: '#f97316' },
+    { name: 'Отношения', percent: 60, spirit: 7, soul: 6, body: 5, color: '#eab308' },
+    { name: 'Финансы', percent: 45, spirit: 9, soul: 4, body: 3, color: '#22c55e' },
+    { name: 'Творчество', percent: 75, spirit: 8, soul: 9, body: 6, color: '#3b82f6' },
+    { name: 'Духовность', percent: 55, spirit: 6, soul: 7, body: 4, color: '#8b5cf6' },
+    { name: 'Нетворкинг', percent: 40, spirit: 5, soul: 4, body: 3, color: '#ec4899' }
 ];
 
-// Оригинальные координаты треугольников из вашего логотипа (viewBox 0 0 300 300)
+// Оригинальные координаты треугольников из вашего SVG
+// Вершина 1 (apexIndex) — та, что ближе к центру (оттуда идёт цвет)
 const originalTriangles = [
-    { points: '156.00,32.57 238.07,72.09 156.00,137.53', apexIndex: 0 },
+    { points: '156.00,32.57 238.07,72.09 156.00,137.53', apexIndex: 2 },
     { points: '245.55,81.48 265.82,170.28 163.49,146.92', apexIndex: 2 },
-    { points: '263.15,181.98 206.36,253.19 160.82,158.63', apexIndex: 1 },
+    { points: '263.15,181.98 206.36,253.19 160.82,158.63', apexIndex: 2 },
     { points: '195.54,258.40 104.46,258.40 150.00,163.84', apexIndex: 2 },
-    { points: '93.64,253.19 36.85,181.98 139.18,158.63', apexIndex: 1 },
+    { points: '93.64,253.19 36.85,181.98 139.18,158.63', apexIndex: 2 },
     { points: '34.18,170.28 54.45,81.48 136.51,146.92', apexIndex: 2 },
     { points: '61.93,72.09 144.00,32.57 144.00,137.53', apexIndex: 1 }
 ];
@@ -235,27 +146,84 @@ function parsePoints(str) {
     });
 }
 
-function createFilledTriangle(originalPoints, apexIndex, percent, gradient) {
-    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+// Расчёт угла для градиента: от вершины 1 к середине основания
+function calculateGradientAngle(points, apexIndex) {
+    const apex = points[apexIndex];
+    // Находим две другие вершины (основание)
+    const basePoints = points.filter((_, i) => i !== apexIndex);
+    // Середина основания
+    const midBase = {
+        x: (basePoints[0].x + basePoints[1].x) / 2,
+        y: (basePoints[0].y + basePoints[1].y) / 2
+    };
+    
+    // Вектор от вершины к середине основания
+    const dx = midBase.x - apex.x;
+    const dy = midBase.y - apex.y;
+    
+    // Угол в градусах
+    let angle = Math.atan2(dy, dx) * 180 / Math.PI;
+    // SVG градиенты: 0° = вправо, 90° = вниз. 
+    // Нам нужно чтобы x1,y1 = apex, x2,y2 = midBase
+    // Преобразуем в проценты относительно bounding box треугольника
+    return { dx, dy, angle };
+}
+
+function createFilledTriangle(originalPoints, apexIndex, percent, color, index) {
     const points = parsePoints(originalPoints);
     const apex = points[apexIndex];
+    const basePoints = points.filter((_, i) => i !== apexIndex);
+    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    
+    // Создаём уникальный градиент для каждого треугольника
+    const gradId = `triGrad${index}`;
+    const defs = document.querySelector('defs');
+    const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+    grad.setAttribute('id', gradId);
+    
+    // Направление градиента: от вершины (x1,y1) к середине основания (x2,y2)
+    // В системе координат viewBox 0-300
+    const midBaseX = (basePoints[0].x + basePoints[1].x) / 2;
+    const midBaseY = (basePoints[0].y + basePoints[1].y) / 2;
+    
+    // Преобразуем координаты в проценты
+    const x1 = (apex.x / 300) * 100;
+    const y1 = (apex.y / 300) * 100;
+    const x2 = (midBaseX / 300) * 100;
+    const y2 = (midBaseY / 300) * 100;
+    
+    grad.setAttribute('x1', `${x1}%`);
+    grad.setAttribute('y1', `${y1}%`);
+    grad.setAttribute('x2', `${x2}%`);
+    grad.setAttribute('y2', `${y2}%`);
+    
+    const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+    stop1.setAttribute('offset', '0%');
+    stop1.setAttribute('stop-color', color);
+    stop1.setAttribute('stop-opacity', '0.95');
+    
+    const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+    stop2.setAttribute('offset', '100%');
+    stop2.setAttribute('stop-color', color);
+    stop2.setAttribute('stop-opacity', '0.15');
+    
+    grad.appendChild(stop1);
+    grad.appendChild(stop2);
+    defs.appendChild(grad);
     
     // Фоновый треугольник (бледный, полный)
     const bg = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
     bg.setAttribute('points', originalPoints);
     bg.setAttribute('fill', '#e5e7eb');
-    bg.setAttribute('fill-opacity', '0.32');
+    bg.setAttribute('fill-opacity', '0.30');
     bg.setAttribute('stroke', '#ffffff');
-    bg.setAttribute('stroke-width', '1');
-    bg.setAttribute('stroke-opacity', '0.7');
+    bg.setAttribute('stroke-width', '1.2');
+    bg.setAttribute('stroke-opacity', '0.8');
     group.appendChild(bg);
     
-    // Заполнение: от вершины к основанию
+    // Заполнение: от вершины к основанию пропорционально percent
     if (percent > 3) {
         const ratio = percent / 100;
-        // Две другие вершины (основание)
-        const basePoints = points.filter((_, i) => i !== apexIndex);
-        // Точки заполнения: вершина + точки на сторонах к основанию
         const fillP1 = {
             x: apex.x + (basePoints[0].x - apex.x) * ratio,
             y: apex.y + (basePoints[0].y - apex.y) * ratio
@@ -267,7 +235,7 @@ function createFilledTriangle(originalPoints, apexIndex, percent, gradient) {
         
         const fill = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         fill.setAttribute('points', `${apex.x},${apex.y} ${fillP1.x},${fillP1.y} ${fillP2.x},${fillP2.y}`);
-        fill.setAttribute('fill', gradient);
+        fill.setAttribute('fill', `url(#${gradId})`);
         fill.setAttribute('opacity', '0.95');
         group.appendChild(fill);
     }
@@ -282,7 +250,7 @@ function render() {
     sectors.forEach((s, i) => {
         const t = originalTriangles[i];
         // Рисуем треугольник с оригинальными пропорциями
-        const tri = createFilledTriangle(t.points, t.apexIndex, s.percent, s.grad);
+        const tri = createFilledTriangle(t.points, t.apexIndex, s.percent, s.color, i);
         container.appendChild(tri);
         
         // Карточка в легенде
