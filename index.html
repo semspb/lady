@@ -2,8 +2,6 @@
 <html lang="ru">
 <head>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff3366' d='M50,90 L20,55 C10,45 5,30 15,20 C25,10 40,12 50,25 C60,12 75,10 85,20 C95,30 90,45 80,55 Z'/%3E%3C/svg%3E">
-<meta charset="UTF-8">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZaLoveClub — Клуб тех, кто держит уровень</title>
@@ -148,6 +146,9 @@
         .omega-bar {
             transition: all 0.6s ease;
             position: relative;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .omega-bar:hover {
@@ -286,6 +287,205 @@
         .mini-block:hover::after {
             transform: scaleX(1);
         }
+
+        /* Diagnostics Section Styles */
+        .diagnostics-card {
+            background: linear-gradient(135deg, rgba(46, 26, 71, 0.7) 0%, rgba(31, 10, 51, 0.9) 100%);
+            border: 1px solid rgba(183, 148, 244, 0.3);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+        }
+
+        .diagnostics-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #B794F4, #FBBF24);
+        }
+
+        .diagnostics-card.love::before {
+            background: linear-gradient(90deg, #EC4899, #F472B6);
+        }
+
+        .diagnostics-card.money::before {
+            background: linear-gradient(90deg, #FBBF24, #F59E0B);
+        }
+
+        .diagnostics-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(251, 191, 36, 0.6);
+            box-shadow: 0 20px 50px rgba(183, 148, 244, 0.3);
+        }
+
+        .diagnostics-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            transition: transform 0.4s ease;
+        }
+
+        .diagnostics-card:hover .diagnostics-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .diagnostics-card.love .diagnostics-icon {
+            background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%);
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
+        }
+
+        .diagnostics-card.money .diagnostics-icon {
+            background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+        }
+
+        .diagnostics-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+
+        .diagnostics-desc {
+            color: #E9D5FF;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .diagnostics-btn {
+            background: linear-gradient(90deg, #9B59B6, #F1C40F);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .diagnostics-btn:hover {
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .diagnostics-card.love .diagnostics-btn {
+            background: linear-gradient(90deg, #EC4899, #F472B6);
+        }
+
+        .diagnostics-card.money .diagnostics-btn {
+            background: linear-gradient(90deg, #FBBF24, #F59E0B);
+        }
+
+        .energy-note {
+            background: rgba(46, 26, 71, 0.5);
+            border-left: 4px solid #FBBF24;
+            padding: 1rem 1.5rem;
+            border-radius: 0 0.75rem 0.75rem 0;
+            margin: 1.5rem 0;
+        }
+
+        .energy-note p {
+            color: #E9D5FF;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .energy-note strong {
+            color: white;
+        }
+
+        /* Mobile fixes for Omega Scale */
+        @media (max-width: 768px) {
+            .omega-scale-container {
+                padding: 0 1rem;
+            }
+            
+            .omega-bar {
+                margin: 0.25rem auto !important;
+                font-size: 0.85rem !important;
+                height: 2.5rem !important;
+            }
+            
+            .omega-bar.omega-love {
+                height: 3rem !important;
+                font-size: 1rem !important;
+            }
+            
+            .omega-bar span {
+                display: block;
+                line-height: 1.3;
+            }
+            
+            .omega-bar .energy-label {
+                font-size: 0.75rem !important;
+                opacity: 0.9;
+            }
+            
+            .arrow-container {
+                display: none;
+            }
+            
+            .energy-arrow-mobile {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                margin: 1rem 0;
+                color: #FBBF24;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .energy-arrow-mobile {
+                display: none;
+            }
+        }
+
+        /* Footer Links */
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: #B794F4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #FBBF24;
+            text-decoration: underline;
+        }
+
+        .footer-divider {
+            color: #B794F4;
+            opacity: 0.5;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-za-gold selection:text-za-dark">
@@ -384,52 +584,113 @@
         </div>
     </section>
 
-    <!-- Omega Scale Section -->
+    <!-- NEW: Diagnostics Section -->
+    <section class="py-20 bg-za-light relative z-10">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4 reveal">Диагностика ваших энергий</h2>
+            <p class="text-za-lavender text-center mb-8 max-w-3xl mx-auto reveal">
+                Поймите, где вы находитесь сейчас, и получите вектор для роста
+            </p>
+            
+            <div class="energy-note max-w-3xl mx-auto reveal">
+                <p>
+                    <strong>Важно понимать:</strong> Любовь и Деньги — это не отдельные сферы, а <strong>единые потоки энергии</strong>. 
+                    После диагностики вы сможете лучше понять себя, увидеть свои сильные стороны и зоны роста, 
+                    и главное — <strong>научитесь осознанно управлять энергией любви и энергией денег</strong>. 
+                    Когда эти энергии в балансе — жизнь наполняется гармонией, изобилием и смыслом.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mt-12">
+                <!-- Love Diagnostics Card -->
+                <a href="http://zaloveclub.ru/allpages/qwsem4/" target="_blank" class="diagnostics-card love reveal">
+                    <div class="diagnostics-icon">💖</div>
+                    <h3 class="diagnostics-title">Диагностика Любви</h3>
+                    <p class="diagnostics-desc">
+                        Узнайте свой уровень энергии любви. Пройдите тест и получите персональные рекомендации, 
+                        как усилить поток любви в отношениях с собой, партнёром и миром.
+                    </p>
+                    <span class="diagnostics-btn">
+                        Пройти диагностику
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </span>
+                </a>
+
+                <!-- Money Diagnostics Card -->
+                <a href="https://genoffon.com/money/" target="_blank" class="diagnostics-card money reveal" style="transition-delay: 0.1s;">
+                    <div class="diagnostics-icon">💰</div>
+                    <h3 class="diagnostics-title">Диагностика Денег</h3>
+                    <p class="diagnostics-desc">
+                        Определите своё отношение к денежной энергии. Тест поможет выявить блоки, 
+                        настроить финансовый поток и привлечь изобилие через состояние высокой вибрации.
+                    </p>
+                    <span class="diagnostics-btn">
+                        Пройти диагностику
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Omega Scale Section - FIXED FOR MOBILE -->
     <section class="py-20 bg-za-light relative overflow-hidden z-10">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">Шкала Омега: где твоя энергия?</h2>
-            <p class="text-za-lavender mb-12 max-w-2xl mx-auto reveal">Энергия растёт снизу вверх: внизу — пустота, вверху — изобилие</p>
+            <p class="text-za-lavender mb-4 md:mb-12 max-w-2xl mx-auto reveal">Энергия растёт снизу вверх: внизу — пустота, вверху — изобилие</p>
             
-            <div class="relative max-w-2xl mx-auto flex flex-col items-center gap-3 reveal">
+            <!-- Mobile arrow -->
+            <div class="energy-arrow-mobile">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                </svg>
+                <span>Энергия растёт ↑</span>
+            </div>
+            
+            <div class="omega-scale-container relative max-w-2xl mx-auto flex flex-col items-center gap-2 md:gap-3 reveal">
                 
                 <!-- Level 1: TOP - Enlightenment -->
-                <div class="omega-bar w-full h-14 rounded-full bg-gradient-to-r from-yellow-400 via-za-gold to-yellow-400 text-za-dark text-xl flex items-center justify-center font-black shadow-[0_0_50px_rgba(251,191,36,0.7)]">
+                <div class="omega-bar w-full h-10 md:h-14 rounded-full bg-gradient-to-r from-yellow-400 via-za-gold to-yellow-400 text-za-dark text-base md:text-xl flex items-center justify-center font-black shadow-[0_0_50px_rgba(251,191,36,0.7)]">
                     ✨ Просветление
                 </div>
 
                 <!-- Level 2: LOVE - Pink Glowing -->
-                <div class="omega-bar omega-love w-[85%] h-20 rounded-full text-white text-2xl flex items-center justify-center font-bold">
+                <div class="omega-bar omega-love w-[85%] h-14 md:h-20 rounded-full text-white text-lg md:text-2xl flex items-center justify-center font-bold flex-col md:flex-row">
                     <span>💖 ЛЮБОВЬ</span>
-                    <span class="text-sm font-normal ml-4 opacity-90">| Энергоэффективное состояние</span>
+                    <span class="text-xs md:text-sm font-normal md:ml-4 opacity-90 energy-label">| Энергоэффективное состояние</span>
                 </div>
                 
                 <!-- Level 3: Acceptance -->
-                <div class="omega-bar w-[70%] h-10 rounded-full bg-indigo-800 text-white text-base flex items-center justify-center font-medium">
+                <div class="omega-bar w-[70%] h-9 md:h-10 rounded-full bg-indigo-800 text-white text-xs md:text-base flex items-center justify-center font-medium">
                     Принятие, разумность
                 </div>
 
                 <!-- Level 4: Courage -->
-                <div class="omega-bar w-[55%] h-10 rounded-full bg-indigo-900 text-white text-sm flex items-center justify-center font-medium">
+                <div class="omega-bar w-[55%] h-9 md:h-10 rounded-full bg-indigo-900 text-white text-xs md:text-sm flex items-center justify-center font-medium">
                     Смелость, нейтралитет
                 </div>
                 
                 <!-- Level 5: Anger -->
-                <div class="omega-bar w-[45%] h-10 rounded-full bg-za-primary text-za-lilac text-sm flex items-center justify-center font-medium">
+                <div class="omega-bar w-[45%] h-9 md:h-10 rounded-full bg-za-primary text-za-lilac text-xs md:text-sm flex items-center justify-center font-medium">
                     Гнев, гордость
                 </div>
                 
                 <!-- Level 6: Fear - WITH BORDER -->
-                <div class="omega-bar omega-fear w-[35%] h-10 rounded-full bg-za-dark text-gray-300 text-sm flex items-center justify-center font-medium">
+                <div class="omega-bar omega-fear w-[35%] h-9 md:h-10 rounded-full bg-za-dark text-gray-300 text-xs md:text-sm flex items-center justify-center font-medium">
                     ⚡ Горе, страх, желание
                 </div>
                 
                 <!-- Level 7: BOTTOM - Shame -->
-                <div class="omega-bar w-[25%] h-10 rounded-full bg-gray-800 text-gray-500 text-xs flex items-center justify-center font-medium">
+                <div class="omega-bar w-[25%] h-9 md:h-10 rounded-full bg-gray-800 text-gray-500 text-xs flex items-center justify-center font-medium">
                     Позор, вина, апатия
                 </div>
 
-                <!-- Arrow -->
-                <div class="absolute -left-4 top-1/2 -translate-y-1/2 hidden lg:block">
+                <!-- Desktop Arrow -->
+                <div class="arrow-container absolute -left-4 top-1/2 -translate-y-1/2 hidden lg:block">
                     <div class="flex flex-col items-center text-za-gold">
                         <svg class="w-8 h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
@@ -439,7 +700,7 @@
                 </div>
             </div>
             
-            <p class="mt-12 text-za-lilac max-w-3xl mx-auto reveal">
+            <p class="mt-8 md:mt-12 text-za-lilac max-w-3xl mx-auto reveal">
                 Наша цель — <strong class="text-white">удерживаться в состояниях выше любви</strong> и быстро возвращаться, если случается просадка.
             </p>
         </div>
@@ -512,7 +773,7 @@
         </div>
     </section>
 
-    <!-- Goals Section - ENHANCED WITH 6 BLOCKS -->
+    <!-- Goals Section -->
     <section class="py-20 bg-za-light z-10 relative">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4 reveal">Что мы делаем</h2>
@@ -584,7 +845,7 @@
                     </div>
                 </div>
 
-                <!-- Goal 6 - NEW -->
+                <!-- Goal 6 -->
                 <div class="goal-card p-6 rounded-2xl reveal" style="transition-delay: 0.5s;">
                     <div class="flex items-start space-x-4">
                         <div class="goal-icon flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg">
@@ -600,7 +861,7 @@
         </div>
     </section>
 
-    <!-- Who is this for - ENHANCED WITH 6 MINI BLOCKS -->
+    <!-- Who is this for -->
     <section class="py-20 bg-main-gradient border-y border-za-lavender/20 z-10 relative">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4 reveal">Это для тебя, если ты:</h2>
@@ -767,6 +1028,16 @@
             <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 reveal">Держим уровень. На всех уровнях.</h3>
             <p class="text-za-gold text-lg mb-8 reveal">И в любви, и в лове.</p>
             <div class="w-24 h-1 bg-gradient-to-r from-za-lavender to-za-gold mx-auto rounded-full reveal"></div>
+            
+            <!-- Footer Legal Links -->
+            <div class="footer-links reveal">
+                <a href="http://zaloveclub.ru/oferta" target="_blank">Оферта</a>
+                <span class="footer-divider">•</span>
+                <a href="http://zaloveclub.ru/privacy" target="_blank">Политика конфиденциальности</a>
+                <span class="footer-divider">•</span>
+                <a href="http://zaloveclub.ru/refund" target="_blank">Возврат средств</a>
+            </div>
+            
             <p class="mt-8 text-za-lilac/50 text-sm">© 2024 ZaLoveClub</p>
         </div>
     </footer>
@@ -865,6 +1136,3 @@
     </script>
 </body>
 </html>
-
-
-
