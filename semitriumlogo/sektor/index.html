@@ -1,0 +1,31 @@
+<!-- Один треугольник с динамическим заполнением -->
+<g id="sector-health">
+  <!-- Бледный фон (весь треугольник) -->
+  <polygon points="156,32 238,72 156,137" 
+           fill="#f472b6" fill-opacity="0.25" 
+           stroke="#fff" stroke-width="0.5"/>
+  
+  <!-- Заполнение от центра (маска или clip-path) -->
+  <defs>
+    <linearGradient id="fillGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0.4"/>
+    </linearGradient>
+    <clipPath id="clip70">
+      <!-- Полигон, обрезанный на 70% высоты от центра -->
+      <polygon points="156,95 210,72 156,137"/>
+    </clipPath>
+  </defs>
+  
+  <!-- Заполненная часть -->
+  <polygon points="156,32 238,72 156,137" 
+           fill="url(#fillGradient)" 
+           clip-path="url(#clip70)"
+           opacity="0.85"/>
+  
+  <!-- Процент по центру -->
+  <text x="175" y="95" font-size="11" fill="#fff" text-anchor="middle" font-weight="600">70%</text>
+  
+  <!-- Подпись сферы -->
+  <text x="156" y="25" font-size="9" fill="#cbd5e1" text-anchor="middle">Здоровье</text>
+</g>
