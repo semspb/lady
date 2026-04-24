@@ -1,218 +1,245 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>GenOffOn — Управление состоянием</title>
-
-<meta name="description" content="Управляй своим состоянием за 10 минут в день. GenOffOn — система перехода из хаоса в контроль.">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>GenOffOn — State Tracker</title>
 
 <style>
 :root {
-  --bg:#0b0b12;
-  --card:#151521;
-  --text:#ffffff;
-  --muted:#a0a0b0;
-  --primary:#7c5cff;
+    --bg: #ffffff;
+    --text: #111;
+    --accent: #6C5CE7;
+    --card: #f5f6fa;
+    --green: #00b894;
+    --red: #d63031;
 }
 
-[data-theme="light"] {
-  --bg:#f5f5ff;
-  --card:#ffffff;
-  --text:#1a1a2e;
-  --muted:#666;
-  --primary:#6c4cff;
+[data-theme="dark"] {
+    --bg: #0f0f12;
+    --text: #fff;
+    --card: #1a1a22;
 }
 
 body {
-  margin:0;
-  font-family:Inter;
-  background:var(--bg);
-  color:var(--text);
+    margin: 0;
+    font-family: -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: 0.3s;
 }
 
 .container {
-  max-width:1000px;
-  margin:auto;
-  padding:20px;
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
 }
 
-header {
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:40px;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
 }
 
 button {
-  cursor:pointer;
-  border:none;
-  padding:10px 16px;
-  border-radius:8px;
-}
-
-.btn-main {
-  background:var(--primary);
-  color:#fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--text);
 }
 
 .hero {
-  text-align:center;
-  padding:80px 0;
+    margin-top: 60px;
+    text-align: center;
 }
 
 .hero h1 {
-  font-size:42px;
+    font-size: 42px;
+    margin-bottom: 10px;
 }
 
-.cards {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
+.hero p {
+    opacity: 0.7;
+}
+
+.dashboard {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
 
 .card {
-  background:var(--card);
-  padding:20px;
-  border-radius:16px;
+    background: var(--card);
+    padding: 20px;
+    border-radius: 16px;
 }
 
-.demo {
-  text-align:center;
-  margin:60px 0;
+.energy {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
 }
 
-.states button {
-  margin:10px;
-  font-size:20px;
+.circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+}
+
+.slider {
+    width: 100%;
 }
 
 .result {
-  margin-top:20px;
-  font-size:18px;
-  color:var(--primary);
+    font-size: 28px;
+    text-align: center;
+    margin-top: 10px;
 }
 
-footer {
-  text-align:center;
-  margin-top:60px;
-  color:var(--muted);
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    opacity: 0.6;
 }
 </style>
 </head>
 
-<body>
+<body data-theme="light">
 
 <div class="container">
 
-<header>
-  <div><b>GenOffOn</b></div>
-  <div>
-    <button id="langBtn">EN</button>
-    <button id="themeBtn">🌗</button>
-  </div>
-</header>
+    <div class="header">
+        <div class="logo">GenOffOn</div>
+        <div class="controls">
+            <button onclick="toggleTheme()">🌗</button>
+            <button onclick="toggleLang()">RU / EN</button>
+        </div>
+    </div>
 
-<section class="hero">
-  <h1 data-i18n="h1"></h1>
-  <p data-i18n="sub"></p>
+    <div class="hero">
+        <h1 id="title">Трекер состояния</h1>
+        <p id="subtitle">Твой день. Твоё состояние. Твой результат.</p>
+    </div>
 
-  <button class="btn-main" data-i18n="cta"></button>
-</section>
+    <div class="dashboard">
 
-<section class="cards">
-  <div class="card">
-    <h3 data-i18n="c1t"></h3>
-    <p data-i18n="c1d"></p>
-  </div>
-  <div class="card">
-    <h3 data-i18n="c2t"></h3>
-    <p data-i18n="c2d"></p>
-  </div>
-  <div class="card">
-    <h3 data-i18n="c3t"></h3>
-    <p data-i18n="c3d"></p>
-  </div>
-</section>
+        <div class="card">
+            <h3 id="energyTitle">Энергии</h3>
+            <div class="energy">
+                <div class="circle" id="e1">50</div>
+                <div class="circle" id="e2">50</div>
+                <div class="circle" id="e3">50</div>
+            </div>
+        </div>
 
-<section class="demo">
-  <h2 data-i18n="demoTitle"></h2>
-  <p data-i18n="demoQ"></p>
+        <div class="card">
+            <h3 id="controlTitle">Управление</h3>
 
-  <div class="states">
-    <button onclick="selectState('bad')">🔴</button>
-    <button onclick="selectState('ok')">🟡</button>
-    <button onclick="selectState('good')">🟢</button>
-  </div>
+            <label>Energy 1</label>
+            <input type="range" min="0" max="100" value="50" class="slider" oninput="update()">
 
-  <div class="result" id="result"></div>
-</section>
+            <label>Energy 2</label>
+            <input type="range" min="0" max="100" value="50" class="slider" oninput="update()">
 
-<footer data-i18n="footer"></footer>
+            <label>Energy 3</label>
+            <input type="range" min="0" max="100" value="50" class="slider" oninput="update()">
+        </div>
+
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+        <h3 id="resultTitle">Результат дня</h3>
+        <div class="result" id="result">0</div>
+    </div>
+
+    <div class="footer">
+        GenOffOn © 2026
+    </div>
 
 </div>
 
 <script>
-const i18n = {
-ru:{
-h1:"Управляй своим состоянием",
-sub:"10 минут в день → контроль, ясность, энергия",
-cta:"Включить себя",
-c1t:"Утро — ON",
-c1d:"Задаёшь состояние",
-c2t:"День — SYNC",
-c2d:"Возвращаешь фокус",
-c3t:"Вечер — RESET",
-c3d:"Закрываешь день",
-demoTitle:"Попробуй сейчас",
-demoQ:"Как ты себя чувствуешь?",
-footer:"© GenOffOn"
-},
-en:{
-h1:"Control your state",
-sub:"10 min a day → clarity, control, energy",
-cta:"Turn ON",
-c1t:"Morning — ON",
-c1d:"Set your state",
-c2t:"Day — SYNC",
-c2d:"Regain focus",
-c3t:"Evening — RESET",
-c3d:"Close the day",
-demoTitle:"Try now",
-demoQ:"How do you feel?",
-footer:"© GenOffOn"
-}
-};
 
-let lang="ru";
+let lang = "ru";
 
-function setLang(l){
-  lang=l;
-  document.getElementById("langBtn").innerText=l==="ru"?"EN":"RU";
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    el.innerText=i18n[l][el.dataset.i18n];
-  });
+function update() {
+    let sliders = document.querySelectorAll('.slider');
+    let values = [...sliders].map(s => parseInt(s.value));
+
+    document.getElementById('e1').innerText = values[0];
+    document.getElementById('e2').innerText = values[1];
+    document.getElementById('e3').innerText = values[2];
+
+    let result = values.reduce((a,b)=>a+b,0) / 3;
+    let el = document.getElementById('result');
+    el.innerText = Math.round(result);
+
+    el.className = "result " + (result >= 60 ? "positive" : "negative");
 }
 
-setLang("ru");
-
-document.getElementById("langBtn").onclick=()=>{
-  setLang(lang==="ru"?"en":"ru");
-};
-
-document.getElementById("themeBtn").onclick=()=>{
-  const html=document.documentElement;
-  html.dataset.theme=html.dataset.theme==="dark"?"light":"dark";
-};
-
-function selectState(s){
-  const r=document.getElementById("result");
-  if(s==="bad") r.innerText="→ Reset (2 мин)";
-  if(s==="ok") r.innerText="→ Focus (2 мин)";
-  if(s==="good") r.innerText="→ Continue";
+function toggleTheme() {
+    let body = document.body;
+    body.dataset.theme = body.dataset.theme === "dark" ? "light" : "dark";
 }
+
+function toggleLang() {
+    lang = lang === "ru" ? "en" : "ru";
+
+    const dict = {
+        ru: {
+            title: "Трекер состояния",
+            subtitle: "Твой день. Твоё состояние. Твой результат.",
+            energy: "Энергии",
+            control: "Управление",
+            result: "Результат дня"
+        },
+        en: {
+            title: "State Tracker",
+            subtitle: "Your day. Your state. Your result.",
+            energy: "Energies",
+            control: "Controls",
+            result: "Daily Result"
+        }
+    };
+
+    document.getElementById('title').innerText = dict[lang].title;
+    document.getElementById('subtitle').innerText = dict[lang].subtitle;
+    document.getElementById('energyTitle').innerText = dict[lang].energy;
+    document.getElementById('controlTitle').innerText = dict[lang].control;
+    document.getElementById('resultTitle').innerText = dict[lang].result;
+}
+
+update();
+
 </script>
 
 </body>
