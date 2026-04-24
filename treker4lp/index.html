@@ -3,1136 +3,1184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>State Tracker — Your Day. Your State. Your Result.</title>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link href="https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.1.1/400.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.1.1/500.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.1.1/600.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.1/400.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.1/500.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.1/600.css" rel="stylesheet">
+  <title>State Tracker — Осознанное управление днём</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --font-heading: 'Cormorant Garamond', Georgia, serif;
-      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-
-      --bg: #FAFAF8;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      
+      --bg-primary: #FAFAF8;
+      --bg-secondary: #F3F2EE;
+      --bg-card: #FFFFFF;
       --bg-elevated: #FFFFFF;
-      --bg-secondary: #F5F4F0;
       --text-primary: #1A1A1A;
-      --text-secondary: #5C5C5C;
-      --text-tertiary: #9A9A9A;
+      --text-secondary: #4A4A4A;
+      --text-tertiary: #8A8A8A;
+      --accent: #2D6A4F;
+      --accent-light: #40916C;
+      --accent-bg: rgba(45, 106, 79, 0.06);
+      --warm: #C7826B;
       --border: #E8E6E1;
-      --border-hover: #D0CEC8;
-      --accent: #6B8E7A;
-      --accent-hover: #5A7D69;
-      --accent-glow: rgba(107, 142, 122, 0.12);
-      --warm: #A87B62;
-      --card-shadow: 0 4px 24px rgba(0,0,0,0.04);
-      --card-shadow-hover: 0 12px 48px rgba(0,0,0,0.08);
-      --section-padding: 160px;
-      --container: 1200px;
-      --radius: 14px;
-      --radius-sm: 10px;
-      --transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      --border-light: #F0EDE8;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --container: 1180px;
+      --section-py: 120px;
+      --transition: 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
     }
 
     [data-theme="dark"] {
-      --bg: #0A0A0C;
-      --bg-elevated: #131316;
-      --bg-secondary: #0F0F12;
-      --text-primary: #F0EDE8;
-      --text-secondary: rgba(240, 237, 232, 0.55);
-      --text-tertiary: rgba(240, 237, 232, 0.35);
-      --border: rgba(240, 237, 232, 0.1);
-      --border-hover: rgba(240, 237, 232, 0.18);
-      --accent: #7DA89A;
-      --accent-hover: #8DB8AA;
-      --accent-glow: rgba(125, 168, 154, 0.15);
-      --warm: #C49678;
-      --card-shadow: 0 4px 24px rgba(0,0,0,0.2);
-      --card-shadow-hover: 0 12px 48px rgba(0,0,0,0.35);
+      --bg-primary: #0D0D0F;
+      --bg-secondary: #131316;
+      --bg-card: #18181C;
+      --bg-elevated: #1E1E22;
+      --text-primary: #F5F3EE;
+      --text-secondary: rgba(245, 243, 238, 0.6);
+      --text-tertiary: rgba(245, 243, 238, 0.35);
+      --accent: #52B788;
+      --accent-light: #74C69D;
+      --accent-bg: rgba(82, 183, 136, 0.1);
+      --warm: #D4956A;
+      --border: rgba(245, 243, 238, 0.1);
+      --border-light: rgba(245, 243, 238, 0.06);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.25);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.3);
     }
 
-    html { scroll-behavior: smooth; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
     body {
-      font-family: var(--font-body);
-      background: var(--bg);
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
       color: var(--text-primary);
-      line-height: 1.65;
-      font-size: 17px;
-      -webkit-font-smoothing: antialiased;
-      transition: background var(--transition), color var(--transition);
+      line-height: 1.6;
+      font-size: 16px;
       overflow-x: hidden;
+      transition: background var(--transition), color var(--transition);
     }
 
-    .container { max-width: var(--container); margin: 0 auto; padding: 0 40px; }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); }
 
     /* ── Typography ── */
-    h1, h2, h3, h4 {
-      font-family: var(--font-heading);
+    h1, h2, h3, h4, h5 {
+      font-family: var(--font-serif);
       font-weight: 500;
       line-height: 1.15;
       letter-spacing: -0.02em;
-      transition: color var(--transition);
     }
-    h1 { font-size: clamp(42px, 6vw, 80px); }
-    h2 { font-size: clamp(34px, 4.5vw, 54px); }
-    h3 { font-size: clamp(22px, 2.8vw, 30px); }
-    h4 { font-size: clamp(18px, 2vw, 22px); }
-    p { max-width: 600px; color: var(--text-secondary); transition: color var(--transition); }
-
-    .section-label {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--accent); transition: background var(--transition); }
+    h1 { font-size: clamp(36px, 5.5vw, 72px); }
+    h2 { font-size: clamp(28px, 4vw, 48px); }
+    h3 { font-size: clamp(22px, 3vw, 32px); }
+    h4 { font-size: clamp(18px, 2vw, 24px); }
+    
+    p { color: var(--text-secondary); max-width: 620px; }
+    .text-small { font-size: 14px; color: var(--text-tertiary); }
+    .text-accent { color: var(--accent); font-weight: 500; }
 
     /* ── Buttons ── */
-    .btn-primary {
+    .btn {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      background: var(--text-primary);
-      color: var(--bg);
-      font-family: var(--font-body);
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 60px;
+      font-family: var(--font-sans);
       font-size: 14px;
       font-weight: 500;
-      letter-spacing: 0.02em;
-      padding: 18px 38px;
-      border: none;
-      border-radius: 60px;
-      cursor: pointer;
       text-decoration: none;
-      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
       position: relative;
       overflow: hidden;
     }
-    .btn-primary:hover { transform: scale(1.02); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-    .btn-primary svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
-    .btn-primary:hover svg { transform: translateX(4px); }
+    .btn-primary {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-    .micro-copy { font-size: 13px; color: var(--text-tertiary); margin-top: 16px; line-height: 1.5; transition: color var(--transition); }
-    .guarantee-text { font-size: 14px; color: var(--text-secondary); margin-top: 20px; line-height: 1.6; max-width: 520px; margin-left: auto; margin-right: auto; transition: color var(--transition); }
-    .guarantee-text strong { color: var(--text-primary); font-weight: 500; }
-
-    /* ── Header / Nav ── */
+    /* ── Header ── */
     .header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 1000;
-      padding: 20px 0;
-      transition: all 0.4s ease;
+      z-index: 100;
+      padding: 16px 0;
+      transition: all var(--transition);
+      background: transparent;
     }
     .header.scrolled {
-      background: var(--bg-elevated);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 0;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-light);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 12px 0;
     }
-    .header .container { display: flex; align-items: center; justify-content: space-between; }
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
     .logo {
-      font-family: var(--font-heading);
+      font-family: var(--font-serif);
       font-size: 20px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-primary);
       text-decoration: none;
-      letter-spacing: -0.01em;
-      transition: color var(--transition);
+      letter-spacing: -0.02em;
     }
-    .nav-controls { display: flex; align-items: center; gap: 8px; }
-    .nav-btn {
-      background: none;
-      border: 1px solid var(--border);
+    .nav-actions { display: flex; align-items: center; gap: 6px; }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all var(--transition);
       color: var(--text-secondary);
     }
-    .nav-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
-    .nav-btn svg { width: 18px; height: 18px; }
-
-    .lang-label {
-      position: absolute;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      font-family: var(--font-body);
-    }
-
-    /* ── Animations ── */
-    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-d1 { transition-delay: 0.1s; }
-    .reveal-d2 { transition-delay: 0.2s; }
-    .reveal-d3 { transition-delay: 0.3s; }
+    .icon-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+    .icon-btn svg { width: 16px; height: 16px; }
+    .lang-text { font-size: 10px; font-weight: 600; letter-spacing: 0.05em; }
 
     /* ── Sections ── */
-    section { padding: var(--section-padding) 0; position: relative; }
-    .section-divider { width: 60px; height: 1px; background: var(--border); margin: 0 auto; transition: background var(--transition); }
+    section { padding: var(--section-py) 0; }
+    .section-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
 
-    /* ── HERO ── */
+    /* ── Hero ── */
     .hero {
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       position: relative;
+      padding-top: 80px;
       overflow: hidden;
     }
     .hero::before {
       content: '';
       position: absolute;
-      top: -20%;
+      top: -30%;
       left: 50%;
       transform: translateX(-50%);
-      width: 900px;
-      height: 900px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, var(--accent-bg) 0%, transparent 70%);
       pointer-events: none;
-      transition: background var(--transition);
     }
-    .hero-content { position: relative; z-index: 2; }
-    .hero h1 { margin-bottom: 28px; }
-    .hero p { font-size: clamp(17px, 1.8vw, 20px); margin: 0 auto 44px; max-width: 560px; line-height: 1.7; }
-
-    .hero-trust { display: flex; align-items: center; justify-content: center; gap: 28px; margin-top: 64px; flex-wrap: wrap; }
-    .hero-trust span { font-size: 12px; color: var(--text-tertiary); display: flex; align-items: center; gap: 8px; font-weight: 500; transition: color var(--transition); }
-    .hero-trust svg { width: 14px; height: 14px; color: var(--accent); }
-
-    .scroll-indicator {
+    .hero-content { position: relative; z-index: 1; max-width: 760px; }
+    .hero h1 { margin-bottom: 24px; }
+    .hero h1 span { display: block; }
+    .hero .subtitle {
+      font-size: clamp(16px, 1.8vw, 19px);
+      line-height: 1.6;
+      margin: 0 auto 36px;
+      max-width: 540px;
+    }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+    .trust-item svg { width: 14px; height: 14px; color: var(--accent); flex-shrink: 0; }
+    
+    .scroll-hint {
       position: absolute;
-      bottom: 48px;
+      bottom: 32px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      animation: float 2.8s ease-in-out infinite;
+      gap: 8px;
+      animation: pulse-down 2s ease-in-out infinite;
     }
-    .scroll-indicator span { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 500; }
-    .scroll-indicator svg { width: 20px; height: 20px; color: var(--text-tertiary); }
-    @keyframes float { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+    .scroll-hint span { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 500; }
+    .scroll-hint svg { width: 18px; height: 18px; color: var(--text-tertiary); }
+    
+    @keyframes pulse-down {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
+      50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
+    }
+
+    /* ── Reveal Animation ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.08s; }
+    .reveal-d2 { transition-delay: 0.16s; }
+    .reveal-d3 { transition-delay: 0.24s; }
 
     /* ── Pain Block ── */
-    .pain-block { text-align: center; }
-    .pain-block h2 { margin-bottom: 36px; }
-    .pain-block p { margin: 0 auto 18px; font-size: 18px; line-height: 1.8; }
-    .pain-block .emphasis { font-family: var(--font-heading); font-size: clamp(24px, 3vw, 30px); color: var(--text-primary); font-style: italic; margin: 56px auto 0; max-width: 540px; line-height: 1.3; transition: color var(--transition); }
+    .pain { text-align: center; }
+    .pain p { margin: 0 auto 16px; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.7; }
+    .pain .lead {
+      font-family: var(--font-serif);
+      font-size: clamp(20px, 2.5vw, 26px);
+      color: var(--text-primary);
+      font-style: italic;
+      line-height: 1.3;
+      margin: 40px auto 0;
+      max-width: 560px;
+    }
 
     /* ── Rituals ── */
-    .rituals-header { text-align: center; margin-bottom: 72px; }
-    .rituals-header p { margin: 16px auto 0; }
-    .ritual-time { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--accent); font-weight: 500; margin-top: 16px; }
-    .ritual-time svg { width: 14px; height: 14px; }
+    .rituals-header { text-align: center; margin-bottom: 56px; }
+    .rituals-header p { margin: 12px auto 0; }
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      margin-top: 12px;
+      padding: 6px 12px;
+      background: var(--accent-bg);
+      border-radius: 20px;
+    }
+    .time-badge svg { width: 14px; height: 14px; }
 
     .ritual-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 16px;
     }
-
     .ritual-card {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 48px 36px;
-      transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      transition: all var(--transition);
       position: relative;
-      overflow: hidden;
     }
-    .ritual-card::before {
+    .ritual-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+    }
+    .ritual-card::after {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0; height: 2px;
+      top: 0; left: 0; right: 0;
+      height: 2px;
       background: linear-gradient(90deg, transparent, var(--accent), transparent);
       transform: scaleX(0);
-      transform-origin: center;
-      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.5s ease;
     }
-    .ritual-card:hover::before { transform: scaleX(1); }
-    .ritual-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); border-color: transparent; }
-
+    .ritual-card:hover::after { transform: scaleX(1); }
+    
     .ritual-icon {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: var(--accent-glow);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--accent-bg);
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 28px;
-      transition: background var(--transition);
+      margin-bottom: 20px;
     }
-    .ritual-icon svg { width: 24px; height: 24px; color: var(--accent); }
-
-    .ritual-card h3 { margin-bottom: 14px; }
-    .ritual-card p { font-size: 15px; line-height: 1.7; margin: 0; }
-    .ritual-card .ritual-desc {
-      font-family: var(--font-heading);
-      font-size: 19px;
+    .ritual-icon svg { width: 20px; height: 20px; color: var(--accent); }
+    .ritual-card h3 { margin-bottom: 10px; font-size: 22px; }
+    .ritual-card p { font-size: 14px; line-height: 1.65; margin: 0; }
+    .ritual-card .quote {
+      font-family: var(--font-serif);
+      font-size: 16px;
       color: var(--text-primary);
       font-style: italic;
-      margin-top: 22px;
-      padding-top: 22px;
-      border-top: 1px solid var(--border);
-      line-height: 1.4;
-      max-width: 100%;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+      line-height: 1.35;
     }
 
-    /* ── Resonance ── */
-    .resonance { text-align: center; }
-    .resonance h2 { margin-bottom: 24px; }
-    .resonance > .container > p { margin: 0 auto 64px; font-size: 18px; }
-    .resonance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-top: 56px; }
-    .resonance-item { text-align: center; }
-    .resonance-item h4 { margin-bottom: 12px; color: var(--accent); }
-    .resonance-item p { margin: 0 auto; font-size: 15px; }
-    .resonance-closing { font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 26px); color: var(--text-primary); font-style: italic; margin-top: 64px; }
+    /* ── How it works ── */
+    .how-it-works { background: var(--bg-secondary); }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+      counter-reset: step;
+    }
+    .step {
+      text-align: center;
+      padding: 24px;
+      counter-increment: step;
+    }
+    .step::before {
+      content: counter(step, decimal-leading-zero);
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--accent);
+      opacity: 0.3;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .step h4 { margin-bottom: 8px; font-size: 18px; }
+    .step p { font-size: 14px; margin: 0 auto; }
 
-    /* ── For Whom ── */
-    .for-whom { text-align: center; }
-    .for-whom h2 { margin-bottom: 24px; }
-    .for-whom > .container > p { margin: 0 auto; font-size: 18px; line-height: 1.8; }
-    .for-whom-list { list-style: none; max-width: 520px; margin: 48px auto 0; text-align: left; }
-    .for-whom-list li { display: flex; align-items: flex-start; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border); font-size: 16px; color: var(--text-secondary); line-height: 1.6; }
-    .for-whom-list li:last-child { border-bottom: none; }
-    .for-whom-list svg { width: 18px; height: 18px; color: var(--accent); flex-shrink: 0; margin-top: 3px; }
-
-    /* ── Screenshots Slider ── */
-    .screenshots { text-align: center; background: var(--bg-secondary); transition: background var(--transition); }
-    .screenshots h2 { margin-bottom: 16px; }
-    .screenshots > .container > p { margin: 0 auto 56px; font-size: 18px; }
-
-    .slider-wrapper { position: relative; max-width: 960px; margin: 0 auto; }
-
+    /* ── Slider ── */
+    .screenshots { background: var(--bg-secondary); }
+    .screenshots-header { text-align: center; margin-bottom: 48px; }
+    .screenshots-header p { margin: 12px auto 0; }
+    
+    .slider {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+    }
     .slider-track {
       display: flex;
-      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: transform;
+      transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
     }
-
     .slide {
       min-width: 100%;
-      padding: 0 4px;
+      position: relative;
     }
-
-    .slide-card {
-      background: var(--bg-elevated);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      transition: box-shadow var(--transition), background var(--transition);
-    }
-    .slide-card img {
+    .slide-img {
       width: 100%;
-      height: auto;
-      display: block;
       aspect-ratio: 16/10;
       object-fit: cover;
+      display: block;
+      background: var(--bg-card);
     }
-    .slide-label { padding: 28px 32px; text-align: left; }
-    .slide-label h4 { font-size: 22px; margin-bottom: 6px; }
-    .slide-label p { font-size: 14px; margin: 0; }
-
-    .slider-nav {
+    .slide-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 32px;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+      color: #fff;
+    }
+    .slide-overlay h3 { color: #fff; margin-bottom: 4px; font-size: 24px; }
+    .slide-overlay p { color: rgba(255,255,255,0.8); font-size: 14px; margin: 0; }
+    
+    .slider-controls {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
-      margin-top: 32px;
+      gap: 12px;
+      margin-top: 24px;
     }
-
     .slider-btn {
-      width: 48px; height: 48px;
+      width: 40px; height: 40px;
       border-radius: 50%;
       border: 1px solid var(--border);
-      background: var(--bg-elevated);
+      background: var(--bg-card);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all var(--transition);
       color: var(--text-secondary);
     }
-    .slider-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); transform: scale(1.05); }
-    .slider-btn svg { width: 18px; height: 18px; }
-    .slider-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
-
-    .slider-dots { display: flex; gap: 8px; }
+    .slider-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+    .slider-btn:disabled { opacity: 0.3; cursor: default; }
+    .slider-btn svg { width: 16px; height: 16px; }
+    
+    .slider-dots { display: flex; gap: 6px; }
     .slider-dot {
-      width: 8px; height: 8px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--border);
       border: none;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all var(--transition);
       padding: 0;
     }
-    .slider-dot.active { background: var(--accent); transform: scale(1.3); }
-
+    .slider-dot.active { background: var(--accent); transform: scale(1.4); }
+    
     .slider-counter {
       font-size: 12px;
       font-weight: 500;
       color: var(--text-tertiary);
-      letter-spacing: 0.1em;
-      min-width: 40px;
+      letter-spacing: 0.05em;
+      min-width: 44px;
       text-align: center;
     }
 
     /* ── Testimonials ── */
-    .testimonials { text-align: center; }
-    .testimonials h2 { margin-bottom: 16px; }
-    .testimonials > .container > p { margin: 0 auto 64px; font-size: 18px; }
-    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .testimonial-card {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 32px 28px;
-      text-align: left;
-      transition: all 0.3s ease;
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
-    .testimonial-card:hover { border-color: var(--accent); box-shadow: 0 12px 40px var(--accent-glow); }
-    .testimonial-stars { display: flex; gap: 3px; margin-bottom: 18px; }
-    .testimonial-stars svg { width: 14px; height: 14px; color: #E8C56D; }
-    .testimonial-text { font-size: 15px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 24px; font-style: italic; }
-    .testimonial-author { display: flex; align-items: center; gap: 12px; }
-    .testimonial-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      transition: all var(--transition);
+    }
+    .testimonial-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .stars { display: flex; gap: 2px; margin-bottom: 12px; }
+    .stars svg { width: 12px; height: 12px; color: #E8B931; }
+    .testimonial-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 10px; }
+    .author-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
       background: var(--accent);
       display: flex; align-items: center; justify-content: center;
       color: #fff;
-      font-family: var(--font-heading);
-      font-size: 18px; font-weight: 600;
+      font-family: var(--font-serif);
+      font-size: 14px;
+      font-weight: 600;
+      flex-shrink: 0;
     }
-    .testimonial-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-    .testimonial-role { font-size: 13px; color: var(--text-tertiary); }
-    .testimonials-note { margin-top: 48px; font-size: 12px; color: var(--text-tertiary); letter-spacing: 0.02em; }
+    .author-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .author-role { font-size: 12px; color: var(--text-tertiary); }
 
-    /* ── Final CTA ── */
-    .final-cta { text-align: center; padding: 200px 0; position: relative; overflow: hidden; }
-    .final-cta::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
+    /* ── CTA Section ── */
+    .cta-section {
+      text-align: center;
+      padding: 140px 0;
+      position: relative;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, var(--accent-bg) 0%, transparent 60%);
       pointer-events: none;
     }
-    .final-cta h2 { margin-bottom: 28px; position: relative; }
-    .final-cta p { margin: 0 auto 40px; font-size: 18px; line-height: 1.8; position: relative; }
-    .final-cta .btn-primary { position: relative; font-size: 15px; padding: 22px 48px; }
+    .cta-section > .container { position: relative; z-index: 1; }
+    .cta-section h2 { margin-bottom: 20px; }
+    .cta-section p { margin: 0 auto 32px; font-size: 17px; line-height: 1.7; }
+    .guarantee {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+    .guarantee strong { color: var(--text-secondary); font-weight: 500; }
 
     /* ── FAQ ── */
-    .faq { padding: 120px 0; background: var(--bg-secondary); transition: background var(--transition); }
-    .faq h2 { text-align: center; margin-bottom: 56px; }
-    .faq-list { max-width: 680px; margin: 0 auto; }
-    .faq-item { border-bottom: 1px solid var(--border); }
-    .faq-question {
-      width: 100%; background: none; border: none; padding: 28px 0;
-      display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; font-family: var(--font-body); font-size: 16px; font-weight: 500;
-      color: var(--text-primary); text-align: left; transition: color 0.3s ease;
+    .faq { background: var(--bg-secondary); }
+    .faq-list { max-width: 640px; margin: 40px auto 0; }
+    .faq-item { border-bottom: 1px solid var(--border-light); }
+    .faq-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-align: left;
+      transition: color var(--transition);
     }
-    .faq-question:hover { color: var(--accent); }
+    .faq-btn:hover { color: var(--accent); }
     .faq-icon {
-      width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--transition);
     }
     .faq-item.active .faq-icon { background: var(--accent); border-color: var(--accent); transform: rotate(45deg); }
-    .faq-icon svg { width: 14px; height: 14px; color: var(--text-tertiary); transition: color 0.3s ease; }
-    .faq-item.active .faq-icon svg { color: #FFFFFF; }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), padding 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
-    .faq-answer-inner { padding-bottom: 28px; font-size: 15px; line-height: 1.7; color: var(--text-secondary); max-width: 580px; }
-    .faq-item.active .faq-answer { max-height: 300px; }
+    .faq-icon svg { width: 12px; height: 12px; color: var(--text-tertiary); transition: color var(--transition); }
+    .faq-item.active .faq-icon svg { color: #fff; }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+    .faq-answer-inner { padding-bottom: 24px; font-size: 14px; line-height: 1.65; color: var(--text-secondary); }
+    .faq-item.active .faq-answer { max-height: 200px; }
 
     /* ── Footer ── */
-    footer { padding: 48px 0; text-align: center; border-top: 1px solid var(--border); transition: border-color var(--transition); }
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
     footer p { font-size: 13px; margin: 0 auto; }
 
     /* ── Sticky Mobile CTA ── */
     .sticky-cta {
       display: none;
-      position: fixed; bottom: 0; left: 0; right: 0;
-      padding: 16px 20px;
-      background: var(--bg-elevated);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      z-index: 100;
-      border-top: 1px solid var(--border);
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), background var(--transition);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-light);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 90;
+      transform: translateY(100%);
+      transition: transform 0.4s ease;
     }
-    .sticky-cta .btn-primary { width: 100%; justify-content: center; padding: 16px 32px; font-size: 14px; }
+    .sticky-cta.visible { transform: translateY(0); }
+    .sticky-cta .btn { width: 100%; justify-content: center; padding: 14px; }
 
-    /* ── Responsive ── */
+    /* ── Divider ── */
+    .divider { width: 48px; height: 1px; background: var(--border); margin: 0 auto; }
+
+    /* ═══════════ RESPONSIVE ═══════════ */
     @media (max-width: 1024px) {
-      :root { --section-padding: 110px; }
-      .container { padding: 0 28px; }
-      .ritual-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
-      .ritual-card { padding: 36px 24px; }
-      .resonance-grid { gap: 32px; }
-      .testimonials-grid { gap: 16px; }
+      :root { --section-py: 90px; }
+      .ritual-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .ritual-card { padding: 24px 20px; }
+      .testimonials-grid { gap: 12px; }
     }
 
     @media (max-width: 768px) {
-      :root { --section-padding: 80px; }
-      .container { padding: 0 20px; }
-      .ritual-grid { grid-template-columns: 1fr; gap: 16px; }
-      .resonance-grid { grid-template-columns: 1fr; gap: 32px; }
-      .testimonials-grid { grid-template-columns: 1fr; }
-      .hero { min-height: 90vh; }
-      .hero-trust { flex-direction: column; gap: 12px; }
-      .final-cta { padding: 100px 0; }
+      :root { --section-py: 70px; }
+      
+      .ritual-grid,
+      .steps,
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .ritual-card { padding: 24px 20px; }
+      .step { padding: 16px; }
+      
+      .hero { padding-top: 70px; min-height: auto; padding-bottom: 60px; }
+      .hero-content { padding: 0 4px; }
+      .hero-actions { flex-direction: column; gap: 10px; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+      .hero-trust { flex-direction: column; gap: 10px; margin-top: 32px; }
+      .scroll-hint { display: none; }
+      
+      .slider { border-radius: var(--radius-md); }
+      .slide-overlay { padding: 20px; }
+      .slide-overlay h3 { font-size: 18px; }
+      
+      .testimonial-card { padding: 20px; }
+      
+      .cta-section { padding: 90px 0; }
+      
       .sticky-cta { display: block; }
-      body { padding-bottom: 80px; }
-      .slide-card img { aspect-ratio: 4/3; }
-      .testimonial-card { padding: 24px 20px; }
-      h1 { font-size: 36px; }
-      h2 { font-size: 30px; }
-      .ritual-card { padding: 36px 24px; }
-      .slide-label { padding: 20px 24px; }
+      body { padding-bottom: 72px; }
+      
+      .icon-btn { width: 32px; height: 32px; }
+      .nav-actions { gap: 4px; }
+      
+      h1 { font-size: 32px; }
+      h2 { font-size: 26px; }
+      h3 { font-size: 20px; }
     }
 
     @media (max-width: 480px) {
-      h1 { font-size: 32px; }
-      h2 { font-size: 26px; }
-      .nav-btn { width: 36px; height: 36px; }
+      .container { padding: 0 16px; }
+      :root { --section-py: 60px; }
+      .ritual-card { padding: 20px 16px; }
+      .testimonial-card { padding: 16px; }
+      .step::before { font-size: 24px; }
+    }
+
+    /* ── Prefers reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══════════ HEADER ═══════════ -->
+  <!-- Header -->
   <header class="header" id="header">
     <div class="container">
-      <a href="#" class="logo">State Tracker</a>
-      <div class="nav-controls">
-        <button class="nav-btn" id="langToggle" aria-label="Switch language">
-          <span class="lang-label" id="langLabel">EN</span>
+      <a href="#" class="logo">State</a>
+      <div class="nav-actions">
+        <button class="icon-btn" id="langBtn" aria-label="Switch language">
+          <span class="lang-text" id="langText">EN</span>
         </button>
-        <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">
+        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
           <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
+        <a href="#cta" class="btn btn-primary" data-i18n="nav-cta" style="padding: 8px 18px; font-size: 13px;">Начать</a>
       </div>
     </div>
   </header>
 
-  <!-- ═══════════ HERO ═══════════ -->
+  <!-- Hero -->
   <section class="hero">
     <div class="container hero-content">
       <div class="reveal">
         <div class="section-label" style="justify-content: center;" data-i18n="hero-label">Трекер состояния</div>
-        <h1 data-i18n="hero-title">Твой день.<br>Твоё состояние.<br>Твой результат.</h1>
-        <p data-i18n="hero-desc">Ежедневная практика, которая превращает время в осознанную траекторию. Включайся. Сохраняй ресурс. Двигайся к тому, что действительно важно.</p>
-        <a href="#cta" class="btn-primary" data-i18n="hero-btn">Войти в систему <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        <p class="micro-copy" data-i18n="hero-micro">Доступно на всех устройствах. Первые изменения — через 72 часа.</p>
+        <h1 data-i18n="hero-title"><span data-i18n="hero-line1">Твой день.</span><span data-i18n="hero-line2">Твоё состояние.</span><span data-i18n="hero-line3">Твой результат.</span></h1>
+        <p class="subtitle" data-i18n="hero-desc">Ежедневная практика, которая превращает время в осознанную траекторию. Включайся. Сохраняй ресурс. Двигайся к важному.</p>
+        <div class="hero-actions">
+          <a href="#cta" class="btn btn-primary" data-i18n="hero-btn">Начать бесплатно <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#how" class="btn btn-secondary" data-i18n="hero-btn2">Как это работает</a>
+        </div>
       </div>
-      <div class="hero-trust reveal reveal-d2">
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span data-i18n="trust-1">Локальное хранение данных</span>
-        </span>
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
-          <span data-i18n="trust-2">Web · iOS · Android</span>
-        </span>
+      <div class="hero-trust reveal reveal-d1">
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span data-i18n="trust1">Данные только у вас</span></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg><span data-i18n="trust2">Web · iOS · Android</span></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span data-i18n="trust3">10 мин в день</span></div>
       </div>
     </div>
-    <div class="scroll-indicator">
-      <span data-i18n="scroll">Скролл</span>
+    <div class="scroll-hint">
+      <span data-i18n="scroll">Узнать больше</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     </div>
   </section>
 
-  <!-- ═══════════ PAIN ═══════════ -->
-  <section class="pain-block">
+  <!-- Pain -->
+  <section class="pain">
     <div class="container">
       <div class="reveal">
-        <div class="section-label" style="justify-content: center;" data-i18n="pain-label">Контекст</div>
+        <div class="section-label" style="justify-content: center;" data-i18n="pain-label">Проблема</div>
         <h2 data-i18n="pain-title">Большинство дней не проживаются.<br>Они случаются.</h2>
-        <p data-i18n="pain-p1">Утром — внешние запросы. Днём — расфокус и утрата контакта с телом. Вечером — усталость без чувства завершённости.</p>
-        <p data-i18n="pain-p2">Проблема не в дисциплине. Не в планировании.<br>Проблема в состоянии, из которого вы делаете выбор каждый день.</p>
-        <p class="emphasis" data-i18n="pain-emphasis">Когда нет внутренней опоры, даже самые точные цели рассыпаются в потоке.</p>
-        <p style="margin-top: 32px;" data-i18n="pain-p3">Трекер состояния создан не для того, чтобы успевать больше. А чтобы присутствовать глубже.</p>
+        <p data-i18n="pain-p1">Утром — внешние запросы. Днём — расфокус. Вечером — усталость без чувства завершённости.</p>
+        <p data-i18n="pain-p2">Проблема не в дисциплине. Проблема в состоянии, из которого вы действуете.</p>
+        <p class="lead" data-i18n="pain-lead">Когда нет внутренней опоры, даже точные цели рассыпаются в потоке.</p>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <div class="divider"></div>
 
-  <!-- ═══════════ RITUALS ═══════════ -->
-  <section class="rituals">
+  <!-- Rituals -->
+  <section id="how">
     <div class="container">
       <div class="rituals-header reveal">
-        <div class="section-label" style="justify-content: center;" data-i18n="rituals-label">Архитектура дня</div>
+        <div class="section-label" style="justify-content: center;" data-i18n="rituals-label">Система</div>
         <h2 data-i18n="rituals-title">Три точки опоры.<br>Одна траектория.</h2>
-        <p data-i18n="rituals-desc">Ежедневный ритм, который возвращает вам авторство жизни.</p>
-        <div class="ritual-time">
+        <p data-i18n="rituals-desc">Ежедневный ритм, который возвращает авторство жизни.</p>
+        <div class="time-badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span data-i18n="rituals-time">Каждый ритуал — 3–5 минут в день</span>
+          <span data-i18n="rituals-time">3–5 минут на ритуал</span>
         </div>
       </div>
-
+      
       <div class="ritual-grid">
         <div class="ritual-card reveal reveal-d1">
           <div class="ritual-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
           </div>
           <h3 data-i18n="r1-title">Включение</h3>
-          <p data-i18n="r1-desc">Не реакция на внешний шум. А встреча с собой. Обнуление. Выбор состояния. Фиксация якоря.</p>
-          <p class="ritual-desc" data-i18n="r1-quote">День начинается не с тревоги, а с внутренней точки силы.</p>
+          <p data-i18n="r1-desc">Не реакция на шум. Встреча с собой. Обнуление. Выбор состояния. Якорь на день.</p>
+          <p class="quote" data-i18n="r1-quote">День начинается не с тревоги, а с внутренней точки силы.</p>
         </div>
-
+        
         <div class="ritual-card reveal reveal-d2">
           <div class="ritual-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
           </div>
           <h3 data-i18n="r2-title">Движение</h3>
-          <p data-i18n="r2-desc">Не гонка. А восстановление контакта. Простое действие, которое возвращает тело в процесс, снимает застой и удерживает фокус.</p>
-          <p class="ritual-desc" data-i18n="r2-quote">Утром вы выбрали направление. Днём вы подтверждаете его через себя.</p>
+          <p data-i18n="r2-desc">Возвращение в тело. Простое действие, которое снимает застой и восстанавливает фокус.</p>
+          <p class="quote" data-i18n="r2-quote">Утром вы выбрали направление. Днём подтверждаете его через себя.</p>
         </div>
-
+        
         <div class="ritual-card reveal reveal-d3">
           <div class="ritual-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
           </div>
           <h3 data-i18n="r3-title">Завершение</h3>
-          <p data-i18n="r3-desc">Не отчёт. А сборка смысла. Честный взгляд на прожитое. Фиксация инсайтов. Благодарность.</p>
-          <p class="ritual-desc" data-i18n="r3-quote">Чтобы ночь приходила не как конец, а как покой.</p>
+          <p data-i18n="r3-desc">Сборка смысла. Честный взгляд. Инсайты. Благодарность. Закрытие дня.</p>
+          <p class="quote" data-i18n="r3-quote">Ночь приходит не как конец, а как покой.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <div class="divider"></div>
 
-  <!-- ═══════════ RESONANCE ═══════════ -->
-  <section class="resonance">
+  <!-- How it works steps -->
+  <section class="how-it-works">
     <div class="container">
-      <div class="reveal">
-        <div class="section-label" style="justify-content: center;" data-i18n="res-label">Глубина системы</div>
-        <h2 data-i18n="res-title">Система, которая работает<br>на всех слоях присутствия.</h2>
-        <p data-i18n="res-desc">Мы не разделяем разум, тело и контекст. Мы выстраиваем их в резонанс.</p>
+      <div class="text-center reveal">
+        <div class="section-label" style="justify-content: center;" data-i18n="steps-label">Процесс</div>
+        <h2 data-i18n="steps-title">Как это работает</h2>
       </div>
-      <div class="resonance-grid">
-        <div class="resonance-item reveal reveal-d1">
-          <h4 data-i18n="res1-title">Психика</h4>
-          <p data-i18n="res1-desc">Внимание, намерение, ясность выбора.</p>
+      <div class="steps">
+        <div class="step reveal reveal-d1">
+          <h4 data-i18n="step1-title">Регистрация</h4>
+          <p data-i18n="step1-desc">Создайте аккаунт за 30 секунд. Без карты, без обязательств.</p>
         </div>
-        <div class="resonance-item reveal reveal-d2">
-          <h4 data-i18n="res2-title">Тело</h4>
-          <p data-i18n="res2-desc">Дыхание, тонус, физический ресурс.</p>
+        <div class="step reveal reveal-d2">
+          <h4 data-i18n="step2-title">Ежедневная практика</h4>
+          <p data-i18n="step2-desc">Проходите три ритуала: утро, день, вечер. 10 минут в день.</p>
         </div>
-        <div class="resonance-item reveal reveal-d3">
-          <h4 data-i18n="res3-title">Контекст</h4>
-          <p data-i18n="res3-desc">Связь с делом, близкими, смыслом — чем-то большим, чем вы сами.</p>
+        <div class="step reveal reveal-d3">
+          <h4 data-i18n="step3-title">Трансформация</h4>
+          <p data-i18n="step3-desc">Через неделю заметите ясность, устойчивость и ощущение смысла.</p>
         </div>
       </div>
-      <p class="resonance-closing reveal" data-i18n="res-closing">Результат — не просто организованность. А внутренняя собранность.</p>
     </div>
   </section>
 
-  <!-- ═══════════ FOR WHOM ═══════════ -->
-  <section class="for-whom">
-    <div class="container">
-      <div class="reveal">
-        <div class="section-label" style="justify-content: center;" data-i18n="whom-label">Аудитория</div>
-        <h2 data-i18n="whom-title">Это не для всех.<br>Это для тех, кто готов к точности.</h2>
-        <p data-i18n="whom-desc">Для тех, кто устал от механической продуктивности.<br>Для тех, кто хочет соединить цели с внутренним состоянием.<br>Для тех, кто понимает: настоящий результат рождается не из насилия, а из настройки.</p>
-      </div>
-      <ul class="for-whom-list reveal">
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          <span data-i18n="whom-1">Вы хотите не просто выполнять задачи, а чувствовать свой путь</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          <span data-i18n="whom-2">Вам нужна не жёсткая дисциплина, а внутренняя опора</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          <span data-i18n="whom-3">Вы ищете систему, а не набор мотивационных техник</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          <span data-i18n="whom-4">Вы хотите жить собранно, а не просто успевать</span>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ═══════════ SCREENSHOTS SLIDER ═══════════ -->
+  <!-- Screenshots Slider -->
   <section class="screenshots">
     <div class="container">
-      <div class="reveal">
+      <div class="screenshots-header reveal">
         <div class="section-label" style="justify-content: center;" data-i18n="screens-label">Интерфейс</div>
         <h2 data-i18n="screens-title">Как это выглядит</h2>
         <p data-i18n="screens-desc">Интерфейс, который не отвлекает. Только вы и ваш ритм.</p>
       </div>
-
-      <div class="slider-wrapper reveal">
+      
+      <div class="slider reveal" id="slider">
         <div class="slider-track" id="sliderTrack">
           <div class="slide">
-            <div class="slide-card">
-              <img src="http://zaloveclub.ru/images/12.JPG" alt="Morning ritual" loading="lazy">
-              <div class="slide-label">
-                <h4 data-i18n="slide1-title">Утро</h4>
-                <p data-i18n="slide1-desc">Включение · Обнуление · Выбор</p>
-              </div>
+            <img src="http://zaloveclub.ru/images/12.JPG" alt="Morning" class="slide-img" loading="lazy" onerror="this.style.background='var(--accent-bg)'; this.style.minHeight='300px';">
+            <div class="slide-overlay">
+              <h3 data-i18n="slide1-title">Утро</h3>
+              <p data-i18n="slide1-desc">Включение · Обнуление · Выбор</p>
             </div>
           </div>
           <div class="slide">
-            <div class="slide-card">
-              <img src="http://zaloveclub.ru/images/13.JPG" alt="Day ritual" loading="lazy">
-              <div class="slide-label">
-                <h4 data-i18n="slide2-title">День</h4>
-                <p data-i18n="slide2-desc">Движение · Ресурс · Фокус</p>
-              </div>
+            <img src="http://zaloveclub.ru/images/13.JPG" alt="Day" class="slide-img" loading="lazy" onerror="this.style.background='var(--accent-bg)'; this.style.minHeight='300px';">
+            <div class="slide-overlay">
+              <h3 data-i18n="slide2-title">День</h3>
+              <p data-i18n="slide2-desc">Движение · Ресурс · Фокус</p>
             </div>
           </div>
           <div class="slide">
-            <div class="slide-card">
-              <img src="http://zaloveclub.ru/images/14.JPG" alt="Evening ritual" loading="lazy">
-              <div class="slide-label">
-                <h4 data-i18n="slide3-title">Вечер</h4>
-                <p data-i18n="slide3-desc">Завершение · Осознание · Покой</p>
-              </div>
+            <img src="http://zaloveclub.ru/images/14.JPG" alt="Evening" class="slide-img" loading="lazy" onerror="this.style.background='var(--accent-bg)'; this.style.minHeight='300px';">
+            <div class="slide-overlay">
+              <h3 data-i18n="slide3-title">Вечер</h3>
+              <p data-i18n="slide3-desc">Завершение · Осознание · Покой</p>
             </div>
           </div>
         </div>
-
-        <div class="slider-nav">
-          <button class="slider-btn" id="sliderPrev" aria-label="Previous">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <span class="slider-counter" id="sliderCounter">01 / 03</span>
-          <div class="slider-dots" id="sliderDots">
-            <button class="slider-dot active" data-index="0" aria-label="Slide 1"></button>
-            <button class="slider-dot" data-index="1" aria-label="Slide 2"></button>
-            <button class="slider-dot" data-index="2" aria-label="Slide 3"></button>
-          </div>
-          <button class="slider-btn" id="sliderNext" aria-label="Next">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
+      </div>
+      
+      <div class="slider-controls reveal">
+        <button class="slider-btn" id="prevBtn" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="slider-counter" id="sliderCounter">1 / 3</span>
+        <div class="slider-dots" id="sliderDots">
+          <button class="slider-dot active" data-index="0" aria-label="Slide 1"></button>
+          <button class="slider-dot" data-index="1" aria-label="Slide 2"></button>
+          <button class="slider-dot" data-index="2" aria-label="Slide 3"></button>
         </div>
+        <button class="slider-btn" id="nextBtn" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ TESTIMONIALS ═══════════ -->
+  <div class="divider"></div>
+
+  <!-- Testimonials -->
   <section class="testimonials">
     <div class="container">
-      <div class="reveal">
+      <div class="text-center reveal">
         <div class="section-label" style="justify-content: center;" data-i18n="test-label">Отзывы</div>
         <h2 data-i18n="test-title">Что меняется, когда день обретает структуру.</h2>
-        <p data-i18n="test-desc">Не больше дел. Больше ясности, опоры и ощущения, что время принадлежит вам.</p>
+        <p class="mx-auto" data-i18n="test-desc">Не больше дел. Больше ясности, опоры и ощущения, что время принадлежит вам.</p>
       </div>
+      
       <div class="testimonials-grid">
         <div class="testimonial-card reveal reveal-d1">
-          <div class="testimonial-stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <p class="testimonial-text" data-i18n="t1-text">«Раньше утро начиналось с чужих задач. С трекером впервые появился момент тишины. Я выбираю состояние до того, как день выбирает меня.»</p>
-          <div class="testimonial-author"><div class="testimonial-avatar">А</div><div><div class="testimonial-name" data-i18n="t1-name">Анна</div><div class="testimonial-role" data-i18n="t1-role">Основатель студии</div></div></div>
+          <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <p class="testimonial-text" data-i18n="t1">«Раньше утро начиналось с чужих задач. С трекером появился момент тишины. Я выбираю состояние до того, как день выбирает меня.»</p>
+          <div class="testimonial-author"><div class="author-avatar">А</div><div><div class="author-name" data-i18n="t1-name">Анна</div><div class="author-role" data-i18n="t1-role">Основатель студии</div></div></div>
         </div>
+        
         <div class="testimonial-card reveal reveal-d2">
-          <div class="testimonial-stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <p class="testimonial-text" data-i18n="t2-text">«Вечерний блок стал точкой сборки. Ушла фоновая тревога. Появилось чувство завершённости, которого не давали ни списки, ни планы.»</p>
-          <div class="testimonial-author"><div class="testimonial-avatar">И</div><div><div class="testimonial-name" data-i18n="t2-name">Игорь</div><div class="testimonial-role" data-i18n="t2-role">Руководитель направления</div></div></div>
+          <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <p class="testimonial-text" data-i18n="t2">«Вечерний блок стал точкой сборки. Ушла тревога. Появилось чувство завершённости, которого не давали списки.»</p>
+          <div class="testimonial-author"><div class="author-avatar">И</div><div><div class="author-name" data-i18n="t2-name">Игорь</div><div class="author-role" data-i18n="t2-role">Руководитель</div></div></div>
         </div>
+        
         <div class="testimonial-card reveal reveal-d3">
-          <div class="testimonial-stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <p class="testimonial-text" data-i18n="t3-text">«Это не про мотивацию. Это про опору. Я перестала начинать каждый день с чистого листа. Появилась траектория.»</p>
-          <div class="testimonial-author"><div class="testimonial-avatar">М</div><div><div class="testimonial-name" data-i18n="t3-name">Марина</div><div class="testimonial-role" data-i18n="t3-role">Специалист по развитию</div></div></div>
+          <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <p class="testimonial-text" data-i18n="t3">«Это не про мотивацию. Это про опору. Я перестала начинать с чистого листа. Появилась траектория.»</p>
+          <div class="testimonial-author"><div class="author-avatar">М</div><div><div class="author-name" data-i18n="t3-name">Марина</div><div class="author-role" data-i18n="t3-role">Специалист</div></div></div>
         </div>
+        
         <div class="testimonial-card reveal reveal-d1">
-          <div class="testimonial-stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <p class="testimonial-text" data-i18n="t4-text">«Казалось бы, три простых действия. Но именно они собирают день. Хаос отступает, когда есть ритм.»</p>
-          <div class="testimonial-author"><div class="testimonial-avatar">Д</div><div><div class="testimonial-name" data-i18n="t4-name">Дмитрий</div><div class="testimonial-role" data-i18n="t4-role">Продакт-менеджер</div></div></div>
+          <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <p class="testimonial-text" data-i18n="t4">«Три простых действия собирают день. Хаос отступает, когда есть ритм.»</p>
+          <div class="testimonial-author"><div class="author-avatar">Д</div><div><div class="author-name" data-i18n="t4-name">Дмитрий</div><div class="author-role" data-i18n="t4-role">Продакт</div></div></div>
         </div>
+        
         <div class="testimonial-card reveal reveal-d2">
-          <div class="testimonial-stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <p class="testimonial-text" data-i18n="t5-text">«Искала баланс между целями и состоянием. Здесь он есть. Можно двигаться вперёд, не теряя себя.»</p>
-          <div class="testimonial-author"><div class="testimonial-avatar">Е</div><div><div class="testimonial-name" data-i18n="t5-name">Елена</div><div class="testimonial-role" data-i18n="t5-role">Коуч</div></div></div>
+          <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <p class="testimonial-text" data-i18n="t5">«Искала баланс между целями и состоянием. Здесь он есть. Можно двигаться, не теряя себя.»</p>
+          <div class="testimonial-author"><div class="author-avatar">Е</div><div><div class="author-name" data-i18n="t5-name">Елена</div><div class="author-role" data-i18n="t5-role">Коуч</div></div></div>
         </div>
+        
         <div class="testimonial-card reveal reveal-d3">
-          <div class="testimonial-stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <p class="testimonial-text" data-i18n="t6-text">«Понял главное: результат зависит от качества присутствия. Когда начинаешь управлять состоянием, меняется всё.»</p>
-          <div class="testimonial-author"><div class="testimonial-avatar">А</div><div><div class="testimonial-name" data-i18n="t6-name">Алексей</div><div class="testimonial-role" data-i18n="t6-role">Собственник бизнеса</div></div></div>
+          <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <p class="testimonial-text" data-i18n="t6">«Результат зависит от качества присутствия. Когда управляешь состоянием, меняется всё.»</p>
+          <div class="testimonial-author"><div class="author-avatar">А</div><div><div class="author-name" data-i18n="t6-name">Алексей</div><div class="author-role" data-i18n="t6-role">Предприниматель</div></div></div>
         </div>
       </div>
-      <p class="testimonials-note reveal" data-i18n="test-note">Отзывы реальных пользователей. Результаты индивидуальны и зависят от регулярности практики.</p>
     </div>
   </section>
 
-  <!-- ═══════════ FINAL CTA ═══════════ -->
-  <section class="final-cta" id="cta">
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
     <div class="container">
       <div class="reveal">
         <div class="section-label" style="justify-content: center;" data-i18n="cta-label">Начало</div>
         <h2 data-i18n="cta-title">Верните себе авторство дня.</h2>
-        <p data-i18n="cta-desc">Первые изменения проявляются не в рывках, а в тишине.<br>Через неделю вы заметите, как утро стало яснее. День — устойчивее. Вечер — честнее.<br>Это не магия. Это архитектура состояния.</p>
-        <a href="#" class="btn-primary" data-i18n="cta-btn">Подключиться к практике <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        <p class="guarantee-text" data-i18n="cta-g1"><strong>7 дней бесплатного доступа.</strong> Без привязки карты. Отмена в один клик. Данные хранятся только у вас.</p>
-        <p class="guarantee-text" style="margin-top: 8px; font-style: italic;" data-i18n="cta-g2">Если за 7 дней не почувствуете сдвига — доступ останется, но вы не оплатите ни рубля.</p>
+        <p data-i18n="cta-desc">Первые изменения — не в рывках, а в тишине. Через неделю утро станет яснее. День — устойчивее. Вечер — честнее.</p>
+        <a href="#" class="btn btn-primary" style="font-size: 15px; padding: 16px 32px;" data-i18n="cta-btn">Начать 7 дней бесплатно <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <p class="guarantee"><strong data-i18n="guarantee1">7 дней бесплатно.</strong> Без карты. Отмена в клик. <span data-i18n="guarantee2">Если не почувствуете сдвига — доступ останется, но вы не заплатите.</span></p>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ FAQ ═══════════ -->
+  <!-- FAQ -->
   <section class="faq">
     <div class="container">
-      <div class="reveal"><h2 data-i18n="faq-title">Частые вопросы</h2></div>
+      <div class="text-center reveal">
+        <h2 data-i18n="faq-title">Частые вопросы</h2>
+      </div>
       <div class="faq-list reveal">
         <div class="faq-item">
-          <button class="faq-question"><span data-i18n="faq1-q">Сколько времени в день занимает практика?</span><span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-          <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq1-a">Каждый из трёх ритуалов занимает 3–5 минут. Итого — около 10–15 минут в день. Это не нагрузка, а пауза, которая собирает весь день вокруг себя.</div></div>
+          <button class="faq-btn"><span data-i18n="faq1-q">Сколько времени в день?</span><span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+          <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq1-a">Каждый ритуал — 3–5 минут. Итого 10–15 минут в день. Это пауза, которая организует весь день.</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-question"><span data-i18n="faq2-q">Что если я пропущу день или несколько дней?</span><span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-          <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq2-a">Ничего не сломается. Трекер не наказывает за пропуски и не создаёт чувства вины. Вы просто продолжаете с того места, где остановились.</div></div>
+          <button class="faq-btn"><span data-i18n="faq2-q">Что если пропущу день?</span><span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+          <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq2-a">Ничего не сломается. Трекер не наказывает. Продолжайте с того места, где остановились.</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-question"><span data-i18n="faq3-q">Нужен ли интернет для работы трекера?</span><span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-          <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq3-a">Интернет нужен только для первичной синхронизации. Все ваши записи хранятся локально. Полная приватность, отсутствие рекламы и работа даже в режиме офлайн.</div></div>
+          <button class="faq-btn"><span data-i18n="faq3-q">Нужен ли интернет?</span><span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+          <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq3-a">Только для первичной синхронизации. Данные хранятся локально. Полная приватность, работа офлайн.</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ FOOTER ═══════════ -->
+  <!-- Footer -->
   <footer>
     <div class="container">
-      <p data-i18n="footer">© 2024 Трекер состояния · Возвращаем авторство жизни</p>
+      <p data-i18n="footer">© 2024 State Tracker · Возвращаем авторство жизни</p>
     </div>
   </footer>
 
-  <!-- ═══════════ STICKY MOBILE CTA ═══════════ -->
-  <div class="sticky-cta">
-    <a href="#cta" class="btn-primary" data-i18n="sticky-btn">Подключиться к практике</a>
+  <!-- Sticky Mobile CTA -->
+  <div class="sticky-cta" id="stickyCta">
+    <a href="#cta" class="btn btn-primary" data-i18n="sticky-btn">Начать бесплатно</a>
   </div>
 
   <script>
-    // ── Translations ──
-    const translations = {
+    const i18n = {
       ru: {
+        'nav-cta': 'Начать',
         'hero-label': 'Трекер состояния',
-        'hero-title': 'Твой день.<br>Твоё состояние.<br>Твой результат.',
-        'hero-desc': 'Ежедневная практика, которая превращает время в осознанную траекторию. Включайся. Сохраняй ресурс. Двигайся к тому, что действительно важно.',
-        'hero-btn': 'Войти в систему',
-        'hero-micro': 'Доступно на всех устройствах. Первые изменения — через 72 часа.',
-        'trust-1': 'Локальное хранение данных',
-        'trust-2': 'Web · iOS · Android',
-        'scroll': 'Скролл',
-        'pain-label': 'Контекст',
+        'hero-line1': 'Твой день.',
+        'hero-line2': 'Твоё состояние.',
+        'hero-line3': 'Твой результат.',
+        'hero-desc': 'Ежедневная практика, которая превращает время в осознанную траекторию. Включайся. Сохраняй ресурс. Двигайся к важному.',
+        'hero-btn': 'Начать бесплатно',
+        'hero-btn2': 'Как это работает',
+        'trust1': 'Данные только у вас',
+        'trust2': 'Web · iOS · Android',
+        'trust3': '10 мин в день',
+        'scroll': 'Узнать больше',
+        'pain-label': 'Проблема',
         'pain-title': 'Большинство дней не проживаются.<br>Они случаются.',
-        'pain-p1': 'Утром — внешние запросы. Днём — расфокус и утрата контакта с телом. Вечером — усталость без чувства завершённости.',
-        'pain-p2': 'Проблема не в дисциплине. Не в планировании.<br>Проблема в состоянии, из которого вы делаете выбор каждый день.',
-        'pain-emphasis': 'Когда нет внутренней опоры, даже самые точные цели рассыпаются в потоке.',
-        'pain-p3': 'Трекер состояния создан не для того, чтобы успевать больше. А чтобы присутствовать глубже.',
-        'rituals-label': 'Архитектура дня',
+        'pain-p1': 'Утром — внешние запросы. Днём — расфокус. Вечером — усталость без чувства завершённости.',
+        'pain-p2': 'Проблема не в дисциплине. Проблема в состоянии, из которого вы действуете.',
+        'pain-lead': 'Когда нет внутренней опоры, даже точные цели рассыпаются в потоке.',
+        'rituals-label': 'Система',
         'rituals-title': 'Три точки опоры.<br>Одна траектория.',
-        'rituals-desc': 'Ежедневный ритм, который возвращает вам авторство жизни.',
-        'rituals-time': 'Каждый ритуал — 3–5 минут в день',
+        'rituals-desc': 'Ежедневный ритм, который возвращает авторство жизни.',
+        'rituals-time': '3–5 минут на ритуал',
         'r1-title': 'Включение',
-        'r1-desc': 'Не реакция на внешний шум. А встреча с собой. Обнуление. Выбор состояния. Фиксация якоря.',
+        'r1-desc': 'Не реакция на шум. Встреча с собой. Обнуление. Выбор состояния. Якорь на день.',
         'r1-quote': 'День начинается не с тревоги, а с внутренней точки силы.',
         'r2-title': 'Движение',
-        'r2-desc': 'Не гонка. А восстановление контакта. Простое действие, которое возвращает тело в процесс, снимает застой и удерживает фокус.',
-        'r2-quote': 'Утром вы выбрали направление. Днём вы подтверждаете его через себя.',
+        'r2-desc': 'Возвращение в тело. Простое действие, которое снимает застой и восстанавливает фокус.',
+        'r2-quote': 'Утром вы выбрали направление. Днём подтверждаете его через себя.',
         'r3-title': 'Завершение',
-        'r3-desc': 'Не отчёт. А сборка смысла. Честный взгляд на прожитое. Фиксация инсайтов. Благодарность.',
-        'r3-quote': 'Чтобы ночь приходила не как конец, а как покой.',
-        'res-label': 'Глубина системы',
-        'res-title': 'Система, которая работает<br>на всех слоях присутствия.',
-        'res-desc': 'Мы не разделяем разум, тело и контекст. Мы выстраиваем их в резонанс.',
-        'res1-title': 'Психика', 'res1-desc': 'Внимание, намерение, ясность выбора.',
-        'res2-title': 'Тело', 'res2-desc': 'Дыхание, тонус, физический ресурс.',
-        'res3-title': 'Контекст', 'res3-desc': 'Связь с делом, близкими, смыслом — чем-то большим, чем вы сами.',
-        'res-closing': 'Результат — не просто организованность. А внутренняя собранность.',
-        'whom-label': 'Аудитория',
-        'whom-title': 'Это не для всех.<br>Это для тех, кто готов к точности.',
-        'whom-desc': 'Для тех, кто устал от механической продуктивности.<br>Для тех, кто хочет соединить цели с внутренним состоянием.<br>Для тех, кто понимает: настоящий результат рождается не из насилия, а из настройки.',
-        'whom-1': 'Вы хотите не просто выполнять задачи, а чувствовать свой путь',
-        'whom-2': 'Вам нужна не жёсткая дисциплина, а внутренняя опора',
-        'whom-3': 'Вы ищете систему, а не набор мотивационных техник',
-        'whom-4': 'Вы хотите жить собранно, а не просто успевать',
+        'r3-desc': 'Сборка смысла. Честный взгляд. Инсайты. Благодарность. Закрытие дня.',
+        'r3-quote': 'Ночь приходит не как конец, а как покой.',
+        'steps-label': 'Процесс',
+        'steps-title': 'Как это работает',
+        'step1-title': 'Регистрация',
+        'step1-desc': 'Создайте аккаунт за 30 секунд. Без карты, без обязательств.',
+        'step2-title': 'Ежедневная практика',
+        'step2-desc': 'Проходите три ритуала: утро, день, вечер. 10 минут в день.',
+        'step3-title': 'Трансформация',
+        'step3-desc': 'Через неделю заметите ясность, устойчивость и ощущение смысла.',
         'screens-label': 'Интерфейс',
         'screens-title': 'Как это выглядит',
         'screens-desc': 'Интерфейс, который не отвлекает. Только вы и ваш ритм.',
-        'slide1-title': 'Утро', 'slide1-desc': 'Включение · Обнуление · Выбор',
-        'slide2-title': 'День', 'slide2-desc': 'Движение · Ресурс · Фокус',
-        'slide3-title': 'Вечер', 'slide3-desc': 'Завершение · Осознание · Покой',
+        'slide1-title': 'Утро',
+        'slide1-desc': 'Включение · Обнуление · Выбор',
+        'slide2-title': 'День',
+        'slide2-desc': 'Движение · Ресурс · Фокус',
+        'slide3-title': 'Вечер',
+        'slide3-desc': 'Завершение · Осознание · Покой',
         'test-label': 'Отзывы',
         'test-title': 'Что меняется, когда день обретает структуру.',
         'test-desc': 'Не больше дел. Больше ясности, опоры и ощущения, что время принадлежит вам.',
-        't1-text': '«Раньше утро начиналось с чужих задач. С трекером впервые появился момент тишины. Я выбираю состояние до того, как день выбирает меня.»',
+        't1': '«Раньше утро начиналось с чужих задач. С трекером появился момент тишины. Я выбираю состояние до того, как день выбирает меня.»',
         't1-name': 'Анна', 't1-role': 'Основатель студии',
-        't2-text': '«Вечерний блок стал точкой сборки. Ушла фоновая тревога. Появилось чувство завершённости, которого не давали ни списки, ни планы.»',
-        't2-name': 'Игорь', 't2-role': 'Руководитель направления',
-        't3-text': '«Это не про мотивацию. Это про опору. Я перестала начинать каждый день с чистого листа. Появилась траектория.»',
-        't3-name': 'Марина', 't3-role': 'Специалист по развитию',
-        't4-text': '«Казалось бы, три простых действия. Но именно они собирают день. Хаос отступает, когда есть ритм.»',
-        't4-name': 'Дмитрий', 't4-role': 'Продакт-менеджер',
-        't5-text': '«Искала баланс между целями и состоянием. Здесь он есть. Можно двигаться вперёд, не теряя себя.»',
+        't2': '«Вечерний блок стал точкой сборки. Ушла тревога. Появилось чувство завершённости, которого не давали списки.»',
+        't2-name': 'Игорь', 't2-role': 'Руководитель',
+        't3': '«Это не про мотивацию. Это про опору. Я перестала начинать с чистого листа. Появилась траектория.»',
+        't3-name': 'Марина', 't3-role': 'Специалист',
+        't4': '«Три простых действия собирают день. Хаос отступает, когда есть ритм.»',
+        't4-name': 'Дмитрий', 't4-role': 'Продакт',
+        't5': '«Искала баланс между целями и состоянием. Здесь он есть. Можно двигаться, не теряя себя.»',
         't5-name': 'Елена', 't5-role': 'Коуч',
-        't6-text': '«Понял главное: результат зависит от качества присутствия. Когда начинаешь управлять состоянием, меняется всё.»',
-        't6-name': 'Алексей', 't6-role': 'Собственник бизнеса',
-        'test-note': 'Отзывы реальных пользователей. Результаты индивидуальны и зависят от регулярности практики.',
+        't6': '«Результат зависит от качества присутствия. Когда управляешь состоянием, меняется всё.»',
+        't6-name': 'Алексей', 't6-role': 'Предприниматель',
         'cta-label': 'Начало',
         'cta-title': 'Верните себе авторство дня.',
-        'cta-desc': 'Первые изменения проявляются не в рывках, а в тишине.<br>Через неделю вы заметите, как утро стало яснее. День — устойчивее. Вечер — честнее.<br>Это не магия. Это архитектура состояния.',
-        'cta-btn': 'Подключиться к практике',
-        'cta-g1': '<strong>7 дней бесплатного доступа.</strong> Без привязки карты. Отмена в один клик. Данные хранятся только у вас.',
-        'cta-g2': 'Если за 7 дней не почувствуете сдвига — доступ останется, но вы не оплатите ни рубля.',
+        'cta-desc': 'Первые изменения — не в рывках, а в тишине. Через неделю утро станет яснее. День — устойчивее. Вечер — честнее.',
+        'cta-btn': 'Начать 7 дней бесплатно',
+        'guarantee1': '7 дней бесплатно.',
+        'guarantee2': 'Если не почувствуете сдвига — доступ останется, но вы не заплатите.',
         'faq-title': 'Частые вопросы',
-        'faq1-q': 'Сколько времени в день занимает практика?',
-        'faq1-a': 'Каждый из трёх ритуалов занимает 3–5 минут. Итого — около 10–15 минут в день. Это не нагрузка, а пауза, которая собирает весь день вокруг себя.',
-        'faq2-q': 'Что если я пропущу день или несколько дней?',
-        'faq2-a': 'Ничего не сломается. Трекер не наказывает за пропуски и не создаёт чувства вины. Вы просто продолжаете с того места, где остановились.',
-        'faq3-q': 'Нужен ли интернет для работы трекера?',
-        'faq3-a': 'Интернет нужен только для первичной синхронизации. Все ваши записи хранятся локально. Полная приватность, отсутствие рекламы и работа даже в режиме офлайн.',
-        'footer': '© 2024 Трекер состояния · Возвращаем авторство жизни',
-        'sticky-btn': 'Подключиться к практике'
+        'faq1-q': 'Сколько времени в день?',
+        'faq1-a': 'Каждый ритуал — 3–5 минут. Итого 10–15 минут в день. Это пауза, которая организует весь день.',
+        'faq2-q': 'Что если пропущу день?',
+        'faq2-a': 'Ничего не сломается. Трекер не наказывает. Продолжайте с того места, где остановились.',
+        'faq3-q': 'Нужен ли интернет?',
+        'faq3-a': 'Только для первичной синхронизации. Данные хранятся локально. Полная приватность, работа офлайн.',
+        'footer': '© 2024 State Tracker · Возвращаем авторство жизни',
+        'sticky-btn': 'Начать бесплатно'
       },
       en: {
+        'nav-cta': 'Start',
         'hero-label': 'State Tracker',
-        'hero-title': 'Your Day.<br>Your State.<br>Your Result.',
-        'hero-desc': 'A daily practice that turns time into a conscious trajectory. Engage. Preserve your resource. Move toward what truly matters.',
-        'hero-btn': 'Enter the System',
-        'hero-micro': 'Available on all devices. First changes within 72 hours.',
-        'trust-1': 'Local data storage',
-        'trust-2': 'Web · iOS · Android',
-        'scroll': 'Scroll',
-        'pain-label': 'Context',
+        'hero-line1': 'Your Day.',
+        'hero-line2': 'Your State.',
+        'hero-line3': 'Your Result.',
+        'hero-desc': 'A daily practice that turns time into conscious trajectory. Engage. Preserve resource. Move toward what matters.',
+        'hero-btn': 'Start Free',
+        'hero-btn2': 'How it Works',
+        'trust1': 'Your data stays with you',
+        'trust2': 'Web · iOS · Android',
+        'trust3': '10 min per day',
+        'scroll': 'Learn more',
+        'pain-label': 'The Problem',
         'pain-title': 'Most days are not lived.<br>They just happen.',
-        'pain-p1': 'Morning — external demands. Day — loss of focus and disconnection from the body. Evening — exhaustion without a sense of completion.',
-        'pain-p2': 'The problem is not discipline. Not planning.<br>The problem is the state you make choices from every day.',
-        'pain-emphasis': 'Without inner grounding, even the most precise goals dissolve in the flow.',
-        'pain-p3': 'The State Tracker was not created to help you do more. But to help you be present more deeply.',
-        'rituals-label': 'Architecture of the Day',
+        'pain-p1': 'Morning — external demands. Day — loss of focus. Evening — exhaustion without completion.',
+        'pain-p2': 'The problem is not discipline. It is the state you act from.',
+        'pain-lead': 'Without inner grounding, even precise goals dissolve in the flow.',
+        'rituals-label': 'System',
         'rituals-title': 'Three points of support.<br>One trajectory.',
-        'rituals-desc': 'A daily rhythm that returns authorship of your life to you.',
-        'rituals-time': 'Each ritual takes 3–5 minutes a day',
+        'rituals-desc': 'A daily rhythm that returns authorship of your life.',
+        'rituals-time': '3–5 minutes per ritual',
         'r1-title': 'Engagement',
-        'r1-desc': 'Not a reaction to external noise. A meeting with yourself. Reset. Choice of state. Anchor fixation.',
+        'r1-desc': 'Not a reaction to noise. A meeting with yourself. Reset. Choice of state. Daily anchor.',
         'r1-quote': 'The day begins not with anxiety, but with an inner point of strength.',
         'r2-title': 'Movement',
-        'r2-desc': 'Not a race. Reconnection. A simple action that returns the body to the process, releases stagnation, and holds focus.',
-        'r2-quote': 'In the morning you chose a direction. During the day, you confirm it through yourself.',
+        'r2-desc': 'Return to the body. A simple action that releases stagnation and restores focus.',
+        'r2-quote': 'In the morning you chose direction. During the day, you confirm it through yourself.',
         'r3-title': 'Completion',
-        'r3-desc': 'Not a report. A gathering of meaning. An honest look at what was lived. Insights. Gratitude.',
-        'r3-quote': 'So that night arrives not as an end, but as rest.',
-        'res-label': 'Depth of the System',
-        'res-title': 'A system that works<br>on all layers of presence.',
-        'res-desc': 'We do not separate mind, body, and context. We align them in resonance.',
-        'res1-title': 'Mind', 'res1-desc': 'Attention, intention, clarity of choice.',
-        'res2-title': 'Body', 'res2-desc': 'Breath, tone, physical resource.',
-        'res3-title': 'Context', 'res3-desc': 'Connection to purpose, loved ones, meaning — something greater than yourself.',
-        'res-closing': 'The result is not just organization. It is inner coherence.',
-        'whom-label': 'Audience',
-        'whom-title': 'This is not for everyone.<br>It is for those ready for precision.',
-        'whom-desc': 'For those tired of mechanical productivity.<br>For those who want to align goals with inner state.<br>For those who understand: real results are born from alignment, not force.',
-        'whom-1': 'You want not just to complete tasks, but to feel your path',
-        'whom-2': 'You need not rigid discipline, but inner grounding',
-        'whom-3': 'You seek a system, not a collection of motivational tricks',
-        'whom-4': 'You want to live coherently, not just keep up',
+        'r3-desc': 'Gathering meaning. Honest look. Insights. Gratitude. Closing the day.',
+        'r3-quote': 'Night arrives not as an end, but as rest.',
+        'steps-label': 'Process',
+        'steps-title': 'How It Works',
+        'step1-title': 'Sign Up',
+        'step1-desc': 'Create an account in 30 seconds. No card, no commitment.',
+        'step2-title': 'Daily Practice',
+        'step2-desc': 'Three rituals: morning, day, evening. 10 minutes a day.',
+        'step3-title': 'Transformation',
+        'step3-desc': 'In a week you will notice clarity, stability, and a sense of meaning.',
         'screens-label': 'Interface',
         'screens-title': 'What It Looks Like',
         'screens-desc': 'An interface that does not distract. Just you and your rhythm.',
-        'slide1-title': 'Morning', 'slide1-desc': 'Engagement · Reset · Choice',
-        'slide2-title': 'Day', 'slide2-desc': 'Movement · Resource · Focus',
-        'slide3-title': 'Evening', 'slide3-desc': 'Completion · Awareness · Peace',
+        'slide1-title': 'Morning',
+        'slide1-desc': 'Engagement · Reset · Choice',
+        'slide2-title': 'Day',
+        'slide2-desc': 'Movement · Resource · Focus',
+        'slide3-title': 'Evening',
+        'slide3-desc': 'Completion · Awareness · Peace',
         'test-label': 'Testimonials',
         'test-title': 'What changes when the day gains structure.',
         'test-desc': 'Not more tasks. More clarity, grounding, and the feeling that time belongs to you.',
-        't1-text': '"Before, mornings started with other people\'s tasks. With the tracker, silence appeared for the first time. I choose my state before the day chooses me."',
+        't1': '"Before, mornings started with other people\'s tasks. With the tracker, silence appeared. I choose my state before the day chooses me."',
         't1-name': 'Anna', 't1-role': 'Studio Founder',
-        't2-text': '"The evening block became my gathering point. Background anxiety faded. A sense of completion emerged that neither lists nor plans could give."',
+        't2': '"The evening block became my gathering point. Anxiety faded. A sense of completion emerged that lists couldn\'t give."',
         't2-name': 'Igor', 't2-role': 'Team Lead',
-        't3-text': '"This is not about motivation. It is about grounding. I stopped starting each day from a blank page. A trajectory appeared."',
-        't3-name': 'Marina', 't3-role': 'Development Specialist',
-        't4-text': '"Three simple actions, yet they hold the day together. Chaos retreats when rhythm exists."',
+        't3': '"This is not about motivation. It is about grounding. I stopped starting from a blank page. A trajectory appeared."',
+        't3-name': 'Marina', 't3-role': 'Specialist',
+        't4': '"Three simple actions hold the day together. Chaos retreats when rhythm exists."',
         't4-name': 'Dmitry', 't4-role': 'Product Manager',
-        't5-text': '"I was looking for balance between goals and state. Here it is. You can move forward without losing yourself."',
+        't5': '"I sought balance between goals and state. Here it is. You can move forward without losing yourself."',
         't5-name': 'Elena', 't5-role': 'Coach',
-        't6-text': '"I realized the main thing: results depend on the quality of presence. When you start managing your state, everything changes."',
-        't6-name': 'Alexey', 't6-role': 'Business Owner',
-        'test-note': 'Reviews from real users. Results are individual and depend on practice consistency.',
+        't6': '"Results depend on quality of presence. When you manage your state, everything changes."',
+        't6-name': 'Alexey', 't6-role': 'Entrepreneur',
         'cta-label': 'Beginning',
         'cta-title': 'Reclaim authorship of your day.',
-        'cta-desc': 'First changes appear not in leaps, but in quiet.<br>In a week you will notice mornings are clearer. Days — steadier. Evenings — more honest.<br>This is not magic. It is the architecture of state.',
-        'cta-btn': 'Join the Practice',
-        'cta-g1': '<strong>7 days free access.</strong> No card required. Cancel in one click. Your data stays only with you.',
-        'cta-g2': 'If you feel no shift in 7 days — access remains, but you pay nothing.',
-        'faq-title': 'Frequently Asked Questions',
-        'faq1-q': 'How much time per day does the practice take?',
-        'faq1-a': 'Each of the three rituals takes 3–5 minutes. Total — about 10–15 minutes a day. This is not a load, but a pause that organizes the entire day around it.',
-        'faq2-q': 'What if I miss a day or several days?',
-        'faq2-a': 'Nothing breaks. The tracker does not punish for missed days or create guilt. You simply continue from where you left off.',
-        'faq3-q': 'Does the tracker require internet?',
-        'faq3-a': 'Internet is only needed for initial sync. All your entries are stored locally. Full privacy, no ads, and offline functionality.',
+        'cta-desc': 'First changes appear not in leaps, but in quiet. In a week, mornings will be clearer. Days steadier. Evenings more honest.',
+        'cta-btn': 'Start 7 Days Free',
+        'guarantee1': '7 days free.',
+        'guarantee2': 'If you feel no shift — access remains, but you pay nothing.',
+        'faq-title': 'FAQ',
+        'faq1-q': 'How much time per day?',
+        'faq1-a': 'Each ritual takes 3–5 minutes. Total 10–15 minutes. A pause that organizes the entire day.',
+        'faq2-q': 'What if I miss a day?',
+        'faq2-a': 'Nothing breaks. The tracker does not punish. Continue from where you left off.',
+        'faq3-q': 'Is internet required?',
+        'faq3-a': 'Only for initial sync. Data is stored locally. Full privacy, offline capable.',
         'footer': '© 2024 State Tracker · Returning authorship of life',
-        'sticky-btn': 'Join the Practice'
+        'sticky-btn': 'Start Free'
       }
     };
 
-    let currentLang = 'ru';
-    let currentSlide = 0;
+    let lang = 'ru';
+    let slideIdx = 0;
     const totalSlides = 3;
+    const sunSVG = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+    const moonSVG = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
 
-    // ── Language Switch ──
-    function setLanguage(lang) {
-      currentLang = lang;
-      document.documentElement.lang = lang;
-      document.getElementById('langLabel').textContent = lang === 'ru' ? 'EN' : 'RU';
-
+    function setLang(l) {
+      lang = l;
+      document.documentElement.lang = l;
+      document.getElementById('langText').textContent = l === 'ru' ? 'EN' : 'RU';
       document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) {
-          el.innerHTML = translations[lang][key];
-        }
+        const key = el.dataset.i18n;
+        if (i18n[l][key] !== undefined) el.innerHTML = i18n[l][key];
       });
     }
 
-    document.getElementById('langToggle').addEventListener('click', () => {
-      setLanguage(currentLang === 'ru' ? 'en' : 'ru');
-    });
-
-    // ── Theme Switch ──
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-
-    const sunPath = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
-    const moonPath = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
-
-    function setTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      themeIcon.innerHTML = theme === 'dark' ? sunPath : moonPath;
-      localStorage.setItem('theme', theme);
+    function setTheme(t) {
+      document.documentElement.dataset.theme = t;
+      document.getElementById('themeIcon').innerHTML = t === 'dark' ? sunSVG : moonSVG;
+      localStorage.setItem('theme', t);
     }
 
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      setTheme(current === 'dark' ? 'light' : 'dark');
-    });
+    document.getElementById('langBtn').addEventListener('click', () => setLang(lang === 'ru' ? 'en' : 'ru'));
+    document.getElementById('themeBtn').addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
 
-    // ── Load saved theme ──
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) setTheme(savedTheme);
+    const saved = localStorage.getItem('theme');
+    if (saved) setTheme(saved);
 
-    // ── Header scroll ──
+    // Header scroll
     const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 60);
-    });
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 40), { passive: true });
 
-    // ── Reveal on Scroll ──
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    // Reveal
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    // ── Slider ──
-    const sliderTrack = document.getElementById('sliderTrack');
-    const sliderCounter = document.getElementById('sliderCounter');
+    // Slider
+    const track = document.getElementById('sliderTrack');
+    const counter = document.getElementById('sliderCounter');
     const dots = document.querySelectorAll('.slider-dot');
-    const prevBtn = document.getElementById('sliderPrev');
-    const nextBtn = document.getElementById('sliderNext');
+    const prev = document.getElementById('prevBtn');
+    const next = document.getElementById('nextBtn');
 
-    function updateSlider() {
-      sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-      sliderCounter.textContent = `0${currentSlide + 1} / 0${totalSlides}`;
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
-      prevBtn.disabled = currentSlide === 0;
-      nextBtn.disabled = currentSlide === totalSlides - 1;
+    function update() {
+      track.style.transform = `translateX(-${slideIdx * 100}%)`;
+      counter.textContent = `${slideIdx + 1} / ${totalSlides}`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === slideIdx));
+      prev.disabled = slideIdx === 0;
+      next.disabled = slideIdx === totalSlides - 1;
     }
 
-    prevBtn.addEventListener('click', () => {
-      if (currentSlide > 0) { currentSlide--; updateSlider(); }
-    });
+    prev.addEventListener('click', () => { if (slideIdx > 0) { slideIdx--; update(); } });
+    next.addEventListener('click', () => { if (slideIdx < totalSlides - 1) { slideIdx++; update(); } });
+    dots.forEach(d => d.addEventListener('click', () => { slideIdx = +d.dataset.index; update(); }));
 
-    nextBtn.addEventListener('click', () => {
-      if (currentSlide < totalSlides - 1) { currentSlide++; updateSlider(); }
-    });
-
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        currentSlide = parseInt(dot.dataset.index);
-        updateSlider();
-      });
-    });
-
-    // Touch/swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    sliderTrack.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-    sliderTrack.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
-      if (Math.abs(diff) > 50) {
-        if (diff > 0 && currentSlide < totalSlides - 1) { currentSlide++; updateSlider(); }
-        else if (diff < 0 && currentSlide > 0) { currentSlide--; updateSlider(); }
+    let tx = 0;
+    track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const diff = tx - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0 && slideIdx < totalSlides - 1) { slideIdx++; update(); }
+        else if (diff < 0 && slideIdx > 0) { slideIdx--; update(); }
       }
     }, { passive: true });
 
-    // Keyboard support
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft' && currentSlide > 0) { currentSlide--; updateSlider(); }
-      if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) { currentSlide++; updateSlider(); }
-    });
-
-    // ── FAQ Accordion ──
-    document.querySelectorAll('.faq-question').forEach(btn => {
+    // FAQ
+    document.querySelectorAll('.faq-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const item = btn.parentElement;
-        const isActive = item.classList.contains('active');
+        const active = item.classList.contains('active');
         document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-        if (!isActive) item.classList.add('active');
+        if (!active) item.classList.add('active');
       });
     });
 
-    // ── Smooth Scroll ──
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth' });
       });
     });
 
-    // ── Sticky CTA ──
-    const stickyCta = document.querySelector('.sticky-cta');
-    const heroSection = document.querySelector('.hero');
-    if (stickyCta && heroSection) {
-      const heroObs = new IntersectionObserver(([entry]) => {
-        stickyCta.style.transform = entry.isIntersecting ? 'translateY(100%)' : 'translateY(0)';
-      }, { threshold: 0.3 });
-      heroObs.observe(heroSection);
-    }
+    // Sticky CTA
+    const sticky = document.getElementById('stickyCta');
+    const heroObs = new IntersectionObserver(([e]) => sticky.classList.toggle('visible', !e.isIntersecting), { threshold: 0.2 });
+    heroObs.observe(document.querySelector('.hero'));
 
-    // ── Init ──
-    updateSlider();
+    update();
   </script>
 </body>
 </html>
