@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GenOffOn — Презентация для продажников</title>
+    <title>GenOffOn — Презентация</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/index.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #F5F6F8;
+            background: #E8EAED;
             color: #1A1D23;
             min-height: 100vh;
             display: flex;
@@ -22,688 +18,539 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            user-select: none;
         }
 
-        .presentation-container {
+        .wrapper {
             width: 100%;
-            max-width: 960px;
+            max-width: 1100px;
             height: 100vh;
-            max-height: 720px;
+            max-height: 820px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            padding: 10px;
+        }
+
+        .viewport {
+            width: 100%;
+            flex: 1;
             position: relative;
-            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         .slide {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: #FFFFFF;
-            border-radius: 20px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-            padding: 48px 56px;
+            padding: 40px 48px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             opacity: 0;
-            transform: translateX(40px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
             pointer-events: none;
+            overflow-y: auto;
+            transition: opacity 0.45s cubic-bezier(0.4,0,0.2,1), transform 0.45s cubic-bezier(0.4,0,0.2,1);
         }
 
-        .slide.active {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: auto;
+        .slide.active { opacity: 1; pointer-events: auto; transform: translateX(0); }
+        .slide.from-right { transform: translateX(100%); }
+        .slide.from-left { transform: translateX(-100%); }
+        .slide.to-right { transform: translateX(100%); }
+        .slide.to-left { transform: translateX(-100%); }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #EFF6FF;
+            color: #2563EB;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
         }
 
-        .slide.exit-left {
-            opacity: 0;
-            transform: translateX(-40px);
-        }
-
-        .slide-number {
-            position: absolute;
-            top: 24px;
-            left: 32px;
+        .counter {
+            float: right;
             font-size: 13px;
             font-weight: 600;
             color: #9CA3AF;
-            letter-spacing: 0.5px;
-        }
-
-        .slide-tag {
-            display: inline-block;
-            background: #EEF0F4;
-            color: #6B7280;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-        }
-
-        .slide-title {
-            font-size: 32px;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 28px;
-            color: #111827;
-        }
-
-        .slide-title .accent {
-            color: #2563EB;
-        }
-
-        .slide-title .red {
-            color: #DC2626;
-        }
-
-        .slide-body {
-            font-size: 16px;
-            line-height: 1.7;
-            color: #4B5563;
-            margin-bottom: 24px;
-        }
-
-        .slide-body ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .slide-body ul li {
-            padding: 10px 0;
-            border-bottom: 1px solid #F3F4F6;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .slide-body ul li:last-child {
-            border-bottom: none;
-        }
-
-        .slide-body ul li .icon {
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
             margin-top: 2px;
         }
 
-        .result-line {
-            margin-top: 24px;
-            padding: 16px 20px;
-            background: #FEF2F2;
-            border-left: 4px solid #EF4444;
-            border-radius: 0 10px 10px 0;
-            font-size: 15px;
-            font-weight: 600;
-            color: #991B1B;
+        .title {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #111827;
         }
 
-        .formula-box {
-            background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
-            border-radius: 14px;
-            padding: 24px 28px;
-            margin-top: 20px;
-            text-align: center;
+        .title .b { color: #2563EB; }
+        .title .r { color: #DC2626; }
+        .title .g { color: #059669; }
+
+        .text {
+            font-size: 15.5px;
+            line-height: 1.75;
+            color: #374151;
+            margin-bottom: 14px;
         }
 
-        .formula-box .formula {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1E40AF;
-            margin-bottom: 8px;
+        .text p { margin-bottom: 12px; }
+
+        .highlight {
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 14px 0;
+            border-left: 4px solid;
         }
 
-        .formula-box .formula-sub {
-            font-size: 14px;
-            color: #3B82F6;
+        .highlight.blue { background: #EFF6FF; border-color: #3B82F6; }
+        .highlight.green { background: #F0FDF4; border-color: #22C55E; }
+        .highlight.red { background: #FEF2F2; border-color: #EF4444; }
+        .highlight.amber { background: #FFFBEB; border-color: #F59E0B; }
+        .highlight.purple { background: #F5F3FF; border-color: #8B5CF6; }
+
+        .highlight p {
+            font-size: 14.5px;
+            line-height: 1.65;
+            margin: 0;
         }
 
-        .persona-grid {
+        .highlight.blue p { color: #1E40AF; }
+        .highlight.green p { color: #166534; }
+        .highlight.red p { color: #991B1B; }
+        .highlight.amber p { color: #92400E; }
+        .highlight.purple p { color: #5B21B6; }
+
+        .grid2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-top: 16px;
+            gap: 12px;
+            margin: 12px 0;
         }
 
-        .persona-card {
+        .card {
             background: #F9FAFB;
             border: 1px solid #E5E7EB;
             border-radius: 12px;
             padding: 16px;
         }
 
-        .persona-card .persona-icon {
-            font-size: 20px;
-            margin-bottom: 6px;
+        .card .ci { font-size: 20px; margin-bottom: 4px; }
+        .card .cn { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 6px; }
+        .card .cd { font-size: 13px; color: #6B7280; line-height: 1.5; }
+
+        .formula {
+            text-align: center;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 12px;
+            margin: 14px 0;
         }
 
-        .persona-card .persona-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: #111827;
-            margin-bottom: 4px;
-        }
+        .formula .f { font-size: 20px; font-weight: 800; color: #1E40AF; margin-bottom: 6px; }
+        .formula .fs { font-size: 13px; color: #6B7280; }
 
-        .persona-card .persona-desc {
-            font-size: 13px;
-            color: #6B7280;
-            line-height: 1.4;
-        }
+        .checklist { margin: 10px 0; }
 
-        .checklist {
-            margin-top: 16px;
-        }
-
-        .checklist-item {
+        .ck {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            font-size: 15px;
-            color: #374151;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #F3F4F6;
         }
 
-        .checklist-item .check {
-            width: 22px;
-            height: 22px;
+        .ck:last-child { border-bottom: none; }
+
+        .ck .cv {
+            width: 22px; height: 22px;
             background: #D1FAE5;
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #059669;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             flex-shrink: 0;
+            margin-top: 2px;
         }
 
-        .cta-box {
-            background: linear-gradient(135deg, #1E40AF, #2563EB);
-            border-radius: 14px;
-            padding: 32px;
+        .ck .ct { font-size: 14.5px; color: #374151; line-height: 1.55; }
+        .ck .ct strong { color: #111827; }
+
+        .cta {
             text-align: center;
-            margin-top: 24px;
+            padding: 32px;
+            background: linear-gradient(135deg, #1E3A5F, #2563EB, #3B82F6);
+            border-radius: 16px;
+            margin-top: 16px;
         }
 
-        .cta-box .cta-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #FFFFFF;
-            margin-bottom: 12px;
-        }
-
-        .cta-box .cta-sub {
-            font-size: 14px;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 20px;
-        }
+        .cta .ct2 { font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 10px; line-height: 1.3; }
+        .cta .ct3 { font-size: 14px; color: rgba(255,255,255,0.85); margin-bottom: 22px; line-height: 1.6; }
 
         .cta-btn {
-            display: inline-block;
-            background: #FFFFFF;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFF;
             color: #1E40AF;
+            font-family: 'Inter', sans-serif;
             font-size: 16px;
             font-weight: 700;
             padding: 14px 36px;
             border-radius: 12px;
             border: none;
             cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            transition: all 0.2s;
         }
 
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
 
-        .navigation {
+        .nav {
+            width: 100%;
+            max-width: 1100px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: 24px;
-            width: 100%;
-            max-width: 960px;
-            padding: 0 8px;
+            padding: 0 6px;
         }
 
-        .nav-btn {
+        .nb {
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: #FFFFFF;
+            gap: 6px;
+            background: #FFF;
             color: #374151;
             font-family: 'Inter', sans-serif;
             font-size: 14px;
             font-weight: 600;
             padding: 12px 24px;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid #E5E7EB;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
 
-        .nav-btn:hover {
-            background: #F9FAFB;
-            border-color: #D1D5DB;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
+        .nb:hover:not(:disabled) { background: #F9FAFB; border-color: #D1D5DB; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .nb:disabled { opacity: 0.35; cursor: not-allowed; }
+        .nb .a { font-size: 16px; }
 
-        .nav-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            background: #F9FAFB;
-        }
+        .dots { display: flex; align-items: center; gap: 5px; }
 
-        .nav-btn .arrow {
-            font-size: 18px;
-        }
-
-        .progress-bar {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .progress-dot {
-            width: 10px;
-            height: 10px;
+        .dot {
+            width: 9px; height: 9px;
             border-radius: 50%;
-            background: #E5E7EB;
-            transition: all 0.3s ease;
+            background: #D1D5DB;
+            transition: all 0.3s;
             cursor: pointer;
         }
 
-        .progress-dot.active {
-            background: #2563EB;
-            width: 28px;
-            border-radius: 5px;
-        }
-
-        .script-note {
-            margin-top: 16px;
-            padding: 14px 18px;
-            background: #F0FDF4;
-            border-radius: 10px;
-            border-left: 3px solid #22C55E;
-            font-size: 13px;
-            color: #166534;
-            line-height: 1.5;
-        }
-
-        .script-note .label {
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .transition-note {
-            margin-top: 10px;
-            font-size: 13px;
-            color: #6B7280;
-            font-style: italic;
-        }
+        .dot.active { background: #2563EB; width: 26px; border-radius: 4px; }
 
         @media (max-width: 768px) {
-            .presentation-container {
-                height: 100vh;
-                max-height: none;
-                border-radius: 0;
-            }
-
-            .slide {
-                border-radius: 0;
-                padding: 36px 24px;
-                box-shadow: none;
-            }
-
-            .slide-title {
-                font-size: 24px;
-            }
-
-            .slide-body {
-                font-size: 14px;
-            }
-
-            .persona-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .formula-box .formula {
-                font-size: 18px;
-            }
+            .wrapper { max-height: none; height: 100vh; padding: 0; gap: 0; }
+            .viewport { border-radius: 0; box-shadow: none; }
+            .slide { padding: 26px 20px; }
+            .title { font-size: 22px; }
+            .text { font-size: 14px; }
+            .grid2 { grid-template-columns: 1fr; }
+            .cta { padding: 22px 16px; }
+            .cta .ct2 { font-size: 17px; }
+            .cta-btn { padding: 13px 26px; font-size: 14px; }
+            .nb { padding: 11px 16px; font-size: 13px; }
+            .highlight p { font-size: 13.5px; }
+            .ck .ct { font-size: 13.5px; }
         }
     </style>
 </head>
 <body>
 
-<div class="presentation-container">
+<div class="wrapper">
+<div class="viewport" id="vp">
 
-    <!-- СЛАЙД 1 -->
-    <div class="slide active" id="slide-1">
-        <div class="slide-number">01 / 08</div>
-        <div class="slide-tag">Вход</div>
-        <div class="slide-title">
-            🔥 Ты знаешь продукт.<br>
-            Ты умеешь говорить.<br><br>
-            <span class="red">Но клиенты сливаются.</span><br><br>
-            Почему?
-        </div>
-        <div class="script-note">
-            <div class="label">🎙 Скрипт выступающего:</div>
-            «Ты изучил продукт. Ты отработал скрипты. Ты выходишь на встречи с энергией. Но клиент говорит "я подумаю" — и пропадает. Или команда, которую ты подписал, гаснет через месяц. [пауза] Дело не в продукте. И не в тебе. Дело в том, что ты продаёшь "вслепую".»
-        </div>
-        <div class="transition-note">Переход: «Чтобы продавать точно, нужно видеть два момента: сколько у тебя энергии прямо сейчас — и кто перед тобой стоит».</div>
+<!-- ════════ СЛАЙД 1 ════════ -->
+<div class="slide active" data-s="1">
+    <div><span class="badge">🔥 Вход</span><span class="counter">1 / 8</span></div>
+    <div class="title">
+        Ты знаешь продукт.<br>
+        Ты умеешь говорить.<br><br>
+        <span class="r">Но клиенты сливаются.</span><br><br>
+        Почему?
     </div>
-
-    <!-- СЛАЙД 2 -->
-    <div class="slide" id="slide-2">
-        <div class="slide-number">02 / 08</div>
-        <div class="slide-tag">Проблема</div>
-        <div class="slide-title">Две причины сливов</div>
-        <div class="slide-body">
-            <ul>
-                <li>
-                    <div class="icon">⚡️</div>
-                    <div><strong>Твоя энергия на нуле</strong><br>Говоришь не то, давишь, суетишься или вяло презентуешь. Клиент считывает — и закрывается.</div>
-                </li>
-                <li>
-                    <div class="icon">🎯</div>
-                    <div><strong>Не видишь типаж клиента</strong><br>Говоришь про «цифры» человеку, который покупает эмоциями. Или предлагаешь «образ» тому, кому нужны факты. Ты продаёшь мимо.</div>
-                </li>
-            </ul>
-        </div>
-        <div class="result-line">Результат: отказ • выгорание • потеря времени</div>
-        <div class="script-note">
-            <div class="label">🎙 Скрипт:</div>
-            «Когда у тебя мало энергии, ты начинаешь давить, суетиться или вяло презентовать. [пауза] Вторая причина: ты говоришь про "выгоду и цифры" человеку, который покупает глазами. Или предлагаешь "красоту" тому, кому нужна логика. Ты не видишь, кто перед тобой — и продаёшь мимо.»
-        </div>
-        <div class="transition-note">Переход: «А что, если ты сможешь видеть и своё состояние, и типаж клиента — до того, как начнёшь презентацию?»</div>
+    <div class="text">
+        <p>Ты не случайно оказался здесь. Ты изучил свой продукт вдоль и поперёк. Ты отработал скрипты, тренировал презентации, выходил на встречи с энергией и готовостью помочь клиенту принять решение.</p>
+        <p>Но что происходит дальше? Клиент кивает, говорит «я подумаю» — и исчезает. Или человек, которого ты подписал в команду, горит первую неделю, а через месяц гаснет и уходит.</p>
+        <p><strong>Дело не в продукте. И дело не в тебе.</strong> Ты не стал хуже продавать. Ты не потерял навыки. Просто ты продаёшь «вслепую» — без понимания двух ключевых вещей: своего внутреннего ресурса и типажа человека перед тобой.</p>
     </div>
-
-    <!-- СЛАЙД 3 -->
-    <div class="slide" id="slide-3">
-        <div class="slide-number">03 / 08</div>
-        <div class="slide-tag">Рефрейм</div>
-        <div class="slide-title">Продажи — это не скрипты</div>
-        <div class="slide-body">
-            <ul>
-                <li>
-                    <div class="icon">⚡️</div>
-                    <div><strong>Твоя энергия</strong> — источник, а не батарейка. Когда ты в ресурсе, ты уверен и чувствуешь клиента.</div>
-                </li>
-                <li>
-                    <div class="icon">🎯</div>
-                    <div><strong>Точное попадание в типаж</strong> — говоришь на его языке, и он слышит: «Он меня понимает».</div>
-                </li>
-            </ul>
-        </div>
-        <div class="formula-box">
-            <div class="formula">Энергия × Точность = Конверсия</div>
-            <div class="formula-sub">Попадаешь в язык → получаешь доверие → закрываешь сделку</div>
-        </div>
-        <div class="script-note">
-            <div class="label">🎙 Скрипт:</div>
-            «Продажи — это не про "заговорить зубы". Это про энергию и точность. Интуиту — про возможности. Чувствительному — про образы. Логику — про факты. Сенсорику — про конкретику. Попадание = доверие = сделка.»
-        </div>
-        <div class="transition-note">Переход: «Как увидеть своё состояние и типаж клиента — быстро и без гаданий?»</div>
+    <div class="highlight red">
+        <p>🔴 <strong>Проблема не в том, что ты делаешь что-то неправильно.</strong> Проблема в том, что ты делаешь всё правильно — но не с тем человеком и не в том состоянии.</p>
     </div>
-
-    <!-- СЛАЙД 4 -->
-    <div class="slide" id="slide-4">
-        <div class="slide-number">04 / 08</div>
-        <div class="slide-tag">Решение №1</div>
-        <div class="slide-title">Перед звонком — проверь себя</div>
-        <div class="slide-body">
-            <ul>
-                <li>
-                    <div class="icon">📊</div>
-                    <div><strong>Уровень энергии:</strong> готов / на нуле / на подъёме</div>
-                </li>
-                <li>
-                    <div class="icon">🔑</div>
-                    <div><strong>Твой канал:</strong> как ты лучше продаёшь</div>
-                </li>
-                <li>
-                    <div class="icon">⚠️</div>
-                    <div><strong>Зоны риска:</strong> где можешь «слить» сделку</div>
-                </li>
-            </ul>
-        </div>
-        <div class="formula-box" style="background: linear-gradient(135deg, #F0FDF4, #DCFCE7);">
-            <div class="formula" style="color: #166534;">⏱ 2 минуты → ясность → уверенный выход</div>
-            <div class="formula-sub" style="color: #22C55E;">Это не тест «кто ты». Это приборная панель.</div>
-        </div>
-        <div class="script-note">
-            <div class="label">🎙 Скрипт:</div>
-            «Прежде чем набрать номер — две минуты на диагностику. Ты увидишь: в каком ты ресурсе сейчас, через какой канал продаёшь лучше, и где можешь незаметно "слить" клиента. Проверил — понял — скорректировал. И вышел уверенно.»
-        </div>
-        <div class="transition-note">Переход: «Ты в ресурсе. Теперь — как увидеть, кто перед тобой?»</div>
+    <div class="text">
+        <p>Дальше ты узнаешь, почему сделки сливаются, как видеть свой ресурс перед встречей, как определять типаж клиента и говорить на его языке — и почему команда растёт только тогда, когда ты видишь людей изнутри.</p>
     </div>
+</div>
 
-    <!-- СЛАЙД 5 -->
-    <div class="slide" id="slide-5">
-        <div class="slide-number">05 / 08</div>
-        <div class="slide-tag">Решение №2</div>
-        <div class="slide-title">4 типажа — 4 языка продаж</div>
-        <div class="persona-grid">
-            <div class="persona-card">
-                <div class="persona-icon">🧠</div>
-                <div class="persona-name">Интуит</div>
-                <div class="persona-desc">«Покажите возможности, будущее, идею»</div>
-            </div>
-            <div class="persona-card">
-                <div class="persona-icon">💙</div>
-                <div class="persona-name">Чувствительный</div>
-                <div class="persona-desc">«Покажите образ, эмоции, красоту»</div>
-            </div>
-            <div class="persona-card">
-                <div class="persona-icon">🧮</div>
-                <div class="persona-name">Логик</div>
-                <div class="persona-desc">«Дайте факты, цифры, причинно-следственные связи»</div>
-            </div>
-            <div class="persona-card">
-                <div class="persona-icon">✋</div>
-                <div class="persona-name">Сенсорик</div>
-                <div class="persona-desc">«Дайте конкретику, результат здесь и сейчас»</div>
-            </div>
-        </div>
-        <div class="formula-box" style="margin-top: 20px;">
-            <div class="formula">Попадаешь в язык → получаешь доверие → закрываешь сделку</div>
-        </div>
-        <div class="script-note">
-            <div class="label">🎙 Скрипт:</div>
-            «Каждый клиент покупает по-своему. Интуит — не купит без перспективы. Чувствительный — без эмоций. Логику — без цифр. Сенсорику — без конкретики. Когда ты видишь типаж — ты не угадываешь. Ты говоришь на его языке. И клиент слышит: "Он меня понимает".»
-        </div>
-        <div class="transition-note">Переход: «А если ты строишь команду — как понять, кого и как подписывать, чтобы люди не уходили?»</div>
+<!-- ════════ СЛАЙД 2 ════════ -->
+<div class="slide" data-s="2">
+    <div><span class="badge">⚠️ Проблема</span><span class="counter">2 / 8</span></div>
+    <div class="title">Две причины, почему сделки <span class="r">сливаются</span></div>
+    <div class="text">
+        <p>Когда ты долго работаешь в поле, не видя результата, ты начинаешь думать: «Может, я не подхожу для продаж? Может, продукт не тот? Может, рынок перегрет?»</p>
+        <p><strong>Нет. Есть всего две причины, и обе решаются.</strong></p>
     </div>
-
-    <!-- СЛАЙД 6 -->
-    <div class="slide" id="slide-6">
-        <div class="slide-number">06 / 08</div>
-        <div class="slide-tag">Команда</div>
-        <div class="slide-title">Команда растёт, когда ты видишь:</div>
-        <div class="slide-body">
-            <ul>
-                <li>
-                    <div class="icon">🔍</div>
-                    <div><strong>Типаж человека</strong> → как его мотивировать</div>
-                </li>
-                <li>
-                    <div class="icon">🎯</div>
-                    <div><strong>Его цели</strong> → зачем ему это</div>
-                </li>
-                <li>
-                    <div class="icon">⚡️</div>
-                    <div><strong>Его канал энергии</strong> → как он не выгорит</div>
-                </li>
-            </ul>
+    <div class="grid2">
+        <div class="card">
+            <div class="ci">⚡️</div>
+            <div class="cn">Причина 1: Твоя энергия на нуле</div>
+            <div class="cd">Когда у тебя мало ресурса, ты начинаешь давить, суетиться или, наоборот, вяло презентовать. Ты сам чувствуешь, что «не в форме». Клиент считывает это мгновенно — и закрывается. Он не отвергает продукт. Он отвергает твоё состояние.</div>
         </div>
-        <div class="formula-box" style="background: linear-gradient(135deg, #F0FDF4, #DCFCE7);">
-            <div class="formula" style="color: #166534;">Не угадываешь → не теряешь людей</div>
-            <div class="formula-sub" style="color: #22C55E;">Интуит уйдёт без перспектив. Логик — без системы. Чувствительный — без атмосферы. Сенсорик — без быстрого результата.</div>
-        </div>
-        <div class="script-note">
-            <div class="label">🎙 Скрипт:</div>
-            «Когда ты подписываешь человека — ты не видишь, что у него внутри. Интуит уйдёт, если не увидит перспективу. Логик — если нет чёткой системы. GenOffOn показывает: кто перед тобой, какие у него цели, и как его вести, чтобы он не выгорел и остался с тобой.»
-        </div>
-        <div class="transition-note">Переход: «Как получить эти инструменты — не в теории, а в работе уже завтра?»</div>
-    </div>
-
-    <!-- СЛАЙД 7 -->
-    <div class="slide" id="slide-7">
-        <div class="slide-number">07 / 08</div>
-        <div class="slide-tag">Продукт</div>
-        <div class="slide-title">Инструменты для продажника</div>
-        <div class="checklist">
-            <div class="checklist-item">
-                <div class="check">✓</div>
-                <div><strong>Гайд:</strong> «Как определить типаж клиента за 3 вопроса»</div>
-            </div>
-            <div class="checklist-item">
-                <div class="check">✓</div>
-                <div><strong>Скрипты под 4 типажа:</strong> интуит / чувствительный / логик / сенсорик</div>
-            </div>
-            <div class="checklist-item">
-                <div class="check">✓</div>
-                <div><strong>Чек-лист:</strong> «Проверь свою энергию перед встречей»</div>
-            </div>
-            <div class="checklist-item">
-                <div class="check">✓</div>
-                <div><strong>Протоколы:</strong> «Как вести человека в команде, чтобы не выгорел»</div>
-            </div>
-        </div>
-        <div class="formula-box" style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); margin-top: 20px;">
-            <div class="formula" style="color: #92400E;">Не теория. Готовые инструменты под твои задачи.</div>
-            <div class="formula-sub" style="color: #B45309;">Взял — применил — получил результат.</div>
-        </div>
-        <div class="script-note">
-            <div class="label">🎙 Скрипт:</div>
-            «Диагностика покажет твоё состояние. Но чтобы продавать точно — нужны инструменты. Гайд, скрипты, чек-лист, протоколы для команды. Это не курс. Это рабочие файлы, которые ты используешь сразу. Взял — применил — получил результат.»
-        </div>
-        <div class="transition-note">Переход: «Инструменты у тебя в руках. Остаётся сделать первый шаг.»</div>
-    </div>
-
-    <!-- СЛАЙД 8 -->
-    <div class="slide" id="slide-8">
-        <div class="slide-number">08 / 08</div>
-        <div class="slide-tag">Финал</div>
-        <div class="slide-title">Включи свою энергию.<br>Увидь типаж клиента.<br><span class="accent">Закрой сделку.</span></div>
-        <div class="cta-box">
-            <div class="cta-title">Не откладывай. Твоя следующая сделка — уже рядом.</div>
-            <div class="cta-sub">Две минуты. Ты увидишь свой ресурс. Поймёшь, как говорить с разными людьми. И начнёшь закрывать сделки без выгорания.</div>
-            <button class="cta-btn" onclick="alert('Переход к диагностике...')">🔘 Пройти диагностику — 2 минуты</button>
-        </div>
-        <div class="script-note">
-            <div class="label">🎙 Скрипт:</div>
-            «Это не про "стать другим". Это про то, чтобы продавать так, как удобно тебе — и попадать в тех, кто купит. [пауза] Две минуты на диагностику. Ты увидишь свой ресурс. Поймёшь, как говорить с разными людьми. И начнёшь закрывать сделки без выгорания. [тише] Нажми кнопку. Всё начинается здесь.»
+        <div class="card">
+            <div class="ci">🎯</div>
+            <div class="cn">Причина 2: Не видишь типаж клиента</div>
+            <div class="cd">Ты говоришь про «выгоду и цифры» человеку, который покупает глазами и эмоциями. Или предлагаешь «красоту и образ» тому, кому нужны факты и логика. Ты продаёшь мимо — не потому что плохо говоришь, а потому что говоришь не на его языке.</div>
         </div>
     </div>
+    <div class="highlight red">
+        <p><strong>Результат:</strong> отказ → выгорание → потеря времени → «я не могу так больше» → перерыв → возврат к тому же.</p>
+    </div>
+    <div class="text">
+        <p>Ты попадаешь в цикл: пытаешься → не получаешь результат → устаёшь → сомневаешься → снова пытаешься. И каждый раз проблема не в усилиях. <strong>Проблема в отсутствии точности.</strong></p>
+        <p>Но что, если ты сможешь видеть и своё состояние, и типаж клиента — до того, как начнёшь презентацию? Ниже — как это работает.</p>
+    </div>
+</div>
+
+<!-- ════════ СЛАЙД 3 ════════ -->
+<div class="slide" data-s="3">
+    <div><span class="badge">💡 Рефрейм</span><span class="counter">3 / 8</span></div>
+    <div class="title">Продажи — это <span class="b">не скрипты</span></div>
+    <div class="text">
+        <p>Мы привыкли думать, что продажи — это набор техник: «закрытие», «работа с возражениями», «скрытые вопросы», «давление на боль». И всё это работает — но только если у тебя есть два фундаментальных условия.</p>
+    </div>
+    <div class="grid2">
+        <div class="card" style="background:#EFF6FF;border-color:#93C5FD;">
+            <div class="ci">⚡️</div>
+            <div class="cn">Энергия = Источник, а не батарейка</div>
+            <div class="cd">Когда ты в ресурсе — ты уверен, спокоен, чувствуешь клиента. Ты не «пытаешься продать», а помогаешь ему принять решение. Когда энергии нет — ты выгораешь, и ни один скрипт не спасёт.</div>
+        </div>
+        <div class="card" style="background:#F0FDF4;border-color:#86EFAC;">
+            <div class="ci">🎯</div>
+            <div class="cn">Точность = Попадание в типаж</div>
+            <div class="cd">Каждый человек покупает по-своему. Интуиту нужны возможности и будущее. Чувствительному — образы и эмоции. Логику — факты и цифры. Сенсорику — конкретика и результат. Попадание = доверие.</div>
+        </div>
+    </div>
+    <div class="formula">
+        <div class="f">Энергия × Точность = Конверсия</div>
+        <div class="fs">Попадаешь в язык → получаешь доверие → закрываешь сделку</div>
+    </div>
+    <div class="text">
+        <p>Когда ты соединяешь своё ресурсное состояние с точным пониманием типажа клиента — продажи перестают быть борьбой. Они становятся естественным процессом, где ты помогаешь человеку увидеть то, что ему действительно нужно.</p>
+        <p>Но как увидеть своё состояние перед встречей — за две минуты, без гаданий? Давай разберём.</p>
+    </div>
+</div>
+
+<!-- ════════ СЛАЙД 4 ════════ -->
+<div class="slide" data-s="4">
+    <div><span class="badge">📊 Решение №1</span><span class="counter">4 / 8</span></div>
+    <div class="title">Перед звонком — <span class="b">проверь себя</span></div>
+    <div class="text">
+        <p>Ты не выходишь на важный матч без разминки. Не ведёшь машину, не проверив приборную панель. Почему ты выходишь на встречу с клиентом, не проверив своё состояние?</p>
+    </div>
+    <div class="checklist">
+        <div class="ck"><div class="cv">📊</div><div class="ct"><strong>Уровень энергии:</strong> готов / на нуле / на подъёме. Понимаешь, в каком ресурсе ты сейчас, и можешь скорректировать подход до начала разговора.</div></div>
+        <div class="ck"><div class="cv">🔑</div><div class="ct"><strong>Твой канал продаж:</strong> через какой способ ты продаёшь лучше всего — через диалог, через структуру, через образы или через конкретные примеры.</div></div>
+        <div class="ck"><div class="cv">⚠️</div><div class="ct"><strong>Зоны риска:</strong> где ты можешь незаметно «слить» сделку — из-за усталости, из-за давления, из-за непонимания своего текущего состояния.</div></div>
+    </div>
+    <div class="highlight green">
+        <p>🟢 <strong>Это не тест «кто ты по жизни».</strong> Это приборная панель твоего состояния прямо сейчас. Как спидометр в машине: ты видишь скорость, топливо, температуру — и принимаешь решение.</p>
+    </div>
+    <div class="text">
+        <p>Прежде чем набрать номер, выйти на встречу или провести презентацию — <strong>две минуты</strong> на диагностику. Ты увидишь свой ресурс. Поймёшь, через какой канал сейчас лучше работать. И скорректируешь подход до того, как начнёшь говорить.</p>
+    </div>
+    <div class="formula" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);">
+        <div class="f" style="color:#166534;">⏱ 2 минуты → ясность → уверенный выход</div>
+    </div>
+    <div class="text">
+        <p>Ты в ресурсе. Теперь — как увидеть, кто перед тобой, и говорить на его языке?</p>
+    </div>
+</div>
+
+<!-- ════════ СЛАЙД 5 ════════ -->
+<div class="slide" data-s="5">
+    <div><span class="badge">🎯 Решение №2</span><span class="counter">5 / 8</span></div>
+    <div class="title">4 типажа — <span class="b">4 языка продаж</span></div>
+    <div class="text">
+        <p>Каждый клиент принимает решение по-своему. И если ты говоришь со всеми одинаково — ты теряешь тех, кому нужен другой подход. Вот как слышит каждый типаж:</p>
+    </div>
+    <div class="grid2">
+        <div class="card">
+            <div class="ci">🧠</div>
+            <div class="cn">Интуит</div>
+            <div class="cd">«Покажите возможности, будущее, идею»<br><br>Не купит, пока не увидит перспективу. Ему важно: «Что это откроет для меня? Куда это приведёт?» Покажи ему картину будущего — и он включится.</div>
+        </div>
+        <div class="card">
+            <div class="ci">💙</div>
+            <div class="cn">Чувствительный</div>
+            <div class="cd">«Покажите образ, эмоции, красоту»<br><br>Не купит без эмоционального отклика. Ему важно: «Как я буду себя чувствовать? Что это даст мне и моим близким?» Создай образ — и он почувствует.</div>
+        </div>
+        <div class="card">
+            <div class="ci">🧮</div>
+            <div class="cn">Логик</div>
+            <div class="cd">«Дайте факты, цифры, причинно-следственные связи»<br><br>Не купит без обоснования. Ему важно: «Почему это работает? Какие данные? Что будет, если не сделать?» Дай факты — и он решит.</div>
+        </div>
+        <div class="card">
+            <div class="ci">✋</div>
+            <div class="cn">Сенсорик</div>
+            <div class="cd">«Дайте конкретику, результат здесь и сейчас»<br><br>Не купит без осязаемого результата. Ему важно: «Что конкретно я получу? Когда? Сколько? Какие шаги?» Дай конкретику — и он действует.</div>
+        </div>
+    </div>
+    <div class="highlight blue">
+        <p>🔵 Когда ты видишь типаж — <strong>ты не угадываешь</strong>. Ты говоришь на его языке. И клиент слышит: «Он меня понимает». Попадание в язык → доверие → закрытая сделка.</p>
+    </div>
+    <div class="text">
+        <p>А если ты строишь команду — как понять, кого и как подписывать, чтобы люди не уходили через месяц? Разберём дальше.</p>
+    </div>
+</div>
+
+<!-- ════════ СЛАЙД 6 ════════ -->
+<div class="slide" data-s="6">
+    <div><span class="badge">👥 Команда</span><span class="counter">6 / 8</span></div>
+    <div class="title">Команда растёт, когда ты <span class="g">видишь людей</span></div>
+    <div class="text">
+        <p>Ты подписываешь человека в команду. Он горит. Казалось бы — всё отлично. Но через месяц он уходит. И ты думаешь: «Я же всё объяснил. Я же всё дал. Почему?»</p>
+        <p><strong>Потому что ты не видел его изнутри.</strong></p>
+    </div>
+    <div class="checklist">
+        <div class="ck"><div class="cv">🔍</div><div class="ct"><strong>Типаж человека:</strong> Интуит уйдёт, если не увидит перспективу роста. Чувствительный — если не будет душевной атмосферы. Логик — если нет чёткой системы. Сенсорик — если нет быстрого результата.</div></div>
+        <div class="ck"><div class="cv">🎯</div><div class="ct"><strong>Его цели:</strong> Зачем он пришёл? Деньги? Свобода? Развитие? Признание? Если ты не знаешь его цель — ты мотивируешь его тем, что важно тебе, а не ему.</div></div>
+        <div class="ck"><div class="cv">⚡️</div><div class="ct"><strong>Его канал энергии:</strong> Как он восстанавливается? Через общение или через тишину? Через структуру или через свободу? Если ты ведёшь человека против его природы — он выгорает.</div></div>
+    </div>
+    <div class="highlight green">
+        <p>🟢 <strong>GenOffOn показывает:</strong> кто перед тобой, какие у него цели, и как его вести, чтобы он не выгорел и остался с тобой. Ты не угадываешь — ты видишь.</p>
+    </div>
+    <div class="text">
+        <p>Команда растёт не когда ты «даёшь мотивацию». Команда растёт, когда ты <strong>понимаешь каждого человека</strong> и ведёшь его так, как нужно именно ему. Не угадываешь → не теряешь людей.</p>
+        <p>Но как получить эти инструменты — не в теории, а в работе уже завтра?</p>
+    </div>
+</div>
+
+<!-- ════════ СЛАЙД 7 ════════ -->
+<div class="slide" data-s="7">
+    <div><span class="badge">📦 Продукт</span><span class="counter">7 / 8</span></div>
+    <div class="title">Инструменты, а <span class="b">не теория</span></div>
+    <div class="text">
+        <p>Диагностика покажет твоё состояние. Типажи помогут понять клиента и команду. Но чтобы использовать это каждый день — нужны <strong>готовые инструменты</strong>. Не курс на 40 часов. Не теория, которую забудешь через неделю.</p>
+        <p><strong>Рабочие файлы, которые ты открываешь и используешь сразу.</strong></p>
+    </div>
+    <div class="checklist">
+        <div class="ck"><div class="cv">✓</div><div class="ct"><strong>Гайд «Типаж клиента за 3 вопроса»</strong> — быстрые маркеры, по которым ты за минуту определишь, кто перед тобой, и подстроишь презентацию.</div></div>
+        <div class="ck"><div class="cv">✓</div><div class="ct"><strong>Скрипты под 4 типажа</strong> — готовые формулировки для интуита, чувствительного, логика и сенсорика. Не изобретай — используй.</div></div>
+        <div class="ck"><div class="cv">✓</div><div class="ct"><strong>Чек-лист «Проверь энергию перед встречей»</strong> — 2-минутная диагностика ресурса. Проверил → скорректировал → вышел уверенно.</div></div>
+        <div class="ck"><div class="cv">✓</div><div class="ct"><strong>Протоколы ведения команды</strong> — как мотивировать, как не допустить выгорания, как выстроить ритм для каждого типажа в твоей команде.</div></div>
+    </div>
+    <div class="highlight amber">
+        <p>🟡 <strong>Это не курс.</strong> Это рабочие файлы, которые ты открываешь перед встречей, перед звонком, перед разговором с командой. Взял — применил — получил результат.</p>
+    </div>
+    <div class="text">
+        <p>Одна закрытая сделка окупает доступ. Это не расход. <strong>Это инвестиция в конверсию, которая работает на тебя каждый день.</strong></p>
+        <p>Инструменты у тебя в руках. Остаётся сделать первый шаг.</p>
+    </div>
+</div>
+
+<!-- ════════ СЛАЙД 8 ════════ -->
+<div class="slide" data-s="8">
+    <div><span class="badge">⚡️ Финал</span><span class="counter">8 / 8</span></div>
+    <div class="title">
+        Включи свою энергию.<br>
+        Увидь типаж клиента.<br>
+        <span class="b">Закрой сделку.</span>
+    </div>
+    <div class="text">
+        <p>Это не про «стать другим продавцом». Это про то, чтобы продавать так, как удобно тебе — и попадать в тех, кто готов купить.</p>
+        <p>Ты уже знаешь продукт. Ты уже умеешь общаться. Тебе не хватает только <strong>точности</strong> — видеть свой ресурс и видеть человека перед тобой.</p>
+        <p><strong>Две минуты</strong> — и ты увидишь, в каком ты состоянии. Поймёшь, как говорить с разными людьми. И начнёшь закрывать сделки без выгорания, без давления, без бесконечных «я подумаю».</p>
+    </div>
+    <div class="cta">
+        <div class="ct2">Не откладывай.<br>Твоя следующая сделка — уже рядом.</div>
+        <div class="ct3">Пройди диагностику. Увидь свою конфигурацию. Начни продавать точно.</div>
+        <button class="cta-btn" onclick="alert('Переход к диагностике...')">🔘 Пройти диагностику — 2 минуты</button>
+    </div>
+    <div class="text" style="margin-top:16px;text-align:center;">
+        <p style="color:#6B7280;font-size:13px;">Это не вопрос мотивации. Это вопрос момента. Ты либо включаешься — либо остаёшься там же.</p>
+    </div>
+</div>
 
 </div>
 
-<!-- Навигация -->
-<div class="navigation">
-    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>
-        <span class="arrow">←</span> Назад
-    </button>
-    <div class="progress-bar" id="progressBar"></div>
-    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
-        Далее <span class="arrow">→</span>
-    </button>
+<div class="nav">
+    <button class="nb" id="prev" disabled onclick="go(-1)"><span class="a">←</span> Назад</button>
+    <div class="dots" id="dots"></div>
+    <button class="nb" id="next" onclick="go(1)">Далее <span class="a">→</span></button>
+</div>
 </div>
 
 <script>
-    const totalSlides = 8;
-    let currentSlide = 1;
+var cur=1, tot=8;
+var dots=document.getElementById('dots');
+for(var i=1;i<=tot;i++){
+    var d=document.createElement('div');
+    d.className='dot'+(i===1?' active':'');
+    d.setAttribute('data-t',i);
+    d.onclick=function(){nav(parseInt(this.getAttribute('data-t')));};
+    dots.appendChild(d);
+}
 
-    // Создание точек прогресса
-    const progressBar = document.getElementById('progressBar');
-    for (let i = 1; i <= totalSlides; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'progress-dot' + (i === 1 ? ' active' : '');
-        dot.dataset.slide = i;
-        dot.onclick = () => goToSlide(i);
-        progressBar.appendChild(dot);
-    }
-
-    function updateSlide(newSlideIndex) {
-        const oldSlide = document.getElementById('slide-' + currentSlide);
-        const newSlide = document.getElementById('slide-' + newSlideIndex);
-
-        // Определяем направление
-        const direction = newSlideIndex > currentSlide ? 'left' : 'right';
-
-        // Анимация ухода
-        oldSlide.classList.remove('active');
-        oldSlide.classList.add(direction === 'left' ? 'exit-left' : '');
-        oldSlide.style.transform = direction === 'left' ? 'translateX(-40px)' : 'translateX(40px)';
-
-        // Анимация появления
-        setTimeout(() => {
-            oldSlide.classList.remove('exit-left');
-            oldSlide.style.transform = '';
-
-            newSlide.style.transform = direction === 'left' ? 'translateX(40px)' : 'translateX(-40px)';
-            newSlide.classList.add('active');
-        }, 50);
-
-        currentSlide = newSlideIndex;
-        updateControls();
-    }
-
-    function changeSlide(direction) {
-        const newSlide = currentSlide + direction;
-        if (newSlide < 1 || newSlide > totalSlides) return;
-        updateSlide(newSlide);
-    }
-
-    function goToSlide(index) {
-        if (index === currentSlide) return;
-        updateSlide(index);
-    }
-
-    function updateControls() {
-        document.getElementById('prevBtn').disabled = currentSlide === 1;
-        document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
-
-        // Обновляем точки
-        document.querySelectorAll('.progress-dot').forEach((dot, idx) => {
-            dot.classList.toggle('active', idx + 1 === currentSlide);
+function nav(t){
+    if(t===cur||t<1||t>tot)return;
+    var fwd=t>cur;
+    var old=document.querySelector('.slide[data-s="'+cur+'"]');
+    var nw=document.querySelector('.slide[data-s="'+t+'"]');
+    old.classList.remove('active');
+    old.classList.add(fwd?'to-left':'to-right');
+    nw.classList.remove('to-left','to-right');
+    nw.classList.add(fwd?'from-right':'from-left');
+    requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+            nw.classList.remove('from-right','from-left');
+            nw.classList.add('active');
+            old.classList.remove('to-left','to-right');
         });
-    }
+    });
+    cur=t;upd();
+}
 
-    // Клавиатурная навигация
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-            e.preventDefault();
-            changeSlide(1);
-        }
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-            e.preventDefault();
-            changeSlide(-1);
-        }
-    });
+function go(d){nav(cur+d);}
 
-    // Свайп для мобильных
-    let touchStartX = 0;
-    document.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
+function upd(){
+    document.getElementById('prev').disabled=(cur===1);
+    document.getElementById('next').disabled=(cur===tot);
+    document.querySelectorAll('.dot').forEach(function(d){
+        d.classList.toggle('active',parseInt(d.getAttribute('data-t'))===cur);
     });
-    document.addEventListener('touchend', (e) => {
-        const diff = touchStartX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) {
-            changeSlide(diff > 0 ? 1 : -1);
-        }
-    });
+}
+
+document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}
+    if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
+});
+
+var tsx=0;
+document.addEventListener('touchstart',function(e){tsx=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',function(e){
+    var diff=tsx-e.changedTouches[0].clientX;
+    if(Math.abs(diff)>60){go(diff>0?1:-1);}
+},{passive:true});
 </script>
 
 </body>
