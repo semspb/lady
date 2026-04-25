@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Психотипный тест: Архетипы личности</title>
+<style>
+  @import url('https://cdn.fontsource.org/fonts/inter/400,500,600,700,800,900.css');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0f0f13;
+    --card: #1a1a24;
+    --card-hover: #22222e;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-dim: #8888a0;
+    --green: #22c55e;
+    --green-glow: rgba(34, 197, 94, 0.3);
+    --red: #ef4444;
+    --red-glow: rgba(239, 68, 68, 0.3);
+    --purple: #a855f7;
+    --yellow: #eab308;
+    --orange: #f97316;
+    --teal: #14b8a6;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .bg-pattern {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(34, 197, 94, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 50%, rgba(239, 68, 68, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 0%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .screen {
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { filter: drop-shadow(0 0 8px var(--green-glow)); }
+    50% { filter: drop-shadow(0 0 20px var(--green-glow)); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Welcome Screen */
+  .welcome {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .welcome h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--green), var(--purple), var(--red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .welcome .subtitle {
+    font-size: 18px;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .welcome .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+    text-align: left;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    transition: var(--transition);
+  }
+
+  .feature-card:hover {
+    border-color: var(--purple);
+    transform: translateY(-2px);
+  }
+
+  .feature-card .icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .feature-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+
+  .feature-card p {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--green), #16a34a);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4);
+  }
+
+  .btn-secondary {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--text-dim);
+    background: var(--card-hover);
+  }
+
+  .btn-small {
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+
+  .btn-history {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+  }
+
+  .btn-history:hover {
+    border-color: var(--purple);
+    background: var(--card-hover);
+  }
+
+  /* Progress Bar */
+  .progress-container {
+    margin-bottom: 30px;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .progress-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .progress-count {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--card);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    background: linear-gradient(90deg, var(--green), var(--purple));
+  }
+
+  .progress-fill.authority {
+    background: linear-gradient(90deg, var(--purple), var(--red));
+  }
+
+  /* Question */
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    animation: slideUp 0.4s ease;
+  }
+
+  .question-number {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 24px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .option:hover {
+    border-color: var(--purple);
+    background: var(--card-hover);
+    transform: translateX(4px);
+  }
+
+  .option.selected {
+    border-color: var(--green);
+    background: rgba(34, 197, 94, 0.08);
+  }
+
+  .option-letter {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--card);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    transition: var(--transition);
+  }
+
+  .option.selected .option-letter {
+    background: var(--green);
+    color: #fff;
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    gap: 12px;
+  }
+
+  /* Block Header */
+  .block-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+
+  .block-header .block-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .block-header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .block-header.natural h2 { color: var(--green); }
+  .block-header.authority h2 { color: var(--red); }
+
+  .block-header p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Results */
+  .results-container {
+    animation: scaleIn 0.6s ease;
+  }
+
+  .results-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .results-header h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .results-types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .type-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    text-align: center;
+    transition: var(--transition);
+  }
+
+  .type-card.natural-card { border-color: var(--green); }
+  .type-card.authority-card { border-color: var(--red); }
+
+  .type-card .type-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .natural-card .type-label { color: var(--green); }
+  .authority-card .type-label { color: var(--red); }
+
+  .type-card .type-code {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .natural-card .type-code { color: var(--green); }
+  .authority-card .type-code { color: var(--red); }
+
+  .type-card .type-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .type-card .type-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  .type-card .type-desc strong {
+    color: var(--text);
+  }
+
+  /* SVG Pyramid */
+  .pyramid-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+  }
+
+  .pyramid-container svg {
+    width: 100%;
+    max-width: 700px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Matrix */
+  .matrix-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .matrix-container h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .matrix-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 4px;
+  }
+
+  .matrix-table th {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    padding: 8px;
+    text-align: center;
+  }
+
+  .matrix-table td {
+    padding: 10px 8px;
+    text-align: center;
+    border-radius: 8px;
+    background: var(--bg);
+    font-size: 14px;
+    transition: var(--transition);
+  }
+
+  .matrix-table td.highlight-natural {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--green);
+    font-weight: 700;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .matrix-table td.highlight-authority {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--red);
+    font-weight: 700;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .matrix-table td.type-code-cell {
+    font-weight: 800;
+    font-size: 16px;
+    text-align: left;
+    background: transparent;
+    padding-left: 12px;
+  }
+
+  .matrix-table td.type-name-cell {
+    font-weight: 600;
+    font-size: 13px;
+    text-align: left;
+    background: transparent;
+    color: var(--text-dim);
+  }
+
+  /* Synthesis */
+  .synthesis {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(239, 68, 68, 0.05));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+
+  .synthesis h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .synthesis p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  .synthesis .key {
+    display: inline-block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text);
+    text-align: center;
+    width: 100%;
+  }
+
+  .results-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+
+  /* History */
+  .history-panel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+  }
+
+  .history-panel.active { display: flex; }
+
+  .history-content {
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    margin: auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    overflow-y: auto;
+    animation: slideUp 0.4s ease;
+  }
+
+  .history-content h3 {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .history-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+  }
+
+  .history-item:hover {
+    border-color: var(--purple);
+  }
+
+  .history-item .types {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .history-item .type-badge {
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .history-item .type-badge.natural {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--green);
+  }
+
+  .history-item .type-badge.authority {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--red);
+  }
+
+  .history-item .date {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .empty-history {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 40px;
+    font-size: 14px;
+  }
+
+  .btn-delete {
+    background: none;
+    border: none;
+    color: var(--red);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: var(--transition);
+  }
+
+  .btn-delete:hover { background: rgba(239, 68, 68, 0.1); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .results-types {
+      grid-template-columns: 1fr;
+    }
+    .question-card { padding: 20px; }
+    .question-text { font-size: 17px; }
+    .container { padding: 12px; }
+    .btn-history { top: 10px; right: 10px; font-size: 12px; padding: 8px 12px; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+  .loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+  }
+
+  .loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--border);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 16px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+
+<button class="btn-history" onclick="toggleHistory()">
+  📋 История
+</button>
+
+<div class="container">
+  <!-- Welcome Screen -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome">
+      <h1>Архетипы личности</h1>
+      <p class="subtitle">
+        Определите свой <strong>Натурал</strong> (базовую энергию) и <strong>Авторитет</strong> (лидерский потенциал).<br>
+        16 вопросов • 5 минут • Мгновенный результат
+      </p>
+      <div class="features">
+        <div class="feature-card">
+          <div class="icon">🔵</div>
+          <h3>Натурал</h3>
+          <p>Ваша базовая энергия, комфорт и естественные реакции</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon"></div>
+          <h3>Авторитет</h3>
+          <p>Ваш лидерский потенциал и социальная роль</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📊</div>
+          <h3>Матрица</h3>
+          <p>Подробная карта всех 8 типажей с вашими баллами</p>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startTest()">
+        Начать тест →
+      </button>
+    </div>
+  </div>
+
+  <!-- Block Header -->
+  <div class="screen" id="screen-block-header">
+    <div class="block-header" id="block-header-el">
+      <div class="block-icon" id="block-icon"></div>
+      <h2 id="block-title"></h2>
+      <p id="block-desc"></p>
+    </div>
+    <button class="btn btn-primary" onclick="startQuestions()" style="margin:0 auto;display:block;">
+      Перейти к вопросам →
+    </button>
+  </div>
+
+  <!-- Question Screen -->
+  <div class="screen" id="screen-question">
+    <div class="progress-container">
+      <div class="progress-header">
+        <span class="progress-label" id="progress-label">Блок 1: Натурал</span>
+        <span class="progress-count" id="progress-count">1 / 8</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:12.5%"></div>
+      </div>
+    </div>
+    <div class="question-card" id="question-card">
+      <div class="question-number" id="question-number"></div>
+      <div class="question-text" id="question-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+    <div class="navigation">
+      <button class="btn btn-secondary btn-small" id="btn-prev" onclick="prevQuestion()">← Назад</button>
+      <button class="btn btn-primary btn-small" id="btn-next" onclick="nextQuestion()" style="opacity:0.5;pointer-events:none;">Далее →</button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="screen" id="screen-loading">
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="spinner"></div>
+      <div class="loading-text">Анализируем ваш профиль...</div>
+    </div>
+  </div>
+
+  <!-- Results Screen -->
+  <div class="screen" id="screen-results">
+    <div class="results-container" id="results-container"></div>
+  </div>
+</div>
+
+<!-- History Panel -->
+<div class="history-panel" id="history-panel" onclick="if(event.target===this)toggleHistory()">
+  <div class="history-content">
+    <h3>
+      История тестов
+      <button class="btn btn-secondary btn-small" onclick="toggleHistory()">✕</button>
+    </h3>
+    <div id="history-list"></div>
+  </div>
+</div>
+
+<script>
+const TYPE_MAP = {
+  A: 'ES', B: 'ET', C: 'EF', D: 'EN',
+  E: 'IS', F: 'IT', G: 'IF', H: 'IN'
+};
+
+const TYPE_INFO = {
+  ES: { name: 'Повелитель', emoji: '', planet: 'Юпитер' },
+  ET: { name: 'Воин', emoji: '⚔️', planet: 'Марс' },
+  EF: { name: 'Эстет', emoji: '✨', planet: 'Венера' },
+  EN: { name: 'Ребенок', emoji: '🌱', planet: 'Меркурий' },
+  IS: { name: 'Хранитель', emoji: '🏛️', planet: 'Сатурн' },
+  IT: { name: 'Мыслитель', emoji: '', planet: 'Уран' },
+  IF: { name: 'Друг', emoji: '🤝', planet: 'Нептун' },
+  IN: { name: 'Странник', emoji: '🌑', planet: 'Плутон' }
+};
+
+const TYPE_DESC = {
+  ES: {
+    behavior: 'Структура, масштаб, контроль. Создаёт системы, обеспечивает порядок и справедливость. В лидерстве — мудрый правитель, в тени — диктатор.',
+    charging: 'Планирование, делегирование с KPI, наведение порядка в хаосе, признание авторитета.',
+    drain: 'Непредсказуемость, игнорирование иерархии, бессмысленная текучка, потеря контроля.'
+  },
+  ET: {
+    behavior: 'Действие, преодоление, конкуренция. Берёт ответственность, идёт вперёд, побеждает. В лидерстве — герой, в тени — мародёр.',
+    charging: 'Спорт, стратегические задачи, честная конкуренция, достижение видимой победы, активные вызовы.',
+    drain: 'Пассивность, бюрократия, несправедливость, вынужденное ожидание.'
+  },
+  EF: {
+    behavior: 'Гармония, красота, эстетика. Создаёт уют, ценит тактильность и эмоциональный комфорт. В лидерстве — звезда, в тени — нарцисс.',
+    charging: 'Искусство, природа, эстетичное пространство, глубокие разговоры, забота о теле и среде.',
+    drain: 'Грубость, дисгармония, критика вкуса, эмоциональная холодность, хаос.'
+  },
+  EN: {
+    behavior: 'Спонтанность, новизна, игра. Генерирует идеи, адаптируется, ломает шаблоны. В лидерстве — креатор, в тени — врунишка.',
+    charging: 'Новизна, спонтанные встречи, творческие эксперименты, смена обстановки, нетворкинг, юмор.',
+    drain: 'Рутина, жёсткие рамки, монотонность, вынужденная ответственность без выбора.'
+  },
+  IS: {
+    behavior: 'Стабильность, традиции, забота. Надёжен, бережёт, создаёт безопасность. В лидерстве — королева, в тени — лентяй.',
+    charging: 'Организация пространства, следование ритуалам, забота о близких, планирование, тишина.',
+    drain: 'Непредсказуемость, нарушение границ, спешка, поверхностность, вынужденные перемены.'
+  },
+  IT: {
+    behavior: 'Анализ, системность, независимость. Оптимизирует процессы, строит стратегии, видит закономерности. В лидерстве — философ, в тени — демагог.',
+    charging: 'Анализ данных, решение головоломок, исследования, стратегическое планирование, интеллектуальные челленджи.',
+    drain: 'Эмоциональные манипуляции, нелогичные правила, поверхностность, нарушение личных границ.'
+  },
+  IF: {
+    behavior: 'Эмпатия, доверие, поддержка. Объединяет людей, создаёт доверительную атмосферу. В лидерстве — святой, в тени — моралист.',
+    charging: 'Глубокие разговоры, волонтёрство, медитации, время с близкими, прощение, помощь другим.',
+    drain: 'Конфликты, холодность, предательство, эмоциональное выгорание, критика чувствительности.'
+  },
+  IN: {
+    behavior: 'Глубина, интуиция, трансформация. Ищет скрытые смыслы, доверяет внутреннему компасу. В лидерстве — миссия, в тени — отшельник.',
+    charging: 'Одиночество, ведение дневника, изучение психологии, долгие прогулки, медитация, работа с тенью.',
+    drain: 'Поверхностность, навязчивое общение, нарушение приватности, ложь, бессмысленная социальность.'
+  }
+};
+
+const NATURAL_QUESTIONS = [
+  'Как вы восстанавливаетесь после тяжёлой недели?',
+  'Ваша сильная сторона в быту и рутине:',
+  'Что вас быстрее всего раздражает в окружении?',
+  'В спонтанной ситуации вы скорее:',
+  'Ваш идеальный выходной:',
+  'Как вы принимаете бытовые решения?',
+  'Что вы цените в себе без усилий?',
+  'Когда никто не смотрит, вы:'
+];
+
+const AUTHORITY_QUESTIONS = [
+  'Какое лидерство вам естественно?',
+  'Какой совет вы дадите в кризисе?',
+  'Что вдохновляет в других?',
+  'Как хотите быть восприняты окружением?',
+  'Ваша стратегия на 5 лет:',
+  'Как разрешаете сложные конфликты?',
+  'Какой принцип вы защищаете?',
+  'Ваш вклад в общее дело:'
+];
+
+const NATURAL_OPTIONS = [
+  [
+    'Навожу порядок, планирую дела, контролирую процессы',
+    'Иду в спорт/решаю срочную задачу, ищу активный вызов',
+    'Создаю уют, слушаю музыку, наслаждаюсь эстетикой',
+    'Встречаюсь с людьми, болтаю, пробую новое хобби',
+    'Готовлю для близких, проверяю безопасность, берегу традиции',
+    'Разбираю данные, читаю аналитику, оптимизирую систему',
+    'Выслушиваю, мирю, дарю эмоциональную поддержку',
+    'Ухожу в тишину, веду дневник, погружаюсь в смыслы'
+  ],
+  [
+    'Держу структуру, соблюдаю сроки, обеспечиваю стабильность',
+    'Быстро действую, беру ответственность, довожу до победы',
+    'Чувствую атмосферу, сглаживаю углы, сохраняю гармонию',
+    'Генерирую идеи, адаптируюсь, нахожу лёгкие ходы',
+    'Надёжен, бережлив, довожу начатое до конца',
+    'Вижу закономерности, строю логику, отсекаю лишнее',
+    'Объединяю людей, создаю доверие, поддерживаю связь',
+    'Вижу скрытые мотивы, доверяю интуиции, ищу глубину'
+  ],
+  [
+    'Хаос, нарушение правил, безответственность',
+    'Пассивность, медлительность, отсутствие результата',
+    'Грубость, дисгармония, эмоциональная холодность',
+    'Рутина, жёсткие рамки, запрет на импровизацию',
+    'Непредсказуемость, спешка, нарушение границ',
+    'Нелогичность, эмоции вместо фактов, поверхностность',
+    'Конфликты, предательство доверия, холодность',
+    'Поверхностность, шум, нарушение приватности'
+  ],
+  [
+    'Возьму контроль, распределю роли, наведу порядок',
+    'Действовать первым, оценить риски, пойти вперёд',
+    'Оценить атмосферу, смягчить напряжение, сохранить красоту',
+    'Импровизировать, предложить игру, найти лёгкий выход',
+    'Обеспечить безопасность, проверить ресурсы, подстраховать',
+    'Проанализировать, найти схему, предложить алгоритм',
+    'Поддержать эмоционально, выслушать, найти компромисс',
+    'Отстраниться, наблюдать, довериться внутреннему чутью'
+  ],
+  [
+    'Чёткий план, наведение порядка в делах и пространстве',
+    'Активный отдых, соревнования, достижение цели',
+    'Искусство, природа, эстетичное пространство, релакс',
+    'Спонтанная встреча, новое место, лёгкое общение',
+    'Домашний уют, семейный обед, проверенные ритуалы',
+    'Книга, курс, разбор сложной темы, интеллектуальный челлендж',
+    'Глубокий разговор, помощь другу, атмосфера принятия',
+    'Одиночество, прогулка в тишине, медитация или дневник'
+  ],
+  [
+    'Опираюсь на правила, опыт, проверенные схемы',
+    'Быстро, решительно, выбираю самый эффективный путь',
+    'Прислушиваюсь к ощущениям, выбираю то, что «красиво/приятно»',
+    'Интуитивно, пробую, меняю решение если стало скучно',
+    'Советуюсь с близкими, выбираю безопасный вариант',
+    'Анализирую плюсы/минусы, строю логическую цепочку',
+    'Думаю о влиянии на отношения, выбираю мирный исход',
+    'Жду внутреннего знака, опираюсь на предчувствие'
+  ],
+  [
+    'Системность, надёжность, умение держать слово',
+    'Решительность, выносливость, умение побеждать',
+    'Вкус, эмпатию, умение создавать красоту',
+    'Лёгкость, креативность, умение находить выход',
+    'Заботу, терпение, умение беречь',
+    'Ум, объективность, способность видеть суть',
+    'Доброту, чуткость, умение слушать',
+    'Глубину, автономность, умение видеть невидимое'
+  ],
+  [
+    'Проверяю списки, навожу порядок, планирую будущее',
+    'Тренируюсь, соревнуюсь с собой, ищу новые вызовы',
+    'Наслаждаюсь тишиной, ухаживаю за собой, созерцаю',
+    'Экспериментирую, играю, пробую странное',
+    'Забочусь о доме, готовлю, берегу память',
+    'Учусь, решаю головоломки, оптимизирую процессы',
+    'Пишу близким, помогаю, делюсь теплом',
+    'Погружаюсь в себя, ищу ответы, трансформирую опыт'
+  ]
+];
+
+const AUTHORITY_OPTIONS = [
+  [
+    'Создаю систему, распределяю ресурсы, обеспечиваю справедливость',
+    'Веду в бой, беру удар на себя, вдохновляю примером',
+    'Вдохновляю красотой, задаю стандарты, создаю атмосферу',
+    'Генерирую тренды, ломаю шаблоны, зажигаю идеей',
+    'Берегу сообщество, храню ценности, создаю тыл',
+    'Строю стратегию, оптимизирую, вижу будущее через данные',
+    'Объединяю людей, сглаживаю конфликты, создаю доверие',
+    'Веду через кризис, трансформирую боль в мудрость, ищу смысл'
+  ],
+  [
+    '«Вернитесь к правилам, восстановите структуру»',
+    '«Действуйте сейчас, бейте в цель, не ждите»',
+    '«Сохраните гармонию, не ломайте красоту момента»',
+    '«Попробуйте новое, играйте, не бойтесь ошибок»',
+    '«Опирайтесь на проверенное, берегите близких»',
+    '«Проанализируйте факты, отсеките эмоции, стройте схему»',
+    '«Выслушайте друг друга, найдите точку согласия»',
+    '«Погрузитесь в суть, доверьтесь интуиции, примите трансформацию»'
+  ],
+  [
+    'Порядок, дисциплина, масштаб мышления',
+    'Смелость, решительность, умение побеждать',
+    'Вкус, элегантность, умение создавать прекрасное',
+    'Спонтанность, новаторство, лёгкость',
+    'Надёжность, верность, умение беречь',
+    'Интеллект, системность, глубина анализа',
+    'Эмпатия, искренность, умение объединять',
+    'Глубина, мудрость, умение видеть скрытое'
+  ],
+  [
+    'Как справедливый правитель, создающий стабильность',
+    'Как бесстрашный герой, ведущий к победе',
+    'Как источник вдохновения, задающий стандарты красоты',
+    'Как генератор идей, ломающий старые рамки',
+    'Как хранитель традиций, создающий безопасность',
+    'Как стратег, видящий закономерности и будущее',
+    'Как друг и миротворец, исцеляющий связи',
+    'Как проводник смыслов, ведущий через трансформацию'
+  ],
+  [
+    'Построить систему, которая работает без меня',
+    'Достичь вершины, победить в ключевой битве',
+    'Создать культурный код, эталон стиля и гармонии',
+    'Запустить проект, который изменит правила игры',
+    'Сохранить и приумножить наследие, создать крепкий тыл',
+    'Разработать теорию/технологию, которая опередит время',
+    'Построить сообщество, основанное на доверии и поддержке',
+    'Пройти глубинную трансформацию, найти истинную миссию'
+  ],
+  [
+    'Ввожу чёткие правила, распределяю ответственность',
+    'Беру инициативу, предлагаю решение через действие',
+    'Смягчаю тон, перевожу в плоскость эстетики/чувств',
+    'Предлагаю нестандартный ход, меняю контекст',
+    'Напоминаю о общих ценностях, призываю к миру',
+    'Разбираю ситуацию по фактам, нахожу системную ошибку',
+    'Выслушиваю все стороны, ищу компромисс через эмпатию',
+    'Ухожу в глубину, ищу корень проблемы, трансформирую суть'
+  ],
+  [
+    'Порядок и справедливость',
+    'Действие и результат',
+    'Красота и гармония',
+    'Свобода и новизна',
+    'Традиция и безопасность',
+    'Истина и логика',
+    'Любовь и доверие',
+    'Глубина и смысл'
+  ],
+  [
+    'Создаю структуру, которая работает',
+    'Беру на себя самый тяжёлый участок',
+    'Задаю стандарт качества и атмосферы',
+    'Приношу свежие идеи и ломаю застой',
+    'Берегу команду, создаю надёжный фундамент',
+    'Оптимизирую процессы, вижу скрытые связи',
+    'Объединяю людей, снимаю напряжение',
+    'Веду через неизвестность, нахожу смыслы'
+  ]
+];
+
+const OPTIONS_LETTERS = ['A','B','C','D','E','F','G','H'];
+
+let state = {
+  currentBlock: 0, // 0 = natural, 1 = authority
+  currentQuestion: 0,
+  answers: [[], []],
+  results: null
+};
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startTest() {
+  state = { currentBlock: 0, currentQuestion: 0, answers: [[], []], results: null };
+  showBlockHeader();
+}
+
+function showBlockHeader() {
+  const isNatural = state.currentBlock === 0;
+  const header = document.getElementById('block-header-el');
+  header.className = 'block-header ' + (isNatural ? 'natural' : 'authority');
+  document.getElementById('block-icon').textContent = isNatural ? '🔵' : '';
+  document.getElementById('block-title').textContent = isNatural ? 'Блок 1: НАТУРАЛ' : 'Блок 2: АВТОРИТЕТ';
+  document.getElementById('block-desc').textContent = isNatural
+    ? 'Ваша базовая энергия, комфорт и естественные реакции. Отвечайте интуитивно.'
+    : 'Ваш лидерский потенциал и социальная роль. Как вы ведёте за собой?';
+  showScreen('screen-block-header');
+}
+
+function startQuestions() {
+  showScreen('screen-question');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const isNatural = state.currentBlock === 0;
+  const questions = isNatural ? NATURAL_QUESTIONS : AUTHORITY_QUESTIONS;
+  const options = isNatural ? NATURAL_OPTIONS : AUTHORITY_OPTIONS;
+  const qIdx = state.currentQuestion;
+
+  document.getElementById('progress-label').textContent = isNatural ? 'Блок 1: Натурал' : 'Блок 2: Авторитет';
+  document.getElementById('progress-count').textContent = `${qIdx + 1} / 8`;
+  document.getElementById('progress-fill').style.width = `${((qIdx + 1) / 8) * 100}%`;
+  document.getElementById('progress-fill').className = 'progress-fill' + (isNatural ? '' : ' authority');
+
+  document.getElementById('question-number').textContent = `Вопрос ${qIdx + 1} из 8`;
+  document.getElementById('question-text').textContent = questions[qIdx];
+
+  const optionsEl = document.getElementById('options');
+  const selected = state.answers[state.currentBlock][qIdx];
+  optionsEl.innerHTML = '';
+
+  options[qIdx].forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option' + (selected === i ? ' selected' : '');
+    div.innerHTML = `<span class="option-letter">${OPTIONS_LETTERS[i]}</span><span>${opt}</span>`;
+    div.onclick = () => selectOption(i);
+    optionsEl.appendChild(div);
+  });
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.style.opacity = selected !== undefined ? '1' : '0.5';
+  btnNext.style.pointerEvents = selected !== undefined ? 'auto' : 'none';
+
+  document.getElementById('btn-prev').style.visibility = qIdx === 0 ? 'hidden' : 'visible';
+}
+
+function selectOption(idx) {
+  state.answers[state.currentBlock][state.currentQuestion] = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  const btnNext = document.getElementById('btn-next');
+  btnNext.style.opacity = '1';
+  btnNext.style.pointerEvents = 'auto';
+}
+
+function nextQuestion() {
+  if (state.currentQuestion < 7) {
+    state.currentQuestion++;
+    const card = document.getElementById('question-card');
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = 'slideUp 0.3s ease';
+    renderQuestion();
+  } else {
+    if (state.currentBlock === 0) {
+      state.currentBlock = 1;
+      state.currentQuestion = 0;
+      showBlockHeader();
+    } else {
+      showLoading();
+    }
+  }
+}
+
+function prevQuestion() {
+  if (state.currentQuestion > 0) {
+    state.currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function showLoading() {
+  showScreen('screen-loading');
+  setTimeout(() => {
+    calculateResults();
+    showResults();
+  }, 1500);
+}
+
+function calculateResults() {
+  const naturalScores = {};
+  const authorityScores = {};
+  Object.keys(TYPE_MAP).forEach(k => {
+    naturalScores[TYPE_MAP[k]] = 0;
+    authorityScores[TYPE_MAP[k]] = 0;
+  });
+
+  state.answers[0].forEach(aIdx => {
+    const code = TYPE_MAP[OPTIONS_LETTERS[aIdx]];
+    naturalScores[code]++;
+  });
+
+  state.answers[1].forEach(aIdx => {
+    const code = TYPE_MAP[OPTIONS_LETTERS[aIdx]];
+    authorityScores[code]++;
+  });
+
+  let maxNatural = { code: 'EN', score: 0 };
+  let maxAuthority = { code: 'IT', score: 0 };
+
+  Object.entries(naturalScores).forEach(([code, score]) => {
+    if (score > maxNatural.score) maxNatural = { code, score };
+  });
+
+  Object.entries(authorityScores).forEach(([code, score]) => {
+    if (score > maxAuthority.score) maxAuthority = { code, score };
+  });
+
+  state.results = {
+    natural: maxNatural,
+    authority: maxAuthority,
+    matrix: {
+      natural: naturalScores,
+      authority: authorityScores
+    },
+    date: new Date().toISOString()
+  };
+
+  saveResult(state.results);
+}
+
+function saveResult(result) {
+  let history = JSON.parse(localStorage.getItem('archetypeHistory') || '[]');
+  history.unshift(result);
+  if (history.length > 20) history = history.slice(0, 20);
+  localStorage.setItem('archetypeHistory', JSON.stringify(history));
+}
+
+function showResults() {
+  const r = state.results;
+  const naturalInfo = TYPE_INFO[r.natural.code];
+  const authorityInfo = TYPE_INFO[r.authority.code];
+  const naturalDesc = TYPE_DESC[r.natural.code];
+  const authorityDesc = TYPE_DESC[r.authority.code];
+
+  const container = document.getElementById('results-container');
+  container.innerHTML = `
+    <div class="results-header">
+      <h2> Ваш результат</h2>
+    </div>
+
+    <div class="results-types">
+      <div class="type-card natural-card">
+        <div class="type-label"> Натурал</div>
+        <div class="type-code">${r.natural.code}</div>
+        <div class="type-name">${naturalInfo.name}</div>
+        <div class="type-desc">
+          <strong>Поведение:</strong> ${naturalDesc.behavior}<br><br>
+          <strong> Заряжается:</strong> ${naturalDesc.charging}<br><br>
+          <strong>⚠️ Истощается:</strong> ${naturalDesc.drain}
+        </div>
+      </div>
+      <div class="type-card authority-card">
+        <div class="type-label">🟣 Авторитет</div>
+        <div class="type-code">${r.authority.code}</div>
+        <div class="type-name">${authorityInfo.name}</div>
+        <div class="type-desc">
+          <strong>Поведение:</strong> ${authorityDesc.behavior}<br><br>
+          <strong>⚡ Заряжается:</strong> ${authorityDesc.charging}<br><br>
+          <strong>⚠️ Истощается:</strong> ${authorityDesc.drain}
+        </div>
+      </div>
+    </div>
+
+    <div class="pyramid-container">
+      ${generatePyramidSVG(r.natural.code, r.authority.code)}
+    </div>
+
+    <div class="matrix-container">
+      <h3>📊 Матрица баллов</h3>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Код</th>
+            <th>Типаж</th>
+            <th>🔵 Натурал</th>
+            <th>🟣 Авторитет</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${generateMatrixRows(r)}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="synthesis">
+      <h3> Синтез профиля</h3>
+      <p>
+        Ваша база — <strong>${naturalInfo.name} (${r.natural.code})</strong>: естественное состояние — 
+        ${r.natural.code === 'EN' ? 'спонтанность и творческий импульс' :
+          r.natural.code === 'EF' ? 'гармония и эстетика' :
+          r.natural.code === 'ET' ? 'действие и преодоление' :
+          r.natural.code === 'ES' ? 'структура и порядок' :
+          r.natural.code === 'IS' ? 'стабильность и традиции' :
+          r.natural.code === 'IT' ? 'анализ и системность' :
+          r.natural.code === 'IF' ? 'эмпатия и поддержка' : 'глубина и интуиция'}.<br><br>
+        Ваша высшая роль — <strong>${authorityInfo.name} (${r.authority.code})</strong>: лидерский потенциал — 
+        ${r.authority.code === 'IT' ? 'анализ и стратегия' :
+          r.authority.code === 'ES' ? 'создание систем и справедливости' :
+          r.authority.code === 'ET' ? 'действие и победа' :
+          r.authority.code === 'EN' ? 'генерация идей и новаторство' :
+          r.authority.code === 'EF' ? 'вдохновение через красоту' :
+          r.authority.code === 'IS' ? 'хранение традиций' :
+          r.authority.code === 'IF' ? 'объединение людей' : 'трансформация и поиск смыслов'}.
+      </p>
+      <div class="key">
+        💡 <strong>Ключ к балансу:</strong> Используйте энергию Натурала для генерации импульса, а потенциал Авторитета — для направления этого импульса в структурированные результаты.
+      </div>
+    </div>
+
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="startTest()">🔄 Пройти заново</button>
+      <button class="btn btn-secondary" onclick="toggleHistory()"> История</button>
+    </div>
+  `;
+
+  showScreen('screen-results');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function generateMatrixRows(r) {
+  const order = ['ES','ET','EF','EN','IS','IT','IF','IN'];
+  return order.map(code => {
+    const info = TYPE_INFO[code];
+    const nScore = r.matrix.natural[code];
+    const aScore = r.matrix.authority[code];
+    const isNaturalMax = code === r.natural.code;
+    const isAuthMax = code === r.authority.code;
+    return `<tr>
+      <td class="type-code-cell">${code}</td>
+      <td class="type-name-cell">${info.name}</td>
+      <td class="${isNaturalMax ? 'highlight-natural' : ''}">${nScore}</td>
+      <td class="${isAuthMax ? 'highlight-authority' : ''}">${aScore}</td>
+    </tr>`;
+  }).join('');
+}
+
+function generatePyramidSVG(naturalCode, authorityCode) {
+  const getHighlight = (code, type) => {
+    if (code === naturalCode && type === 'natural') return 'fill="none" stroke="#22c55e" stroke-width="3" filter="url(#greenGlow)" rx="4"';
+    if (code === authorityCode && type === 'authority') return 'fill="none" stroke="#ef4444" stroke-width="3" filter="url(#redGlow)" rx="4"';
+    return '';
+  };
+
+  return `<svg viewBox="0 0 700 520" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="greenGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="redGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- E / I labels -->
+    <text x="250" y="30" text-anchor="middle" fill="#8888a0" font-size="12" font-weight="600" font-family="Inter,sans-serif">ЭКСТРАВЕРСИЯ</text>
+    <text x="250" y="48" text-anchor="middle" fill="#e8e8f0" font-size="22" font-weight="800" font-family="Inter,sans-serif">E</text>
+    <text x="450" y="30" text-anchor="middle" fill="#8888a0" font-size="12" font-weight="600" font-family="Inter,sans-serif">ИНТРОВЕРСИЯ</text>
+    <text x="450" y="48" text-anchor="middle" fill="#e8e8f0" font-size="22" font-weight="800" font-family="Inter,sans-serif">I</text>
+
+    <!-- Natural label -->
+    <text x="80" y="60" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="700" font-family="Inter,sans-serif" letter-spacing="1">🔵 НАТУРАЛ</text>
+    <text x="80" y="82" text-anchor="middle" fill="#22c55e" font-size="20" font-weight="800" font-family="Inter,sans-serif">${naturalCode}</text>
+    <text x="80" y="100" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="600" font-family="Inter,sans-serif">${TYPE_INFO[naturalCode].name}</text>
+
+    <!-- Authority label -->
+    <text x="620" y="60" text-anchor="middle" fill="#ef4444" font-size="11" font-weight="700" font-family="Inter,sans-serif" letter-spacing="1">🟣 АВТОРИТЕТ</text>
+    <text x="620" y="82" text-anchor="middle" fill="#ef4444" font-size="20" font-weight="800" font-family="Inter,sans-serif">${authorityCode}</text>
+    <text x="620" y="100" text-anchor="middle" fill="#ef4444" font-size="13" font-weight="600" font-family="Inter,sans-serif">${TYPE_INFO[authorityCode].name}</text>
+
+    <!-- Vertical divider -->
+    <line x1="350" y1="110" x2="350" y2="480" stroke="#2a2a3a" stroke-width="1.5"/>
+
+    <!-- Level S -->
+    <polygon points="350,110 270,175 430,175" fill="#eab308" opacity="0.6"/>
+    <rect x="285" y="135" width="60" height="32" ${getHighlight('ES','natural')} ${getHighlight('ES','authority')}/>
+    <rect x="355" y="135" width="60" height="32" ${getHighlight('IS','natural')} ${getHighlight('IS','authority')}/>
+    <text x="300" y="156" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="800" font-family="Inter,sans-serif" ${naturalCode==='ES'||authorityCode==='ES'?'fill="'+(naturalCode==='ES'?'#22c55e':'#ef4444')+'"':''}>ES</text>
+    <text x="370" y="156" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="800" font-family="Inter,sans-serif" ${naturalCode==='IS'||authorityCode==='IS'?'fill="'+(naturalCode==='IS'?'#22c55e':'#ef4444')+'"':''}>IS</text>
+    <text x="350" y="150" text-anchor="middle" fill="#e8e8f0" font-size="9" font-weight="600" font-family="Inter,sans-serif">СЕНСОРИКА</text>
+    <text x="350" y="165" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700" font-family="Inter,sans-serif">S</text>
+
+    <!-- Level T -->
+    <polygon points="270,175 430,175 480,260 220,260" fill="#f97316" opacity="0.6"/>
+    <rect x="235" y="200" width="60" height="40" ${getHighlight('ET','natural')} ${getHighlight('ET','authority')}/>
+    <rect x="385" y="200" width="60" height="40" ${getHighlight('IT','natural')} ${getHighlight('IT','authority')}/>
+    <text x="250" y="226" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="800" font-family="Inter,sans-serif" ${naturalCode==='ET'||authorityCode==='ET'?'fill="'+(naturalCode==='ET'?'#22c55e':'#ef4444')+'"':''}>ET</text>
+    <text x="400" y="226" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="800" font-family="Inter,sans-serif" ${naturalCode==='IT'||authorityCode==='IT'?'fill="'+(naturalCode==='IT'?'#22c55e':'#ef4444')+'"':''}>IT</text>
+    <text x="350" y="215" text-anchor="middle" fill="#e8e8f0" font-size="9" font-weight="600" font-family="Inter,sans-serif">ЛОГИКА</text>
+    <text x="350" y="233" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700" font-family="Inter,sans-serif">T</text>
+
+    <!-- Level F -->
+    <polygon points="220,260 480,260 530,365 170,365" fill="#14b8a6" opacity="0.6"/>
+    <rect x="185" y="295" width="60" height="45" ${getHighlight('EF','natural')} ${getHighlight('EF','authority')}/>
+    <rect x="435" y="295" width="60" height="45" ${getHighlight('IF','natural')} ${getHighlight('IF','authority')}/>
+    <text x="200" y="325" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="800" font-family="Inter,sans-serif" ${naturalCode==='EF'||authorityCode==='EF'?'fill="'+(naturalCode==='EF'?'#22c55e':'#ef4444')+'"':''}>EF</text>
+    <text x="450" y="325" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="800" font-family="Inter,sans-serif" ${naturalCode==='IF'||authorityCode==='IF'?'fill="'+(naturalCode==='IF'?'#22c55e':'#ef4444')+'"':''}>IF</text>
+    <text x="350" y="310" text-anchor="middle" fill="#e8e8f0" font-size="9" font-weight="600" font-family="Inter,sans-serif">ЭМОЦИИ</text>
+    <text x="350" y="330" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700" font-family="Inter,sans-serif">F</text>
+
+    <!-- Level N -->
+    <polygon points="170,365 530,365 580,470 120,470" fill="#a855f7" opacity="0.6"/>
+    <rect x="135" y="395" width="70" height="50" ${getHighlight('EN','natural')} ${getHighlight('EN','authority')}/>
+    <rect x="475" y="395" width="70" height="50" ${getHighlight('IN','natural')} ${getHighlight('IN','authority')}/>
+    <text x="155" y="428" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="800" font-family="Inter,sans-serif" ${naturalCode==='EN'||authorityCode==='EN'?'fill="'+(naturalCode==='EN'?'#22c55e':'#ef4444')+'"':''}>EN</text>
+    <text x="495" y="428" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="800" font-family="Inter,sans-serif" ${naturalCode==='IN'||authorityCode==='IN'?'fill="'+(naturalCode==='IN'?'#22c55e':'#ef4444')+'"':''}>IN</text>
+    <text x="350" y="415" text-anchor="middle" fill="#e8e8f0" font-size="9" font-weight="600" font-family="Inter,sans-serif">ИНТУИЦИЯ</text>
+    <text x="350" y="435" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="700" font-family="Inter,sans-serif">N</text>
+
+    <!-- Type names below -->
+    <text x="200" y="495" text-anchor="middle" fill="#8888a0" font-size="10" font-family="Inter,sans-serif">Повелитель</text>
+    <text x="320" y="495" text-anchor="middle" fill="#8888a0" font-size="10" font-family="Inter,sans-serif">Хранитель</text>
+    <text x="380" y="495" text-anchor="middle" fill="#8888a0" font-size="10" font-family="Inter,sans-serif">Воин</text>
+    <text x="500" y="495" text-anchor="middle" fill="#8888a0" font-size="10" font-family="Inter,sans-serif">Мыслитель</text>
+    <text x="200" y="512" text-anchor="middle" fill="#8888a0" font-size="10" font-family="Inter,sans-serif">Эстет</text>
+    <text x="320" y="512" text-anchor="middle" fill="#8888a0" font-size="10" font-family="Inter,sans-serif">Друг</text>
+    <text x="380" y="512" text-anchor="middle" fill="#8888a0" font-size="10" font-family="Inter,sans-serif">Ребенок</text>
+    <text x="500" y="512" text-anchor="middle" fill="#8888a0" font-size="10" font-family="Inter,sans-serif">Странник</text>
+  </svg>`;
+}
+
+function toggleHistory() {
+  const panel = document.getElementById('history-panel');
+  panel.classList.toggle('active');
+  if (panel.classList.contains('active')) renderHistory();
+}
+
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem('archetypeHistory') || '[]');
+  const list = document.getElementById('history-list');
+
+  if (history.length === 0) {
+    list.innerHTML = '<div class="empty-history">Пока нет результатов. Пройдите тест!</div>';
+    return;
+  }
+
+  list.innerHTML = history.map((h, i) => {
+    const date = new Date(h.date);
+    const dateStr = date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    return `<div class="history-item">
+      <div>
+        <div class="types">
+          <span class="type-badge natural">🔵 ${h.natural.code} ${TYPE_INFO[h.natural.code].name}</span>
+          <span style="color:var(--text-dim)">+</span>
+          <span class="type-badge authority">🟣 ${h.authority.code} ${TYPE_INFO[h.authority.code].name}</span>
+        </div>
+        <div class="date">${dateStr}</div>
+      </div>
+      <button class="btn-delete" onclick="deleteHistoryItem(${i})" title="Удалить"></button>
+    </div>`;
+  }).join('');
+}
+
+function deleteHistoryItem(idx) {
+  let history = JSON.parse(localStorage.getItem('archetypeHistory') || '[]');
+  history.splice(idx, 1);
+  localStorage.setItem('archetypeHistory', JSON.stringify(history));
+  renderHistory();
+}
+</script>
+</body>
+</html>
+
