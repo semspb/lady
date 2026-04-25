@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenOffOn — Презентация для продажников</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/index.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F5F6F8;
+            color: #1A1D23;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 960px;
+            height: 100vh;
+            max-height: 720px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+            padding: 48px 56px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .slide.exit-left {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 24px;
+            left: 32px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #9CA3AF;
+            letter-spacing: 0.5px;
+        }
+
+        .slide-tag {
+            display: inline-block;
+            background: #EEF0F4;
+            color: #6B7280;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .slide-title {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 28px;
+            color: #111827;
+        }
+
+        .slide-title .accent {
+            color: #2563EB;
+        }
+
+        .slide-title .red {
+            color: #DC2626;
+        }
+
+        .slide-body {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #4B5563;
+            margin-bottom: 24px;
+        }
+
+        .slide-body ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .slide-body ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #F3F4F6;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .slide-body ul li:last-child {
+            border-bottom: none;
+        }
+
+        .slide-body ul li .icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-top: 2px;
+        }
+
+        .result-line {
+            margin-top: 24px;
+            padding: 16px 20px;
+            background: #FEF2F2;
+            border-left: 4px solid #EF4444;
+            border-radius: 0 10px 10px 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: #991B1B;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+            border-radius: 14px;
+            padding: 24px 28px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .formula-box .formula {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1E40AF;
+            margin-bottom: 8px;
+        }
+
+        .formula-box .formula-sub {
+            font-size: 14px;
+            color: #3B82F6;
+        }
+
+        .persona-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .persona-card {
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .persona-card .persona-icon {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .persona-card .persona-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .persona-card .persona-desc {
+            font-size: 13px;
+            color: #6B7280;
+            line-height: 1.4;
+        }
+
+        .checklist {
+            margin-top: 16px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            font-size: 15px;
+            color: #374151;
+        }
+
+        .checklist-item .check {
+            width: 22px;
+            height: 22px;
+            background: #D1FAE5;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #059669;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #1E40AF, #2563EB);
+            border-radius: 14px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .cta-box .cta-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 12px;
+        }
+
+        .cta-box .cta-sub {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: #FFFFFF;
+            color: #1E40AF;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 14px 36px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            width: 100%;
+            max-width: 960px;
+            padding: 0 8px;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFFFFF;
+            color: #374151;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 12px;
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: #F9FAFB;
+            border-color: #D1D5DB;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #F9FAFB;
+        }
+
+        .nav-btn .arrow {
+            font-size: 18px;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #E5E7EB;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .progress-dot.active {
+            background: #2563EB;
+            width: 28px;
+            border-radius: 5px;
+        }
+
+        .script-note {
+            margin-top: 16px;
+            padding: 14px 18px;
+            background: #F0FDF4;
+            border-radius: 10px;
+            border-left: 3px solid #22C55E;
+            font-size: 13px;
+            color: #166534;
+            line-height: 1.5;
+        }
+
+        .script-note .label {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .transition-note {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #6B7280;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .presentation-container {
+                height: 100vh;
+                max-height: none;
+                border-radius: 0;
+            }
+
+            .slide {
+                border-radius: 0;
+                padding: 36px 24px;
+                box-shadow: none;
+            }
+
+            .slide-title {
+                font-size: 24px;
+            }
+
+            .slide-body {
+                font-size: 14px;
+            }
+
+            .persona-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .formula-box .formula {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+
+    <!-- СЛАЙД 1 -->
+    <div class="slide active" id="slide-1">
+        <div class="slide-number">01 / 08</div>
+        <div class="slide-tag">Вход</div>
+        <div class="slide-title">
+            🔥 Ты знаешь продукт.<br>
+            Ты умеешь говорить.<br><br>
+            <span class="red">Но клиенты сливаются.</span><br><br>
+            Почему?
+        </div>
+        <div class="script-note">
+            <div class="label">🎙 Скрипт выступающего:</div>
+            «Ты изучил продукт. Ты отработал скрипты. Ты выходишь на встречи с энергией. Но клиент говорит "я подумаю" — и пропадает. Или команда, которую ты подписал, гаснет через месяц. [пауза] Дело не в продукте. И не в тебе. Дело в том, что ты продаёшь "вслепую".»
+        </div>
+        <div class="transition-note">Переход: «Чтобы продавать точно, нужно видеть два момента: сколько у тебя энергии прямо сейчас — и кто перед тобой стоит».</div>
+    </div>
+
+    <!-- СЛАЙД 2 -->
+    <div class="slide" id="slide-2">
+        <div class="slide-number">02 / 08</div>
+        <div class="slide-tag">Проблема</div>
+        <div class="slide-title">Две причины сливов</div>
+        <div class="slide-body">
+            <ul>
+                <li>
+                    <div class="icon">⚡️</div>
+                    <div><strong>Твоя энергия на нуле</strong><br>Говоришь не то, давишь, суетишься или вяло презентуешь. Клиент считывает — и закрывается.</div>
+                </li>
+                <li>
+                    <div class="icon">🎯</div>
+                    <div><strong>Не видишь типаж клиента</strong><br>Говоришь про «цифры» человеку, который покупает эмоциями. Или предлагаешь «образ» тому, кому нужны факты. Ты продаёшь мимо.</div>
+                </li>
+            </ul>
+        </div>
+        <div class="result-line">Результат: отказ • выгорание • потеря времени</div>
+        <div class="script-note">
+            <div class="label">🎙 Скрипт:</div>
+            «Когда у тебя мало энергии, ты начинаешь давить, суетиться или вяло презентовать. [пауза] Вторая причина: ты говоришь про "выгоду и цифры" человеку, который покупает глазами. Или предлагаешь "красоту" тому, кому нужна логика. Ты не видишь, кто перед тобой — и продаёшь мимо.»
+        </div>
+        <div class="transition-note">Переход: «А что, если ты сможешь видеть и своё состояние, и типаж клиента — до того, как начнёшь презентацию?»</div>
+    </div>
+
+    <!-- СЛАЙД 3 -->
+    <div class="slide" id="slide-3">
+        <div class="slide-number">03 / 08</div>
+        <div class="slide-tag">Рефрейм</div>
+        <div class="slide-title">Продажи — это не скрипты</div>
+        <div class="slide-body">
+            <ul>
+                <li>
+                    <div class="icon">⚡️</div>
+                    <div><strong>Твоя энергия</strong> — источник, а не батарейка. Когда ты в ресурсе, ты уверен и чувствуешь клиента.</div>
+                </li>
+                <li>
+                    <div class="icon">🎯</div>
+                    <div><strong>Точное попадание в типаж</strong> — говоришь на его языке, и он слышит: «Он меня понимает».</div>
+                </li>
+            </ul>
+        </div>
+        <div class="formula-box">
+            <div class="formula">Энергия × Точность = Конверсия</div>
+            <div class="formula-sub">Попадаешь в язык → получаешь доверие → закрываешь сделку</div>
+        </div>
+        <div class="script-note">
+            <div class="label">🎙 Скрипт:</div>
+            «Продажи — это не про "заговорить зубы". Это про энергию и точность. Интуиту — про возможности. Чувствительному — про образы. Логику — про факты. Сенсорику — про конкретику. Попадание = доверие = сделка.»
+        </div>
+        <div class="transition-note">Переход: «Как увидеть своё состояние и типаж клиента — быстро и без гаданий?»</div>
+    </div>
+
+    <!-- СЛАЙД 4 -->
+    <div class="slide" id="slide-4">
+        <div class="slide-number">04 / 08</div>
+        <div class="slide-tag">Решение №1</div>
+        <div class="slide-title">Перед звонком — проверь себя</div>
+        <div class="slide-body">
+            <ul>
+                <li>
+                    <div class="icon">📊</div>
+                    <div><strong>Уровень энергии:</strong> готов / на нуле / на подъёме</div>
+                </li>
+                <li>
+                    <div class="icon">🔑</div>
+                    <div><strong>Твой канал:</strong> как ты лучше продаёшь</div>
+                </li>
+                <li>
+                    <div class="icon">⚠️</div>
+                    <div><strong>Зоны риска:</strong> где можешь «слить» сделку</div>
+                </li>
+            </ul>
+        </div>
+        <div class="formula-box" style="background: linear-gradient(135deg, #F0FDF4, #DCFCE7);">
+            <div class="formula" style="color: #166534;">⏱ 2 минуты → ясность → уверенный выход</div>
+            <div class="formula-sub" style="color: #22C55E;">Это не тест «кто ты». Это приборная панель.</div>
+        </div>
+        <div class="script-note">
+            <div class="label">🎙 Скрипт:</div>
+            «Прежде чем набрать номер — две минуты на диагностику. Ты увидишь: в каком ты ресурсе сейчас, через какой канал продаёшь лучше, и где можешь незаметно "слить" клиента. Проверил — понял — скорректировал. И вышел уверенно.»
+        </div>
+        <div class="transition-note">Переход: «Ты в ресурсе. Теперь — как увидеть, кто перед тобой?»</div>
+    </div>
+
+    <!-- СЛАЙД 5 -->
+    <div class="slide" id="slide-5">
+        <div class="slide-number">05 / 08</div>
+        <div class="slide-tag">Решение №2</div>
+        <div class="slide-title">4 типажа — 4 языка продаж</div>
+        <div class="persona-grid">
+            <div class="persona-card">
+                <div class="persona-icon">🧠</div>
+                <div class="persona-name">Интуит</div>
+                <div class="persona-desc">«Покажите возможности, будущее, идею»</div>
+            </div>
+            <div class="persona-card">
+                <div class="persona-icon">💙</div>
+                <div class="persona-name">Чувствительный</div>
+                <div class="persona-desc">«Покажите образ, эмоции, красоту»</div>
+            </div>
+            <div class="persona-card">
+                <div class="persona-icon">🧮</div>
+                <div class="persona-name">Логик</div>
+                <div class="persona-desc">«Дайте факты, цифры, причинно-следственные связи»</div>
+            </div>
+            <div class="persona-card">
+                <div class="persona-icon">✋</div>
+                <div class="persona-name">Сенсорик</div>
+                <div class="persona-desc">«Дайте конкретику, результат здесь и сейчас»</div>
+            </div>
+        </div>
+        <div class="formula-box" style="margin-top: 20px;">
+            <div class="formula">Попадаешь в язык → получаешь доверие → закрываешь сделку</div>
+        </div>
+        <div class="script-note">
+            <div class="label">🎙 Скрипт:</div>
+            «Каждый клиент покупает по-своему. Интуит — не купит без перспективы. Чувствительный — без эмоций. Логику — без цифр. Сенсорику — без конкретики. Когда ты видишь типаж — ты не угадываешь. Ты говоришь на его языке. И клиент слышит: "Он меня понимает".»
+        </div>
+        <div class="transition-note">Переход: «А если ты строишь команду — как понять, кого и как подписывать, чтобы люди не уходили?»</div>
+    </div>
+
+    <!-- СЛАЙД 6 -->
+    <div class="slide" id="slide-6">
+        <div class="slide-number">06 / 08</div>
+        <div class="slide-tag">Команда</div>
+        <div class="slide-title">Команда растёт, когда ты видишь:</div>
+        <div class="slide-body">
+            <ul>
+                <li>
+                    <div class="icon">🔍</div>
+                    <div><strong>Типаж человека</strong> → как его мотивировать</div>
+                </li>
+                <li>
+                    <div class="icon">🎯</div>
+                    <div><strong>Его цели</strong> → зачем ему это</div>
+                </li>
+                <li>
+                    <div class="icon">⚡️</div>
+                    <div><strong>Его канал энергии</strong> → как он не выгорит</div>
+                </li>
+            </ul>
+        </div>
+        <div class="formula-box" style="background: linear-gradient(135deg, #F0FDF4, #DCFCE7);">
+            <div class="formula" style="color: #166534;">Не угадываешь → не теряешь людей</div>
+            <div class="formula-sub" style="color: #22C55E;">Интуит уйдёт без перспектив. Логик — без системы. Чувствительный — без атмосферы. Сенсорик — без быстрого результата.</div>
+        </div>
+        <div class="script-note">
+            <div class="label">🎙 Скрипт:</div>
+            «Когда ты подписываешь человека — ты не видишь, что у него внутри. Интуит уйдёт, если не увидит перспективу. Логик — если нет чёткой системы. GenOffOn показывает: кто перед тобой, какие у него цели, и как его вести, чтобы он не выгорел и остался с тобой.»
+        </div>
+        <div class="transition-note">Переход: «Как получить эти инструменты — не в теории, а в работе уже завтра?»</div>
+    </div>
+
+    <!-- СЛАЙД 7 -->
+    <div class="slide" id="slide-7">
+        <div class="slide-number">07 / 08</div>
+        <div class="slide-tag">Продукт</div>
+        <div class="slide-title">Инструменты для продажника</div>
+        <div class="checklist">
+            <div class="checklist-item">
+                <div class="check">✓</div>
+                <div><strong>Гайд:</strong> «Как определить типаж клиента за 3 вопроса»</div>
+            </div>
+            <div class="checklist-item">
+                <div class="check">✓</div>
+                <div><strong>Скрипты под 4 типажа:</strong> интуит / чувствительный / логик / сенсорик</div>
+            </div>
+            <div class="checklist-item">
+                <div class="check">✓</div>
+                <div><strong>Чек-лист:</strong> «Проверь свою энергию перед встречей»</div>
+            </div>
+            <div class="checklist-item">
+                <div class="check">✓</div>
+                <div><strong>Протоколы:</strong> «Как вести человека в команде, чтобы не выгорел»</div>
+            </div>
+        </div>
+        <div class="formula-box" style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); margin-top: 20px;">
+            <div class="formula" style="color: #92400E;">Не теория. Готовые инструменты под твои задачи.</div>
+            <div class="formula-sub" style="color: #B45309;">Взял — применил — получил результат.</div>
+        </div>
+        <div class="script-note">
+            <div class="label">🎙 Скрипт:</div>
+            «Диагностика покажет твоё состояние. Но чтобы продавать точно — нужны инструменты. Гайд, скрипты, чек-лист, протоколы для команды. Это не курс. Это рабочие файлы, которые ты используешь сразу. Взял — применил — получил результат.»
+        </div>
+        <div class="transition-note">Переход: «Инструменты у тебя в руках. Остаётся сделать первый шаг.»</div>
+    </div>
+
+    <!-- СЛАЙД 8 -->
+    <div class="slide" id="slide-8">
+        <div class="slide-number">08 / 08</div>
+        <div class="slide-tag">Финал</div>
+        <div class="slide-title">Включи свою энергию.<br>Увидь типаж клиента.<br><span class="accent">Закрой сделку.</span></div>
+        <div class="cta-box">
+            <div class="cta-title">Не откладывай. Твоя следующая сделка — уже рядом.</div>
+            <div class="cta-sub">Две минуты. Ты увидишь свой ресурс. Поймёшь, как говорить с разными людьми. И начнёшь закрывать сделки без выгорания.</div>
+            <button class="cta-btn" onclick="alert('Переход к диагностике...')">🔘 Пройти диагностику — 2 минуты</button>
+        </div>
+        <div class="script-note">
+            <div class="label">🎙 Скрипт:</div>
+            «Это не про "стать другим". Это про то, чтобы продавать так, как удобно тебе — и попадать в тех, кто купит. [пауза] Две минуты на диагностику. Ты увидишь свой ресурс. Поймёшь, как говорить с разными людьми. И начнёшь закрывать сделки без выгорания. [тише] Нажми кнопку. Всё начинается здесь.»
+        </div>
+    </div>
+
+</div>
+
+<!-- Навигация -->
+<div class="navigation">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>
+        <span class="arrow">←</span> Назад
+    </button>
+    <div class="progress-bar" id="progressBar"></div>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+        Далее <span class="arrow">→</span>
+    </button>
+</div>
+
+<script>
+    const totalSlides = 8;
+    let currentSlide = 1;
+
+    // Создание точек прогресса
+    const progressBar = document.getElementById('progressBar');
+    for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'progress-dot' + (i === 1 ? ' active' : '');
+        dot.dataset.slide = i;
+        dot.onclick = () => goToSlide(i);
+        progressBar.appendChild(dot);
+    }
+
+    function updateSlide(newSlideIndex) {
+        const oldSlide = document.getElementById('slide-' + currentSlide);
+        const newSlide = document.getElementById('slide-' + newSlideIndex);
+
+        // Определяем направление
+        const direction = newSlideIndex > currentSlide ? 'left' : 'right';
+
+        // Анимация ухода
+        oldSlide.classList.remove('active');
+        oldSlide.classList.add(direction === 'left' ? 'exit-left' : '');
+        oldSlide.style.transform = direction === 'left' ? 'translateX(-40px)' : 'translateX(40px)';
+
+        // Анимация появления
+        setTimeout(() => {
+            oldSlide.classList.remove('exit-left');
+            oldSlide.style.transform = '';
+
+            newSlide.style.transform = direction === 'left' ? 'translateX(40px)' : 'translateX(-40px)';
+            newSlide.classList.add('active');
+        }, 50);
+
+        currentSlide = newSlideIndex;
+        updateControls();
+    }
+
+    function changeSlide(direction) {
+        const newSlide = currentSlide + direction;
+        if (newSlide < 1 || newSlide > totalSlides) return;
+        updateSlide(newSlide);
+    }
+
+    function goToSlide(index) {
+        if (index === currentSlide) return;
+        updateSlide(index);
+    }
+
+    function updateControls() {
+        document.getElementById('prevBtn').disabled = currentSlide === 1;
+        document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+        // Обновляем точки
+        document.querySelectorAll('.progress-dot').forEach((dot, idx) => {
+            dot.classList.toggle('active', idx + 1 === currentSlide);
+        });
+    }
+
+    // Клавиатурная навигация
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+            e.preventDefault();
+            changeSlide(1);
+        }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            changeSlide(-1);
+        }
+    });
+
+    // Свайп для мобильных
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+    });
+    document.addEventListener('touchend', (e) => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+            changeSlide(diff > 0 ? 1 : -1);
+        }
+    });
+</script>
+
+</body>
+</html>
+
